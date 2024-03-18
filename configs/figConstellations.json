@@ -1,0 +1,7294 @@
+[
+    {
+        "false#false#false": {
+            "currentFigure": [
+                false,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-2#false#false": {
+            "currentFigure": [
+                false,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-4#false#false": {
+            "currentFigure": [
+                false,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-6#false#false": {
+            "currentFigure": [
+                false,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "inset#false#false": {
+            "currentFigure": [
+                false,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "regular#false#false": {
+            "currentFigure": [
+                false,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "regular-bottom#false#false": {
+            "currentFigure": [
+                false,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "overmargin#false#false": {
+            "currentFigure": [
+                false,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "overmargin-bottom#false#false": {
+            "currentFigure": [
+                false,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "false#float-w-col-2#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-2#float-w-col-2#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-4#float-w-col-2#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-6#float-w-col-2#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "inset#float-w-col-2#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "regular#float-w-col-2#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "regular-bottom#float-w-col-2#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "overmargin#float-w-col-2#false": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "overmargin-bottom#float-w-col-2#false": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "false#float-w-col-4#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-2#float-w-col-4#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-4#float-w-col-4#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-6#float-w-col-4#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "inset#float-w-col-4#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "regular#float-w-col-4#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "regular-bottom#float-w-col-4#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "overmargin#float-w-col-4#false": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "overmargin-bottom#float-w-col-4#false": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "false#float-w-col-6#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-2#float-w-col-6#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-4#float-w-col-6#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-6#float-w-col-6#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "inset#float-w-col-6#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "regular#float-w-col-6#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "regular-bottom#float-w-col-6#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "overmargin#float-w-col-6#false": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "overmargin-bottom#float-w-col-6#false": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "false#inset#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-2#inset#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-4#inset#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-6#inset#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "inset#inset#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "regular#inset#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "regular-bottom#inset#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "overmargin#inset#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "overmargin-bottom#inset#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "false#regular#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-2#regular#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-4#regular#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-6#regular#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "inset#regular#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "regular#regular#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "regular-bottom#regular#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "overmargin#regular#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "overmargin-bottom#regular#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "false#regular-bottom#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-2#regular-bottom#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-4#regular-bottom#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-6#regular-bottom#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "inset#regular-bottom#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "regular#regular-bottom#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "regular-bottom#regular-bottom#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "overmargin#regular-bottom#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "overmargin-bottom#regular-bottom#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "false#overmargin#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-2#overmargin#false": {
+            "currentFigure": [
+                false,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-4#overmargin#false": {
+            "currentFigure": [
+                false,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-6#overmargin#false": {
+            "currentFigure": [
+                false,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "inset#overmargin#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "regular#overmargin#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "regular-bottom#overmargin#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "overmargin#overmargin#false": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "overmargin-bottom#overmargin#false": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "false#overmargin-bottom#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-2#overmargin-bottom#false": {
+            "currentFigure": [
+                false,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-4#overmargin-bottom#false": {
+            "currentFigure": [
+                false,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-6#overmargin-bottom#false": {
+            "currentFigure": [
+                false,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "inset#overmargin-bottom#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "regular#overmargin-bottom#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "regular-bottom#overmargin-bottom#false": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "overmargin#overmargin-bottom#false": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "overmargin-bottom#overmargin-bottom#false": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "false#false#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#false#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#false#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#false#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#false#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#false#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#false#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#false#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#false#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#float-w-col-2#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#float-w-col-2#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-4#float-w-col-2#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-6#float-w-col-2#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "inset#float-w-col-2#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#float-w-col-2#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#float-w-col-2#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#float-w-col-2#float-w-col-2": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#float-w-col-2#float-w-col-2": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#float-w-col-4#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#float-w-col-4#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-4#float-w-col-4#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-6#float-w-col-4#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "inset#float-w-col-4#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#float-w-col-4#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#float-w-col-4#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#float-w-col-4#float-w-col-2": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#float-w-col-4#float-w-col-2": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#float-w-col-6#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#float-w-col-6#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-4#float-w-col-6#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-6#float-w-col-6#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "inset#float-w-col-6#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#float-w-col-6#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#float-w-col-6#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#float-w-col-6#float-w-col-2": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#float-w-col-6#float-w-col-2": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#inset#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#inset#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#inset#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#inset#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#inset#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#inset#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#inset#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#inset#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#inset#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#regular#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#regular#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#regular#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#regular#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#regular#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#regular#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#regular#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#regular#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#regular#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#regular-bottom#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#regular-bottom#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#regular-bottom#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#regular-bottom#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#regular-bottom#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#regular-bottom#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#regular-bottom#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#regular-bottom#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#regular-bottom#float-w-col-2": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#overmargin#float-w-col-2": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#overmargin#float-w-col-2": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#overmargin#float-w-col-2": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#overmargin#float-w-col-2": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#overmargin#float-w-col-2": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#overmargin#float-w-col-2": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#overmargin#float-w-col-2": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#overmargin#float-w-col-2": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#overmargin#float-w-col-2": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#overmargin-bottom#float-w-col-2": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#overmargin-bottom#float-w-col-2": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#overmargin-bottom#float-w-col-2": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#overmargin-bottom#float-w-col-2": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#overmargin-bottom#float-w-col-2": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#overmargin-bottom#float-w-col-2": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#overmargin-bottom#float-w-col-2": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#overmargin-bottom#float-w-col-2": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#overmargin-bottom#float-w-col-2": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#false#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#false#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#false#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#false#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#false#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#false#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#false#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#false#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#false#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#float-w-col-2#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#float-w-col-2#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-4#float-w-col-2#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-6#float-w-col-2#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "inset#float-w-col-2#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#float-w-col-2#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#float-w-col-2#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#float-w-col-2#float-w-col-4": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#float-w-col-2#float-w-col-4": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#float-w-col-4#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#float-w-col-4#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-4#float-w-col-4#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-6#float-w-col-4#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "inset#float-w-col-4#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#float-w-col-4#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#float-w-col-4#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#float-w-col-4#float-w-col-4": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#float-w-col-4#float-w-col-4": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#float-w-col-6#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#float-w-col-6#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-4#float-w-col-6#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-6#float-w-col-6#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "inset#float-w-col-6#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#float-w-col-6#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#float-w-col-6#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#float-w-col-6#float-w-col-4": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#float-w-col-6#float-w-col-4": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#inset#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#inset#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#inset#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#inset#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#inset#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#inset#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#inset#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#inset#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#inset#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#regular#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#regular#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#regular#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#regular#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#regular#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#regular#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#regular#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#regular#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#regular#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#regular-bottom#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#regular-bottom#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#regular-bottom#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#regular-bottom#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#regular-bottom#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#regular-bottom#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#regular-bottom#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#regular-bottom#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#regular-bottom#float-w-col-4": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#overmargin#float-w-col-4": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#overmargin#float-w-col-4": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#overmargin#float-w-col-4": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#overmargin#float-w-col-4": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#overmargin#float-w-col-4": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#overmargin#float-w-col-4": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#overmargin#float-w-col-4": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#overmargin#float-w-col-4": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#overmargin#float-w-col-4": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#overmargin-bottom#float-w-col-4": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#overmargin-bottom#float-w-col-4": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#overmargin-bottom#float-w-col-4": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#overmargin-bottom#float-w-col-4": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#overmargin-bottom#float-w-col-4": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#overmargin-bottom#float-w-col-4": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#overmargin-bottom#float-w-col-4": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#overmargin-bottom#float-w-col-4": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#overmargin-bottom#float-w-col-4": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#false#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#false#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#false#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#false#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#false#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#false#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#false#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#false#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#false#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#float-w-col-2#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#float-w-col-2#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-4#float-w-col-2#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-6#float-w-col-2#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "inset#float-w-col-2#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#float-w-col-2#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#float-w-col-2#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#float-w-col-2#float-w-col-6": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#float-w-col-2#float-w-col-6": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#float-w-col-4#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#float-w-col-4#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-4#float-w-col-4#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-6#float-w-col-4#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "inset#float-w-col-4#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#float-w-col-4#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#float-w-col-4#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#float-w-col-4#float-w-col-6": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#float-w-col-4#float-w-col-6": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#float-w-col-6#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#float-w-col-6#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-4#float-w-col-6#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "float-w-col-6#float-w-col-6#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                false,
+                false
+            ]
+        },
+        "inset#float-w-col-6#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#float-w-col-6#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#float-w-col-6#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#float-w-col-6#float-w-col-6": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#float-w-col-6#float-w-col-6": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#inset#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#inset#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#inset#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#inset#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#inset#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#inset#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#inset#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#inset#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#inset#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#regular#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#regular#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#regular#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#regular#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#regular#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#regular#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#regular#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#regular#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#regular#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#regular-bottom#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#regular-bottom#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#regular-bottom#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#regular-bottom#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#regular-bottom#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#regular-bottom#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#regular-bottom#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#regular-bottom#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#regular-bottom#float-w-col-6": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#overmargin#float-w-col-6": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#overmargin#float-w-col-6": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#overmargin#float-w-col-6": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#overmargin#float-w-col-6": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#overmargin#float-w-col-6": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#overmargin#float-w-col-6": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#overmargin#float-w-col-6": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#overmargin#float-w-col-6": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#overmargin#float-w-col-6": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#overmargin-bottom#float-w-col-6": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#overmargin-bottom#float-w-col-6": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#overmargin-bottom#float-w-col-6": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#overmargin-bottom#float-w-col-6": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#overmargin-bottom#float-w-col-6": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#overmargin-bottom#float-w-col-6": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#overmargin-bottom#float-w-col-6": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#overmargin-bottom#float-w-col-6": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#overmargin-bottom#float-w-col-6": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#false#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#false#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#false#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#false#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#false#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#false#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#false#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#false#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#false#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#float-w-col-2#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#float-w-col-2#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#float-w-col-2#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#float-w-col-2#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#float-w-col-2#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#float-w-col-2#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#float-w-col-2#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#float-w-col-2#inset": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#float-w-col-2#inset": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#float-w-col-4#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#float-w-col-4#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#float-w-col-4#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#float-w-col-4#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#float-w-col-4#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#float-w-col-4#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#float-w-col-4#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#float-w-col-4#inset": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#float-w-col-4#inset": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#float-w-col-6#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#float-w-col-6#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#float-w-col-6#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#float-w-col-6#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#float-w-col-6#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#float-w-col-6#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#float-w-col-6#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#float-w-col-6#inset": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#float-w-col-6#inset": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#inset#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#inset#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#inset#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#inset#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#inset#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#inset#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#inset#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#inset#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#inset#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#regular#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#regular#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#regular#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#regular#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#regular#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#regular#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#regular#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#regular#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#regular#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#regular-bottom#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#regular-bottom#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#regular-bottom#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#regular-bottom#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#regular-bottom#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#regular-bottom#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#regular-bottom#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#regular-bottom#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#regular-bottom#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#overmargin#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#overmargin#inset": {
+            "currentFigure": [
+                false,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#overmargin#inset": {
+            "currentFigure": [
+                false,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#overmargin#inset": {
+            "currentFigure": [
+                false,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#overmargin#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#overmargin#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#overmargin#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#overmargin#inset": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#overmargin#inset": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#overmargin-bottom#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#overmargin-bottom#inset": {
+            "currentFigure": [
+                false,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#overmargin-bottom#inset": {
+            "currentFigure": [
+                false,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#overmargin-bottom#inset": {
+            "currentFigure": [
+                false,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#overmargin-bottom#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#overmargin-bottom#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#overmargin-bottom#inset": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#overmargin-bottom#inset": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#overmargin-bottom#inset": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#false#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#false#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#false#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#false#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#false#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#false#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#false#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#false#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#false#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#float-w-col-2#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#float-w-col-2#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#float-w-col-2#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#float-w-col-2#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#float-w-col-2#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#float-w-col-2#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#float-w-col-2#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#float-w-col-2#regular": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#float-w-col-2#regular": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#float-w-col-4#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#float-w-col-4#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#float-w-col-4#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#float-w-col-4#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#float-w-col-4#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#float-w-col-4#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#float-w-col-4#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#float-w-col-4#regular": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#float-w-col-4#regular": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#float-w-col-6#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#float-w-col-6#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#float-w-col-6#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#float-w-col-6#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#float-w-col-6#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#float-w-col-6#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#float-w-col-6#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#float-w-col-6#regular": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#float-w-col-6#regular": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#inset#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#inset#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#inset#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#inset#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#inset#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#inset#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#inset#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#inset#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#inset#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#regular#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#regular#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#regular#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#regular#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#regular#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#regular#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#regular#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#regular#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#regular#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#regular-bottom#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#regular-bottom#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#regular-bottom#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#regular-bottom#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#regular-bottom#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#regular-bottom#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#regular-bottom#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#regular-bottom#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#regular-bottom#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#overmargin#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#overmargin#regular": {
+            "currentFigure": [
+                false,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#overmargin#regular": {
+            "currentFigure": [
+                false,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#overmargin#regular": {
+            "currentFigure": [
+                false,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#overmargin#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#overmargin#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#overmargin#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#overmargin#regular": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#overmargin#regular": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#overmargin-bottom#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#overmargin-bottom#regular": {
+            "currentFigure": [
+                false,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#overmargin-bottom#regular": {
+            "currentFigure": [
+                false,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#overmargin-bottom#regular": {
+            "currentFigure": [
+                false,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#overmargin-bottom#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#overmargin-bottom#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#overmargin-bottom#regular": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#overmargin-bottom#regular": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#overmargin-bottom#regular": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#false#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#false#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#false#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#false#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#false#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#false#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#false#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#false#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#false#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#float-w-col-2#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#float-w-col-2#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#float-w-col-2#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#float-w-col-2#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#float-w-col-2#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#float-w-col-2#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#float-w-col-2#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#float-w-col-2#regular-bottom": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#float-w-col-2#regular-bottom": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#float-w-col-4#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#float-w-col-4#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#float-w-col-4#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#float-w-col-4#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#float-w-col-4#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#float-w-col-4#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#float-w-col-4#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#float-w-col-4#regular-bottom": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#float-w-col-4#regular-bottom": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#float-w-col-6#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#float-w-col-6#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#float-w-col-6#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#float-w-col-6#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#float-w-col-6#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#float-w-col-6#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#float-w-col-6#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#float-w-col-6#regular-bottom": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#float-w-col-6#regular-bottom": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#inset#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#inset#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#inset#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#inset#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#inset#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#inset#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#inset#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#inset#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#inset#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#regular#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#regular#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#regular#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#regular#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#regular#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#regular#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#regular#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#regular#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#regular#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#regular-bottom#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#regular-bottom#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#regular-bottom#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#regular-bottom#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#regular-bottom#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#regular-bottom#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#regular-bottom#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#regular-bottom#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#regular-bottom#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#overmargin#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#overmargin#regular-bottom": {
+            "currentFigure": [
+                false,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#overmargin#regular-bottom": {
+            "currentFigure": [
+                false,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#overmargin#regular-bottom": {
+            "currentFigure": [
+                false,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#overmargin#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#overmargin#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#overmargin#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#overmargin#regular-bottom": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#overmargin#regular-bottom": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#overmargin-bottom#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-2#overmargin-bottom#regular-bottom": {
+            "currentFigure": [
+                false,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-4#overmargin-bottom#regular-bottom": {
+            "currentFigure": [
+                false,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "float-w-col-6#overmargin-bottom#regular-bottom": {
+            "currentFigure": [
+                false,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "inset#overmargin-bottom#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular#overmargin-bottom#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "regular-bottom#overmargin-bottom#regular-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin#overmargin-bottom#regular-bottom": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "overmargin-bottom#overmargin-bottom#regular-bottom": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                false
+            ]
+        },
+        "false#false#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-2#false#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-4#false#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-6#false#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "inset#false#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular#false#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular-bottom#false#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin#false#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin-bottom#false#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "false#float-w-col-2#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-2#float-w-col-2#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-4#float-w-col-2#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-6#float-w-col-2#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "inset#float-w-col-2#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular#float-w-col-2#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular-bottom#float-w-col-2#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin#float-w-col-2#overmargin": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin-bottom#float-w-col-2#overmargin": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "false#float-w-col-4#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-2#float-w-col-4#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-4#float-w-col-4#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-6#float-w-col-4#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "inset#float-w-col-4#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular#float-w-col-4#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular-bottom#float-w-col-4#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin#float-w-col-4#overmargin": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin-bottom#float-w-col-4#overmargin": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "false#float-w-col-6#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-2#float-w-col-6#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-4#float-w-col-6#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-6#float-w-col-6#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "inset#float-w-col-6#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular#float-w-col-6#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular-bottom#float-w-col-6#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin#float-w-col-6#overmargin": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin-bottom#float-w-col-6#overmargin": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "false#inset#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-2#inset#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-4#inset#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-6#inset#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "inset#inset#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular#inset#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular-bottom#inset#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin#inset#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin-bottom#inset#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "false#regular#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-2#regular#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-4#regular#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-6#regular#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "inset#regular#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular#regular#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular-bottom#regular#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin#regular#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin-bottom#regular#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "false#regular-bottom#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-2#regular-bottom#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-4#regular-bottom#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-6#regular-bottom#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "inset#regular-bottom#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular#regular-bottom#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular-bottom#regular-bottom#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin#regular-bottom#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin-bottom#regular-bottom#overmargin": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "false#overmargin#overmargin": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-2#overmargin#overmargin": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-4#overmargin#overmargin": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-6#overmargin#overmargin": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "inset#overmargin#overmargin": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular#overmargin#overmargin": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular-bottom#overmargin#overmargin": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin#overmargin#overmargin": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin-bottom#overmargin#overmargin": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "false#overmargin-bottom#overmargin": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-2#overmargin-bottom#overmargin": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-4#overmargin-bottom#overmargin": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-6#overmargin-bottom#overmargin": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "inset#overmargin-bottom#overmargin": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular#overmargin-bottom#overmargin": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular-bottom#overmargin-bottom#overmargin": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin#overmargin-bottom#overmargin": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin-bottom#overmargin-bottom#overmargin": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "false#false#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-2#false#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-4#false#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-6#false#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "inset#false#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular#false#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular-bottom#false#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin#false#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin-bottom#false#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "false#float-w-col-2#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-2#float-w-col-2#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-4#float-w-col-2#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-6#float-w-col-2#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "inset#float-w-col-2#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular#float-w-col-2#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular-bottom#float-w-col-2#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin#float-w-col-2#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin-bottom#float-w-col-2#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "false#float-w-col-4#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-2#float-w-col-4#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-4#float-w-col-4#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-6#float-w-col-4#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "inset#float-w-col-4#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular#float-w-col-4#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular-bottom#float-w-col-4#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin#float-w-col-4#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin-bottom#float-w-col-4#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "false#float-w-col-6#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-2#float-w-col-6#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-4#float-w-col-6#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-6#float-w-col-6#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "inset#float-w-col-6#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular#float-w-col-6#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular-bottom#float-w-col-6#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin#float-w-col-6#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin-bottom#float-w-col-6#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                "regular-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "false#inset#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-2#inset#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-4#inset#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-6#inset#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "inset#inset#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular#inset#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular-bottom#inset#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin#inset#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin-bottom#inset#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "false#regular#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-2#regular#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-4#regular#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-6#regular#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "inset#regular#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular#regular#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular-bottom#regular#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin#regular#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin-bottom#regular#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "false#regular-bottom#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-2#regular-bottom#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-4#regular-bottom#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-6#regular-bottom#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "inset#regular-bottom#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular#regular-bottom#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular-bottom#regular-bottom#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin#regular-bottom#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin-bottom#regular-bottom#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                false
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "false#overmargin#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-2#overmargin#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-4#overmargin#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-6#overmargin#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "inset#overmargin#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular#overmargin#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular-bottom#overmargin#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin#overmargin#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin-bottom#overmargin#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "false#overmargin-bottom#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-2#overmargin-bottom#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-4#overmargin-bottom#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "float-w-col-6#overmargin-bottom#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "inset#overmargin-bottom#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular#overmargin-bottom#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "regular-bottom#overmargin-bottom#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin#overmargin-bottom#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        },
+        "overmargin-bottom#overmargin-bottom#overmargin-bottom": {
+            "currentFigure": [
+                true,
+                "overmargin-bottom"
+            ],
+            "nextFigure": [
+                true,
+                "overmargin-bottom"
+            ]
+        }
+    }
+]

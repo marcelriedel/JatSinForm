@@ -1,0 +1,959 @@
+:root {
+    --color-background: #4a4747;
+    --color-pageSheet: #cfcfcf;
+    --color-pageBox: violet;
+    --color-paper: white;
+    --long-text-color: black;
+    --color-marginBox: transparent;
+    --p-font-size: 9.5pt;
+    --p-line-height: 1.5;
+    --footnote-font-size: 7.5pt;
+    --li-font-size: 9.5pt;
+    --long-text-font-family: "Noto Serif Light";
+    --short-text-font-family: "Noto Sans Light";
+    --pagedjs-crop-color: black;
+    --pagedjs-crop-shadow: white;
+    --pagedjs-crop-stroke: 1px;
+    --pagedjs-padding-top: 5mm;
+    --pagedjs-area-width: 130mm;
+}
+
+/* page styles
+---------------------*/
+@page {
+    size: 210mm 297mm;
+    margin-top: 15mm;
+    margin-bottom: 20mm;
+    /* marks: crop cross; */
+    /* page-content = 210-80 = 130mm
+    130mm -> sind 6 Spalten (Satzspiegel)
+    eine spalte ist 18mm breit, Zwischenraum 4.5mm */
+}
+
+@page :left {
+    margin-left: 20mm;
+    margin-right: 60mm;
+    box-shadow: 0px -1px 5px 2px #e1e1e1;
+
+    @bottom-left {
+        content: var(--article-title);
+        font-family: var(--short-text-font-family);
+        font-size: 6pt;
+        padding-bottom: 30pt;
+        align-items: end;
+    }
+    @bottom-right-corner {
+        content: counter(page);
+        padding: 0 0 20mm 38mm;
+        font-size: 12pt;
+        font-weight: 500;
+    }
+}
+
+@page :right {
+    margin-left: 60mm;
+    margin-right: 20mm;
+    box-shadow: 0px -1px 5px 2px #e1e1e1;
+    @bottom-right {
+        content: var(--article-title);
+        font-family: var(--short-text-font-family);
+        font-size: 6pt;
+        padding-bottom: 30pt;
+        align-items: end;
+    }
+    @bottom-left-corner {
+        content: counter(page);
+        padding: 0 38mm 20mm 0;
+        font-size: 13pt;
+        font-weight: 600;
+    }
+}
+
+.pagedjs_right_page .pagedjs_margin-bottom {
+    width: 130%;
+    margin-left: -42mm;
+}
+
+.pagedjs_left_page .pagedjs_margin-bottom {
+    width: 130%;
+    margin-right: -42mm;
+}
+
+/* cover page */
+@page :nth(1) {
+    margin-top: 75%;
+    margin-left: 30mm;
+    margin-right: 30mm;
+    background: var(--background-url);
+    /* background-repeat:no-repeat; */
+}
+
+@media screen, pagedjs-ignore {
+    body {
+        background: url(/../assets/idaiworld-banner.png);
+    }
+
+    .pagedjs_pages {
+        display: flex;
+        width: calc(var(--pagedjs-width) * 2);
+        flex: 0;
+        flex-wrap: wrap;
+        margin: 0 auto;
+    }
+
+    .pagedjs_page {
+        background-color: var(--color-paper);
+        margin: 0;
+        flex-shrink: 0;
+        flex-grow: 0;
+        margin-top: 10mm;
+
+    }
+
+    /*
+    .pagedjs_first_page {
+        margin-left: var(--pagedjs-width);
+    }
+    */
+
+    .pagedjs_page:last-of-type {
+        margin-bottom: 10mm;
+    }
+
+    .pagedjs_pagebox {
+        box-shadow: 0 0 0 1px var(--color-pageBox);
+    }
+
+    /*
+    .pagedjs_page_content {
+         border:1px dotted pink;
+    }
+    */
+
+    .pagedjs_left_page {
+        z-index: 20;
+        width: calc(var(--pagedjs-bleed-left) + var(--pagedjs-pagebox-width)) !important;
+    }
+
+    .pagedjs_left_page .pagedjs_bleed-right .pagedjs_marks-crop {
+        border-color: transparent;
+    }
+
+    .pagedjs_left_page .pagedjs_bleed-right .pagedjs_marks-middle {
+        width: 0;
+    }
+
+    .pagedjs_right_page {
+        z-index: 10;
+        position: relative;
+        left: calc(var(--pagedjs-bleed-left) * -1);
+    }
+
+    /* show the margin-box */
+    .pagedjs_margin-top-left-corner-holder,
+    .pagedjs_margin-top,
+    .pagedjs_margin-top-left,
+    .pagedjs_margin-top-center,
+    .pagedjs_margin-top-right,
+    .pagedjs_margin-top-right-corner-holder,
+    .pagedjs_margin-bottom-left-corner-holder,
+    .pagedjs_margin-bottom,
+    .pagedjs_margin-bottom-left,
+    .pagedjs_margin-bottom-center,
+    .pagedjs_margin-bottom-right,
+    .pagedjs_margin-bottom-right-corner-holder,
+    .pagedjs_margin-right,
+    .pagedjs_margin-right-top,
+    .pagedjs_margin-right-middle,
+    .pagedjs_margin-right-bottom,
+    .pagedjs_margin-left,
+    .pagedjs_margin-left-top,
+    .pagedjs_margin-left-middle,
+    .pagedjs_margin-left-bottom {
+        box-shadow: 0 0 0 1px inset var(--color-marginBox);
+    }
+}
+
+/* super classes
+-------------------*/
+.page-break-before {
+    break-before: page;
+}
+
+.page-break-after {
+    break-after: page;
+}
+
+/* main compontents:
+--------------------*/
+body {
+    text-rendering: optimizeLegibility;
+}
+
+/* headlines:
+----------------*/
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--short-text-font-family);
+    color: var(--journal-color);
+    font-weight: 600;
+}
+
+.title {
+   page-break-inside: avoid;
+}
+
+.title.first-element {
+    padding-top:0;
+    margin-top:0;
+}
+
+.main-title {
+    font-size: 14pt;
+    margin: 5mm 0 3mm 0;
+    line-height: 1.4;
+}
+
+.main-title.first-element {
+    padding-top:0;
+}
+
+.section-title {
+    font-size: 12pt;
+    margin: 5mm 0 3mm 0;
+}
+
+.section-title.first-element {
+    padding-top:0;
+}
+
+.subsection-title {
+    color:black;
+    font-size: 10pt;
+    margin: 5mm 0 2mm 0;
+}
+
+.title-appendix {
+    text-transform: uppercase;
+    color: black;
+    letter-spacing: 1pt;
+    border-top: 3px solid var(--journal-color);
+    margin-top: 0;
+    padding-top: 2mm;
+}
+
+.title-appendix.first-element {
+    margin-bottom: 2mm;
+    padding-top: 2mm;
+}
+
+/* Text-Blocks
+-----------------*/
+p {
+    font-family: var(--long-text-font-family);
+    font-size: var(--p-font-size);
+    color: var(--long-text-color);
+    line-height: var(--p-line-height);
+    margin-top:0;
+}
+
+.content-paragraph {
+    margin-bottom: 2.5mm;
+    text-align: justify;
+    hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-spacing:-0.1em;
+    letter-spacing:0.2px;
+    widows: 2;
+    orphans: 2;
+}
+
+.paragraph-counter {
+    font-family: var(--short-text-font-family);
+    color: #b4afa7;
+    font-size: var(--p-font-size);
+    font-style: normal;
+    font-weight: 300;
+    margin-right: 2vw;
+}
+
+p.catalog-number {
+    font-weight: 600;
+}
+
+li {
+    color: #000000;
+    font-size: var(--li-font-size);
+    line-height: 1.5;
+    padding-left: 2.5mm;
+}
+
+p.signature {
+    text-align: right;
+    margin: 2.5mm 0;
+}
+
+span.italic {
+    font-style: italic;
+}
+
+pre, code {
+    white-space: pre-line;
+}
+
+/* table styles
+------------------*/
+
+.table-wrap {
+    margin-top: 5mm;
+    margin-bottom: 5mm;
+}
+
+table {
+    font-family: var(--long-text-font-family);
+    display: grid;
+    font-size: 9pt;
+    line-height: 1.4;
+    border: 1px solid #ededed;
+    clear:both;
+}
+
+tr {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10px, 1fr));
+    position: relative;
+}
+
+td {
+    color: black;
+    border-right: 1px solid #ffffff3b;
+    padding: 6px 12px;
+    overflow: hidden;
+    outline: none;
+    line-break: normal;
+}
+
+table td { border-left: 1px solid #ededed; }
+table td:first-child { border-left: none; }
+
+/* anchors and hyperlinks
+-----------------------------------*/
+a {
+    text-decoration: underline;
+    color: black;
+}
+
+a:hover {
+    background: rgb(250 250 172);
+}
+
+a.footnote-reference {
+    text-decoration: none;
+    font-size: 10pt;
+}
+
+/* figure references */
+a.figure-reference {
+    text-decoration:none;
+    font-weight:600;
+}
+
+a.fig-ref {
+    text-decoration:none;
+}
+
+a.bib-ref {
+    text-decoration:none;
+}
+
+a.fn-ref {
+    text-decoration:none;
+}
+
+/* cover-Page:
+ ----------------*/
+.cover-page {
+    font-family: var(--short-text-font-family);
+    break-before: page;
+    background:white;
+    line-height: 1.5;
+    width:100%;
+    padding: 10mm 10mm;
+}
+
+.abstract-headline {
+    font-size: 12pt;
+    text-transform: uppercase;
+    color: black;
+    margin-bottom: 0;
+}
+
+.abstract-title {
+    color: var(--journal-color);
+    font-size: 11pt;
+    font-weight: 600;
+    margin: 0;
+}
+
+.abstract-subtitle {
+    color: var(--journal-color);
+    font-size: 11pt;
+    font-weight: 300;
+    margin: 0;
+}
+
+.abstract-author {
+    color: #929292;
+    font-size:  11pt;
+    padding: 0;
+    margin: 0;
+}
+
+.abstract-text {
+    color: #929292;
+    font-size: 9pt;
+    margin: 5mm 0;
+    display:block;
+    text-align: justify;
+}
+
+.keywords-headline {
+    font-size: 12pt;
+    text-transform: uppercase;
+    color: black;
+    margin-bottom: 0;
+    padding-bottom: 2mm;
+    text-overflow: ellipsis;
+}
+
+.kwd-group {
+    color: #929292;
+    font-size: 10pt;
+    margin: 0;
+    text-align: justify;
+}
+
+/* page-header:
+ ----------------*/
+.page-header {
+    break-before: page;
+    break-after: avoid;
+    margin-bottom: 20mm;
+    margin-right: -35mm;
+    margin-left: 40mm;
+}
+
+.page-authors {
+    text-transform: uppercase;
+    text-align:justify;
+    color: #929292;
+    margin: 0;
+    font-size: 11pt;
+    font-weight: 600;
+    padding: 0 0 5mm 0;
+}
+
+.page-title {
+    color: var(--journal-color);
+    font-size: 25pt;
+    line-height: 1.5;
+    margin: 0;
+    border-top: 5mm solid var(--journal-color);
+    padding-top: 5mm;
+}
+
+.page-subtitle {
+    color: var(--journal-color);
+    margin: 0;
+    font-size: 20pt;
+    font-weight:300;
+    line-height: 1.5;
+}
+
+.page-contributors {
+    text-align:justify;
+    color: #929292;
+    margin: 0;
+    font-size: 11pt;
+    padding: 5mm 0 0 0;
+}
+
+/* footnotes
+---------------*/
+span.footnote {
+    font-family: var(--long-text-font-family);
+    font-size: var(--footnote-font-size);
+    float: footnote;
+}
+
+.footnote-1-10 {
+    text-indent: calc(var(--footnote-font-size) * -2);  /* -15pt; */
+    padding-left: 20pt;
+}
+
+.footnote-10-99 {
+    text-indent: calc(var(--footnote-font-size) * -2.5);  /* -18.75pt */;
+    padding-left: 20pt;
+}
+
+.footnote-100-999 {
+    text-indent:  calc(var(--footnote-font-size) * -3);  /* -22.5pt; */;
+    padding-left: 26pt;
+}
+
+.pagedjs_footnote_area {
+    border-bottom: 1px solid #00000021;
+}
+
+.pagedjs_footnote_content {
+    border-top: 1px solid #00000021;
+    padding: 2.5mm 0;
+}
+
+[data-footnote-marker]::marker {
+    content: counter(footnote-marker) "    ";
+    white-space:pre;
+}
+
+/* Reference List
+---------------------*/
+#reference-list {
+    font-family: var(--long-text-font-family);
+    break-after: page;
+    break-before:page;
+    text-align:left;
+}
+
+#reference-list .main-title {
+    font-size: 14pt;
+    color:var(--journal-color);
+    margin-top:0;
+    margin-bottom:5mm;
+}
+
+.reference {
+    page-break-inside: avoid;
+}
+
+.reference > .label {
+    margin: 0;
+    font-size: var( --p-font-size);
+    font-weight:600;
+}
+
+.reference > .mixed-citation {
+    margin-top:0;
+    text-decoration: none;
+}
+
+.ext-ref-link {
+    color: #38a;
+}
+
+/* source of Illustrations:
+--------------------------*/
+#source-of-illustrations {
+    font-family: var(--long-text-font-family);
+    text-align:left;
+}
+
+.attribution {
+    font-size: var( --p-font-size);
+    margin: 2mm 0;
+    line-height: 1.3;
+    color: #929292;
+    text-align:left;
+}
+
+/* meta-section (appendices):
+---------------------------*/
+.meta-section {
+    width: 115%;
+    column-count: 2;
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+    column-fill: auto;
+    column-gap: 5mm;
+}
+
+.meta-section.right-page {
+    margin-left:-20mm;
+}
+
+.meta-section.left-page {
+    margin-right:-20mm;
+}
+
+.contributors-card {
+    margin: 2.5mm 0;
+}
+
+.contributors-card > p {
+    margin: 0;
+}
+
+.contributors-link {
+    text-decoration: none;
+}
+
+#qrcode {
+    margin-bottom:5mm;
+}
+
+.metadata-doi-link {
+    font-size: 13.5pt;
+    color: var(--journal-color);
+}
+
+/* imprint
+-------------*/
+#imprint {
+    font-family: var(--long-text-font-family);
+    text-align:left;
+}
+
+.publisher > p{
+    padding:0;
+    margin:0;
+}
+
+.publisher-loc > p {
+    padding:0;
+    margin:0;
+}
+
+.publisher-loc > a {
+    padding:0;
+    margin:0;
+}
+
+.contributors-imprint > div {
+    padding:0;
+    margin:0;
+}
+
+.role {
+    font-style: italic;
+    padding:0;
+    margin:0;
+    margin-top:5mm;
+}
+
+/* image components
+--------------------*/
+#cloned-images-container {
+    break-before: page;
+}
+
+.cover-image {
+    margin-top: 3vh;
+    width: 100% !important;
+}
+
+figure {
+    position: relative;
+    margin: 5mm 0 5mm 0;
+    break-inside: avoid;
+}
+
+figure.first-element {
+    margin: 0 0 10mm 0;
+}
+
+img {
+    width: 100%;
+    margin-bottom: 2.5mm;
+}
+
+img:hover{
+    box-shadow: 0em 0em 0px 1px rgb(239, 101, 238);
+}
+
+figCaption {
+    font-family: var(--short-text-font-family);
+    display:none; /* will be set to "block" after rendering */
+    font-size: 8pt;
+    margin-top: 5mm;
+}
+
+.caption-text {
+    text-align: left;
+    font-size: 8pt;
+    margin:0;
+}
+
+.img-label {
+    font-size: 8pt;
+}
+
+.fig-number {
+    font-size: 8pt;
+}
+
+.fig-number.left-page {
+    float:right;
+}
+
+.fig-number.right-page {
+    float:left;
+}
+
+/* ---------------------------------
+styles for classified images
+----------------------------------*/
+
+.float {
+    margin-bottom: 10mm !important;
+}
+
+.float-w-col-2.left-page {
+    float: right;
+    clear: both;
+    margin-right: -40mm !important;
+    margin-left: 5mm !important;
+    margin-bottom: 10mm !important;
+    margin-top: 0 !important;
+}
+
+.float-w-col-2.right-page {
+    float: left;
+    clear: both;
+    margin-left: -40mm !important;
+    margin-right: 5mm !important;
+    margin-bottom: 10mm !important;
+    margin-top: 0 !important;
+}
+
+.float-w-col-4.left-page {
+    float: right;
+    clear: both;
+    margin-right: -40mm !important;
+    margin-left: 10mm !important;
+    margin-bottom: 10mm !important;
+    margin-top: 0 !important;
+}
+
+.float-w-col-4.right-page {
+    float: left;
+    clear: both;
+    margin-left: -40mm !important;
+    margin-right: 10mm !important;
+    margin-bottom: 10mm !important;
+    margin-top: 0 !important;
+}
+
+.float-w-col-6.left-page {
+    float: right;
+    clear: both;
+    margin-right: -40mm !important;
+    margin-left: 10mm !important;
+    margin-bottom: 10mm !important;
+    margin-top: 0 !important;
+}
+
+.float-w-col-6.right-page {
+    float: left;
+    clear: both;
+    margin-left: -40mm !important;
+    margin-right: 10mm !important;
+    margin-bottom: 10mm !important;
+    margin-top: 0 !important;
+}
+
+.inset > figcaption {
+    position: absolute;
+    width: 40mm !important;
+    float: right;
+    margin-right: -50mm;
+    padding: 5mm 0;
+    right: 0;
+    bottom: 0;
+}
+
+.regular.right-page > figCaption {
+    position: absolute;
+    width: 25%!important;
+    float: left;
+    margin-left: -30%;
+    padding: 0.5vh 0;
+    left: 0;
+    bottom: 0;
+}
+
+.regular.left-page > figCaption {
+    position: absolute;
+    width: 25%!important;
+    float: right;
+    margin-right: -30%;
+    padding: 0.5vh 0;
+    right: 0;
+    bottom: 0;
+}
+
+.regular-bottom > figcaption {
+    width: 100% !important;
+    display: block;
+}
+
+.overmargin.right-page {
+    margin-left: -40mm;
+}
+
+.overmargin.right-page > figCaption {
+    position: absolute;
+    width: 35mm !important;
+    float: left;
+    margin-top: 10mm;
+    left: 0;
+}
+
+.overmargin.left-page > figCaption {
+    position: absolute;
+    width: 35mm !important;
+    float: right;
+    margin-top: 10mm;
+    right: 0;
+}
+
+.overmargin-bottom.right-page {
+    margin-left: -40mm;
+    margin-bottom: 10mm;
+}
+
+.overmargin-bottom.left-page {
+    margin-right: -40mm;
+    margin-bottom: 10mm;
+}
+
+.overmargin-bottom > figcaption {
+    width: 100% !important;
+    margin-top: 5mm;
+    display: block;
+}
+
+.overmargin-bottom > .fig-number {
+    display:none;
+}
+
+/* Table of contents (ToC)
+---------------------------- */
+#contents {
+    break-before: page;
+}
+
+ul.toc-list {
+    padding: 0 1vw;
+    break-after: page;
+}
+
+.heading-ref {
+    cursor: pointer;
+    display: block;
+    font-size: 10pt;
+    border: 1px solid transparent;
+}
+
+.heading-ref.active {
+    color: rgba(0, 0, 0, 0.9);
+    background: #fff;
+    border: 1px solid #eee;
+}
+
+.heading-ref.level-1 {
+    font-size: 15pt;
+}
+
+.heading-ref.level-2 {
+    font-size: 12pt;
+    font-weight: 600;
+    border-top: 1px solid #e2e2e2;
+}
+
+.heading-ref.level-3 {
+    font-size: 9pt;
+}
+
+.heading-ref.level-4 {
+    font-size: 8pt;
+}
+
+.heading-ref.level-5 {
+    font-size: 7pt;
+}
+
+.heading-ref:hover {
+    color: black;
+}
+
+.heading-ref-a {
+    text-decoration: none;
+    color: #535557;
+}
+
+.heading-ref-a::after {
+    content: target-counter(attr(href), page);
+    float: right;
+}
+
+/* application specific
+ ------------------------*/
+.display-data-attributes::before {
+    font-size:8pt;
+    border:1px dotted deeppink;
+    color: deeppink;
+    content: attr(data-before) " ";
+}
+
+.display-data-attributes::after {
+    font-size:8pt;
+    border:1px dotted deeppink;
+    color: deeppink;
+    content: " " attr(data-after);
+}
+
+.blur {
+    filter: blur(4px);
+}
+
+.fade-in {
+    animation: fadeIn 3s;
+    -webkit-animation: fadeIn 3s;
+    -moz-animation: fadeIn 3s;
+    -o-animation: fadeIn 3s;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@-moz-keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@-webkit-keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@-o-keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@-ms-keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+#barStatus {
+    color:white;
+    text-shadow: 1px 1px 2px black;
+}
+
+.warning {
+    border: 5px dotted yellow;
+}

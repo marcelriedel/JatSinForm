@@ -1,0 +1,202 @@
+[{
+  "AA": {
+    "journal-main-color": "#E2510C",
+    "figureTypesettingClass": {
+      "small-landscape": "float-w-col-6",
+      "medium-landscape": "overmargin",
+      "large-landscape": "overmargin",
+      "small-square": "float-w-col-2",
+      "medium-square": "regular",
+      "large-square": "overmargin",
+      "small-portrait": "float-w-col-2",
+      "medium-portrait": "float-w-col-4",
+      "large-portrait": "float-w-col-6"
+    },
+    "figureModelSpecs": {
+      "float-w-col-2": ["25%", "100%"],
+      "float-w-col-4": ["50%", "100%"],
+      "float-w-col-6": ["75%", "100%"],
+      "inset": ["60%", "100%"],
+      "regular": ["100%", "100%"],
+      "regular-bottom": ["100%", "100%"],
+      "overmargin": ["130%", "100%"],
+      "overmargin-bottom": ["130%", "100%"]
+    }
+  },
+  "JoGA": {
+    "journal-main-color": "#515249",
+    "figureTypesettingClass": {
+      "small-landscape": "float-w-col-6",
+      "medium-landscape": "overmargin",
+      "large-landscape": "overmargin",
+      "small-square": "float-w-col-2",
+      "medium-square": "regular",
+      "large-square": "overmargin",
+      "small-portrait": "float-w-col-2",
+      "medium-portrait": "float-w-col-4",
+      "large-portrait": "float-w-col-6"
+    },
+    "figureModelSpecs": {
+      "float-w-col-2": ["25%", "100%"],
+      "float-w-col-4": ["50%", "100%"],
+      "float-w-col-6": ["75%", "100%"],
+      "inset": ["60%", "100%"],
+      "regular": ["100%", "100%"],
+      "regular-bottom": ["100%", "100%"],
+      "overmargin": ["130%", "100%"],
+      "overmargin-bottom": ["130%", "100%"]
+    }
+  },
+  "e-DAI-F": {
+    "journal-main-color": "#164194",
+    "figCaptionsAtPageBottom": true,
+    "figureTypesettingClass": {
+      "small-landscape": "regular",
+      "medium-landscape": "regular",
+      "large-landscape": "regular",
+      "small-square": "regular",
+      "medium-square": "regular",
+      "large-square": "regular",
+      "small-portrait": "regular",
+      "medium-portrait": "inset",
+      "large-portrait": "inset"
+    },
+    "figureModelSpecs": {
+      "float": ["50%", "100%"],
+      "inset": ["50%", "100%"],
+      "regular": ["75%", "100%"],
+      "regular-bottom": ["100%", "100%"],
+      "overmargin": ["100%", "100%"],
+      "overmargin-bottom": ["100%", "100%"]
+    }
+  },
+  "FdAI": {
+    "journal-main-color": "#557ebb",
+    "figureTypesettingClass": {
+      "small-landscape": "float-w-col-6",
+      "medium-landscape": "regular",
+      "large-landscape": "overmargin",
+      "small-square": "float-w-col-4",
+      "medium-square": "regular",
+      "large-square": "overmargin",
+      "small-portrait": "float-w-col-2",
+      "medium-portrait": "float-w-col-4",
+      "large-portrait": "float-w-col-6"
+    },
+    "figureModelSpecs": {
+      "float-w-col-2": ["25%", "100%"],
+      "float-w-col-4": ["50%", "100%"],
+      "float-w-col-6": ["75%", "100%"],
+      "inset": ["60%", "100%"],
+      "regular": ["100%", "100%"],
+      "regular-bottom": ["100%", "100%"],
+      "overmargin": ["130%", "100%"],
+      "overmargin-bottom": ["130%", "100%"]
+    }
+  },
+  "MM": {
+    "journal-main-color": "#0092d0",
+    "figureTypesettingClass": {
+      "small-landscape": "float-w-col-6",
+      "medium-landscape": "overmargin",
+      "large-landscape": "overmargin",
+      "small-square": "float-w-col-2",
+      "medium-square": "regular",
+      "large-square": "overmargin",
+      "small-portrait": "float-w-col-2",
+      "medium-portrait": "float-w-col-4",
+      "large-portrait": "float-w-col-6"
+    },
+    "figureModelSpecs": {
+      "float-w-col-2": ["25%", "100%"],
+      "float-w-col-4": ["50%", "100%"],
+      "float-w-col-6": ["75%", "100%"],
+      "inset": ["60%", "100%"],
+      "regular": ["100%", "100%"],
+      "regular-bottom": ["100%", "100%"],
+      "overmargin": ["130%", "100%"],
+      "overmargin-bottom": ["130%", "100%"]
+    }
+  },
+  "RM": {
+    "journal-main-color": "#002E54",
+    "figureTypesettingClass": {
+      "small-landscape": "float-w-col-6",
+      "medium-landscape": "overmargin",
+      "large-landscape": "overmargin",
+      "small-square": "float-w-col-2",
+      "medium-square": "regular",
+      "large-square": "overmargin",
+      "small-portrait": "float-w-col-2",
+      "medium-portrait": "float-w-col-4",
+      "large-portrait": "float-w-col-6"
+    },
+    "figureModelSpecs": {
+      "float-w-col-2": ["25%", "100%"],
+      "float-w-col-4": ["50%", "100%"],
+      "float-w-col-6": ["75%", "100%"],
+      "inset": ["60%", "100%"],
+      "regular": ["100%", "100%"],
+      "regular-bottom": ["100%", "100%"],
+      "overmargin": ["130%", "100%"],
+      "overmargin-bottom": ["130%", "100%"]
+    }
+  },
+  "PhDAI": {
+    "journal-main-color": "#50bcbd",
+    "figureTypesettingClass": {
+      "small-landscape": "float-w-col-6",
+      "medium-landscape": "overmargin",
+      "large-landscape": "overmargin",
+      "small-square": "float-w-col-2",
+      "medium-square": "regular",
+      "large-square": "overmargin",
+      "small-portrait": "float-w-col-2",
+      "medium-portrait": "float-w-col-4",
+      "large-portrait": "float-w-col-6"
+    },
+    "figureModelSpecs": {
+      "float-w-col-2": ["25%", "100%"],
+      "float-w-col-4": ["50%", "100%"],
+      "float-w-col-6": ["75%", "100%"],
+      "inset": ["60%", "100%"],
+      "regular": ["100%", "100%"],
+      "regular-bottom": ["100%", "100%"],
+      "overmargin": ["130%", "100%"],
+      "overmargin-bottom": ["130%", "100%"]
+    }
+  },
+  "JdI": {
+    "journal-main-color": "#004b87",
+    "figureTypesettingClass": {
+      "small-landscape": "float-w-col-6",
+      "medium-landscape": "overmargin",
+      "large-landscape": "overmargin",
+      "small-square": "float-w-col-4",
+      "medium-square": "regular",
+      "large-square": "overmargin",
+      "small-portrait": "float-w-col-2",
+      "medium-portrait": "float-w-col-4",
+      "large-portrait": "float-w-col-6"
+    },
+    "figureModelSpecs": {
+      "float-w-col-2": ["25%", "100%"],
+      "float-w-col-4": ["50%", "100%"],
+      "float-w-col-6": ["75%", "100%"],
+      "inset": ["60%", "100%"],
+      "regular": ["100%", "100%"],
+      "regular-bottom": ["100%", "100%"],
+      "overmargin": ["130%", "100%"],
+      "overmargin-bottom": ["130%", "100%"]
+    }
+  },
+  "IM": {
+    "journal-main-color": "#6c1d45"
+  },
+  "MDAIK": {
+    "journal-main-color": "#b6004b"
+  },
+  "ReiseF": {
+    "journal-main-color": "#002E54"
+  }
+}]
