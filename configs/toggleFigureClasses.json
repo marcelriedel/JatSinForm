@@ -1,0 +1,19 @@
+[{
+  "figureClass": {
+    "float": "inset",
+    "inset": "regular",
+    "regular": "overmargin",
+    "overmargin": "float-w-col-4"
+  },
+  "figureColumnWidth": {
+    "float-w-col-2": "float-w-col-4",
+    "float-w-col-4": "float-w-col-6",
+    "float-w-col-6": "float-w-col-2"
+  },
+  "figureCaption": {
+    "regular": "regular-bottom",
+    "regular-bottom": "regular",
+    "overmargin": "overmargin-bottom",
+    "overmargin-bottom": "overmargin"
+  }
+}]

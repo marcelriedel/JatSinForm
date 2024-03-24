@@ -1,7 +1,7 @@
-/** internal script libraries:
+/** -------------------------------------- 
+ * internal script libraries:
  * @type {HTMLScriptElement}
- */
-
+ --------------------------------------*/
 // viewer-script
 const renderAsPDFScript = document.createElement('script');
 renderAsPDFScript.type = 'text/javascript';
@@ -17,14 +17,14 @@ const setupScript = document.createElement('script');
 setupScript.type = 'text/javascript';
 setupScript.src = 'src/js/setup.js';
 
-/** external script libraries:
+/** -------------------------------------
+ * external script libraries:
  * @type {HTMLScriptElement}
- */
-
+---------------------------------------*/
 // pagedJs-script
 const pagedJsScript = document.createElement('script');
 pagedJsScript.type = 'text/javascript';
-pagedJsScript.src = "src/js/pagedjs.js"  // 'https://unpkg.com/pagedjs/dist/paged.polyfill.js';
+pagedJsScript.src = "src/js/pagedjs.js";  // 'https://unpkg.com/pagedjs/dist/paged.polyfill.js';
 
 // interactJs-script
 const interactJsScript = document.createElement('script');
@@ -47,14 +47,19 @@ const qrcodejs = document.createElement('script');
 qrcodejs.type = 'text/javascript';
 qrcodejs.src = "https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js";
 
-// application configs:
+/** -------------------------------------
+ * prepare document constants:
+ * @type {Constants}
+---------------------------------------*/
 const progressBar = document.createElement("div");
 progressBar.id = "progressBar";
 const defaultJournal = "AA";
 
-/** define window.document function:
- * @type {HTMLScriptElement}
- */
+/** --------------------------------------
+ * document state event listener:
+ * @type {document}
+ * @type {EventListenerObject}
+ --------------------------------------*/
 document.addEventListener("readystatechange", (event) => {
 
     if (event.target.readyState === "interactive") {
@@ -63,6 +68,7 @@ document.addEventListener("readystatechange", (event) => {
         requestSourceFile("configs/tagConversionMap.json", "tag-conversion-map");
         requestSourceFile("configs/journals.json", "journals-config");
         requestSourceFile("configs/figConstellations.json", "fig-constellations");
+        requestSourceFile("configs/toggleFigureClasses.json", "toggle-figure-classes");
 
         // checkout xml-path
         if (document.querySelector('meta[name="--xml-file"]') !== null) {
@@ -82,6 +88,9 @@ document.addEventListener("readystatechange", (event) => {
                 xml = xml.replaceAll("<sec", "<section")
                     .replaceAll("</sec>", "</section>");
 
+                // transform self-closing tags to 
+                xml = transformSelfClosingTags(xml);
+            
                 // create XML-document:
                 let parser = new DOMParser();
                 let xmlDoc = parser.parseFromString(xml, "text/xml");
@@ -219,11 +228,11 @@ document.addEventListener("readystatechange", (event) => {
     }
 });
 
-/** define window event listener:
- * @type {HTMLScriptElement}
- */
-
-// define keyboard control settings:
+/** -------------------------------------
+ * define keyboard control settings:
+ * @type {document}
+ * @type {EventListenerObject}
+ --------------------------------------*/
 document.addEventListener('keyup', function (e) {
 
     // press r for reload
@@ -349,7 +358,7 @@ window.addEventListener("storage", () => {
 });
 
 /** convert JATS-XML and prepare HTML
- * @type {HTMLScriptElement}
+ * @type {!HTMLScriptElement}
  */
 
 function requestSourceFile(path, type) {
@@ -368,6 +377,8 @@ function requestSourceFile(path, type) {
     request.send();
 }
 
+/* xml parsing functions
+------------------------*/
 function convertXMLToHtmlBody(xmlDoc) {
 
     let tagConversionMap = JSON.parse(localStorage.getItem("tag-conversion-map"))[0];
@@ -383,12 +394,20 @@ function convertXMLToHtmlBody(xmlDoc) {
         if(idLessParagraphs[i].querySelectorAll("xref[ref-type='fig']").length) {
             // assing randomId to paragraph-element:
             idLessParagraphs[i].id = "generatedId-" + Math.floor(Math.random() * 100);
-            // shout out Warning message:
-            console.log("Warning: Element with tag <p> has no id-attribute! \n" + 
+            // log warning message:
+            console.log("Notice: Element with tag <p> has no id-attribute! \n" + 
             "Random-ID assigned to XML-Element \n" + idLessParagraphs[i].outerHTML);
         };
     }
-
+    // remove empty tags except of graphic:
+    let emptyTags = xmlBody.querySelectorAll("*:empty");
+    for (let i = 0; i < emptyTags.length; i++) {
+        if(emptyTags[i].tagName !== "graphic") {
+            emptyTags[i].remove();
+            // log warning message:
+            console.log("Notice: Empty elements has been removed!");
+        }
+    }
     // convert selectors as defined in tagConversionMap:
     for (let selector in tagConversionMap) {
         let tagName = tagConversionMap[selector]["tagName"];
@@ -396,7 +415,7 @@ function convertXMLToHtmlBody(xmlDoc) {
 
         if (xmlBody.querySelectorAll(selector).length !== 0) {
             let xmlElements = xmlBody.querySelectorAll(selector);
-
+        
             for (let i = 0; i < xmlElements.length; ++i) {
                 // create new element with ids and classNames:
                 let newElement = document.createElement(tagName);
@@ -423,6 +442,10 @@ function convertXMLToHtmlBody(xmlDoc) {
                 if (tagConversionMap[selector].hasOwnProperty("setAttribute")) {
                     let attributeKey = tagConversionMap[selector]["setAttribute"];
                     let attributeValue = xmlElements[i].getAttribute(attributeKey);
+                    // add missing content-type to article contributors group:
+                    if(selector === "contrib-group" && attributeValue == null) {
+                        attributeValue = "article-contributors";
+                    }
                     newElement.setAttribute(attributeKey, attributeValue);
                 }
                 // transfer content and replace xml-element:
@@ -462,6 +485,18 @@ function convertXMLToHtmlBody(xmlDoc) {
     htmlContentBody.classList.add("content-body");
     htmlContentBody.innerHTML = xmlBody.innerHTML;
     return (htmlContentBody);
+}
+
+function transformSelfClosingTags(xml) {
+    let split = xml.split("/>");
+    let newXml = "";
+    for (let i = 0; i < split.length - 1;i++) {
+        let edsplit = split[i].split("<");
+        let elementName = edsplit[edsplit.length - 1].split(" ")[0];
+        console.log("Notice: self-closing-tags found: ", elementName);
+        newXml += split[i] + "></" + elementName + ">";
+    }
+    return newXml + split[split.length-1];
 }
 
 /* element classifiers

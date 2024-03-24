@@ -41,6 +41,7 @@
     "surname": {"tagName": "p", "className": "surname"},
     "given-names": {"tagName": "p", "className": "given-names"},
     "prefix": {"tagName": "span", "className": "prefix"},
+    "address":{"tagName": "div", "className": "address"},
     "aff": {"tagName": "div", "className": "aff"},
     "institution-wrap": {"tagName": "div", "className": "institution-wrap"},
     "institution-id": {"tagName": "p", "className": "institution-id-type"},

@@ -7,8 +7,8 @@ const typesettingClassListKey = 2;
 const imageClassThresholdDefault = 5;
 
 /** ------------------------------
- * control pagedJs-Handler (Hook)
- * documentation: https://pagedjs.org/documentation/10-handlers-hooks-and-custom-javascript/
+ * control pagedJs-Handler (Hook), documentation: 
+ * https://pagedjs.org/documentation/10-handlers-hooks-and-custom-javascript/
  * -------------------------------
  */
 function controlPagedJsHandler() {
@@ -68,23 +68,36 @@ function controlPagedJsHandler() {
 
             if (sourceNode && sourceNode.nodeType == Node.ELEMENT_NODE) {
                 // define page contexts of source node:
-                let parsedContent = Layout.hooks.afterParsed.context.source.firstChild;
                 let paragraphMap = JSON.parse(localStorage.getItem("paragraph-map"));
                 let pageContent = sourceNode.closest(".pagedjs_page_content");
+                let parsedContent = Layout.hooks.afterParsed.context.source.firstChild;
                 let contexts = definePageContextsOfSourceNode(sourceNode, pageContent);
 
                 // handle layout of content paragraphs:
                 if (paragraphMap[sourceNode.id] && !paragraphMap[sourceNode.id]["isSet"]) {
                     let nodeParams = defineRenderNodeParameter(sourceNode, renderNode, parsedContent);
 
-                    // exlude figures for defined paragraphs (first text page)
-                    if(nodeParams["currentFigure"] && noFigureBefore.includes(sourceNode.id)) {
-                        addFigIdToNextParagraph(sourceNode.id, nodeParams["currentFigure"].id);
-                    } else {
-                        // process figure enhancing:
-                        processFigureEnhancing(nodeParams);
+                    // handle over rest of figRefs which exceeds the limit maxNumFigures
+                    let maxNumFigures = 2; // limit of figures, each one single node can handle
+                    if(nodeParams["figRefs"]) {
+                        for (let i = maxNumFigures; i < nodeParams["figRefs"].length; i++) {
+                            addFigIdToNextParagraph(sourceNode.id, nodeParams["figRefs"][i]);
+                        }
                     }
-                    updateParagraphMap(sourceNode.id);
+                    // exclude figures for defined paragraphs (first text page)
+                    if(contexts["pageId"] == firstTextPageId ) {
+                        if(nodeParams["currentFigure"]) {
+                            addFigIdToNextParagraph(sourceNode.id, nodeParams["currentFigure"].id);
+                        }
+                        if(nodeParams["nextFigure"]) {
+                            addFigIdToNextParagraph(sourceNode.id, nodeParams["nextFigure"].id);
+                        }
+                    }
+                    // process figure enhancing:
+                    else {
+                        processFigureEnhancing(nodeParams);
+                        updateParagraphMap(sourceNode.id);
+                    }
                 }
                 // handle layout of headlines:
                 if (/title/.test(sourceNode.className) || /title-appendix/.test(sourceNode.className)) {
@@ -110,31 +123,8 @@ function controlPagedJsHandler() {
         afterPageLayout(pageElement, page, breakToken) {
             updateStorageEventListener("Render " + page.id + "...");
 
-            // !!!TEST HYPHEN CORRECTION !!!!
-            if (pageElement.querySelector('.pagedjs_hyphen')) {
-
-                function getFinalWord(words) {
-                    var n = words.split(" ");
-                    return n[n.length - 1];
-                }
-
-                // find the hyphenated word
-                let block = pageElement.querySelector('.pagedjs_hyphen');
-
-                // i dont know what that line was for :thinking: i removed it
-                // block.dataset.ref = this.prevHyphen;
-
-                // move the breakToken
-                let offsetMove = getFinalWord(block.innerHTML).length;
-
-                // move the token accordingly
-                page.breakToken = page.endToken.offset - offsetMove;
-
-                // remove the last word
-                block.innerHTML = block.innerHTML.replace(getFinalWord(block.innerHTML), "");
-
-                breakToken.offset = page.endToken.offset - offsetMove;
-            }
+            // TEST: ignore hyphenation by pagedJs:
+            ignoreHyphenationByPagedJs(true, pageElement, page, breakToken);
 
             // classify if element is rendered on left or right page:
             classifyPageOfElement(pageElement, page);
@@ -191,11 +181,11 @@ function controlPagedJsHandler() {
 Prepare elements of PDF article
 --------------------------------*/
 /**
- * create article-html for pdf rendering
- * @param content: document-fragment made from the original DOM
- * @returns article element
+ * create article-html for pdf rendering:
+ * @param {DocumentFragment} content: document-fragment made from the original DOM
+ * @returns {HTMLElement} article element: extensively enriched with all content- and meta-sections 
+ * used in dai-journal-article 
  */
-
 function createPDFArticle(content) {
 
     // create article with documentId:
@@ -220,6 +210,8 @@ function createPDFArticle(content) {
     let tocList = createToCFromHeadings(content);
     let figureSection = recreateFiguresSection(content);
     let sourceOfIllustrations = createSourceOfIllustrations(figureSection);
+
+    // remove poster-image from figureSection:
     if(figureSection.querySelector("#poster-image") !== null) {
         figureSection.querySelector("#poster-image").remove();
     }
@@ -250,7 +242,7 @@ function createPDFArticle(content) {
         meta.appendChild(tocList);
     }
 
-    // append all sections:
+    // append all sections to article:
     article.appendChild(coverPage);
     article.appendChild(titlePage);
     addHeadlineClassesBySectionHierarchy(content, ".title");
@@ -271,11 +263,10 @@ function createPDFArticle(content) {
 }
 
 /**
- * create cover-page as div-element
- * @param content: document-fragment made from original DOM
- * @returns coverPage with abstractSection
+ * create cover-page as div-element:
+ * @param {DocumentFragment} content: document-fragment made from original DOM
+ * @returns {HTMLElement} coverPage with abstractSection
  */
-
 function createCoverPage(content) {
 
     let coverPage = document.createElement("div");
@@ -293,11 +284,11 @@ function createCoverPage(content) {
 }
 
 /**
- * create abstractSection
- * @param content: document-fragment made from original DOM
- * @param selector: class-selector of abstractType, e.g.
+ * create abstractSection:
+ * @param {DocumentFragment} content: document-fragment made from original DOM
+ * @param {string} selector: class-selector of abstractType, e.g.
  * .abstract, .trans-abstract
- * @returns abstract with abstract information and keywords.
+ * @returns {HTMLElement} abstract with abstract information and keywords.
  */
 function createAbstractSection(content, selector) {
 
@@ -317,24 +308,33 @@ function createAbstractSection(content, selector) {
             checkMaxLengthOfAbstractText(abstractText[0]);
         }
         // add keywordsSection
-        let keywordsSection;
-        let keywords = content.querySelectorAll(".kwd-group");
-        if(keywords.length) {
-            for (let i = 0; i < keywords.length; i++) {
-                let keywordsLang = keywords[i].getAttribute("xml:lang");
+        let keywordsSection = document.createElement("div");
+        keywordsSection.classList.add("kwd-group");
+        let kwdGroup = content.querySelectorAll(".kwd-group");
+        if(kwdGroup.length) {
+            for (let i = 0; i < kwdGroup.length; i++) {
+                let keywordsLang = kwdGroup[i].getAttribute("xml:lang");
                 let abstractLang = abstract.getAttribute("xml:lang");
                 // if keywords correspond to abstractLang
                 if(keywordsLang === abstractLang) {
-                    kwHeadline = keywords[i].querySelector(".title");
+                    kwHeadline = kwdGroup[i].querySelector(".title");
                     kwHeadline.classList.add("keywords-headline");
-                    keywordsSection = keywords[i];
+                    keywordsSection.appendChild(kwHeadline);
+                    let keywords = kwdGroup[i].querySelectorAll(".keyword");
+                    // add each keyword (span> to keywordSection:
+                    for (let i = 0; i < keywords.length; i++) {
+                        let lastIndex = keywords.length-1;
+                        if(i !== lastIndex) {
+                            // separate spans with comma except last kwd:
+                            keywords[i].textContent = keywords[i].textContent + ", ";
+                        }
+                        keywordsSection.appendChild(keywords[i]);
+                    }
                 }
             }
         }
         else {
-            keywordsSection = document.createElement("div");
-            keywordsSection .classList.add("kwd-group");
-            keywordsSection .innerHTML = "[KEYWORDS MISSING]";
+            keywordsSection.innerHTML = "[KEYWORDS MISSING]";
         }
         abstract.append(keywordsSection);
 
@@ -351,9 +351,9 @@ function createAbstractSection(content, selector) {
 }
 
  /**
- * check maximum length of abstract text
- * @param abstractText given abstract text
- * @returns checked abstractText, eventually
+ * check maximum length of abstract text:
+ * @param {HTMLElement} abstractText given abstract text
+ * @returns {HTMLElement} checked abstractText, eventually
  * enriched with warning class and notice
  */
 function checkMaxLengthOfAbstractText(abstractText) {
@@ -370,56 +370,61 @@ function checkMaxLengthOfAbstractText(abstractText) {
 }
 
 /**
- * create titlePage: upper part of first page with text
- * @param content document-fragment made from original DOM
- * @returns titlePage as div-container with title and contributors
+ * create titlePage: upper part of first page with text:
+ * @param {DocumentFragment} content document-fragment made from original DOM
+ * @returns {HTMLElement} titlePage as div-container with title and contributors
  */
 function createTitlePage(content) {
 
-    // get title page information:
+    // get title information:
     let title = content.querySelector(".article-title");
     let subtitle = content.querySelector(".subtitle");
-    let authors = content.querySelectorAll(".contrib[contrib-type='author']");
-    let contributors = content.querySelectorAll(".contrib[contrib-type='co-author']");
 
-    // transform author information to string:
+    // get article contributors (e.g. authors):
+    let articleContributors  = content.querySelector(".contrib-group[content-type='article-contributors']");
+    let authors = articleContributors.querySelectorAll(".contrib[contrib-type='author']");
+    let contributors = articleContributors.querySelectorAll(".contrib[contrib-type='co-author']");
+
+    // collect names of each author:
     let authorsCollection = [];
-    for (let i = 0; i < authors.length; i++) {
-        let givenName;
-        let surName;
-        if(authors[i].querySelector(".given-names") !== null) {
-            givenName = authors[i].querySelector(".given-names").textContent;
+    if(authors.length) {
+        for (let i = 0; i < authors.length; i++) {
+            let givenName;
+            let surName;
+            if(authors[i].querySelector(".given-names") !== null) {
+                givenName = authors[i].querySelector(".given-names").textContent;
+            }
+            if(authors[i].querySelector(".surname") !== null) {
+                surName = authors[i].querySelector(".surname").textContent;
+            }
+            authorsCollection.push(givenName + " " + surName);
         }
-        if(authors[i].querySelector(".surname") !== null) {
-            surName = authors[i].querySelector(".surname").textContent;
-        }
-        authorsCollection.push(givenName + " " + surName);
     }
 
-    // transform contributors information to string:
+    // collect names of each contributor (e.g. co-author):
     let contributorsCollection = [];
-    for (let i = 0; i < contributors.length; i++) {
-        let givenName = contributors[i].querySelector(".given-names").textContent;
-        let surName = contributors[i].querySelector(".surname").textContent;
-        contributorsCollection.push(givenName + " " + surName);
+    if(contributors.length) {
+        for (let i = 0; i < contributors.length; i++) {
+            let givenName = contributors[i].querySelector(".given-names").textContent;
+            let surName = contributors[i].querySelector(".surname").textContent;
+            contributorsCollection.push(givenName + " " + surName);
+        }
     }
 
-    // create title page elements and fill with content
+    // create title page elements and fill with content:
     let titlePage = document.createElement("div");
     titlePage.className = "page-header";
-
     let titleElement = document.createElement("h1");
     titleElement.className = "page-title";
     titleElement.innerHTML = (title) ? title.textContent : "[Kein Titel]";
-
     let subtitleElement = document.createElement("h1");
     subtitleElement.className = "page-subtitle";
     subtitleElement.innerHTML = (subtitle) ? subtitle.textContent : "";
 
+    // create contributors elements and fill with content:
     let authorsElement = document.createElement("h1");
     authorsElement.className = "page-authors";
     authorsElement.innerHTML = (authorsCollection.length) ? authorsCollection.join(", ") : "[Keine Autoren]";
-
     let contributorsElement = document.createElement("p");
     contributorsElement.className = "page-contributors";
     let lang = document.documentElement.lang;
@@ -427,7 +432,7 @@ function createTitlePage(content) {
         contributorsElement.innerHTML = contributorsPrepositions[lang] + " " + contributorsCollection.join(", ");
     }
 
-    // append elements to titlePage:
+    // append all elements to titlePage:
     titlePage.append(authorsElement);
     titlePage.append(titleElement);
     titlePage.append(subtitleElement);
@@ -437,13 +442,13 @@ function createTitlePage(content) {
 }
 
 /**
- * create ToC: table of contents by headlines
- * @param content document-fragment made from original DOM
- * @returns contents: tocList; currently not used for dai-journals
+ * create ToC: table of contents by headlines:
+ * @param {DocumentFragment} content document-fragment made from original DOM
+ * @returns {HTMLElement} toc: table of content; currently not used for dai-journals
  */
 function createToCFromHeadings(content) {
 
-    let contents = document.createElement("div");
+    let toc = document.createElement("div");
 
     if (createToC) {
         let tocListTitle = document.createElement("h3");
@@ -451,7 +456,7 @@ function createToCFromHeadings(content) {
         tocListTitle.classList.add("title-appendix");
         let lang = document.documentElement.lang;
         tocListTitle.innerHTML = titlesOfAppendices["contents"][lang];
-        contents.append(tocListTitle);
+        toc.append(tocListTitle);
 
         let tocList = document.createElement("ul");
         tocList.classList.add("toc-list");
@@ -475,17 +480,17 @@ function createToCFromHeadings(content) {
                 tocListItem.appendChild(tocEntry);
                 tocList.appendChild(tocListItem);
             }
-            contents.appendChild(tocList);
+            toc.appendChild(tocList);
         }
     }
-    return(contents);
+    return(toc);
 }
 
 /**
  * reformat footnotes for displaying them at bottom of page,
- * based on https://pagedjs.org/posts/2021-06-newRelease/
- * @param content document-fragment made from original DOM
- * @returns 
+ * based on https://pagedjs.org/posts/2021-06-newRelease/:
+ * @param {DocumentFragment} content document-fragment made from original DOM
+ * @returns {void}
  */
 function reformatFootnotes(content) {
 
@@ -537,16 +542,15 @@ function reformatFootnotes(content) {
 }
 
 /**
- * create referenceList or rather bibliography
- * @param content document-fragment made from original DOM
- * @returns referenceList as meta-section with author-year-label,
+ * create referenceList or rather bibliography:
+ * @param {DocumentFragment} content document-fragment made from original DOM
+ * @returns {HTMLElement} referenceList as meta-section with author-year-label,
  * reference titles and external ref-links
  */
 function createReferenceList(content) {
 
     let referenceSection = content.querySelector(".reference-section");
     let references = content.querySelectorAll(".reference");
-
     let referenceList = document.createElement("div");
     referenceList.id = "reference-list";
     referenceList.classList.add("meta-section");
@@ -599,8 +603,15 @@ function createReferenceList(content) {
     return (referenceList);
 }
 
+/**
+ * recreate figureSection as clone from content:
+ * @param {DocumentFragment} content document-fragment made from original DOM
+ * @returns {HTMLElement} cloned figureSection, validated, enhanced, classified,
+ * reordered. Will be reused for parts of sourceOfIllustration
+ */
 function recreateFiguresSection(content) {
 
+    // check and clone original figure section:
     let figureSection;
     if(content.querySelector(".figure-section") !== null) {
         figureSection = content.querySelector(".figure-section").cloneNode(true);
@@ -611,8 +622,8 @@ function recreateFiguresSection(content) {
         return(figureSection);
     }
 
+    // process each figure element:
     for (let i = 0; i < figures.length; ++i) {
-        // get each figure element:
         let img = figures[i].querySelector("img");
         let figCaption = figures[i].querySelector("figCaption");
         let attribution;
@@ -652,6 +663,12 @@ function recreateFiguresSection(content) {
     return(figureSection);
 }
 
+/**
+ * create source of illustrations or rather credits section:
+ * @param {Element} figureSection figureSection cloned from content
+ * @returns {HTMLElement} sourceOfIllustrations used as meta-section with credith
+ * information for each figure
+ */
 function createSourceOfIllustrations(figureSection) {
 
     let sourceOfIllustrations = document.createElement("div");
@@ -1010,26 +1027,6 @@ function updateParagraphMap(currentNodeId) {
     localStorage.setItem("paragraph-map", JSON.stringify(paragraphMap));
 }
 
-function addFigIdToNextParagraph(currentNodeId, figureId) {
-
-    // get current paragraphMap:
-    let paragraphMap = JSON.parse(localStorage.getItem("paragraph-map"));
-    let currentNodePosition = paragraphMap[currentNodeId]["position"];
-
-    // get nextParagraph in paragraphMap:
-    let nextNodeId = Object.keys(paragraphMap)[currentNodePosition + 1];
-    let nextParagraph = paragraphMap[nextNodeId];
-
-    // push figRef to nextParagraph
-    if (nextParagraph && nextParagraph["figRefs"]) {
-        if(!nextParagraph["figRefs"].includes((figureId))) {
-            nextParagraph["figRefs"].unshift(figureId);
-        }
-    }
-    // save updated figure map:
-    localStorage.setItem("paragraph-map", JSON.stringify(paragraphMap));
-}
-
 function createFigureMap(parsedContent, previousMap) {
 
     // prepare figure Map:
@@ -1098,8 +1095,43 @@ function saveInteractStylesInFigureMap(object) {
 /* -------------------------------------
 Control page layout of element nodes
 ----------------------------------------*/
+function defineRenderNodeParameter(sourceNode, renderNode, parsedContent) {
+    
+    // define page contexts of source node:
+    let pageContent = sourceNode.closest(".pagedjs_page_content");
+    let contexts = definePageContextsOfSourceNode(sourceNode, pageContent);
+    setPageContextsAsElementAttribute(contexts, sourceNode, renderNode);
+
+    // define distribution ratio of section (relation between figures to text-content):
+    let distributionRatio = defineDistributionRatioOfSection(sourceNode);
+ 
+    // get next figRefs and sort nextFigRefs:
+    let nextFigRefs = getNextFigRefs(sourceNode.id);
+    nextFigRefs = sortNextFigRefsByFigurePosition(nextFigRefs);
+
+    // get next two figure elements by nextFigRefs:
+    let currentFigure = getNextFigureElement(nextFigRefs[0], parsedContent);
+    let nextFigure = getNextFigureElement(nextFigRefs[1], parsedContent);
+
+    // collect nodeParams:
+    let nodeParams = {
+        "sourceNode": sourceNode,
+        "renderNode": renderNode,
+        "distributionRatio": distributionRatio,
+        "figRefs": nextFigRefs,
+        "numFigRefs": nextFigRefs.length,
+        "contexts": contexts,
+        "currentFigure": currentFigure,
+        "nextFigure": nextFigure
+    };
+    return(nodeParams);
+}
 
 function definePageContextsOfSourceNode(sourceNode, pageContent) {
+
+    // get pageId:
+    let pageElement = pageContent.closest(".pagedjs_page");
+    let pageId = (pageElement !== null) ? pageElement.id : false;
 
     // get bounding rectangles of pageContent:
     let nodeBottom = sourceNode.getBoundingClientRect().bottom;
@@ -1122,6 +1154,7 @@ function definePageContextsOfSourceNode(sourceNode, pageContent) {
 
     // collect values in pageContexts object:
     let pageContexts = {
+        "pageId": pageId,
         "pageContentHeight": pageContentHeight,
         "pageContentWidth": pageContentWidth,
         "distanceToTopFromNodeBottom": distanceToTopFromNodeBottom,
@@ -1158,37 +1191,135 @@ function setPageContextsAsElementAttribute(contexts, sourceNode, renderNode) {
     renderNode.setAttribute('data-after', attributeValue);
 }
 
-function defineRenderNodeParameter(sourceNode, renderNode, parsedContent) {
-    
-    // define page contexts of source node:
-    let pageContent = sourceNode.closest(".pagedjs_page_content");
-    let contexts = definePageContextsOfSourceNode(sourceNode, pageContent);
-    setPageContextsAsElementAttribute(contexts, sourceNode, renderNode);
+function defineDistributionRatioOfSection(sourceNode) {
 
-    // define distribution ratio of section (relation between figures to text-content):
-    let distributionRatio = defineDistributionRatioOfSection(sourceNode);
- 
-    // get figureElements by figRefs:
-    let nextFigRefs = getNextFigRefs(sourceNode.id);
-    let currentFigure = getNextFigureElement(nextFigRefs[0], parsedContent);
-    let nextFigure = getNextFigureElement(nextFigRefs[1], parsedContent);
-    
-    // collect nodeParams:
-    let nodeParams = {
-        "sourceNode": sourceNode,
-        "renderNode": renderNode,
-        "distributionRatio": distributionRatio,
-        "numFigRefs": nextFigRefs.length,
-        "contexts": contexts,
-        "currentFigure": currentFigure,
-        "nextFigure": nextFigure
-    };
-    return(nodeParams);
+    let distributionRatio;
+    let paragraphMap = JSON.parse(localStorage.getItem("paragraph-map"));
+
+    if(paragraphMap[sourceNode.id]) {
+        let paragraph = paragraphMap[sourceNode.id];
+        let numParagraphs = paragraph["numParagraphsSection"];
+        let numFigRefs = paragraph["numFigRefsSection"];
+        distributionRatio = (numFigRefs !== 0) ? numParagraphs / numFigRefs : 2;
+    }
+    return(distributionRatio);
 }
+
+/* --------------------------------------
+Handle figure reference management:
+-----------------------------------------*/
+/**
+ * get next figure references in sourceNode
+ * @param {string, number} nodeId id of sourceNode, right before rendering
+ * @returns {array} nextFigRefs
+ */
+function getNextFigRefs(currentNodeId) {
+
+    // get paragraph and figure map:
+    let paragraphMap = JSON.parse(localStorage.getItem("paragraph-map"));
+    let figureMap = JSON.parse(localStorage.getItem("figure-map"));
+    let currentNodePosition = paragraphMap[currentNodeId]["position"];
+    
+    // find next figure references in all paragraphs within rangeNextFigRefs:
+    let nextFigRefs = [];
+    let i = 0;  // starting point (currentNode)
+    while (i < rangeNextFigRefs) {
+        let nodeId = Object.keys(paragraphMap)[currentNodePosition + i];
+        let paragraph = paragraphMap[nodeId];
+        if (paragraph && paragraph.figRefs.length) {
+            let figRef;
+            // check figRefs of each paragraph
+            for (let i = 0; i < paragraph.figRefs.length; ++i) {
+                figRef = paragraph.figRefs[i];
+                // collect each figRef in nextFigRefs:
+                if (!figureMap[figRef]["inserted"] &&  // if figure not already inserted
+                !nextFigRefs.includes(figRef)) {       // and not already included in array
+                    console.log("push-figRef: ", figRef);
+                    nextFigRefs.push(figRef);
+                }
+            }
+        }
+        // if node is first of content section:
+        if (paragraph && !paragraphMap[nodeId]["isFirstOfSection"]) {
+            ++i; // proceed (next paragraph)
+        }
+        // if rangeOverSection is true (allowed):  
+        else if(rangeOverSection) {
+            ++i; // proceed (next paragraph)
+        }
+        // break up entire loop of figRef search:
+        else {
+            i = rangeNextFigRefs;
+        }
+    }
+    return(nextFigRefs);
+}
+
+function sortNextFigRefsByFigurePosition(nextFigRefs) {
+
+    if(nextFigRefs && nextFigRefs.length) {
+        let figureMap = JSON.parse(localStorage.getItem("figure-map"));
+        // get figurePosition and collect in positionArray:
+        let positionArray = [];
+        for (let i = 0; i < nextFigRefs.length; i++) {
+            let figRef = nextFigRefs[i];
+            let figurePosition = figureMap[figRef]["position"];
+            positionArray.push(figurePosition);
+        }
+        // sort positionArray numerically:
+        positionArray.sort(function(a, b) {return a - b;});
+        // re-map nextFigRefs by positionArray:
+        nextFigRefs = [];
+        for (let i = 0; i < positionArray.length; i++) {
+            let figRef = Object.keys(figureMap).find(key => 
+                figureMap[key]["position"] === positionArray[i]);
+            nextFigRefs.push(figRef);
+        }
+    }
+    return(nextFigRefs);
+}
+
+function addFigIdToNextParagraph(currentNodeId, figureId) {
+
+    if(currentNodeId !== undefined && figureId !== undefined) {
+        // get current paragraphMap:
+        let paragraphMap = JSON.parse(localStorage.getItem("paragraph-map"));
+        let currentNodePosition = paragraphMap[currentNodeId]["position"];
+        
+        // get nextParagraph in paragraphMap:
+        let nextNodeId = Object.keys(paragraphMap)[currentNodePosition + 1];
+        let nextParagraph = paragraphMap[nextNodeId];
+
+        // push figRef to nextParagraph
+        if (nextParagraph && nextParagraph["figRefs"]) {
+            if(!nextParagraph["figRefs"].includes((figureId))) {
+                nextParagraph["figRefs"].push(figureId);
+            }
+        }
+        // save updated figure map:
+        localStorage.setItem("paragraph-map", JSON.stringify(paragraphMap));
+    }  
+}
+
+function getNextFigureElement(nextFigRef, parsedContent) {
+
+    let figureElement = false;
+    if (nextFigRef) {
+        let figure = parsedContent.querySelector("figure#" + nextFigRef);
+        assignLayoutSpecsToFigure(figure);
+        figureElement = figure;
+    }
+    return(figureElement);
+}
+
+/* ----------------------------------------
+Handle typesetting of figure elements:
+-----------------------------------------*/
 
 function processFigureEnhancing(nodeParams) {
 
     // shorten nodeParams and contextsParams:
+    let sourceNode = nodeParams["sourceNode"];
     let renderNode = nodeParams["renderNode"];
     let contexts = nodeParams["contexts"];
     let distributionRatio = nodeParams["distributionRatio"];
@@ -1208,18 +1339,14 @@ function processFigureEnhancing(nodeParams) {
     // get typesetting instructions by figConstellationKeys:
     let keys = figureBeforeCurrentClass + "#" + currentFigureClass  + "#" + nextFigureClass;
     let figConstellations = JSON.parse(localStorage.getItem("fig-constellations"))[0];
-
-    console.log(keys);
     let set = figConstellations[keys];
+
+    // console.log(set);
 
     let clientSizeCurrentFigure;
     let clientSizeNextFigure;
     let fitsCurrent = false;
     let fitsNextFigure = false;
-
-    console.log("Figs:" , numFigRefs, "ratio: ", distributionRatio);
-    console.log("-----", renderNode.id);
-    console.log(set);
 
     // check setting of current and nextFigure:
     if(set["currentFigure"][0] && set["nextFigure"][0]) {
@@ -1255,7 +1382,6 @@ function processFigureEnhancing(nodeParams) {
     if(fitsCurrent && fitsNextFigure) {
         reassignLayoutSpecsByGivenClass(currentFigure, set["currentFigure"][1]);
         reassignLayoutSpecsByGivenClass(nextFigure, set["nextFigure"][1]);
-
         // insert current figure
         addVirtualMarginToFloatingFigure(nextFigure, contexts);
         renderNode.insertAdjacentElement("afterend", nextFigure);
@@ -1266,295 +1392,21 @@ function processFigureEnhancing(nodeParams) {
         renderNode.insertAdjacentElement("afterend", currentFigure);
         updateFigureMap(currentFigure.id);
     }
-    if(fitsCurrent) {
+    else if(fitsCurrent) {
         reassignLayoutSpecsByGivenClass(currentFigure, set["currentFigure"][1]);
         // insert current figure only
         addVirtualMarginToFloatingFigure(currentFigure, contexts);
         renderNode.insertAdjacentElement("afterend", currentFigure);
         updateFigureMap(currentFigure.id);
-    }
-}
-
-// Copy:
-function COPYdefineEnhancingInstructions(nodeParams) {
-
-    // shorten nodeParams and contextsParams:
-    let sourceNode = nodeParams["sourceNode"];
-    let renderNode = nodeParams["renderNode"];
-    let contexts = nodeParams["contexts"];
-    let distributionRatio = nodeParams["distributionRatio"];
-    let elementSetBefore = contexts["elementSetBefore"]
-    let currentFigure = nodeParams["firstFigure"];
-    let nextFigure = nodeParams["secondFigure"];
-
-    // get default figure typesetting classes:
-    let currentFigureClass = (currentFigure) ? currentFigure.classList[typesettingClassListKey] : false;
-    let nextFigureClass = (nextFigure) ? nextFigure.classList[typesettingClassListKey] : false;
-    let figureBeforeCurrentClass;
-    if(elementSetBefore && elementSetBefore.tagName === "FIGURE") {
-        figureBeforeCurrentClass = elementSetBefore.classList[typesettingClassListKey];
-    } else { figureBeforeCurrentClass = false;}
-
-    // get typesetting instructions by conFiguration keys:
-    let keys = figureBeforeCurrentClass + "#" + currentFigureClass  + "#" + nextFigureClass;
-    let figureConfigurationModel = JSON.parse(localStorage.getItem("conFigurations"))[0];
-    let instructions = figureConfigurationModel[keys];
-
-    // dev output
-    if(currentFigure) {
-        console.log(sourceNode.id, "=>", currentFigure.id);
-    }
-    if(nextFigure) {
-        console.log(sourceNode.id, "=>", nextFigure.id);
-    }
-
-    // test rewriting instructions to integrate remainingSpace check
-    if(currentFigure) {
-        let clientSizeCurrent = calculateClientSizeOfFigure(currentFigure, contexts);
-        addVirtualMarginToFloatingFigure(currentFigure, contexts);
-
-        if(!contexts["pageBottomArea"]
-        && contexts["remainingSpace"] < clientSizeCurrent["clientHeightCalculated"] * 1.25) {
-            instructions["currentFigure"] = [false, false];
-
-            console.log(contexts["remainingSpace"], "<", clientSizeCurrent["clientHeightCalculated"] * 1.25);
-            console.log(currentFigure.id, "passt nicht");
-        }
-    }
-    
-    /* OPEN ISSUES:
-    FdAI_Ritter -> viele Bilder nicht gesetzt
-    */
-
-    console.log(instructions);
-
-    switch (true) {
-        case (contexts["pageBottomArea"] && distributionRatio <= 2):
-            if(instructions["currentFigure"][0] && instructions["nextFigure"][0]) {
-
-                // test transforming
-                if(instructions["currentFigure"][1]) {
-                    reassignLayoutSpecsByGivenClass(currentFigure, instructions["currentFigure"][1]);
-                }
-                // test transforming
-                if(instructions["nextFigure"][1]) {
-                    reassignLayoutSpecsByGivenClass(nextFigure, instructions["nextFigure"][1]);
-                }
-
-                // insert second figure
-                renderNode.insertAdjacentElement("afterend", nextFigure);
-                updateFigureMap(nextFigure.id);
-
-                // insert first figure
-                renderNode.insertAdjacentElement("afterend", currentFigure);
-                updateFigureMap(currentFigure.id);
-            }
-            break;
-
-        case (contexts["pageBottomArea"] && distributionRatio >= 2):
-            if(instructions["currentFigure"][0]) {
-                // test transforming
-                if(instructions["currentFigure"][1]) {
-                    reassignLayoutSpecsByGivenClass(currentFigure, instructions["currentFigure"][1]);
-                }
-                renderNode.insertAdjacentElement("afterend", currentFigure);
-                updateFigureMap(currentFigure.id);
-            }
-            break;
-
-        case (contexts["pageTopArea"]):
-            if(instructions["currentFigure"][0]) {
-                // test transforming
-                if (instructions["currentFigure"][1]) {
-                    reassignLayoutSpecsByGivenClass(currentFigure, instructions["currentFigure"][1]);
-                }
-                // insert first figure
-                renderNode.insertAdjacentElement("afterend", currentFigure);
-                updateFigureMap(currentFigure.id);
-            }
-            else if(instructions["nextFigure"][0]) {
-                // test transforming
-                if (instructions["nextFigure"][1]) {
-                    reassignLayoutSpecsByGivenClass(nextFigure, instructions["nextFigure"][1]);
-                }
-                // insert second figure
-                renderNode.insertAdjacentElement("afterend", nextFigure);
-                updateFigureMap(nextFigure.id);
-            }
-            break;
-
-        case (contexts["pageInBetweenArea"]):
-            if(instructions["currentFigure"][0]) {
-                // test transforming
-                if (instructions["currentFigure"][1]) {
-                    reassignLayoutSpecsByGivenClass(currentFigure, instructions["currentFigure"][1]);
-                }
-                // insert first figure
-                renderNode.insertAdjacentElement("afterend", currentFigure);
-                updateFigureMap(currentFigure.id);
-            }
-            else if(instructions["nextFigure"][0]) {
-                // test transforming
-                if (instructions["nextFigure"][1]) {
-                    reassignLayoutSpecsByGivenClass(nextFigure, instructions["nextFigure"][1]);
-                }
-                // insert second figure
-                renderNode.insertAdjacentElement("afterend", nextFigure);
-                updateFigureMap(nextFigure.id);
-            }
-            break;
-
-        default:
-            addFigIdToNextParagraph(sourceNode.id, currentFigure.id);
-            addFigIdToNextParagraph(sourceNode.id, nextFigure.id);
-            break;
-    }
-}
-
-function getNextFigRefs(nodeId) {
-
-    let paragraphMap = JSON.parse(localStorage.getItem("paragraph-map"));
-    let figureMap = JSON.parse(localStorage.getItem("figure-map"));
-
-    let nextFigRefs = findNextSuitableFigRefs(nodeId, paragraphMap, figureMap);
-    let figRefsBefore = findFigRefsNotInserted(nodeId, paragraphMap, figureMap)
-
-    // handle over previous figRefs not inserted before:
-    if (figRefsBefore.length > 0) {
-        figRefsBefore.reverse();
-        for (let i = 0; i < figRefsBefore.length; i++) {
-            if (!nextFigRefs.includes(figRefsBefore[i])) {
-                nextFigRefs.unshift(figRefsBefore[i]);
-            }
-        }
-    }
-    return(nextFigRefs);
-}
-
-function findNextSuitableFigRefs(currentNodeId, paragraphMap, figureMap) {
-
-    let currentNodePosition = paragraphMap[currentNodeId]["position"];
-    let nextFigRef = [];
-    let i = 0;  // start with current node
-
-    // find next two figure references in current or next paragraphs:
-    while (i < rangeNextFigRefs) { // nextFigRef.length !== 2 &&
-        let nodeId = Object.keys(paragraphMap)[currentNodePosition + i];
-        let paragraph = paragraphMap[nodeId];
-
-        // check if figRefs exists and were not inserted before
-        if (paragraph && paragraph.figRefs.length) {
-            // inner loop: figRefs of paragraph
-            for (let x = 0; x < paragraph.figRefs.length; ++x) {
-                let figRef = paragraph.figRefs[x];
-
-                console.log(figRef);
-                if (!figureMap[figRef]["inserted"]) {
-                    nextFigRef.push(figRef);
-                }
-            }
-        }
-        // if node is last of section-content (chapter) break up figRef search
-        if (paragraph && !paragraphMap[nodeId]["isFirstOfSection"]) {
-            i++;
-        }
-        else if(rangeOverSection) {
-            i++;
-        }
-        else {
-            i = rangeNextFigRefs;
-        }
-
-    }
-    return (nextFigRef);
-}
-
-function findFigRefsNotInserted(currentNodeId, paragraphMap, figureMap) {
-
-    let currentNodePosition = paragraphMap[currentNodeId]["position"];
-    let figRefsNotInserted = [];
-    let i = 0;  // start with currentNodePosition;
-
-    while (i < currentNodePosition) { // figRefsUninserted.length !== 2 &&
-        let nodeId = Object.keys(paragraphMap)[currentNodePosition - i];
-        let paragraph = paragraphMap[nodeId];
-
-        // check if figRefs exists and were not inserted before
-        if (paragraph && paragraph.figRefs.length) {
-            // inner loop: figRefs of paragraph
-            for (let x = 0; x < paragraph.figRefs.length; ++x) {
-                let figRef = paragraph.figRefs[x];
-                if (!figureMap[figRef]["inserted"]) {
-                    figRefsNotInserted.push(figRef);
-                }
-            }
-        }
-        i++;
-    }
-
-    return (figRefsNotInserted);
-}
-
-function getNextFigureElement(nextFigRef, parsedContent) {
-
-    let figureElement = false;
-    if (nextFigRef) {
-        let figure = parsedContent.querySelector("figure#" + nextFigRef);
-        assignLayoutSpecsToFigure(figure);
-        figureElement = figure;
-    }
-    return(figureElement);
-}
-
-function defineDistributionRatioOfSection(sourceNode) {
-
-    let distributionRatio;
-    let paragraphMap = JSON.parse(localStorage.getItem("paragraph-map"));
-
-    if(paragraphMap[sourceNode.id]) {
-        let paragraph = paragraphMap[sourceNode.id];
-        let numParagraphs = paragraph["numParagraphsSection"];
-        let numFigRefs = paragraph["numFigRefsSection"];
-        distributionRatio = (numFigRefs !== 0) ? numParagraphs / numFigRefs : 2;
-    }
-    return(distributionRatio);
-}
-
-function calculateClientSizeOfFigure(figure, contexts) {
-
-    // get available size parameter:
-    let naturalWidth = figure.getAttribute("data-img-width");
-    let naturalHeight = figure.getAttribute("data-img-height");
-    let ratio = naturalWidth / naturalHeight;
-    let figureStyleWidth = figure.style.width;
-
-    // calculate clientWidth and clientHeight of figure:
-    let clientWidthCalculated;
-    let clientHeightCalculated;
-
-    // calculate by pixel values (set by interactJs/resize):
-    if(/px/.test(figureStyleWidth)) {
-        clientWidthCalculated = figure.style.width.slice(0, -2); // e.g. 325
-        clientHeightCalculated = figure.style.height.slice(0, -2); // e.g. 245
-    }
-    // calculate by width (css-)percentage values:
+        // push nextFigureId to next paragraph:
+        addFigIdToNextParagraph(sourceNode.id, nextFigure.id);
+    } 
     else {
-        let widthPercentage = figure.style.width.slice(0, -1); // e.g. 50
-        clientWidthCalculated = contexts["pageContentWidth"] * widthPercentage / 100;
-        clientHeightCalculated = clientWidthCalculated / ratio;
+        // push current and nextFigureId to next paragraph:
+        addFigIdToNextParagraph(sourceNode.id, currentFigure.id);
+        addFigIdToNextParagraph(sourceNode.id, nextFigure.id);
     }
-
-    // assign values to pageContexts:
-    let clientSize = {
-        "clientWidthCalculated": clientWidthCalculated,
-        "clientHeightCalculated": clientHeightCalculated
-    };
-    return (clientSize);
 }
-
-/* ----------------------------------------
-Handle figure typesetting specifications
------------------------------------------*/
 
 function defineFigureTypesettingClass(figure) {
 
@@ -1615,18 +1467,107 @@ function assignLayoutSpecsToFigure(figure, givenClass = false) {
     }
 }
 
+function calculateClientSizeOfFigure(figure, contexts) {
+
+    // get available size parameter:
+    let naturalWidth = figure.getAttribute("data-img-width");
+    let naturalHeight = figure.getAttribute("data-img-height");
+    let ratio = naturalWidth / naturalHeight;
+    let figureStyleWidth = figure.style.width;
+
+    // calculate clientWidth and clientHeight of figure:
+    let clientWidthCalculated;
+    let clientHeightCalculated;
+
+    // calculate by pixel values (set by interactJs/resize):
+    if(/px/.test(figureStyleWidth)) {
+        clientWidthCalculated = figure.style.width.slice(0, -2); // e.g. 325
+        clientHeightCalculated = figure.style.height.slice(0, -2); // e.g. 245
+    }
+    // calculate by width (css-)percentage values:
+    else {
+        let widthPercentage = figure.style.width.slice(0, -1); // e.g. 50
+        clientWidthCalculated = contexts["pageContentWidth"] * widthPercentage / 100;
+        clientHeightCalculated = clientWidthCalculated / ratio;
+    }
+
+    // assign values to pageContexts:
+    let clientSize = {
+        "clientWidthCalculated": clientWidthCalculated,
+        "clientHeightCalculated": clientHeightCalculated
+    };
+    return (clientSize);
+}
+
 function addVirtualMarginToFloatingFigure(figure, contexts) {
 
     if(/float/.test(figure.className)) {
+       
         let clientSize = calculateClientSizeOfFigure(figure, contexts);
         let marginBottomDeclaredMm = getPropertyFromStylesheet(".float", "margin-bottom");
-
+    
         // convert marginBottom from mm to px (1mm = 3.7795 px : default margin)
         let marginBottomPx = (marginBottomDeclaredMm) ? marginBottomDeclaredMm.slice(0, -2) * 3.78 : 38;
-        let virtualMargin = clientSize["clientHeightCalculated"] - marginBottomPx;
+
+        // let virtualMargin = clientSize["clientHeightCalculated"] - marginBottomPx;
+
+        // TRY: float-w-col-2 braucht weniger margin:
+
+        /* margin-right: -40mm !important; */
+        /* page-content = 130 mm; */
+
+        // console.log("----", figure.id);
+
+        let w = clientSize["clientWidthCalculated"] + marginBottomPx;
+        let h = clientSize["clientHeightCalculated"] + marginBottomPx;
+        let diagonal = Math.sqrt(w*w + h*h);
+        let ratio = w / h;
+
+        let testMargin = (diagonal / 2 * ratio);
+
+        /* line approach: 
+        one line has 18 px including line-spacing (with journal specs, 9.5 pt, 1.5 line-height)
+        - how many lines figure height pushes away if 100 %
+        - if 25 %, if 50%, or looking for line-with (491px) - figureWidth and so on;
+        */
+
+        /*
+        let areaFigure = (clientSize["clientHeightCalculated"] + marginBottomPx) * (clientSize["clientWidthCalculated"] + 38);
+        let areaOvermargin = 40 * 3.78 * clientSize["clientHeightCalculated"]; // can be ignored
+        let areaRepressingText = areaFigure - areaOvermargin;
+
+        console.log("areaFigure:", areaFigure);
+        console.log("areaOvermargin:", areaOvermargin);
+        console.log("areaRepressingText:", areaRepressingText);
+        */
+
+        let virtualMargin;
+        if(/float-w-col-2/.test(figure.className)) {
+            virtualMargin = clientSize["clientHeightCalculated"] + marginBottomPx;
+        }
+        else if(/float-w-col-4/.test(figure.className)){
+            virtualMargin = clientSize["clientHeightCalculated"] + marginBottomPx - clientSize["clientWidthCalculated"] + marginBottomPx;
+            // virtualMargin = testMargin;
+        }
+        else {
+            virtualMargin = clientSize["clientHeightCalculated"] + marginBottomPx - clientSize["clientWidthCalculated"] + marginBottomPx;
+            // virtualMargin = testMargin;
+        }
+
+        /*
+        console.log("virtualMargin: ", virtualMargin, " = Diagonal: ", diagonal, " ratio: ", ratio);
+        console.log("check: ", diagonal / 2 * ratio);
+        console.log("line-width: ", 130 * 3.78); // = 491px
+        console.log("line-height: ", "20px");
+        console.log("contentHeight: ", contexts["pageContentHeight"]);
+        */
+
+
+        figure.style.marginBottom = "-" + virtualMargin + "px";
 
         // set calculate margins as inline-style
-        figure.style.marginBottom = "-" + virtualMargin * 0.60 + "px";
+        // figure.style.marginBottom = "-" + virtualMargin * 0.75 + "px";
+ 
     }
     else {
         figure.style.marginBottom = "10mm";
@@ -1638,67 +1579,27 @@ function toggleFigureClasses(figure, toggleCase) {
     let addClass;
     let removeClass;
     let typesettingClass = figure.classList[typesettingClassListKey];
+    let toggleFigureClassesMap = JSON.parse(localStorage.getItem("toggle-figure-classes"))[0];
 
+    // get addClass from toggleFigureClassesMap:
     if(toggleCase === "figureClass") {
-        switch (true) {
-            case (/overmargin/.test(typesettingClass)):
-                removeClass = typesettingClass;
-                addClass = "regular";
-                break;
-            case (/regular/.test(typesettingClass)):
-                removeClass =  typesettingClass;
-                addClass = "inset";
-                break;
-            case (/inset/.test(typesettingClass)):
-                removeClass =  typesettingClass;
-                addClass = "float-w-col-4";
-                break;
-            case (/float/.test(typesettingClass)):
-                removeClass = typesettingClass;
-                addClass = "overmargin";
-                break;
-        }
+        removeClass = typesettingClass;
+        typesettingClass = /float/.test(typesettingClass) ? "float" : typesettingClass;
+        addClass = toggleFigureClassesMap["figureClass"][typesettingClass];
     }
-
     if(toggleCase === "figureColumnWidth") {
-        switch (true) {
-            case (/float-w-col-2/.test(typesettingClass)):
-                removeClass = typesettingClass;
-                addClass = "float-w-col-4";
-                break;
-            case (/float-w-col-4/.test(typesettingClass)):
-                removeClass = typesettingClass;
-                addClass = "float-w-col-6";
-                break;
-            case (/float-w-col-6/.test(typesettingClass)):
-                removeClass = typesettingClass;
-                addClass = "float-w-col-2";
-                break;
+        if(/float/.test(typesettingClass)) {
+            removeClass = typesettingClass;
+            addClass = toggleFigureClassesMap["figureColumnWidth"][typesettingClass];
         }
     }
-
     if(toggleCase === "figureCaption") {
-        switch (true) {
-            case (typesettingClass === "regular"):
-                removeClass = "regular";
-                addClass = "regular-bottom";
-                break;
-            case (typesettingClass === "regular-bottom"):
-                removeClass = "regular-bottom";
-                addClass = "regular";
-                break;
-            case (typesettingClass === "overmargin"):
-                removeClass = "overmargin";
-                addClass = "overmargin-bottom";
-                break;
-            case (typesettingClass === "overmargin-bottom"):
-                removeClass = "overmargin-bottom";
-                addClass = "overmargin";
-                break;
+        if(/overmargin/.test(typesettingClass) || /regular/.test(typesettingClass)) {
+            removeClass = typesettingClass;
+            addClass = toggleFigureClassesMap["figureCaption"][typesettingClass];
         }
     }
-
-    // replace classes and reassign layout specs:
+    // replace classes and reassign layout-specs:
     figure.classList.toggle(addClass);
     figure.classList.remove(removeClass);
     assignLayoutSpecsToFigure(figure, addClass);
@@ -1710,9 +1611,9 @@ function toggleFigureClasses(figure, toggleCase) {
     figureMap[figureId]["style"] = false;
     localStorage.setItem("figure-map", JSON.stringify(figureMap));
 
-    // reload document
+    // reload document after changes:
     setTimeout(function(){
-       window.location.reload();
+      window.location.reload();
     }, 2000);
 }
 
@@ -1820,11 +1721,10 @@ function adjustElementPositionOnPage(pageElement) {
 
         //  push figures on top of each page
         if (element.matches("figure") && i !== 0) {
-
             if (onTopOfPage.some(className => element.classList.contains(className))
                 || /onTopOfPage/.test(element.className)) {
 
-                    // if first element is figure push element after this figure:
+                // if first element is figure push element after this figure:
                 if(firstElement.matches("figure")) {
                     firstElement.insertAdjacentElement("afterend", element);
                 }
@@ -2059,7 +1959,6 @@ function dragMoveListener(event) {
     target.setAttribute('data-x', x)
     target.setAttribute('data-y', y)
 }
-
 /**
  * Convert URLs in a string to anchor links
  * @param {!string} string
@@ -2136,7 +2035,6 @@ function getDocHeight() {
 
 function saveAmountScrolled() {
 
-    let scrollArray = [];
     let scrollTop = window.pageYOffset || (document.documentElement || document.body.parentNode || document.body).scrollTop;
     let scrollLeft = window.pageXOffset || (document.documentElement || document.body.parentNode || document.body).scrollLeft;
 
@@ -2163,3 +2061,29 @@ function debounce(func, wait, immediate) {
         if (callNow) func.apply(context, args);
     };
 };
+
+// TESTING:
+function ignoreHyphenationByPagedJs(ignore, pageElement, page, breakToken) {
+
+    if (ignore && pageElement.querySelector('.pagedjs_hyphen')) {
+
+        // find the hyphenated word
+        let block = pageElement.querySelector('.pagedjs_hyphen');
+
+        // move the breakToken
+        let offsetMove = getFinalWord(block.innerHTML).length;
+
+        // move the token accordingly
+        page.breakToken = page.endToken.offset - offsetMove;
+
+        // remove the last word
+        block.innerHTML = block.innerHTML.replace(getFinalWord(block.innerHTML), "");
+
+        breakToken.offset = page.endToken.offset - offsetMove;
+    }
+
+    function getFinalWord(words) {
+        var n = words.split(" ");
+        return n[n.length - 1];
+    }
+}
