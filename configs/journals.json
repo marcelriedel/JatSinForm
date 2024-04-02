@@ -191,7 +191,28 @@
     }
   },
   "IM": {
-    "journal-main-color": "#6c1d45"
+    "journal-main-color": "#6c1d45",
+    "figureTypesettingClass": {
+      "small-landscape": "float-w-col-6",
+      "medium-landscape": "overmargin",
+      "large-landscape": "overmargin",
+      "small-square": "float-w-col-2",
+      "medium-square": "regular",
+      "large-square": "overmargin",
+      "small-portrait": "float-w-col-2",
+      "medium-portrait": "float-w-col-4",
+      "large-portrait": "float-w-col-6"
+    },
+    "figureModelSpecs": {
+      "float-w-col-2": ["25%", "100%"],
+      "float-w-col-4": ["50%", "100%"],
+      "float-w-col-6": ["75%", "100%"],
+      "inset": ["60%", "100%"],
+      "regular": ["100%", "100%"],
+      "regular-bottom": ["100%", "100%"],
+      "overmargin": ["130%", "100%"],
+      "overmargin-bottom": ["130%", "100%"]
+    }
   },
   "MDAIK": {
     "journal-main-color": "#b6004b"

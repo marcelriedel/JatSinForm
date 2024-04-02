@@ -3,7 +3,9 @@
     "float": "inset",
     "inset": "regular",
     "regular": "overmargin",
-    "overmargin": "float-w-col-4"
+    "regular-bottom": "overmargin-bottom",
+    "overmargin": "float-w-col-4",
+    "overmargin-bottom": "float-w-col-4"
   },
   "figureColumnWidth": {
     "float-w-col-2": "float-w-col-4",

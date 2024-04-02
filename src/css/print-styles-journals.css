@@ -5,13 +5,18 @@
     --color-paper: white;
     --long-text-color: black;
     --color-marginBox: transparent;
+    --long-text-font-family: "Noto Serif";
+    --short-text-font-family: "Noto Sans Light";
     --p-font-size: 9.5pt;
-    --p-line-height: 1.5;
     --footnote-font-size: 7.5pt;
     --caption-font-size: 8pt;
     --li-font-size: 9.5pt;
-    --long-text-font-family: "Noto Serif";
-    --short-text-font-family: "Noto Sans Light";
+    --line-height: 1.5;
+    --imgMarginBottom: 2.5mm;
+    --floatFigureMarginToText: 10mm;
+    --floatFigureMarginBottom: 7.5mm;
+    --floatFigureOffsetToMarginArea: -40mm;
+
     --pagedjs-crop-color: black;
     --pagedjs-crop-shadow: white;
     --pagedjs-crop-stroke: 1px;
@@ -82,7 +87,7 @@
 
 /* cover page */
 @page :nth(1) {
-    margin-top: 100mm;
+    margin-top: 100%;
     margin-left: 30mm;
     margin-right: 30mm;
     background: var(--background-url);
@@ -205,7 +210,7 @@ h1, h2, h3, h4, h5, h6 {
 .main-title {
     font-size: 14pt;
     margin: 5mm 0 3mm 0;
-    line-height: 1.4;
+    line-height: var(--line-height);
 }
 
 .main-title.first-element {
@@ -247,14 +252,14 @@ p {
     font-family: var(--long-text-font-family);
     font-size: var(--p-font-size);
     color: var(--long-text-color);
-    line-height: var(--p-line-height);
+    line-height: var(--line-height);
     margin-top:0;
 }
 
 .content-paragraph {
     margin-bottom: 2.5mm;
-    text-justify: inter-word;
     text-align: justify;
+    text-justify: inter-word;
     hyphens: auto;
     -moz-hyphens: auto;
     -ms-hyphens: auto;
@@ -276,13 +281,19 @@ p {
 }
 
 p.catalog-number {
+    font-size: 12pt;
+    color: var(--journal-color);
+    font-weight: 600;
+}
+
+p.text-medium {
     font-weight: 600;
 }
 
 li {
     color: #000000;
     font-size: var(--li-font-size);
-    line-height: 1.5;
+    line-height: var(--line-height);
     padding-left: 2.5mm;
 }
 
@@ -311,7 +322,7 @@ table {
     font-family: var(--long-text-font-family);
     display: grid;
     font-size: 9pt;
-    line-height: 1.4;
+    line-height: var(--line-height);
     border: 1px solid #ededed;
     clear:both;
 }
@@ -374,7 +385,7 @@ a.fn-ref {
     font-family: var(--short-text-font-family);
     break-before: page;
     background:white;
-    line-height: 1.5;
+    line-height: var(--line-height);
     width:100%;
     padding: 10mm 10mm;
 }
@@ -457,7 +468,7 @@ a.fn-ref {
     color: var(--journal-color);
     font-weight:400;
     font-size: 30pt;
-    line-height: 1.5;
+    line-height: var(--line-height);
     margin: 0;
     border-top: 5mm solid var(--journal-color);
     padding-top: 5mm;
@@ -468,7 +479,7 @@ a.fn-ref {
     margin: 0;
     font-size: 20pt;
     font-weight:300;
-    line-height: 1.5;
+    line-height: var(--line-height);
 }
 
 .page-contributors {
@@ -550,7 +561,7 @@ span.footnote {
     text-decoration: none;
 }
 
-.ext-ref-link {
+.ext-ref {
     color: #38a;
 }
 
@@ -564,7 +575,7 @@ span.footnote {
 .attribution {
     font-size: var(--caption-font-size);
     margin: 1mm 0;
-    line-height: 1.5;
+    line-height: var(--line-height);
     color: #929292;
     text-align: left;
 }
@@ -648,9 +659,9 @@ span.footnote {
 .role {
     font-family: var(--short-text-font-family);
     font-style: italic;
-    margin-top: 2.5mm;
     padding:0;
     margin:0;
+    margin-top: 2.5mm;
 }
 
 /* image components
@@ -677,7 +688,7 @@ figure.first-element {
 
 img {
     width: 100%;
-    margin-bottom: 2.5mm;
+    margin-bottom: var(--imgMarginBottom);
 }
 
 img:hover{
@@ -686,9 +697,7 @@ img:hover{
 
 figCaption {
     font-family: var(--short-text-font-family);
-    font-size: var(--caption-font-size);
-    display:none; /* will be set to "block" after rendering */
-    font-size: 8pt;
+    display: none; /* will be set to "block" after rendering */
     margin-top: 5mm;
 }
 
@@ -718,62 +727,57 @@ figCaption {
 styles for classified images
 ----------------------------------*/
 
-.float {
-    margin-bottom: 10mm !important;
-}
-
 .float-w-col-2.left-page {
     float: right;
     clear: both;
-    margin-right: -40mm !important;
+    margin-right: var(--floatFigureOffsetToMarginArea) !important;
     margin-left: 5mm !important;
-    margin-bottom: 10mm !important;
+    margin-bottom: var(--floatFigureMarginBottom) !important;
     margin-top: 1mm !important;
 }
 
 .float-w-col-2.right-page {
     float: left;
     clear: both;
-    margin-left: -40mm !important;
+    margin-left: var(--floatFigureOffsetToMarginArea) !important;
     margin-right: 5mm !important;
-    margin-bottom: 10mm !important;
+    margin-bottom: var(--floatFigureMarginBottom) !important;
     margin-top: 1mm !important;
 }
 
 .float-w-col-4.left-page {
     float: right;
     clear: both;
-    margin-right: -40mm !important;
-    margin-left: 10mm !important;
-    margin-bottom: 10mm !important;
+    margin-right: var(--floatFigureOffsetToMarginArea) !important;
+    margin-left: var( --floatFigureMarginToText) !important;
+    margin-bottom: var(--floatFigureMarginBottom) !important;
     margin-top: 1mm !important;
 }
 
 .float-w-col-4.right-page {
     float: left;
     clear: both;
-    margin-left: -40mm !important;
-    margin-right: 10mm !important;
-    margin-bottom: 10mm !important;
+    margin-left: var(--floatFigureOffsetToMarginArea) !important;
+    margin-right: var( --floatFigureMarginToText) !important;
+    margin-bottom: var(--floatFigureMarginBottom) !important;
     margin-top: 1mm !important;
 }
 
 .float-w-col-6.left-page {
     float: right;
     clear: both;
-    margin-right: -40mm !important;
-    margin-left: 10mm !important;
-    margin-bottom: 10mm !important;
-    margin-top: 0 !important;
+    margin-right: var(--floatFigureOffsetToMarginArea) !important;
+    margin-left: var( --floatFigureMarginToText) !important;
+    margin-bottom: var(--floatFigureMarginBottom) !important;
     margin-top: 1mm !important;
 }
 
 .float-w-col-6.right-page {
     float: left;
     clear: both;
-    margin-left: -40mm !important;
-    margin-right: 10mm !important;
-    margin-bottom: 10mm !important;
+    margin-left: var(--floatFigureOffsetToMarginArea) !important;
+    margin-right: var( --floatFigureMarginToText) !important;
+    margin-bottom: var(--floatFigureMarginBottom) !important;
     margin-top: 1mm !important;
 }
 
@@ -809,6 +813,7 @@ styles for classified images
 
 .regular-bottom > figcaption {
     width: 100% !important;
+    margin-bottom: 7.5mm;
     display: block;
 }
 
@@ -834,12 +839,12 @@ styles for classified images
 
 .overmargin-bottom.right-page {
     margin-left: -40mm;
-    margin-bottom: 10mm;
+    margin-bottom: 7.5mm;
 }
 
 .overmargin-bottom.left-page {
     margin-right: -40mm;
-    margin-bottom: 10mm;
+    margin-bottom: 7.5mm;
 }
 
 .overmargin-bottom > figcaption {
@@ -939,6 +944,15 @@ ul.toc-list {
     -o-animation: fadeIn 3s;
 }
 
+.warning-box {
+    border: 5px dotted yellow;
+}
+
+.warning-text {
+    color:red;
+    background: lightgray;
+}
+
 @keyframes fadeIn {
     0% { opacity: 0; }
     100% { opacity: 1; }
@@ -962,13 +976,4 @@ ul.toc-list {
 @-ms-keyframes fadeIn {
     0% { opacity: 0; }
     100% { opacity: 1; }
-}
-
-#barStatus {
-    color:white;
-    text-shadow: 1px 1px 2px black;
-}
-
-.warning {
-    border: 5px dotted yellow;
 }

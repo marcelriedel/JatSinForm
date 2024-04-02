@@ -80,8 +80,15 @@ for (let i = 0; i < constellationKeys.length; i++) {
         nextFigureSet = "[false, false]";
     }
 
-    /*MISSING: big figure alone -> figCap: bottom*/
+    // avoiding three figures on one page at all:
+    if(splits[indexFigBefore] !== "false"
+    && splits[indexCurrentFig] !== "false"
+    && splits[indexNextFig] !== "false") {
+        currentFigureSet = "[false, false]" + ",";
+        nextFigureSet = "[false, false]";
+    }
 
+    /*MISSING: big figure alone -> figCap: bottom*/
     stats = "\"" + splits.join("#") + "\": {";
     stats += "\"currentFigure\":" + currentFigureSet;
     stats += "\"nextFigure\":" + nextFigureSet;

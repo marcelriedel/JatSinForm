@@ -67,6 +67,7 @@ function controlPagedJsHandler() {
         renderNode(sourceNode, renderNode, Layout) {
 
             if (sourceNode && sourceNode.nodeType == Node.ELEMENT_NODE) {
+
                 // define page contexts of source node:
                 let paragraphMap = JSON.parse(localStorage.getItem("paragraph-map"));
                 let pageContent = sourceNode.closest(".pagedjs_page_content");
@@ -110,6 +111,12 @@ function controlPagedJsHandler() {
                     setPageContextsAsElementAttribute(contexts, sourceNode, renderNode);
                     adjustLayoutOfElements(sourceNode, contexts);
                 }
+
+                // handle layout of catalogs:
+                if (/catalog-number/.test(sourceNode.className)) {
+                    setPageContextsAsElementAttribute(contexts, sourceNode, renderNode);
+                    adjustLayoutOfElements(sourceNode, contexts);
+                }
             }
         }
 
@@ -146,6 +153,8 @@ function controlPagedJsHandler() {
 
             // urlify plain url-strings in footnote spans:
             recreateAnchorsInFootnoteSpans(pageElement, page);
+
+            checkQualityOfUrls();
         }
 
         /** Chunker: afterRendered
@@ -173,6 +182,17 @@ function controlPagedJsHandler() {
                     })
                 }
             });
+            // remove last page if cloned images container is empty:
+            let removePage = true;
+            let clonedImagesContainer = document.querySelector("#cloned-images-container");
+            clonedImagesContainer.childNodes.forEach(element => {
+                if(/FIGURE/.test(element.tagName)) {
+                    removePage = false;
+                }});
+            if(removePage) {
+                let page = clonedImagesContainer.closest(".pagedjs_page");
+                page.remove();
+            }
         }
     }
     Paged.registerHandlers(pagedJsHandler);
@@ -361,7 +381,7 @@ function checkMaxLengthOfAbstractText(abstractText) {
     // character lengths defined as const
     let maxChars = maxAbstractLength;
     if(abstractText.innerText.length > maxChars) {
-        abstractText.classList.add("warning");
+        abstractText.classList.add("warning-box");
         abstractText.classList.add("display-data-attributes");
         abstractText.setAttribute('data-before', "!Max-Length:" + maxChars + " characters!");
         abstractText.innerHTML = abstractText.innerText.substring(0, maxChars);
@@ -381,9 +401,13 @@ function createTitlePage(content) {
     let subtitle = content.querySelector(".subtitle");
 
     // get article contributors (e.g. authors):
-    let articleContributors  = content.querySelector(".contrib-group[content-type='article-contributors']");
-    let authors = articleContributors.querySelectorAll(".contrib[contrib-type='author']");
-    let contributors = articleContributors.querySelectorAll(".contrib[contrib-type='co-author']");
+    let authors = [];
+    let contributors = [];
+    if(content.querySelector(".contrib-group[content-type='article-contributors']") !== null) {
+        let articleContributors = content.querySelector(".contrib-group[content-type='article-contributors']");
+        authors = articleContributors.querySelectorAll(".contrib[contrib-type='author']");
+        contributors = articleContributors.querySelectorAll(".contrib[contrib-type='co-author']");
+    }
 
     // collect names of each author:
     let authorsCollection = [];
@@ -524,7 +548,7 @@ function reformatFootnotes(content) {
 
             // highlight uncommonly extensive footnotes
             if(footnotes[i].innerText.length >= maxFootnoteLength) {
-                footnote.classList.add("warning");
+                footnote.classList.add("warning-box");
                 footnote.classList.add("display-data-attributes");
                 footnote.setAttribute('data-before', "!Max-Länge: " +
                 maxFootnoteLength + "Zeichen!");
@@ -576,15 +600,28 @@ function createReferenceList(content) {
             let mixedCitation = references[i].querySelector(".mixed-citation");
 
             // handle ext-ref-links and urlify plain url strings:
+            let extRef;
             if(references[i].querySelector(".ext-ref") !== null) {
+                // rebuild ext-refs as single anchor:
+                extRef = references[i].querySelector(".ext-ref")
                 let extRefLink = document.createElement("a");
-                extRefLink.classList.add("ext-ref-link");
+                extRefLink.classList.add("ext-ref");
                 extRefLink.target = "_blank";
-                extRefLink.href = references[i].querySelector(".ext-ref").href;
-                extRefLink.innerHTML = "[Zenon &#9741]";
+                extRefLink.href = extRef.href;
 
-                let citation = references[i].querySelector(".ext-ref").textContent;
-                mixedCitation.innerHTML = URLifyString(citation);
+                // clone specific use attribute:
+                if(extRef.getAttribute("data-specific-use")) {
+                    let specificUse = extRef.getAttribute("data-specific-use");
+                    extRefLink.setAttribute("data-specific-use", specificUse);
+                    // display zenon-links in parenthesis-notation:
+                    if(specificUse === "zenon") { 
+                        extRefLink.innerHTML = "[Zenon &#9741]";
+                    };
+                }
+
+                // extract reference text from ext-ref-element
+                // let citation = extRef.textContent;
+                mixedCitation.innerHTML = URLifyString(mixedCitation.textContent);
                 mixedCitation.append(extRefLink);
             }
             else {
@@ -633,7 +670,7 @@ function recreateFiguresSection(content) {
         else {
             attribution = document.createElement("p");
             attribution.classList.add("attribution");
-            attribution.style.color = "red";
+            attribution.classList.add("warning-text");
             attribution.innerHTML = "[CREDIT ATTRIBUTION MISSING]";
         }
 
@@ -699,11 +736,19 @@ function createSourceOfIllustrations(figureSection) {
     return (sourceOfIllustrations);
 }
 
+/**
+ * create contributors details for all participants (article and journal)
+ * @param {DocumentFragment} content document-fragment made from original DOM
+ * @param {boolean} isArticle if true, contributors data will be taken from 
+   <article-meta> and display as contributors of article or rather authorDetails
+ * @returns {HTMLElement} contributorsDetails
+ */
 function createContributorsDetails(content, isArticle) {
 
     let contributorsDetails = document.createElement("div");
     contributorsDetails.id = "contributors-section";
 
+    // predefine variables;
     let authors;
     let contributors;
     let editors;
@@ -711,17 +756,19 @@ function createContributorsDetails(content, isArticle) {
     let advisoryBoardMember;
 
     if(isArticle) {
+        // define title of authorDetails
         let contributorsDetailsTitle = document.createElement("h3");
         contributorsDetailsTitle.classList.add("title-appendix");
         let lang = document.documentElement.lang;
         contributorsDetailsTitle.innerHTML = titlesOfAppendices["authorDetails"][lang];
         contributorsDetails.appendChild(contributorsDetailsTitle);
 
-        // get authors and contributors
+        // get article authors and contributors
         authors = content.querySelectorAll(".contrib[contrib-type='author']");
         contributors = content.querySelectorAll(".contrib[contrib-type='co-author']");
     }
     else {
+        // get journals editors, co-editors and advisory board member
         editors = content.querySelectorAll(".contrib[contrib-type='Editor']");
         coEditors = content.querySelectorAll(".contrib[contrib-type='Co-Editor']");
         advisoryBoardMember = content.querySelectorAll(".contrib[contrib-type='Advisory Board Member']");
@@ -765,17 +812,25 @@ function createContributorsDetails(content, isArticle) {
     return(contributorsDetails);
 }
 
+/**
+ * create contributors card for each participant (e.g author)
+ * @param {HTMLElement} contributor given data for each contributor
+ * @returns {HTMLElement} contributorsCard, common information of each author
+   including contributors-ids, institution affiliation and contact email
+ */
 function createContributorsCard(contributor) {
 
     let contributorsCard = document.createElement("div");
     contributorsCard.classList.add("contributors-card");
 
+    // prepae sub-elements of contributors card:
     let name = document.createElement("p");
     let institution = document.createElement("p");
     let contribIdLink = document.createElement("a");
     let institutionIdLink = document.createElement("a");
     let email = document.createElement("p");
 
+    // parse and reorder names and contrib-ids (e.g. orcid):
     if(contributor.querySelector(".given-names") !== null && contributor.querySelector(".surname") !== null) {
         let givenName = contributor.querySelector(".given-names").textContent;
         let surName = contributor.querySelector(".surname").textContent;
@@ -789,6 +844,7 @@ function createContributorsCard(contributor) {
         contributorsCard.append(name);
     };
 
+     // parse and reorder affiliation information: 
     if(contributor.querySelector(".institution") !== null) {;
         if(contributor.querySelector(".institution-id") !== null) {
             institutionIdLink.classList.add("contributors-link");
@@ -800,6 +856,7 @@ function createContributorsCard(contributor) {
         contributorsCard.append(institution);
     };
 
+     // parse and append email information:
     if(contributor.querySelector(".email") !== null) {
         email.innerHTML = contributor.querySelector(".email").textContent;
         contributorsCard.append(email);
@@ -865,7 +922,7 @@ function createImprintSection(content) {
             content.querySelector(".publishing-history").remove();
             // !later!
             let journalDoi = document.createElement("a");
-            journalDoi.classList.add("ext-ref-link");
+            journalDoi.classList.add("ext-ref");
             journalDoi.href = "https://publications.dainst.org/journals/FdAI";
             journalDoi.innerText = "!JOURNAL-DOI!";
             journalTitle.appendChild(journalDoi);
@@ -1234,7 +1291,6 @@ function getNextFigRefs(currentNodeId) {
                 // collect each figRef in nextFigRefs:
                 if (!figureMap[figRef]["inserted"] &&  // if figure not already inserted
                 !nextFigRefs.includes(figRef)) {       // and not already included in array
-                    console.log("push-figRef: ", figRef);
                     nextFigRefs.push(figRef);
                 }
             }
@@ -1341,39 +1397,49 @@ function processFigureEnhancing(nodeParams) {
     let figConstellations = JSON.parse(localStorage.getItem("fig-constellations"))[0];
     let set = figConstellations[keys];
 
-    // console.log(set);
+    /*
+    console.log("---", sourceNode.id, "----");
+    if(currentFigure) console.log("->", currentFigure.id);
+    if(nextFigure) console.log("->", nextFigure.id);
+    if(currentFigure || nextFigure) console.log(set);
+    */
 
-    let clientSizeCurrentFigure;
-    let clientSizeNextFigure;
-    let fitsCurrent = false;
-    let fitsNextFigure = false;
+    // calculate clientSize of figure (includes figCaption and marginBottom)
+    let clientSizeCurrentFigure = calculateClientSizeOfFigure(currentFigure, contexts);
+    let clientSizeNextFigure = calculateClientSizeOfFigure(nextFigure, contexts);
+
+    /*
+    if(currentFigure) console.log(clientSizeCurrentFigure["clientHeightCalculated"]);
+    if(nextFigure) console.log(clientSizeNextFigure["clientHeightCalculated"]);
+    console.log("remaining-space", contexts["remainingSpace"]); 
+    */
 
     // check setting of current and nextFigure:
+    let fitsCurrent = false;
+    let fitsNextFigure = false;
     if(set["currentFigure"][0] && set["nextFigure"][0]) {
-
         // check remaining space:
-        clientSizeCurrentFigure = calculateClientSizeOfFigure(currentFigure, contexts);
-        clientSizeNextFigure = calculateClientSizeOfFigure(nextFigure, contexts);
-
-        if(contexts["remainingSpace"] > clientSizeCurrentFigure["clientHeightCalculated"] * 1.25) {
+        if(contexts["remainingSpace"] > clientSizeCurrentFigure["clientHeightCalculated"]) {
             fitsCurrent = true;
         }
-        if(contexts["remainingSpace"] > clientSizeCurrentFigure["clientHeightCalculated"] * 1.25 
-        + clientSizeNextFigure["clientHeightCalculated"] * 1.25 ) {
+        if(contexts["remainingSpace"] > (clientSizeCurrentFigure["clientHeightCalculated"] 
+        + clientSizeNextFigure["clientHeightCalculated"])) {
             fitsNextFigure = true;
         }
-        if(contexts["pageBottomArea"]) {
+        if(contexts["pageBottomArea"] || (contexts["pageTopArea"] 
+        && /float/.test(currentFigure.className))) {
             fitsCurrent = true;
             fitsNextFigure = false;
         }
     }
     // check setting of current figure only:
     if(set["currentFigure"][0] && !set["nextFigure"][0]) {
-        clientSizeCurrentFigure = calculateClientSizeOfFigure(currentFigure, contexts);
-        if(contexts["remainingSpace"] > clientSizeCurrentFigure["clientHeightCalculated"] * 1.25) {
+        // check remaining space:
+        if(contexts["remainingSpace"] > clientSizeCurrentFigure["clientHeightCalculated"]) {
             fitsCurrent = true;
         }
-        if(contexts["pageBottomArea"]) {
+        if(contexts["pageBottomArea"] || (contexts["pageTopArea"] 
+        && /float/.test(currentFigure.className))) {
             fitsCurrent = true;
         }
     }
@@ -1382,13 +1448,14 @@ function processFigureEnhancing(nodeParams) {
     if(fitsCurrent && fitsNextFigure) {
         reassignLayoutSpecsByGivenClass(currentFigure, set["currentFigure"][1]);
         reassignLayoutSpecsByGivenClass(nextFigure, set["nextFigure"][1]);
-        // insert current figure
         addVirtualMarginToFloatingFigure(nextFigure, contexts);
+        addVirtualMarginToFloatingFigure(currentFigure, contexts);
+        
+        // insert current figure
         renderNode.insertAdjacentElement("afterend", nextFigure);
         updateFigureMap(nextFigure.id);
 
         // insert next figure
-        addVirtualMarginToFloatingFigure(currentFigure, contexts);
         renderNode.insertAdjacentElement("afterend", currentFigure);
         updateFigureMap(currentFigure.id);
     }
@@ -1469,108 +1536,150 @@ function assignLayoutSpecsToFigure(figure, givenClass = false) {
 
 function calculateClientSizeOfFigure(figure, contexts) {
 
-    // get available size parameter:
-    let naturalWidth = figure.getAttribute("data-img-width");
-    let naturalHeight = figure.getAttribute("data-img-height");
-    let ratio = naturalWidth / naturalHeight;
-    let figureStyleWidth = figure.style.width;
-
     // calculate clientWidth and clientHeight of figure:
-    let clientWidthCalculated;
-    let clientHeightCalculated;
+    let clientWidthCalculated = 0;
+    let clientHeightCalculated = 0;
+    let clientHeightFigCaption = 0;
 
-    // calculate by pixel values (set by interactJs/resize):
-    if(/px/.test(figureStyleWidth)) {
-        clientWidthCalculated = figure.style.width.slice(0, -2); // e.g. 325
-        clientHeightCalculated = figure.style.height.slice(0, -2); // e.g. 245
-    }
-    // calculate by width (css-)percentage values:
-    else {
-        let widthPercentage = figure.style.width.slice(0, -1); // e.g. 50
-        clientWidthCalculated = contexts["pageContentWidth"] * widthPercentage / 100;
-        clientHeightCalculated = clientWidthCalculated / ratio;
-    }
+    if(figure) {
+        // get available size parameter:
+        let naturalWidth = figure.getAttribute("data-img-width");
+        let naturalHeight = figure.getAttribute("data-img-height");
+        let ratio = naturalWidth / naturalHeight;
+        let figureStyleWidth = figure.style.width;
 
+        // calculate by pixel values (set by interactJs/resize):
+        if(/px/.test(figureStyleWidth)) {
+            clientWidthCalculated = figure.style.width.slice(0, -2); // e.g. 325
+            clientHeightCalculated = figure.style.height.slice(0, -2); // e.g. 245
+        }
+        // calculate by width (css-)percentage values:
+        else {
+            let widthPercentage = figure.style.width.slice(0, -1); // e.g. 50
+            clientWidthCalculated = contexts["pageContentWidth"] * widthPercentage / 100;
+            clientHeightCalculated = clientWidthCalculated / ratio;        
+        }
+
+        // calculate img margins:
+        let documentRoot = document.querySelector(':root');
+        let imgMarginBottomDeclared = getComputedStyle(documentRoot).getPropertyValue("--imgMarginBottom");
+        let imgMarginBottom = (imgMarginBottomDeclared) ? imgMarginBottomDeclared.slice(0, -2) * 3.78 : 10;
+     
+        // calculate clientHeight of figCaption
+        clientHeightFigCaption = calculateClientSizeOfFigCaption(figure, clientWidthCalculated);
+
+        // calculate marginBottom of figure:
+        let marginBottomDeclared = getComputedStyle(documentRoot).getPropertyValue("--floatFigureMarginBottom");
+        let marginBottom = (marginBottomDeclared) ? marginBottomDeclared.slice(0, -2) * 3.78 : 28;
+
+        // add clientHeightFigCaption and marginBottom to calculated clientHeight of figure:
+        clientHeightCalculated = clientHeightCalculated + imgMarginBottom + clientHeightFigCaption + marginBottom;
+    }
     // assign values to pageContexts:
     let clientSize = {
         "clientWidthCalculated": clientWidthCalculated,
-        "clientHeightCalculated": clientHeightCalculated
+        "clientHeightCalculated": clientHeightCalculated,
     };
-    return (clientSize);
+    return(clientSize);
 }
 
+function calculateClientSizeOfFigCaption(figure, clientWidthCalculated) {
+
+    // calculate height of figCaption:
+    let figCaption = figure.querySelector(".caption-text");
+    let documentRoot = document.querySelector(':root');
+    let captionFontSizeDeclared = getComputedStyle(documentRoot).getPropertyValue("--caption-font-size");
+    let captionFontSize = (captionFontSizeDeclared) ? captionFontSizeDeclared.slice(0, -2) * 1.333 : 11;
+    let lineHeightDeclared = getComputedStyle(documentRoot).getPropertyValue("--line-height");
+    let lineHeight =  (lineHeightDeclared) ? lineHeightDeclared : 1.5;  
+    let heightCaptionLinePx = captionFontSize * lineHeight;
+    
+    // how many lines?
+    let charsFigCaption = (figCaption !== null) ? figCaption.innerText.length : 100;
+
+    console.log(figure.id);
+    let textWidth = getTextWidth(figCaption.innerText);
+    console.log("text-width", textWidth);
+    
+    let lines = textWidth / clientWidthCalculated;
+    console.log("LINES: ", lines);
+
+
+    // assuming: 50 chars per line bei welcher FigureWidth?
+    // Abb. 5: Bronzestatue A aus dem Meer bei Riace
+    // Abb. 1: Kuros aus Attika. New York, Metr. Mus
+
+    // 50 lines für float-w4-etc.
+
+    // let captionLines = charsFigCaption / 50;
+    let captionLinesRound = Math.ceil(lines); // captionLines
+    let heightFigCaption = captionLinesRound * heightCaptionLinePx;
+
+    //
+    console.log("clientWidthCalculated",  clientWidthCalculated);
+    console.log("charsFigCaption : ", charsFigCaption);
+    console.log("heightCaptionLinePx : ", heightCaptionLinePx);
+   // console.log("captionLines : ", captionLines);
+    console.log("captionLinesRound : ", captionLinesRound);
+    console.log("heightFigCaption : ", heightFigCaption);
+
+    return(heightFigCaption);
+}
+
+function getTextWidth(text) {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    ctx.font = "8pt Noto Sans Light";
+    let measures = ctx.measureText(text);
+    return(measures.width);
+}
+  
 function addVirtualMarginToFloatingFigure(figure, contexts) {
 
     if(/float/.test(figure.className)) {
-       
+
+        // get all css properties:
+        let documentRoot = document.querySelector(':root');
+        let marginToTextDeclared = getComputedStyle(documentRoot).getPropertyValue("--floatFigureMarginToText");
+        let offsetToMarginAreaDeclared = getComputedStyle(documentRoot).getPropertyValue("--floatFigureOffsetToMarginArea");
+        let paraFontSizeDeclared = getComputedStyle(documentRoot).getPropertyValue("--p-font-size");
+        let lineHeightDeclared = getComputedStyle(documentRoot).getPropertyValue("--line-height");
+
+        // parse all properties to int ((1mm = 3.7795 px or default margin):
+        let marginToText = (marginToTextDeclared) ? marginToTextDeclared.slice(0, -2) * 3.78 : 38;
+        let offsetToMarginArea = (offsetToMarginAreaDeclared) ? offsetToMarginAreaDeclared.slice(0, -2) * 3.78 : 150;
+        offsetToMarginArea = Math.abs(offsetToMarginArea); // turn negative value to positive
+        let paraFontSize = (paraFontSizeDeclared) ? paraFontSizeDeclared.slice(0, -2) * 1.333 : 12.5;
+        
+        // assuming line-height is defined as multiplier by default:
+        let lineHeight =  (lineHeightDeclared) ? lineHeightDeclared : 1.5;  
+        let heightParagraphLinePx = paraFontSize * lineHeight;  
+             
+        // calculate client sizes of figure:
         let clientSize = calculateClientSizeOfFigure(figure, contexts);
-        let marginBottomDeclaredMm = getPropertyFromStylesheet(".float", "margin-bottom");
+        let figureWidth = clientSize["clientWidthCalculated"] + marginToText;
+        let figureHeight = clientSize["clientHeightCalculated"];
     
-        // convert marginBottom from mm to px (1mm = 3.7795 px : default margin)
-        let marginBottomPx = (marginBottomDeclaredMm) ? marginBottomDeclaredMm.slice(0, -2) * 3.78 : 38;
-
-        // let virtualMargin = clientSize["clientHeightCalculated"] - marginBottomPx;
-
-        // TRY: float-w-col-2 braucht weniger margin:
-
-        /* margin-right: -40mm !important; */
-        /* page-content = 130 mm; */
-
-        // console.log("----", figure.id);
-
-        let w = clientSize["clientWidthCalculated"] + marginBottomPx;
-        let h = clientSize["clientHeightCalculated"] + marginBottomPx;
-        let diagonal = Math.sqrt(w*w + h*h);
-        let ratio = w / h;
-
-        let testMargin = (diagonal / 2 * ratio);
-
-        /* line approach: 
-        one line has 18 px including line-spacing (with journal specs, 9.5 pt, 1.5 line-height)
-        - how many lines figure height pushes away if 100 %
-        - if 25 %, if 50%, or looking for line-with (491px) - figureWidth and so on;
-        */
-
-        /*
-        let areaFigure = (clientSize["clientHeightCalculated"] + marginBottomPx) * (clientSize["clientWidthCalculated"] + 38);
-        let areaOvermargin = 40 * 3.78 * clientSize["clientHeightCalculated"]; // can be ignored
-        let areaRepressingText = areaFigure - areaOvermargin;
-
-        console.log("areaFigure:", areaFigure);
-        console.log("areaOvermargin:", areaOvermargin);
-        console.log("areaRepressingText:", areaRepressingText);
-        */
+        // calculate floating text lines space:
+        let lines = figureHeight / heightParagraphLinePx;
+        let lineWidth = figureWidth - offsetToMarginArea;
+        let textFloatWidth = contexts["pageContentWidth"] - lineWidth;
+        let textFloatPercent = textFloatWidth / contexts["pageContentWidth"];
 
         let virtualMargin;
         if(/float-w-col-2/.test(figure.className)) {
-            virtualMargin = clientSize["clientHeightCalculated"] + marginBottomPx;
-        }
-        else if(/float-w-col-4/.test(figure.className)){
-            virtualMargin = clientSize["clientHeightCalculated"] + marginBottomPx - clientSize["clientWidthCalculated"] + marginBottomPx;
-            // virtualMargin = testMargin;
+            virtualMargin = clientSize["clientHeightCalculated"];
         }
         else {
-            virtualMargin = clientSize["clientHeightCalculated"] + marginBottomPx - clientSize["clientWidthCalculated"] + marginBottomPx;
-            // virtualMargin = testMargin;
+            virtualMargin = (lines * heightParagraphLinePx) * textFloatPercent; 
         }
 
-        /*
-        console.log("virtualMargin: ", virtualMargin, " = Diagonal: ", diagonal, " ratio: ", ratio);
-        console.log("check: ", diagonal / 2 * ratio);
-        console.log("line-width: ", 130 * 3.78); // = 491px
-        console.log("line-height: ", "20px");
-        console.log("contentHeight: ", contexts["pageContentHeight"]);
-        */
-
-
-        figure.style.marginBottom = "-" + virtualMargin + "px";
-
-        // set calculate margins as inline-style
-        // figure.style.marginBottom = "-" + virtualMargin * 0.75 + "px";
- 
+        /*---- WHY * 0.75 HELPS => FITS Perfectly !???? ---> */
+        // set calculate margin as inline-style: 
+        figure.style.marginBottom = "-" + virtualMargin * 0.73 + "px";
     }
     else {
-        figure.style.marginBottom = "10mm";
+        figure.style.marginBottom = "7.5mm";
     }
 }
 
@@ -1631,7 +1740,7 @@ function reassignLayoutSpecsByGivenClass(figure, addClass) {
 }
 
 /* ---------------------------------------------
-Optimize element positions after page rendering
+Adjust elements after page rendering
 -----------------------------------------------*/
 
 function classifyPageOfElement(pageElement, page) {
@@ -1702,7 +1811,13 @@ function adjustLayoutOfElements(sourceNode, contexts) {
     }
     // avoid table blocks starting at bottom of page
     if(/table-wrap/.test(sourceNode.className)) {
-
+        // add top-margins to headlines and push them to next page:
+        if(contexts["remainingSpace"] < bottomAreaNoTablePx) {
+            sourceNode.style.marginTop = contexts["remainingSpace"] + 50 + "mm";
+        }
+    }
+    // avoid catalog entry blocks starting at bottom of page
+    if(/catalog-number/.test(sourceNode.className)) {
         // add top-margins to headlines and push them to next page:
         if(contexts["remainingSpace"] < bottomAreaNoTablePx) {
             sourceNode.style.marginTop = contexts["remainingSpace"] + 50 + "mm";
@@ -1786,6 +1901,26 @@ function renderFigCaptionsAtpageBottomArea(pageElement) {
     }
 }
 
+function checkQualityOfUrls() {
+
+    if(checkUrlPersistence) {
+        // get all anchors with external reference
+        let anchors = document.querySelectorAll(
+            "a:not(.fig-ref,.fn-ref,.bib-ref,.footnote)");
+        anchors.forEach(function (anchor) {
+            let specificUse = anchor.getAttribute("data-specific-use");
+            let href = anchor.href;
+            // exclude anchors with specific usages: 
+            if(specificUse !== null && specificUse.search(specificUseRegex) === -1) {
+                if(href.search(urlRegex) === -1) {
+                    anchor.classList.add("warning-text");
+                    anchor.title = "URL might not be persistent!";
+                }
+            }
+        });
+    }
+}
+
 /* --------------------------------------
 Application or library related functions:
 -----------------------------------------*/
@@ -1824,29 +1959,9 @@ function getPropertyFromStylesheet(selector, attribute) {
     return value;
 }
 
-function initProgressBar(processStage) {
-
-    if (processStage === "Ready") {
-        progressBar.innerHTML = processStage + "!";
-        setTimeout(hideProgressBar, 2000);
-    } else {
-        progressBar.innerHTML = processStage;
-    }
-
-    function hideProgressBar() {
-        progressBar.style.display = "none";
-        document.body.className = "";
-    }
-}
-
-function updateStorageEventListener(processStage) {
-    localStorage.setItem("processStage", processStage);
-    window.dispatchEvent(new Event('storage'));
-}
-
 function makeElementsInteractive(pageElement) {
 
-    const interactElements = "figure,figCaption";
+    const interactElements = "figure";
     let pageContent = pageElement.querySelector(".pagedjs_page_content");
     let elementsOfPage = pageContent.querySelectorAll(interactElements);
 

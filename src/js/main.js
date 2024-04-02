@@ -351,7 +351,6 @@ document.addEventListener('keyup', function (e) {
 
 // handle processStage by storage listener:
 window.addEventListener("storage", () => {
-    progressBar.style = "color:white;text-shadow: 1px 1px 2px black;";
     document.body.prepend(progressBar);
     let processStage = localStorage.getItem("processStage");
     initProgressBar(processStage);
@@ -427,14 +426,20 @@ function convertXMLToHtmlBody(xmlDoc) {
                     let refAttribute = tagConversionMap[selector]["refAttribute"];
                     let refValue = xmlElements[i].getAttribute(refAttribute);
 
+                    // image source-links:
                     if (selector === "graphic") {
-                        // image source-links:
                         newElement.src = (refValue) ? xmlFolder + "/" + refValue : "";
-                    } else if (selector === "ext-link") {
-                        // external url-links:
+                    }
+                    // external url-links:
+                    else if (selector === "ext-link") {
+                        // handle over specific-use attributes of ext-link
+                        if(xmlElements[i].getAttribute("specific-use")) {
+                            let specificUseValue = xmlElements[i].getAttribute("specific-use");
+                            newElement.setAttribute("data-specific-use", specificUseValue);
+                        }
                         newElement.href = (refValue) ? (refValue).trim() : "";
+                    // internal id-links:
                     } else {
-                        // internal id-links:
                         newElement.href = (refValue) ? "#" + (refValue).trim() : "";
                     }
                 }
@@ -444,7 +449,11 @@ function convertXMLToHtmlBody(xmlDoc) {
                     let attributeValue = xmlElements[i].getAttribute(attributeKey);
                     // add missing content-type to article contributors group:
                     if(selector === "contrib-group" && attributeValue == null) {
-                        attributeValue = "article-contributors";
+                        // check firstChild of contrib-group:
+                        let firstChild = xmlElements[i].firstElementChild;
+                        if(firstChild && firstChild.getAttribute("contrib-type") === "author") {
+                            attributeValue = "article-contributors";
+                        }
                     }
                     newElement.setAttribute(attributeKey, attributeValue);
                 }
@@ -580,6 +589,28 @@ function getDocumentStateProperty(propertyKey) {
         property = false
     }
     return (property);
+}
+
+function initProgressBar(processStage) {
+
+    progressBar.style = "color:white;text-shadow: 1px 1px 2px black;font-family:Noto Sans Light;";
+
+    if (processStage === "Ready") {
+        progressBar.innerHTML = processStage + "!";
+        setTimeout(hideProgressBar, 2000);
+    } else {
+        progressBar.innerHTML = processStage;
+    }
+
+    function hideProgressBar() {
+        progressBar.style.display = "none";
+        document.body.className = "";
+    }
+}
+
+function updateStorageEventListener(processStage) {
+    localStorage.setItem("processStage", processStage);
+    window.dispatchEvent(new Event('storage'));
 }
 
 function getStyleSheetLink(journalId) {

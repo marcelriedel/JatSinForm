@@ -8,6 +8,7 @@
     "named-content": {"tagName": "span", "className": "paragraph-counter"},
     "mixed-citation": {"tagName": "p", "className": "mixed-citation"},
     "styled-content[style-type='catalog-number']": {"tagName": "p", "className": "catalog-number"},
+    "styled-content[style-type='text-medium']": {"tagName": "p", "className": "text-medium"},
     "list[list-type='ordered']": {"tagName": "ol", "className": false},
     "list[list-type='bullet']": {"tagName": "ul", "className": false},
     "list-item": {"tagName": "li", "className": false},
