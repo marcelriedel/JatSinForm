@@ -243,6 +243,7 @@ document.addEventListener('keyup', function (e) {
     // press q for hard reset (refresh figureMap)
     if (e.key === "q") {
         localStorage.removeItem('figure-map');
+        localStorage.removeItem('paragraph-map');
         localStorage.removeItem('documentState');
         window.location.reload();
     }

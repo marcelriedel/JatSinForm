@@ -16,7 +16,6 @@
     --floatFigureMarginToText: 10mm;
     --floatFigureMarginBottom: 7.5mm;
     --floatFigureOffsetToMarginArea: -40mm;
-
     --pagedjs-crop-color: black;
     --pagedjs-crop-shadow: white;
     --pagedjs-crop-stroke: 1px;
@@ -70,8 +69,8 @@
     @bottom-left-corner {
         content: counter(page);
         padding: 0 38mm 20mm 0;
-        font-size: 13pt;
-        font-weight: 600;
+        font-size: 12pt;
+        font-weight: 500;
     }
 }
 
@@ -190,6 +189,85 @@ body {
     text-rendering: optimizeLegibility;
 }
 
+/* text blocks
+-----------------*/
+p {
+    font-family: var(--long-text-font-family);
+    font-size: var(--p-font-size);
+    color: var(--long-text-color);
+    line-height: var(--line-height);
+    margin-top:0;
+}
+
+.content-paragraph {
+    margin-bottom: 2.5mm; /* 0 */
+    text-align: justify;
+    hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    /* word-spacing:-0.1em; */
+    /* letter-spacing:0.2px; */
+    widows: 3;
+    orphans: 3;
+}
+
+.content-paragraph[data-last-split-element=true] {
+    /* clear:both; */
+}
+
+/*
+.content-paragraph::after {
+    content: "---";
+    white-space: nowrap;
+    color:red;
+}
+*/
+
+.paragraph-counter {
+    font-family: var(--short-text-font-family);
+    color: #b4afa7;
+    font-size: var(--p-font-size);
+    font-style: normal;
+    font-weight: 300;
+    margin-right: 2vw;
+}
+
+p.first-of-section {
+    /* border-top: 1px dotted red; */
+}
+
+p.catalog-number {
+    font-size: 12pt;
+    color: var(--journal-color);
+    font-weight: 600;
+}
+
+p.text-medium {
+    font-weight: 600;
+}
+
+li {
+    color: #000000;
+    font-size: var(--li-font-size);
+    line-height: var(--line-height);
+    padding-left: 2.5mm;
+}
+
+p.signature {
+    text-align: right;
+    margin: 2.5mm 0;
+}
+
+span.italic {
+    font-style: italic;
+}
+
+pre, code {
+    white-space: pre-line;
+}
+
 /* headlines:
 ----------------*/
 h1, h2, h3, h4, h5, h6 {
@@ -244,70 +322,6 @@ h1, h2, h3, h4, h5, h6 {
 .title-appendix.first-element {
     margin-bottom: 2mm;
     padding-top: 2mm;
-}
-
-/* text blocks
------------------*/
-p {
-    font-family: var(--long-text-font-family);
-    font-size: var(--p-font-size);
-    color: var(--long-text-color);
-    line-height: var(--line-height);
-    margin-top:0;
-}
-
-.content-paragraph {
-    margin-bottom: 2.5mm;
-    text-align: justify;
-    text-justify: inter-word;
-    hyphens: auto;
-    -moz-hyphens: auto;
-    -ms-hyphens: auto;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    /* word-spacing:-0.1em; */
-    /* letter-spacing:0.2px; */
-    widows: 2;
-    orphans: 2;
-}
-
-.paragraph-counter {
-    font-family: var(--short-text-font-family);
-    color: #b4afa7;
-    font-size: var(--p-font-size);
-    font-style: normal;
-    font-weight: 300;
-    margin-right: 2vw;
-}
-
-p.catalog-number {
-    font-size: 12pt;
-    color: var(--journal-color);
-    font-weight: 600;
-}
-
-p.text-medium {
-    font-weight: 600;
-}
-
-li {
-    color: #000000;
-    font-size: var(--li-font-size);
-    line-height: var(--line-height);
-    padding-left: 2.5mm;
-}
-
-p.signature {
-    text-align: right;
-    margin: 2.5mm 0;
-}
-
-span.italic {
-    font-style: italic;
-}
-
-pre, code {
-    white-space: pre-line;
 }
 
 /* table styles
@@ -515,6 +529,7 @@ span.footnote {
 
 .pagedjs_footnote_area {
     border-bottom: 1px solid #00000021;
+    margin-top: 2.5mm;
 }
 
 .pagedjs_footnote_content {
@@ -563,6 +578,10 @@ span.footnote {
 
 .ext-ref {
     color: #38a;
+}
+
+.ext-ref[data-specific-use='zenon'] {
+    margin-left: 0.5mm;
 }
 
 /* source of Illustrations:
@@ -625,7 +644,6 @@ span.footnote {
 -------------*/
 #imprint {
     font-family: var(--short-text-font-family);
-    text-align:left;
 }
 
 #imprint > p {
@@ -664,6 +682,10 @@ span.footnote {
     margin-top: 2.5mm;
 }
 
+.self-reference {
+    font-style: italic;
+}
+
 /* image components
 --------------------*/
 
@@ -697,13 +719,13 @@ img:hover{
 
 figCaption {
     font-family: var(--short-text-font-family);
-    display: none; /* will be set to "block" after rendering */
     margin-top: 5mm;
 }
 
 .caption-text {
     font-size: var(--caption-font-size);
-    text-align: left;
+    text-align: justify;
+    hyphens: auto;
     margin:0;
 }
 
@@ -819,13 +841,19 @@ styles for classified images
 
 .overmargin.right-page {
     margin-left: -40mm;
+    margin-bottom: 5mm;
+}
+
+.overmargin.right-page {
+    margin-left: -40mm;
+    margin-bottom: 5mm;
 }
 
 .overmargin.right-page > figCaption {
     position: absolute;
     width: 35mm !important;
     float: left;
-    margin-top: 10mm;
+    margin-top: 7.5mm;
     left: 0;
 }
 
@@ -833,18 +861,18 @@ styles for classified images
     position: absolute;
     width: 35mm !important;
     float: right;
-    margin-top: 10mm;
+    margin-top: 7.5mm;
     right: 0;
 }
 
 .overmargin-bottom.right-page {
     margin-left: -40mm;
-    margin-bottom: 7.5mm;
+    margin-bottom: 5mm;
 }
 
 .overmargin-bottom.left-page {
     margin-right: -40mm;
-    margin-bottom: 7.5mm;
+    margin-bottom: 5mm;
 }
 
 .overmargin-bottom > figcaption {

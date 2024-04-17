@@ -2,31 +2,21 @@
 <html lang="de">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <title>dai-journal-formatter</title>
-      <meta name="--xml-file" content="AA_2019_2_Pirson_Lens.xml">
+      <title>JatSinForm</title>
+      <meta name="--xml-file" content="FdAI_2023_Kreuzburg-Watson.xml">
       <script src="src/js/main.js" type="application/javascript"></script>
    </head>
    <body>
       <script>
-         // define path to xml-documents:
-         const xmlFolder = "xml-documents";
-
          // pdf layout control configs:
-         const createToC = false;
+         const xmlFolder = "xml-documents"; // path to xml-documents:
          const firstTextPageId = "page-2";
-         const rangeNextFigRefs = 3;
-         const rangeOverSection = false;
+         const rangeNextFigRefs = 5;
+         const rangeOverSection = true;
          const imageClassThresholdFactor = 3;
          const maxAbstractLength = 2500;
          const maxFootnoteLength = 1500;
          const checkUrlPersistence = true;
-         const urlRegex = /doi|handle|urn|ark:|orcid|ror/g;
-         const specificUseRegex = "zenon|extrafeatures|supplements";
-       
-         const onTopOfPage = ["regular", "regular-bottom", "overmargin", "overmargin-bottom",
-            "inset", "float-w-col-2", "float-w-col-4", "float-w-col-6"];
-            /* ["regular", "regular-bottom", "overmargin", "overmargin-bottom",
-            "inset", "float-w-col-2", "float-w-col-4", "float-w-col-6"]; */
 
          // set titles for meta-sections:
          const titlesOfAppendices = {
