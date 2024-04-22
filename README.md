@@ -19,8 +19,8 @@ The JATS-XML (of the German Archaeological Institute) are created by independant
 
 ## Getting Started
 
-You need a browser (chromium-based like Chrome or Firexfox).
-You need an IDE (like Visual Studio Code) to run the application scripts (cors-policy-friendly) in the web-browser. 
+You need a browser (tested for Chrome or Firefox only).
+You need an IDE (e.g. Visual Studio Code) or other server-solutions to run the js-application scripts (cors-policy-friendly) in the web-browser. 
 
 
 
