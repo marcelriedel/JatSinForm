@@ -4,6 +4,7 @@
     --color-pageBox: violet;
     --color-paper: white;
     --long-text-color: black;
+    --short-text-color: black;
     --color-marginBox: transparent;
     --long-text-font-family: "Noto Serif";
     --short-text-font-family: "Noto Sans Light";
@@ -207,23 +208,13 @@ p {
     -ms-hyphens: auto;
     word-wrap: break-word;
     overflow-wrap: break-word;
-    /* word-spacing:-0.1em; */
-    /* letter-spacing:0.2px; */
-    widows: 3;
-    orphans: 3;
+    widows: 2;
+    orphans: 2;
 }
 
 .content-paragraph[data-last-split-element=true] {
     /* clear:both; */
 }
-
-/*
-.content-paragraph::after {
-    content: "---";
-    white-space: nowrap;
-    color:red;
-}
-*/
 
 .paragraph-counter {
     font-family: var(--short-text-font-family);
@@ -234,22 +225,18 @@ p {
     margin-right: 2vw;
 }
 
-p.first-of-section {
-    /* border-top: 1px dotted red; */
-}
-
 p.catalog-number {
     font-size: 12pt;
     color: var(--journal-color);
     font-weight: 600;
 }
 
-p.text-medium {
+span.text-medium {
     font-weight: 600;
 }
 
 li {
-    color: #000000;
+    color: var(--long-text-color);
     font-size: var(--li-font-size);
     line-height: var(--line-height);
     padding-left: 2.5mm;
@@ -305,14 +292,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .subsection-title {
-    color:black;
+    color: var(--long-text-color);
     font-size: 10pt;
     margin: 5mm 0 2mm 0;
 }
 
 .title-appendix {
     text-transform: uppercase;
-    color: black;
+    color: var(--long-text-color);
     letter-spacing: 1pt;
     border-top: 3px solid var(--journal-color);
     margin-top: 0;
@@ -348,7 +335,7 @@ tr {
 }
 
 td {
-    color: black;
+    color: var(--long-text-color);
     border-right: 1px solid #ffffff3b;
     padding: 6px 12px;
     overflow: hidden;
@@ -748,6 +735,10 @@ figCaption {
 /* ---------------------------------
 styles for classified images
 ----------------------------------*/
+
+.float-w-col-2 > figCaption {
+    display:none;
+}
 
 .float-w-col-2.left-page {
     float: right;

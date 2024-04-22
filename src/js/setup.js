@@ -1,9 +1,9 @@
 /** generate figureConstellationKeys
  * ----------------------------------*/
 const allTypesettingClasses = [
-['false', 'float-w-col-2', 'float-w-col-4','float-w-col-6', 'inset', 'regular', 'regular-bottom', 'overmargin', 'overmargin-bottom'],
-['false', 'float-w-col-2', 'float-w-col-4','float-w-col-6', 'inset', 'regular', 'regular-bottom', 'overmargin', 'overmargin-bottom'],
-['false', 'float-w-col-2', 'float-w-col-4','float-w-col-6', 'inset', 'regular', 'regular-bottom', 'overmargin', 'overmargin-bottom']
+    ['false', 'float-w-col-2', 'float-w-col-4','float-w-col-6', 'inset', 'regular', 'regular-bottom', 'overmargin', 'overmargin-bottom'],
+    ['false', 'float-w-col-2', 'float-w-col-4','float-w-col-6', 'inset', 'regular', 'regular-bottom', 'overmargin', 'overmargin-bottom'],
+    ['false', 'float-w-col-2', 'float-w-col-4','float-w-col-6', 'inset', 'regular', 'regular-bottom', 'overmargin', 'overmargin-bottom']
 ];
 
 // generate each possible typesettingClass constellation:
@@ -68,10 +68,12 @@ for (let i = 0; i < constellationKeys.length; i++) {
         currentFigureSet = "[true, \"overmargin-bottom\"]" + ",";
         nextFigureSet = "[true, \"overmargin-bottom\"]";
     }
-    // second overmargin-figure is last figure at page bottom
+
+    /* second overmargin-figure is last figure at page bottom
     if(/overmargin/.test(splits[indexNextFig])) {
         nextFigureSet = "[true, \"overmargin-bottom\"]";
     }
+    
     // avoid three floating figure on one page:
     if(/float/.test(splits[indexFigBefore])
     && /float/.test(splits[indexCurrentFig])
@@ -80,15 +82,17 @@ for (let i = 0; i < constellationKeys.length; i++) {
         nextFigureSet = "[false, false]";
     }
 
-    // avoiding three figures on one page at all:
+    /* avoiding three figures on one page at all:
     if(splits[indexFigBefore] !== "false"
     && splits[indexCurrentFig] !== "false"
     && splits[indexNextFig] !== "false") {
         currentFigureSet = "[false, false]" + ",";
         nextFigureSet = "[false, false]";
     }
-
+    */
+    
     /*MISSING: big figure alone -> figCap: bottom*/
+
     stats = "\"" + splits.join("#") + "\": {";
     stats += "\"currentFigure\":" + currentFigureSet;
     stats += "\"nextFigure\":" + nextFigureSet;
@@ -98,19 +102,6 @@ for (let i = 0; i < constellationKeys.length; i++) {
 
 json += "}]";
 console.log(json);
-
-    /*
-    !pageBottomArea!
-        if(contexts["elementSetBefore"].tagName === "FIGURE"
-        && /float/.test(contexts["elementSetBefore"].className)) {
-            addFigIdToNextParagraph(sourceNode.id, firstFigure.id);
-        };
-
-     /* test fixing overlapping float-margins
-        if(/float/.test(firstFigure.className) && /float/.test(secondFigure.className)) {
-            secondFigure.style.marginBottom = firstFigure.style.marginBottom;
-        }
-     */
 
 function generateFigConstellationKeys(array, separator) {
 

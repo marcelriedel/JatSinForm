@@ -1,18 +1,16 @@
-/** ----------------------
-* classList keys of figure
---------------------------*/
+/** ------------------------
+* CONSTANTS
+----------------------------*/
 const resTypeClassListKey = 0;
 const ratioClassListKey = 1;
 const typesettingClassListKey = 2;
 const imageClassThresholdDefault = 5;
-
+const pageSpacePuffer = 0.95;
 const createToC = false;
 const urlRegex = /doi|handle|urn|ark:|orcid|ror/g;
 const specificUseRegex = "zenon|extrafeatures|supplements";
 const onTopOfPage = ["regular", "regular-bottom", "overmargin", "overmargin-bottom",
-   "inset", "float-w-col-2", "float-w-col-4", "float-w-col-6"];
-   /* ["regular", "regular-bottom", "overmargin", "overmargin-bottom",
-   "inset", "float-w-col-2", "float-w-col-4", "float-w-col-6"]; */
+"inset", "float-w-col-2", "float-w-col-4", "float-w-col-6"];
 
 /** ------------------------------
  * control pagedJs-Handler (Hook), documentation: 
@@ -92,15 +90,8 @@ function controlPagedJsHandler() {
                 if (paragraphMap[sourceNode.id] && !paragraphMap[sourceNode.id]["isSet"]) {
                     let nodeParams = defineRenderNodeParameter(sourceNode, renderNode, parsedContent);
 
-                    // handle over rest of figRefs which exceeds the limit maxNumFigures
-                    let maxNumFigures = 2; // limit of figures, each one single node can handle
-                    if(nodeParams["figRefs"]) {
-                        for (let i = maxNumFigures; i < nodeParams["figRefs"].length; i++) {
-                            addFigIdToNextParagraph(sourceNode.id, nodeParams["figRefs"][i]);
-                        }
-                    }
                     // exclude figures for defined paragraphs (first text page)
-                    if(contexts["pageId"] == firstTextPageId ) {
+                    if(contexts["pageId"] === firstTextPageId ) {
                         if(nodeParams["currentFigure"]) {
                             addFigIdToNextParagraph(sourceNode.id, nodeParams["currentFigure"].id);
                         }
@@ -111,9 +102,17 @@ function controlPagedJsHandler() {
                     // process figure enhancing:
                     else {
                         processFigureEnhancing(nodeParams);
-                        updateParagraphMap(sourceNode.id, "isSet", true);
                     }
-                    // assign given paragraph styles to paragraph node:
+                    // handle over rest of figRefs which exceeds the limit maxNumFigures
+                    let maxNumFigures = 2; // limit of figures, each one single node can handle
+                    if(nodeParams["figRefs"]) {
+                        for (let i = maxNumFigures; i < nodeParams["figRefs"].length; i++) {
+                            console.log("pushed over: ", nodeParams["figRefs"][i]);
+                            addFigIdToNextParagraph(sourceNode.id, nodeParams["figRefs"][i]);
+                        }
+                    }
+                    // assign given paragraph styles to paragraph node
+                    updateParagraphMap(sourceNode.id, "isSet", true);
                     sourceNode.style.cssText = paragraphMap[sourceNode.id]["style"];
                 }
                 // handle layout of headlines:
@@ -865,7 +864,7 @@ function createContributorsCard(contributor) {
     };
 
      // parse and reorder affiliation information: 
-    if(contributor.querySelector(".institution") !== null) {;
+    if(contributor.querySelector(".institution") !== null) {
         if(contributor.querySelector(".institution-id") !== null) {
             institutionIdLink.classList.add("contributors-link");
             institutionIdLink.target = "_blank";
@@ -1011,7 +1010,7 @@ function createImprintSection(content) {
     // add credit to JatSinForm:
     let selfReferenceNotice = document.createElement("p");
     selfReferenceNotice.innerHTML = "This PDF was created with " + 
-    "<span class = 'self-reference'>JatSinForm</span";
+    "<a class='self-reference' href='' target='_blank'>JatSinForm</a>";
     imprintSection.appendChild(selfReferenceNotice);
     return (imprintSection);
 }
@@ -1051,7 +1050,7 @@ Handle figure and paragraph maps
 /**
  * create paragraph map
  * @param {HTMLElement} parsedContent content once parsed and given ids (data-ref and break rules from the css)
- * @param {JSON} previousMap previous map from local storage, e.g. with saved style properties 
+ * @param {JSON} previousMap previous map saved in local storage, e.g. with given style properties 
  * @returns {void} paragraphMap (with figRefs, position and other params) will be saved in local storage
  */
 function createPararaphMap(parsedContent, previousMap) {
@@ -1104,13 +1103,13 @@ function createPararaphMap(parsedContent, previousMap) {
                     numParagraphsSection = 1;
                 }
             }
-            // assign values for each paragraph
+            // assign values for each paragraph:
             let values = {
                 "position": i,
                 "id": paragraphId,
                 "figRefs": figRefs,
                 "isSet": false,
-                "style": (previousMap) ? previousMap[paragraphId]["style"] : false,
+                "style": (previousMap[paragraphId] !== undefined) ? previousMap[paragraphId]["style"] : false,
                 "isFirstOfSection": isFirstOfSection,
                 "numFigRefsSection": numFigRefsSection,
                 "numParagraphsSection": numParagraphsSection
@@ -1122,26 +1121,35 @@ function createPararaphMap(parsedContent, previousMap) {
     localStorage.setItem("paragraph-map", JSON.stringify(paragraphMap));
 }
 
+/**
+ * update paragraph map
+ * @param {string} currentNodeId id of regular text-node (e.g. paragraphs) 
+ * @param {string} property property-key of paragraphMap
+ * @param {string} value property-value of paragraphMap
+ * @returns {void} changes are saved in localStorage
+ */
 function updateParagraphMap(currentNodeId, property, value) {
 
     // get current paragraphMap:
     let paragraphMap = JSON.parse(localStorage.getItem("paragraph-map"));
     if (paragraphMap[currentNodeId]) {
-        if(property === "isSet") {
-            paragraphMap[currentNodeId]["isSet"] = value
-        }
-        if(property === "style") {
-            paragraphMap[currentNodeId]["style"] = value;
+        // change given property value
+        if(property !== undefined) {
+            paragraphMap[currentNodeId][property] = value;
         }
     }
-
     // save updated figure map:
     localStorage.setItem("paragraph-map", JSON.stringify(paragraphMap));
 }
 
+/**
+ * create figure map
+ * @param {HTMLElement} parsedContent content once parsed and given ids (data-ref and break rules from the css)
+ * @param {JSON} previousMap previous map saved in local storage, e.g. with given style properties 
+ * @returns {void} figureMap (with position, states, styles and typesettingClasses) will be saved in local storage
+ */
 function createFigureMap(parsedContent, previousMap) {
 
-    // prepare figure Map:
     let figureMap = {};
  
     // set hash for current html document:
@@ -1167,6 +1175,11 @@ function createFigureMap(parsedContent, previousMap) {
     localStorage.setItem("figure-map", JSON.stringify(figureMap));
 }
 
+/**
+ * update figure map
+ * @param {string} figureId id of figure element
+ * @returns {void} changes are saved in localStorage
+ */
 function updateFigureMap(figureId) {
 
     // get current figureMap:
@@ -1177,7 +1190,6 @@ function updateFigureMap(figureId) {
     if (setLastId) {
         figureMap[setLastId]["setLast"] = false;
     }
-
     // update states of current figure:
     figureMap[figureId]["inserted"] = true;
     figureMap[figureId]["setLast"] = true;
@@ -1188,142 +1200,17 @@ function updateFigureMap(figureId) {
 
 function saveInteractStylesInFigureMap(object) {
 
-    let style = object.getAttribute('style');
-    let figureId = object.id;
-
-    // get current figureMap
+    // get current figureMap:
     let figureMap = JSON.parse(localStorage.getItem("figure-map"));
 
-    // update figureMap
-    figureMap[figureId]["style"] = style;
+    // update figureMap with object styles:
+    figureMap[object.id]["style"] = object.getAttribute('style');
 
     // save updated map:
     localStorage.setItem("figure-map", JSON.stringify(figureMap));
     setTimeout(function(){
         window.location.reload();
-    }, 5000);
-}
-
-/* -------------------------------------
-Control page layout of element nodes
-----------------------------------------*/
-function defineRenderNodeParameter(sourceNode, renderNode, parsedContent) {
-    
-    // define page contexts of source node:
-    let contexts = definePageContextsOfSourceNode(sourceNode);
-    setPageContextsAsElementAttribute(contexts, sourceNode, renderNode);
-
-    // define distribution ratio of section (relation between figures to text-content):
-    let distributionRatio = defineDistributionRatioOfSection(sourceNode);
- 
-    // get next figRefs and sort nextFigRefs:
-    let nextFigRefs = getNextFigRefs(sourceNode.id);
-    nextFigRefs = sortNextFigRefsByFigurePosition(nextFigRefs);
-
-    // get next two figure elements by nextFigRefs:
-    let currentFigure = getNextFigureElement(nextFigRefs[0], parsedContent);
-    let nextFigure = getNextFigureElement(nextFigRefs[1], parsedContent);
-
-    // collect nodeParams:
-    let nodeParams = {
-        "sourceNode": sourceNode,
-        "renderNode": renderNode,
-        "distributionRatio": distributionRatio,
-        "figRefs": nextFigRefs,
-        "numFigRefs": nextFigRefs.length,
-        "contexts": contexts,
-        "currentFigure": currentFigure,
-        "nextFigure": nextFigure
-    };
-    return(nodeParams);
-}
-
-function definePageContextsOfSourceNode(sourceNode) {
-
-    // get pageContent of sourceNode:
-    let pageContent = sourceNode.closest(".pagedjs_page_content");
-
-    // get pageId:
-    let pageElement = pageContent.closest(".pagedjs_page");
-    let pageId = (pageElement !== null) ? pageElement.id : false;
-
-    // get bounding rectangles of pageContent:
-    let nodeBottom = sourceNode.getBoundingClientRect().bottom;
-    let pageContentTop = pageContent.getBoundingClientRect().top;
-    let nodeTop = sourceNode.getBoundingClientRect().top;
-    let nodeMarginTop = parseInt(getComputedStyle(sourceNode).marginTop);
-    let paddingTop = parseInt(getComputedStyle(sourceNode).paddingTop);
-    let pageContentHeight = pageContent.offsetHeight;
-    let pageContentWidth = pageContent.offsetWidth;
-
-    // calculate distances of node and page:
-    let distanceToTopFromNodeBottom = Math.round(nodeBottom - pageContentTop);
-    let distanceToTopFromNodeTop = Math.round(nodeTop - nodeMarginTop - paddingTop - pageContentTop);
-    console.log(sourceNode.id, "TOP", distanceToTopFromNodeTop);
-    let remainingSpace = pageContentHeight - distanceToTopFromNodeBottom;
-
-    // define where node-bottom (!) ends-up on page:
-    let pageTopArea = (remainingSpace >= pageContentHeight * 0.66 || remainingSpace <= 1) ? true : false;
-    let pageBottomArea = (!pageTopArea && remainingSpace <= pageContentHeight * 0.15) ? true : false;
-    let pageInBetweenArea = (!pageTopArea && !pageBottomArea) ? true : false;
-
-    // get element set before on page:
-    let elementsOfPage = pageContent.querySelectorAll("p.content-paragraph,.title,table,ul,figure");
-    let elementSetBefore = (elementsOfPage.length >= 2) ? elementsOfPage[elementsOfPage.length - 2] : false;
-
-    // collect values in pageContexts object:
-    let pageContexts = {
-        "pageId": pageId,
-        "pageContentHeight": pageContentHeight,
-        "pageContentWidth": pageContentWidth,
-        "distanceToTopFromNodeBottom": distanceToTopFromNodeBottom,
-        "distanceToTopFromNodeTop": distanceToTopFromNodeTop,
-        "remainingSpace": remainingSpace,
-        "pageTopArea": pageTopArea,
-        "pageBottomArea": pageBottomArea,
-        "pageInBetweenArea": pageInBetweenArea,
-        "elementSetBefore": elementSetBefore
-    };
-    return (pageContexts);
-}
-
-function setPageContextsAsElementAttribute(contexts, sourceNode, renderNode) {
-
-    let attributeValue;
-    let pageCursor;
-
-    if(contexts["pageTopArea"]) {
-        pageCursor = "pageTopArea";
-    }
-    else if (contexts["pageBottomArea"]) {
-        pageCursor = "pageBottomArea";
-    }
-    else {
-        pageCursor = "in-between";
-    }
-
-    attributeValue = "cursor: " + pageCursor + " | " +
-        "fromBottom: " + contexts["distanceToTopFromNodeBottom"] + "px | " +
-        "fromTop: " + contexts["distanceToTopFromNodeTop"] + "px | " +
-        "remains: " + contexts["remainingSpace"] + "px | " +
-        contexts["elementSetBefore"].tagName;
-
-    sourceNode.setAttribute('data-after', attributeValue);
-    renderNode.setAttribute('data-after', attributeValue);
-}
-
-function defineDistributionRatioOfSection(sourceNode) {
-
-    let distributionRatio;
-    let paragraphMap = JSON.parse(localStorage.getItem("paragraph-map"));
-
-    if(paragraphMap[sourceNode.id]) {
-        let paragraph = paragraphMap[sourceNode.id];
-        let numParagraphs = paragraph["numParagraphsSection"];
-        let numFigRefs = paragraph["numFigRefsSection"];
-        distributionRatio = (numFigRefs !== 0) ? numParagraphs / numFigRefs : 2;
-    }
-    return(distributionRatio);
+    }, 4000);
 }
 
 /* --------------------------------------
@@ -1375,6 +1262,12 @@ function getNextFigRefs(currentNodeId) {
     return(nextFigRefs);
 }
 
+/**
+ * sort nextFigRefs by figurePosition
+ * @param {array} nextFigRefs array of figRefs
+ * @returns {array} nextFigRefs: nextFigRefs sorted by figure position
+ * to ensure keeping figure placement in numeric order (fig. 3 before fig. 4) 
+ */
 function sortNextFigRefsByFigurePosition(nextFigRefs) {
 
     if(nextFigRefs && nextFigRefs.length) {
@@ -1405,14 +1298,14 @@ function addFigIdToNextParagraph(currentNodeId, figureId) {
         // get current paragraphMap:
         let paragraphMap = JSON.parse(localStorage.getItem("paragraph-map"));
         let currentNodePosition = paragraphMap[currentNodeId]["position"];
-        
+
         // get nextParagraph in paragraphMap:
-        let nextNodeId = Object.keys(paragraphMap)[currentNodePosition + 1];
+        let nextNodeId = Object.keys(paragraphMap).find(key => paragraphMap[key]["position"] === currentNodePosition + 1);
         let nextParagraph = paragraphMap[nextNodeId];
 
         // push figRef to nextParagraph
         if (nextParagraph && nextParagraph["figRefs"]) {
-            if(!nextParagraph["figRefs"].includes((figureId))) {
+            if(!nextParagraph["figRefs"].includes(figureId)) {
                 nextParagraph["figRefs"].push(figureId);
             }
         }
@@ -1432,6 +1325,166 @@ function getNextFigureElement(nextFigRef, parsedContent) {
     return(figureElement);
 }
 
+/* -------------------------------------
+Control page layout of element nodes
+----------------------------------------*/
+function defineRenderNodeParameter(sourceNode, renderNode, parsedContent) {
+
+    // define distribution ratio of section (relation between figures to text-content):
+    let distributionRatio = defineDistributionRatioOfSection(sourceNode);
+    
+    // define page contexts of source node:
+    let contexts = definePageContextsOfSourceNode(sourceNode);
+    setPageContextsAsElementAttribute(contexts, sourceNode, renderNode);
+ 
+    // get next figRefs and sort nextFigRefs:
+    let nextFigRefs = getNextFigRefs(sourceNode.id);
+    nextFigRefs = sortNextFigRefsByFigurePosition(nextFigRefs);
+
+    // get next two figure elements by nextFigRefs:
+    let currentFigure = getNextFigureElement(nextFigRefs[0], parsedContent);
+    let nextFigure = getNextFigureElement(nextFigRefs[1], parsedContent);
+
+    // collect nodeParams:
+    let nodeParams = {
+        "sourceNode": sourceNode,
+        "renderNode": renderNode,
+        "distributionRatio": distributionRatio,
+        "figRefs": nextFigRefs,
+        "numFigRefs": nextFigRefs.length,
+        "contexts": contexts,
+        "currentFigure": currentFigure,
+        "nextFigure": nextFigure
+    };
+    return(nodeParams);
+}
+
+function definePageContextsOfSourceNode(sourceNode) {
+
+    // get pageContent of sourceNode:
+    let pageContent = sourceNode.closest(".pagedjs_page_content");
+
+    // get pageId:
+    let pageElement = pageContent.closest(".pagedjs_page");
+    let pageId = (pageElement !== null) ? pageElement.id : false;
+
+    // get element set before on page:
+    let elementsOfPage = pageContent.querySelectorAll("p.content-paragraph,.title,table,ul,figure,.page-title");
+    let elementSetBefore = (elementsOfPage.length >= 2) ? elementsOfPage[elementsOfPage.length - 2] : false;
+ 
+    // get bounding rectangles of pageContent:
+    let nodeBottom = sourceNode.getBoundingClientRect().bottom;
+    let pageContentTop = pageContent.getBoundingClientRect().top;
+    let nodeTop = sourceNode.getBoundingClientRect().top;
+    let nodeMarginTop = parseInt(getComputedStyle(sourceNode).marginTop);
+    let paddingTop = parseInt(getComputedStyle(sourceNode).paddingTop);
+    let pageContentHeight = pageContent.offsetHeight;
+    let pageContentWidth = pageContent.offsetWidth;
+
+    // calculate distances of node and page:
+    let distanceToTopFromNodeBottom = Math.round(nodeBottom - pageContentTop);
+    let distanceToTopFromNodeTop = Math.round(nodeTop - nodeMarginTop - paddingTop - pageContentTop);
+    let remainingSpace = pageContentHeight - distanceToTopFromNodeBottom;
+   
+    // re-calculate distanceToTopFromNodeBottom of sourceNode split [data-split-to]: 
+    if(!remainingSpace) { // both = 0
+        distanceToTopFromNodeBottom = calculateDistanceFromBottomOfNodeSplit(sourceNode, elementSetBefore, pageContentWidth);
+        remainingSpace = pageContentHeight - distanceToTopFromNodeBottom;
+    }
+    // define where node-bottom (!) ends-up on page:
+    let pageTopArea = (remainingSpace >= pageContentHeight * 0.75) ? true : false;
+    let pageBottomArea = (!pageTopArea && remainingSpace <= pageContentHeight * 0.10) ? true : false;
+    let pageInBetweenArea = (!pageTopArea && !pageBottomArea) ? true : false;
+
+    // collect values in pageContexts object:
+    let pageContexts = {
+        "pageId": pageId,
+        "pageContentHeight": pageContentHeight,
+        "pageContentWidth": pageContentWidth,
+        "distanceToTopFromNodeBottom": distanceToTopFromNodeBottom,
+        "distanceToTopFromNodeTop": distanceToTopFromNodeTop,
+        "remainingSpace": remainingSpace,
+        "pageTopArea": pageTopArea,
+        "pageBottomArea": pageBottomArea,
+        "pageInBetweenArea": pageInBetweenArea,
+        "elementSetBefore": elementSetBefore
+    };
+    return (pageContexts);
+}
+
+// re-calculate distanceToTopFromNodeBottom of sourceNode split [data-split-to]: 
+function calculateDistanceFromBottomOfNodeSplit(sourceNode, elementSetBefore, pageContentWidth) {
+
+    let distanceToTopFromNodeBottom = 0;
+    let remainingSpaceElementBefore;
+
+    // get remainingSpace of elementSetBefore
+    if(elementSetBefore && elementSetBefore !== undefined) {
+        remainingSpaceElementBefore = Number(elementSetBefore.getAttribute("data-remainingSpace"));
+   
+        // calculate text-width of sourceNode text:   
+        let textStyles = getComputedStylesOfTextElements(); 
+        let font = textStyles["paraFontSizeDeclared"] + " Noto Serif"; // "9.5pt Noto Serif"
+        let textWidth = getTextWidth(sourceNode.innerText, font);
+        let linesComplete = Math.ceil(textWidth / pageContentWidth); 
+        let heightParagraphLinePx = textStyles["heightParagraphLinePx"];
+
+        // calculate text-height by lineHeight:
+        let textHeight = linesComplete * Math.ceil(heightParagraphLinePx); 
+        if(textHeight > remainingSpaceElementBefore) {
+            distanceToTopFromNodeBottom = textHeight - remainingSpaceElementBefore;
+        }
+        else {
+            distanceToTopFromNodeBottom = remainingSpaceElementBefore - textHeight;
+        } 
+    }
+    return(distanceToTopFromNodeBottom);
+}
+
+function setPageContextsAsElementAttribute(contexts, sourceNode, renderNode) {
+
+    let attributeValue;
+    let pageCursor;
+    if(contexts["pageTopArea"]) {
+        pageCursor = "pageTopArea";
+    }
+    else if (contexts["pageBottomArea"]) {
+        pageCursor = "pageBottomArea";
+    }
+    else {
+        pageCursor = "in-between";
+    }
+    // define attributes values as data-after-attribute:
+    attributeValue = "cursor: " + pageCursor + " | " +
+    "fromBottom: " + contexts["distanceToTopFromNodeBottom"] + "px | " +
+    "fromTop: " + contexts["distanceToTopFromNodeTop"] + "px | " +
+    "remains: " + contexts["remainingSpace"] + "px | " +
+    contexts["elementSetBefore"].tagName;
+
+    // set attribute for nodes:
+    sourceNode.setAttribute('data-after', attributeValue);
+    renderNode.setAttribute('data-after', attributeValue);
+
+    // set remainingSpace as separate attribute:
+    sourceNode.setAttribute('data-remainingSpace', contexts["remainingSpace"]);
+    renderNode.setAttribute('data-remainingSpace', contexts["remainingSpace"]);
+
+}
+
+function defineDistributionRatioOfSection(sourceNode) {
+
+    let distributionRatio;
+    let paragraphMap = JSON.parse(localStorage.getItem("paragraph-map"));
+
+    if(paragraphMap[sourceNode.id]) {
+        let paragraph = paragraphMap[sourceNode.id];
+        let numParagraphs = paragraph["numParagraphsSection"];
+        let numFigRefs = paragraph["numFigRefsSection"];
+        distributionRatio = (numFigRefs !== 0) ? numParagraphs / numFigRefs : 2;
+    }
+    return(distributionRatio);
+}
+
 /* ----------------------------------------
 Handle typesetting of figure elements:
 -----------------------------------------*/
@@ -1440,101 +1493,67 @@ function processFigureEnhancing(nodeParams) {
     // shorten nodeParams and contextsParams:
     let sourceNode = nodeParams["sourceNode"];
     let renderNode = nodeParams["renderNode"];
-    let contexts = nodeParams["contexts"];
     let distributionRatio = nodeParams["distributionRatio"];
     let numFigRefs = nodeParams["numFigRefs"];
-    let elementSetBefore = contexts["elementSetBefore"]
+    let contexts = nodeParams["contexts"];
     let currentFigure = nodeParams["currentFigure"];
     let nextFigure = nodeParams["nextFigure"];
 
-    // get typesetting classes of each relevant figure:
-    let currentFigureClass = (currentFigure) ? currentFigure.classList[typesettingClassListKey] : false;
-    let nextFigureClass = (nextFigure) ? nextFigure.classList[typesettingClassListKey] : false;
-    let figureBeforeCurrentClass;
-    if(elementSetBefore && elementSetBefore.tagName === "FIGURE") {
-        figureBeforeCurrentClass = elementSetBefore.classList[typesettingClassListKey];
-    } else { figureBeforeCurrentClass = false;}
-
     // get typesetting instructions by figConstellationKeys:
-    let keys = figureBeforeCurrentClass + "#" + currentFigureClass  + "#" + nextFigureClass;
+    let classes = getTypesettingClasses(contexts, nodeParams);
+    let keys = classes["beforeCurrent"] + "#" + classes["current"]  + "#" + classes["next"];
     let figConstellations = JSON.parse(localStorage.getItem("fig-constellations"))[0];
     let set = figConstellations[keys];
 
-    // calculate clientSize of figure (includes figCaption and marginBottom)
-    let clientSizeCurrentFigure = calculateClientSizeOfFigure(currentFigure, contexts);
-    let clientSizeNextFigure = calculateClientSizeOfFigure(nextFigure, contexts);
+    // check if figures fit in current page frame (remaining space)
+    let fits = figuresFitInCurrentPageFrame(set, nodeParams);
 
-    console.log("---", sourceNode.id, "----");
-    if(currentFigure) console.log("->", currentFigure.id);
-    if(nextFigure) console.log("->", nextFigure.id);
+    // DEV OUTPUT:
+    console.log("---------", sourceNode.id, "-----------------");
+    console.log("FIG-REFS", nodeParams["figRefs"]);
+    if(currentFigure) {
+        console.log("currentFigure ->", currentFigure.id);
+        console.log("fitsCurrentFigure:",  fits["currentFigure"]);
+    }
+    if(nextFigure) {
+        console.log("nextFigure ->", nextFigure.id);
+        console.log("fitsNextFigure:",  fits["nextFigure"]);
+    } 
     if(currentFigure || nextFigure) console.log(set);
-    if(currentFigure) console.log(clientSizeCurrentFigure["clientHeightCalculated"]);
-    if(nextFigure) console.log(clientSizeNextFigure["clientHeightCalculated"]);
-    console.log("remaining-space", contexts["remainingSpace"]);
 
-    // check setting of current and nextFigure:
-    let fitsCurrent = false;
-    let fitsNextFigure = false;
-    if(set["currentFigure"][0] && set["nextFigure"][0]) {
-        // check remaining space:
-        if(contexts["pageTopArea"] 
-        || (contexts["remainingSpace"] > clientSizeCurrentFigure["clientHeightCalculated"])) {
-            fitsCurrent = true;
-        }
-        if(contexts["remainingSpace"] > (clientSizeCurrentFigure["clientHeightCalculated"] 
-        + clientSizeNextFigure["clientHeightCalculated"])) {
-            fitsNextFigure = true;
-        }
+    /* TEST fits all:
+    if(currentFigure) fits["currentFigure"] = true;
+    if(nextFigure) fits["nextFigure"] = true; 
+    */
+
+    let figureMap = JSON.parse(localStorage.getItem("figure-map"));
+    if (currentFigure && figureMap[currentFigure.id]["style"]) {
+        currentFigure.style.cssText = figureMap[currentFigure.id]["style"];
+        fits["currentFigure"] = true;
     }
-    // check setting of current figure only:
-    if(set["currentFigure"][0] && !set["nextFigure"][0]) {
-        // check remaining space:
-        if(contexts["pageTopArea"] 
-        || (contexts["remainingSpace"] > clientSizeCurrentFigure["clientHeightCalculated"])) {
-            fitsCurrent = true;
-        }
-    }
-
-    ///// CHECK REMAINING SPACE OF RENDERNODE PUSHED ON NEXT PAGE
-    if(currentFigure.id === "f-6") {
-
-        // 124 px durch 18px = 6,5
-        let font = "9.5pt Noto Serif";
-        let textWidth = getTextWidth(sourceNode.innerText, font);
-        let lines = textWidth / contexts["pageContentWidth"];
-        let linesRound = Math.ceil(lines); 
-
-        console.log(contexts);
-        console.log("fromTOP ",contexts["distanceToTopFromNodeTop"]);
-        console.log("fromBOTTOM ",contexts["distanceToTopFromNodeBottom"]);
-
-        console.log(sourceNode.innerText);
-        console.log("Lines roundes:", linesRound);
-        // renderNode.style.color = "pink";
-    }
-
+    
     // execute instructions:
-    if(fitsCurrent && fitsNextFigure) {
+    if(fits["currentFigure"] && fits["nextFigure"]) {
         reassignLayoutSpecsByGivenClass(currentFigure, set["currentFigure"][1]);
         reassignLayoutSpecsByGivenClass(nextFigure, set["nextFigure"][1]);
+
         addVirtualMarginToFloatingFigure(nextFigure, contexts);
         addVirtualMarginToFloatingFigure(currentFigure, contexts);
         
-        // insert current figure
         renderNode.insertAdjacentElement("afterend", nextFigure);
-        updateFigureMap(nextFigure.id);
-
-        // insert next figure
         renderNode.insertAdjacentElement("afterend", currentFigure);
+
+        updateFigureMap(nextFigure.id);
         updateFigureMap(currentFigure.id);
     }
-    else if(fitsCurrent) {
+    else if(fits["currentFigure"]) {
         reassignLayoutSpecsByGivenClass(currentFigure, set["currentFigure"][1]);
-        // insert current figure only
+
         addVirtualMarginToFloatingFigure(currentFigure, contexts);
+
         renderNode.insertAdjacentElement("afterend", currentFigure);
+        
         updateFigureMap(currentFigure.id);
-        // push nextFigureId to next paragraph:
         addFigIdToNextParagraph(sourceNode.id, nextFigure.id);
     } 
     else {
@@ -1542,6 +1561,88 @@ function processFigureEnhancing(nodeParams) {
         addFigIdToNextParagraph(sourceNode.id, currentFigure.id);
         addFigIdToNextParagraph(sourceNode.id, nextFigure.id);
     }
+}
+
+// get typesetting classes of each figure in current figure constellation:
+function getTypesettingClasses(contexts, nodeParams) {
+
+    let elementSetBefore = contexts["elementSetBefore"]
+    let currentFigure = nodeParams["currentFigure"];
+    let nextFigure = nodeParams["nextFigure"];
+    
+    let currentFigureClass = (currentFigure) ? currentFigure.classList[typesettingClassListKey] : false;
+    let nextFigureClass = (nextFigure) ? nextFigure.classList[typesettingClassListKey] : false;
+    let figureBeforeCurrentClass;
+    
+    if(elementSetBefore && elementSetBefore.tagName === "FIGURE") {
+        figureBeforeCurrentClass = elementSetBefore.classList[typesettingClassListKey];
+        if(/onTopOfPage/.test(figureBeforeCurrentClass)) {
+            figureBeforeCurrentClass = elementSetBefore.classList[3];
+        }
+    } 
+    else {figureBeforeCurrentClass = false;}
+
+    let typesettingClasses = {
+        "beforeCurrent": figureBeforeCurrentClass,
+        "current": currentFigureClass,
+        "next": nextFigureClass
+    }
+    return(typesettingClasses);
+}
+
+// check if figures fit in currentPageFrame (remaining space):
+function figuresFitInCurrentPageFrame(set, nodeParams) {
+
+    let contexts = nodeParams["contexts"];
+    let currentFigure = nodeParams["currentFigure"];
+    let nextFigure = nodeParams["nextFigure"];
+ 
+    // calculate clientSize of figure (includes figCaption and marginBottom)
+    let clientSizeCurrentFigure = calculateClientSizeOfFigure(currentFigure, contexts);
+    let clientSizeNextFigure = calculateClientSizeOfFigure(nextFigure, contexts);
+    
+    // adjust calculated remaining space trough pageSpaceBuffer constant:
+    let remainingSpace = contexts["remainingSpace"] * pageSpacePuffer;
+
+    let fitsCurrentFigure;
+    let fitsNextFigure;
+    // check setting of current and next figure together:
+    if(set["currentFigure"][0] && set["nextFigure"][0]) {
+        if(remainingSpace > (clientSizeCurrentFigure["clientHeightCalculated"] 
+            + clientSizeNextFigure["clientHeightCalculated"])) {
+                fitsCurrentFigure = true;
+                fitsNextFigure = true;
+        }
+        else if(remainingSpace > clientSizeCurrentFigure["clientHeightCalculated"]) {
+            fitsCurrentFigure = true;
+            fitsNextFigure = false;
+        }
+        else {
+            fitsCurrentFigure = false;
+            fitsNextFigure = false;
+        }
+    }
+    // check setting of current figure only:
+    if(set["currentFigure"][0] && !set["nextFigure"][0]) {
+        if(contexts["pageBottomArea"]) {
+            fitsCurrentFigure = true;
+            fitsNextFigure = false;
+        }
+        else if((remainingSpace > clientSizeCurrentFigure["clientHeightCalculated"])) {
+            fitsCurrentFigure = true;
+            fitsNextFigure = false;
+        }
+        else {
+            fitsCurrentFigure = false;
+            fitsNextFigure = false;
+        }
+    }
+    // collect result in object
+    let fits = {
+        "currentFigure": fitsCurrentFigure,
+        "nextFigure": fitsNextFigure
+    }
+    return(fits);
 }
 
 function defineFigureTypesettingClass(figure) {
@@ -1593,7 +1694,6 @@ function assignLayoutSpecsToFigure(figure, givenClass = false) {
             figure.style.cssText = figureMap[figureId]["style"];
         }
     }
-
     // add figure typesetting class to figure:
     figure.classList.add(typesettingClass);
 
@@ -1661,54 +1761,33 @@ function calculateClientSizeOfFigure(figure, contexts) {
 
 function calculateClientSizeOfFigCaption(figure, clientWidthCalculated) {
 
-    // get all parameter:
+    // get all parameters:
     let figCaption = figure.querySelector(".caption-text");
-    let documentRoot = document.querySelector(':root');
-    let captionFontSizeDeclared = getComputedStyle(documentRoot).getPropertyValue("--caption-font-size");
-    let captionFontSize = (captionFontSizeDeclared) ? captionFontSizeDeclared.slice(0, -2) * 1.333 : 11;
-    let lineHeightDeclared = getComputedStyle(documentRoot).getPropertyValue("--line-height");
-    let lineHeight =  (lineHeightDeclared) ? lineHeightDeclared : 1.5;  
-    let heightCaptionLinePx = captionFontSize * lineHeight;
+    let textStyles = getComputedStylesOfTextElements();
 
-    // calculate lenght of textWidth
-    let captionFont = "8pt Noto Sans Light";
-    let textWidth = getTextWidth(figCaption.innerText, captionFont);
+    // calculate length of textWidth
+    let captionFontStyles = textStyles["captionFontSizeDeclared"] + " " + textStyles["captionFont"] // "8pt Noto Sans Light";
+    let textWidth = getTextWidth(figCaption.innerText, captionFontStyles);
     let lines = textWidth / clientWidthCalculated;
     let captionLinesRound = Math.ceil(lines); // captionLines
-    let heightFigCaption = captionLinesRound * heightCaptionLinePx;
-
+    let heightFigCaption = captionLinesRound * textStyles["heightCaptionLinePx"];
     return(heightFigCaption);
-}
-
-function getTextWidth(text, font) {
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-    ctx.font = font;
-    let measures = ctx.measureText(text);
-    return(measures.width);
 }
   
 function addVirtualMarginToFloatingFigure(figure, contexts) {
 
     if(/float/.test(figure.className)) {
 
-        // get all css properties:
+        // get paragraph style properties:
+        let textStyles = getComputedStylesOfTextElements();
+        
+        // get margin properties:
         let documentRoot = document.querySelector(':root');
-        let marginToTextDeclared = getComputedStyle(documentRoot).getPropertyValue("--floatFigureMarginToText");
         let offsetToMarginAreaDeclared = getComputedStyle(documentRoot).getPropertyValue("--floatFigureOffsetToMarginArea");
-        let paraFontSizeDeclared = getComputedStyle(documentRoot).getPropertyValue("--p-font-size");
-        let lineHeightDeclared = getComputedStyle(documentRoot).getPropertyValue("--line-height");
-
         // parse all properties to int ((1mm = 3.7795 px or default margin):
-        let marginToText = (marginToTextDeclared) ? marginToTextDeclared.slice(0, -2) * 3.78 : 38;
         let offsetToMarginArea = (offsetToMarginAreaDeclared) ? offsetToMarginAreaDeclared.slice(0, -2) * 3.78 : 150;
         offsetToMarginArea = Math.abs(offsetToMarginArea); // turn negative value to positive
-        let paraFontSize = (paraFontSizeDeclared) ? paraFontSizeDeclared.slice(0, -2) * 1.333 : 12.5;
-        
-        // assuming line-height is defined as multiplier by default:
-        let lineHeight =  (lineHeightDeclared) ? lineHeightDeclared : 1.5;  
-        let heightParagraphLinePx = paraFontSize * lineHeight; 
-             
+      
         // calculate client sizes of figure:
         let clientSizes = calculateClientSizeOfFigure(figure, contexts);
         let figureWidth = clientSizes["clientWidthCalculated"];
@@ -1716,13 +1795,13 @@ function addVirtualMarginToFloatingFigure(figure, contexts) {
         let marginBottom = clientSizes["marginBottom"];
     
         // calculate floating text lines space:
-        let lines = figureHeight / heightParagraphLinePx;
+        let lines = figureHeight /  textStyles["heightParagraphLinePx"];
         let lineWidth = figureWidth - offsetToMarginArea;
         let textFloatWidth = contexts["pageContentWidth"] - lineWidth;
         let textFloatPercent = textFloatWidth / contexts["pageContentWidth"];
 
-        // calculate virtualMargin
-        let virtualMargin = (lines * heightParagraphLinePx) * textFloatPercent - marginBottom; // - subtract regular marginBottom;
+        // calculate virtualMargin (- subtract regular marginBottom):
+        let virtualMargin = (lines * textStyles["heightParagraphLinePx"]) * textFloatPercent - marginBottom; 
 
         // set calculated margin as inline-style: 
         figure.style.marginBottom = "-" + virtualMargin + "px";
@@ -1781,8 +1860,9 @@ function reassignLayoutSpecsByGivenClass(figure, addClass) {
     if(figure && addClass) {
         let figureMap = JSON.parse(localStorage.getItem("figure-map"));
         if(figure && !figureMap[figure.id]["typesettingClass"]) {
+            let typesettingClass = figure.classList[typesettingClassListKey];
+            figure.classList.remove(typesettingClass);
             figure.classList.toggle(addClass);
-            figure.classList.remove(figure.classList[typesettingClassListKey]);
             assignLayoutSpecsToFigure(figure, addClass);
         }
     }
@@ -1864,13 +1944,14 @@ function adjustLayoutOfElements(sourceNode, contexts) {
             sourceNode.style.marginTop = contexts["remainingSpace"] + 50 + "mm";
         }
     }
-    // avoid catalog entry blocks starting at bottom of page
+    /* avoid catalog entry blocks starting at bottom of page
     if(/catalog-number/.test(sourceNode.className)) {
         // add top-margins to headlines and push them to next page:
         if(contexts["remainingSpace"] < bottomAreaNoTitleAppendixPx) {
             sourceNode.style.marginTop = contexts["remainingSpace"] + 50 + "mm";
         }
     }
+    */
 }
 
 function adjustElementPositionOnPage(pageElement) {
@@ -2008,6 +2089,47 @@ function getPropertyFromStylesheet(selector, attribute) {
     return value;
 }
 
+function getComputedStylesOfTextElements() {
+
+    let documentRoot = document.querySelector(':root');
+
+    // get and parse declared style properties of content-paragraphs:
+    let paraFont = getComputedStyle(documentRoot).getPropertyValue("--long-text-font-family"); 
+    let paraFontSizeDeclared = getComputedStyle(documentRoot).getPropertyValue("--p-font-size");
+    let lineHeightDeclared = getComputedStyle(documentRoot).getPropertyValue("--line-height");
+    let lineHeight = (lineHeightDeclared) ? lineHeightDeclared : 1.5; 
+    let paraFontSize = (paraFontSizeDeclared) ? paraFontSizeDeclared.slice(0, -2) * 1.333 : 12.5; 
+    let heightParagraphLinePx = paraFontSize * lineHeight; 
+
+    // get and parse declared style properties of figCaptions:
+    let captionFont = getComputedStyle(documentRoot).getPropertyValue("--short-text-font-family");
+    let captionFontSizeDeclared = getComputedStyle(documentRoot).getPropertyValue("--caption-font-size");
+    let captionFontSize = (captionFontSizeDeclared) ? captionFontSizeDeclared.slice(0, -2) * 1.333 : 11;
+    let heightCaptionLinePx = captionFontSize * lineHeight;
+
+    // collect computed styles in object
+    let computedTextStyles = {
+        "paraFont": paraFont,
+        "paraFontSizeDeclared": paraFontSizeDeclared,
+        "paraFontSize": paraFontSize,
+        "heightParagraphLinePx": heightParagraphLinePx,
+        "lineHeight": lineHeight,
+        "captionFont": captionFont,
+        "captionFontSizeDeclared": captionFontSizeDeclared,
+        "captionFontSize": captionFontSize,
+        "heightCaptionLinePx": heightCaptionLinePx,
+    }
+    return(computedTextStyles);
+}
+
+function getTextWidth(text, font) {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    ctx.font = font;
+    let measures = ctx.measureText(text);
+    return(measures.width);
+}
+
 function makeElementsInteractive(pageElement) {
 
     const interactElements = "figure,p.content-paragraph";
@@ -2018,7 +2140,6 @@ function makeElementsInteractive(pageElement) {
         let element = elementsOfPage[i];
         if (element.matches("figure")) {
             element.classList.add("resizable");
-            element.classList.add("draggable");
             element.classList.add("tap-target");
         }
         if (/content-paragraph/.test(element.className)) {
@@ -2046,7 +2167,7 @@ function controlInteractJs() {
 
                     Object.assign(event.target.dataset, {x, y});
 
-                    // save styles:
+                    // save styles in figure map:
                     saveInteractStylesInFigureMap(event.target);
                 }
             },
@@ -2055,30 +2176,6 @@ function controlInteractJs() {
                     ratio: "preserve"
                 }),
             ],
-        });
-
-    interact('.draggable')
-        .draggable({
-            // enable inertial throwing
-            inertia: true,
-            // enable autoScroll
-            autoScroll: true,
-
-            listeners: {
-                // call this function on every dragmove event
-                move: dragMoveListener,
-
-                // call this function on every dragend event
-                end(event) {
-                    var textEl = event.target.querySelector('p')
-
-                    textEl && (textEl.textContent =
-                        'moved a distance of ' +
-                        (Math.sqrt(Math.pow(event.pageX - event.x0, 2) +
-                            Math.pow(event.pageY - event.y0, 2) | 0))
-                            .toFixed(2) + 'px');
-                }
-            }
         });
 
     interact('.tap-target')

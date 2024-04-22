@@ -296,7 +296,6 @@ document.addEventListener('keyup', function (e) {
             let figure = document.querySelector(".active").parentElement;
             let figureId = figure.id;
             figure.classList.toggle("onTopOfPage");
-
             let figureMap = JSON.parse(localStorage.getItem("figure-map"));
             figureMap[figureId]["style"] = false;
             figureMap[figureId]["positionClass"] = "onTopOfPage";
@@ -394,6 +393,7 @@ function convertXMLToHtmlBody(xmlDoc) {
         if(idLessParagraphs[i].querySelectorAll("xref[ref-type='fig']").length) {
             // assing randomId to paragraph-element:
             idLessParagraphs[i].id = "generatedId-" + Math.floor(Math.random() * 100);
+            idLessParagraphs[i].classList.add("content-paragraph");
             // log warning message:
             console.log("Notice: Element with tag <p> has no id-attribute! \n" + 
             "Random-ID assigned to XML-Element \n" + idLessParagraphs[i].outerHTML);
