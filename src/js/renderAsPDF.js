@@ -766,13 +766,11 @@ function createContributorsDetails(content, isArticle) {
     let contributorsDetails = document.createElement("div");
     contributorsDetails.id = "contributors-section";
 
-    // predefine variables;
     let authors;
     let contributors;
     let editors;
     let coEditors;
     let advisoryBoardMember;
-
     if(isArticle) {
         // define title of authorDetails
         let contributorsDetailsTitle = document.createElement("h3");
@@ -1650,13 +1648,12 @@ function defineFigureTypesettingClass(figure) {
     let typesettingClass;
     let figureKey;
 
-    // get calculated figure classes:
+    // define search keys by calculated figure classes:
     let resTypeFigure = (figure) ? figure.classList[resTypeClassListKey] : false;
     let ratioFigure = (figure) ? figure.classList[ratioClassListKey] : false;
-
-    // define search keys:
     figureKey = (figure) ? resTypeFigure + "-" + ratioFigure : "";
 
+    // get figureMap and journalConfig
     let figureMap = JSON.parse(localStorage.getItem("figure-map"));
     let journalConfig = JSON.parse(localStorage.getItem("journal-config"));
 

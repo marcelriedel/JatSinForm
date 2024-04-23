@@ -569,6 +569,7 @@ span.footnote {
 
 .ext-ref[data-specific-use='zenon'] {
     margin-left: 0.5mm;
+    text-decoration: none;
 }
 
 /* source of Illustrations:
