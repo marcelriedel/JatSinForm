@@ -20,9 +20,8 @@ The JATS-XML documents (of the German Archaeological Institute) are created by i
 
 - **index.html**: 
     - reference xml-file in meta-tag: `<meta name="--xml-file" content="example.xml">`
-    - reference `<script src="src/js/main.js" type="application/javascript"></script>` in document head
-
-- open/serve/run index.html in your prefered browser (using your IDE as local webserver)
+    - reference main.js in document head: `<script src="src/js/main.js" type="application/javascript"></script>` 
+    - open/serve/run index.html in your prefered browser (using your IDE as local webserver)
 
 ## Libraries
 - pagedJs
@@ -33,8 +32,8 @@ The JATS-XML documents (of the German Archaeological Institute) are created by i
 ## Configurations
 /configs:
 
-- *figConstellations.json*: 
-- *journals.json*: 
+- *figConstellations.json*
+- *journals.json*
 - *tagConversionMap.json*
 - *toggleFigureClasses.json*
 
