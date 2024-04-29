@@ -64,7 +64,7 @@ html {
 }
 
 #text-content-wrapper {
-    background: white;
+    background: #2b2929;
     padding: 2vh 3vw;
     overflow-y: scroll;
     height: 100vh;
@@ -143,8 +143,8 @@ h3 {
 
 p {
     /* counter-increment: paragraphNumber; */
-    color: black !important;
-    font-family:"Noto Serif Light", serif;
+    color:#c4c2c2 !important;
+    font-family: var(--long-text-font-family);
     font-size:1.2em;
     line-height: 1.8;
     text-align: justify;
@@ -158,8 +158,8 @@ p {
 
 
 li {
-    color:#000000;
-    font-family:"Noto Serif Light", serif;
+    color:#c4c2c2 !important;
+    font-family: var(--long-text-font-family);
     font-size:0.9em;
     line-height: 1.5;
 }
@@ -167,7 +167,7 @@ li {
 a {
     font-weight: 300;
     font-size: 1em;
-    color: black;
+    color: var(--journal-color);
     text-decoration: none;
     padding: 0.1vw;
 }

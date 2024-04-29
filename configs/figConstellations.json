@@ -102,8 +102,8 @@
         },
         "float-w-col-2#float-w-col-2#false": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ],
             "nextFigure": [
                 false,
@@ -112,8 +112,8 @@
         },
         "float-w-col-4#float-w-col-2#false": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ],
             "nextFigure": [
                 false,
@@ -122,8 +122,8 @@
         },
         "float-w-col-6#float-w-col-2#false": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ],
             "nextFigure": [
                 false,
@@ -192,8 +192,8 @@
         },
         "float-w-col-2#float-w-col-4#false": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ],
             "nextFigure": [
                 false,
@@ -202,8 +202,8 @@
         },
         "float-w-col-4#float-w-col-4#false": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ],
             "nextFigure": [
                 false,
@@ -212,8 +212,8 @@
         },
         "float-w-col-6#float-w-col-4#false": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ],
             "nextFigure": [
                 false,
@@ -282,8 +282,8 @@
         },
         "float-w-col-2#float-w-col-6#false": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ],
             "nextFigure": [
                 false,
@@ -292,8 +292,8 @@
         },
         "float-w-col-4#float-w-col-6#false": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ],
             "nextFigure": [
                 false,
@@ -302,8 +302,8 @@
         },
         "float-w-col-6#float-w-col-6#false": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ],
             "nextFigure": [
                 false,
@@ -906,38 +906,38 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ]
         },
         "float-w-col-2#float-w-col-2#float-w-col-2": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ]
         },
         "float-w-col-4#float-w-col-2#float-w-col-2": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ]
         },
         "float-w-col-6#float-w-col-2#float-w-col-2": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ]
         },
         "inset#float-w-col-2#float-w-col-2": {
@@ -946,8 +946,8 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ]
         },
         "regular#float-w-col-2#float-w-col-2": {
@@ -956,8 +956,8 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ]
         },
         "regular-bottom#float-w-col-2#float-w-col-2": {
@@ -966,8 +966,8 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ]
         },
         "overmargin#float-w-col-2#float-w-col-2": {
@@ -976,8 +976,8 @@
                 "regular-bottom"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ]
         },
         "overmargin-bottom#float-w-col-2#float-w-col-2": {
@@ -986,8 +986,8 @@
                 "regular-bottom"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ]
         },
         "false#float-w-col-4#float-w-col-2": {
@@ -996,38 +996,38 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ]
         },
         "float-w-col-2#float-w-col-4#float-w-col-2": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ]
         },
         "float-w-col-4#float-w-col-4#float-w-col-2": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ]
         },
         "float-w-col-6#float-w-col-4#float-w-col-2": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ]
         },
         "inset#float-w-col-4#float-w-col-2": {
@@ -1036,8 +1036,8 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ]
         },
         "regular#float-w-col-4#float-w-col-2": {
@@ -1046,8 +1046,8 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ]
         },
         "regular-bottom#float-w-col-4#float-w-col-2": {
@@ -1056,8 +1056,8 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ]
         },
         "overmargin#float-w-col-4#float-w-col-2": {
@@ -1066,8 +1066,8 @@
                 "regular-bottom"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ]
         },
         "overmargin-bottom#float-w-col-4#float-w-col-2": {
@@ -1076,8 +1076,8 @@
                 "regular-bottom"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ]
         },
         "false#float-w-col-6#float-w-col-2": {
@@ -1086,38 +1086,38 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ]
         },
         "float-w-col-2#float-w-col-6#float-w-col-2": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ]
         },
         "float-w-col-4#float-w-col-6#float-w-col-2": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ]
         },
         "float-w-col-6#float-w-col-6#float-w-col-2": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ]
         },
         "inset#float-w-col-6#float-w-col-2": {
@@ -1126,8 +1126,8 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ]
         },
         "regular#float-w-col-6#float-w-col-2": {
@@ -1136,8 +1136,8 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ]
         },
         "regular-bottom#float-w-col-6#float-w-col-2": {
@@ -1146,8 +1146,8 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ]
         },
         "overmargin#float-w-col-6#float-w-col-2": {
@@ -1156,8 +1156,8 @@
                 "regular-bottom"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ]
         },
         "overmargin-bottom#float-w-col-6#float-w-col-2": {
@@ -1166,8 +1166,8 @@
                 "regular-bottom"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ]
         },
         "false#inset#float-w-col-2": {
@@ -1716,38 +1716,38 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ]
         },
         "float-w-col-2#float-w-col-2#float-w-col-4": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ]
         },
         "float-w-col-4#float-w-col-2#float-w-col-4": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ]
         },
         "float-w-col-6#float-w-col-2#float-w-col-4": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ]
         },
         "inset#float-w-col-2#float-w-col-4": {
@@ -1756,8 +1756,8 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ]
         },
         "regular#float-w-col-2#float-w-col-4": {
@@ -1766,8 +1766,8 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ]
         },
         "regular-bottom#float-w-col-2#float-w-col-4": {
@@ -1776,8 +1776,8 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ]
         },
         "overmargin#float-w-col-2#float-w-col-4": {
@@ -1786,8 +1786,8 @@
                 "regular-bottom"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ]
         },
         "overmargin-bottom#float-w-col-2#float-w-col-4": {
@@ -1796,8 +1796,8 @@
                 "regular-bottom"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ]
         },
         "false#float-w-col-4#float-w-col-4": {
@@ -1806,38 +1806,38 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ]
         },
         "float-w-col-2#float-w-col-4#float-w-col-4": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ]
         },
         "float-w-col-4#float-w-col-4#float-w-col-4": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ]
         },
         "float-w-col-6#float-w-col-4#float-w-col-4": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ]
         },
         "inset#float-w-col-4#float-w-col-4": {
@@ -1846,8 +1846,8 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ]
         },
         "regular#float-w-col-4#float-w-col-4": {
@@ -1856,8 +1856,8 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ]
         },
         "regular-bottom#float-w-col-4#float-w-col-4": {
@@ -1866,8 +1866,8 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ]
         },
         "overmargin#float-w-col-4#float-w-col-4": {
@@ -1876,8 +1876,8 @@
                 "regular-bottom"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ]
         },
         "overmargin-bottom#float-w-col-4#float-w-col-4": {
@@ -1886,8 +1886,8 @@
                 "regular-bottom"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ]
         },
         "false#float-w-col-6#float-w-col-4": {
@@ -1896,38 +1896,38 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ]
         },
         "float-w-col-2#float-w-col-6#float-w-col-4": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ]
         },
         "float-w-col-4#float-w-col-6#float-w-col-4": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ]
         },
         "float-w-col-6#float-w-col-6#float-w-col-4": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ]
         },
         "inset#float-w-col-6#float-w-col-4": {
@@ -1936,8 +1936,8 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ]
         },
         "regular#float-w-col-6#float-w-col-4": {
@@ -1946,8 +1946,8 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ]
         },
         "regular-bottom#float-w-col-6#float-w-col-4": {
@@ -1956,8 +1956,8 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ]
         },
         "overmargin#float-w-col-6#float-w-col-4": {
@@ -1966,8 +1966,8 @@
                 "regular-bottom"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ]
         },
         "overmargin-bottom#float-w-col-6#float-w-col-4": {
@@ -1976,8 +1976,8 @@
                 "regular-bottom"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ]
         },
         "false#inset#float-w-col-4": {
@@ -2526,38 +2526,38 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ]
         },
         "float-w-col-2#float-w-col-2#float-w-col-6": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ]
         },
         "float-w-col-4#float-w-col-2#float-w-col-6": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ]
         },
         "float-w-col-6#float-w-col-2#float-w-col-6": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ]
         },
         "inset#float-w-col-2#float-w-col-6": {
@@ -2566,8 +2566,8 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ]
         },
         "regular#float-w-col-2#float-w-col-6": {
@@ -2576,8 +2576,8 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ]
         },
         "regular-bottom#float-w-col-2#float-w-col-6": {
@@ -2586,8 +2586,8 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ]
         },
         "overmargin#float-w-col-2#float-w-col-6": {
@@ -2596,8 +2596,8 @@
                 "regular-bottom"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ]
         },
         "overmargin-bottom#float-w-col-2#float-w-col-6": {
@@ -2606,8 +2606,8 @@
                 "regular-bottom"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ]
         },
         "false#float-w-col-4#float-w-col-6": {
@@ -2616,38 +2616,38 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ]
         },
         "float-w-col-2#float-w-col-4#float-w-col-6": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ]
         },
         "float-w-col-4#float-w-col-4#float-w-col-6": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ]
         },
         "float-w-col-6#float-w-col-4#float-w-col-6": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ]
         },
         "inset#float-w-col-4#float-w-col-6": {
@@ -2656,8 +2656,8 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ]
         },
         "regular#float-w-col-4#float-w-col-6": {
@@ -2666,8 +2666,8 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ]
         },
         "regular-bottom#float-w-col-4#float-w-col-6": {
@@ -2676,8 +2676,8 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ]
         },
         "overmargin#float-w-col-4#float-w-col-6": {
@@ -2686,8 +2686,8 @@
                 "regular-bottom"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ]
         },
         "overmargin-bottom#float-w-col-4#float-w-col-6": {
@@ -2696,8 +2696,8 @@
                 "regular-bottom"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ]
         },
         "false#float-w-col-6#float-w-col-6": {
@@ -2706,38 +2706,38 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ]
         },
         "float-w-col-2#float-w-col-6#float-w-col-6": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ]
         },
         "float-w-col-4#float-w-col-6#float-w-col-6": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ]
         },
         "float-w-col-6#float-w-col-6#float-w-col-6": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ]
         },
         "inset#float-w-col-6#float-w-col-6": {
@@ -2746,8 +2746,8 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ]
         },
         "regular#float-w-col-6#float-w-col-6": {
@@ -2756,8 +2756,8 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ]
         },
         "regular-bottom#float-w-col-6#float-w-col-6": {
@@ -2766,8 +2766,8 @@
                 false
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ]
         },
         "overmargin#float-w-col-6#float-w-col-6": {
@@ -2776,8 +2776,8 @@
                 "regular-bottom"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ]
         },
         "overmargin-bottom#float-w-col-6#float-w-col-6": {
@@ -2786,8 +2786,8 @@
                 "regular-bottom"
             ],
             "nextFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ]
         },
         "false#inset#float-w-col-6": {
@@ -3342,8 +3342,8 @@
         },
         "float-w-col-2#float-w-col-2#inset": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ],
             "nextFigure": [
                 true,
@@ -3352,8 +3352,8 @@
         },
         "float-w-col-4#float-w-col-2#inset": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ],
             "nextFigure": [
                 true,
@@ -3362,8 +3362,8 @@
         },
         "float-w-col-6#float-w-col-2#inset": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ],
             "nextFigure": [
                 true,
@@ -3432,8 +3432,8 @@
         },
         "float-w-col-2#float-w-col-4#inset": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ],
             "nextFigure": [
                 true,
@@ -3442,8 +3442,8 @@
         },
         "float-w-col-4#float-w-col-4#inset": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ],
             "nextFigure": [
                 true,
@@ -3452,8 +3452,8 @@
         },
         "float-w-col-6#float-w-col-4#inset": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ],
             "nextFigure": [
                 true,
@@ -3522,8 +3522,8 @@
         },
         "float-w-col-2#float-w-col-6#inset": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ],
             "nextFigure": [
                 true,
@@ -3532,8 +3532,8 @@
         },
         "float-w-col-4#float-w-col-6#inset": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ],
             "nextFigure": [
                 true,
@@ -3542,8 +3542,8 @@
         },
         "float-w-col-6#float-w-col-6#inset": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ],
             "nextFigure": [
                 true,
@@ -4152,8 +4152,8 @@
         },
         "float-w-col-2#float-w-col-2#regular": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ],
             "nextFigure": [
                 true,
@@ -4162,8 +4162,8 @@
         },
         "float-w-col-4#float-w-col-2#regular": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ],
             "nextFigure": [
                 true,
@@ -4172,8 +4172,8 @@
         },
         "float-w-col-6#float-w-col-2#regular": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ],
             "nextFigure": [
                 true,
@@ -4242,8 +4242,8 @@
         },
         "float-w-col-2#float-w-col-4#regular": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ],
             "nextFigure": [
                 true,
@@ -4252,8 +4252,8 @@
         },
         "float-w-col-4#float-w-col-4#regular": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ],
             "nextFigure": [
                 true,
@@ -4262,8 +4262,8 @@
         },
         "float-w-col-6#float-w-col-4#regular": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ],
             "nextFigure": [
                 true,
@@ -4332,8 +4332,8 @@
         },
         "float-w-col-2#float-w-col-6#regular": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ],
             "nextFigure": [
                 true,
@@ -4342,8 +4342,8 @@
         },
         "float-w-col-4#float-w-col-6#regular": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ],
             "nextFigure": [
                 true,
@@ -4352,8 +4352,8 @@
         },
         "float-w-col-6#float-w-col-6#regular": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ],
             "nextFigure": [
                 true,
@@ -4962,8 +4962,8 @@
         },
         "float-w-col-2#float-w-col-2#regular-bottom": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ],
             "nextFigure": [
                 true,
@@ -4972,8 +4972,8 @@
         },
         "float-w-col-4#float-w-col-2#regular-bottom": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ],
             "nextFigure": [
                 true,
@@ -4982,8 +4982,8 @@
         },
         "float-w-col-6#float-w-col-2#regular-bottom": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ],
             "nextFigure": [
                 true,
@@ -5052,8 +5052,8 @@
         },
         "float-w-col-2#float-w-col-4#regular-bottom": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ],
             "nextFigure": [
                 true,
@@ -5062,8 +5062,8 @@
         },
         "float-w-col-4#float-w-col-4#regular-bottom": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ],
             "nextFigure": [
                 true,
@@ -5072,8 +5072,8 @@
         },
         "float-w-col-6#float-w-col-4#regular-bottom": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ],
             "nextFigure": [
                 true,
@@ -5142,8 +5142,8 @@
         },
         "float-w-col-2#float-w-col-6#regular-bottom": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ],
             "nextFigure": [
                 true,
@@ -5152,8 +5152,8 @@
         },
         "float-w-col-4#float-w-col-6#regular-bottom": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ],
             "nextFigure": [
                 true,
@@ -5162,8 +5162,8 @@
         },
         "float-w-col-6#float-w-col-6#regular-bottom": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ],
             "nextFigure": [
                 true,
@@ -5772,8 +5772,8 @@
         },
         "float-w-col-2#float-w-col-2#overmargin": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ],
             "nextFigure": [
                 false,
@@ -5782,8 +5782,8 @@
         },
         "float-w-col-4#float-w-col-2#overmargin": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ],
             "nextFigure": [
                 false,
@@ -5792,8 +5792,8 @@
         },
         "float-w-col-6#float-w-col-2#overmargin": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ],
             "nextFigure": [
                 false,
@@ -5862,8 +5862,8 @@
         },
         "float-w-col-2#float-w-col-4#overmargin": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ],
             "nextFigure": [
                 false,
@@ -5872,8 +5872,8 @@
         },
         "float-w-col-4#float-w-col-4#overmargin": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ],
             "nextFigure": [
                 false,
@@ -5882,8 +5882,8 @@
         },
         "float-w-col-6#float-w-col-4#overmargin": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ],
             "nextFigure": [
                 false,
@@ -5952,8 +5952,8 @@
         },
         "float-w-col-2#float-w-col-6#overmargin": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ],
             "nextFigure": [
                 false,
@@ -5962,8 +5962,8 @@
         },
         "float-w-col-4#float-w-col-6#overmargin": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ],
             "nextFigure": [
                 false,
@@ -5972,8 +5972,8 @@
         },
         "float-w-col-6#float-w-col-6#overmargin": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ],
             "nextFigure": [
                 false,
@@ -6303,181 +6303,181 @@
         "false#overmargin#overmargin": {
             "currentFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         },
         "float-w-col-2#overmargin#overmargin": {
             "currentFigure": [
-                true,
-                "overmargin-bottom"
+                false,
+                false
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         },
         "float-w-col-4#overmargin#overmargin": {
             "currentFigure": [
-                true,
-                "overmargin-bottom"
+                false,
+                false
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         },
         "float-w-col-6#overmargin#overmargin": {
             "currentFigure": [
-                true,
-                "overmargin-bottom"
+                false,
+                false
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         },
         "inset#overmargin#overmargin": {
             "currentFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         },
         "regular#overmargin#overmargin": {
             "currentFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         },
         "regular-bottom#overmargin#overmargin": {
             "currentFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         },
         "overmargin#overmargin#overmargin": {
             "currentFigure": [
                 true,
-                "overmargin-bottom"
+                "regular-bottom"
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         },
         "overmargin-bottom#overmargin#overmargin": {
             "currentFigure": [
                 true,
-                "overmargin-bottom"
+                "regular-bottom"
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         },
         "false#overmargin-bottom#overmargin": {
             "currentFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         },
         "float-w-col-2#overmargin-bottom#overmargin": {
             "currentFigure": [
-                true,
-                "overmargin-bottom"
+                false,
+                false
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         },
         "float-w-col-4#overmargin-bottom#overmargin": {
             "currentFigure": [
-                true,
-                "overmargin-bottom"
+                false,
+                false
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         },
         "float-w-col-6#overmargin-bottom#overmargin": {
             "currentFigure": [
-                true,
-                "overmargin-bottom"
+                false,
+                false
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         },
         "inset#overmargin-bottom#overmargin": {
             "currentFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         },
         "regular#overmargin-bottom#overmargin": {
             "currentFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         },
         "regular-bottom#overmargin-bottom#overmargin": {
             "currentFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         },
         "overmargin#overmargin-bottom#overmargin": {
             "currentFigure": [
                 true,
-                "overmargin-bottom"
+                "regular-bottom"
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         },
         "overmargin-bottom#overmargin-bottom#overmargin": {
             "currentFigure": [
                 true,
-                "overmargin-bottom"
+                "regular-bottom"
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         },
         "false#false#overmargin-bottom": {
@@ -6582,8 +6582,8 @@
         },
         "float-w-col-2#float-w-col-2#overmargin-bottom": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ],
             "nextFigure": [
                 false,
@@ -6592,8 +6592,8 @@
         },
         "float-w-col-4#float-w-col-2#overmargin-bottom": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ],
             "nextFigure": [
                 false,
@@ -6602,8 +6602,8 @@
         },
         "float-w-col-6#float-w-col-2#overmargin-bottom": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ],
             "nextFigure": [
                 false,
@@ -6672,8 +6672,8 @@
         },
         "float-w-col-2#float-w-col-4#overmargin-bottom": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ],
             "nextFigure": [
                 false,
@@ -6682,8 +6682,8 @@
         },
         "float-w-col-4#float-w-col-4#overmargin-bottom": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ],
             "nextFigure": [
                 false,
@@ -6692,8 +6692,8 @@
         },
         "float-w-col-6#float-w-col-4#overmargin-bottom": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ],
             "nextFigure": [
                 false,
@@ -6762,8 +6762,8 @@
         },
         "float-w-col-2#float-w-col-6#overmargin-bottom": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-2"
             ],
             "nextFigure": [
                 false,
@@ -6772,8 +6772,8 @@
         },
         "float-w-col-4#float-w-col-6#overmargin-bottom": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-4"
             ],
             "nextFigure": [
                 false,
@@ -6782,8 +6782,8 @@
         },
         "float-w-col-6#float-w-col-6#overmargin-bottom": {
             "currentFigure": [
-                true,
-                false
+                false,
+                "float-w-col-6"
             ],
             "nextFigure": [
                 false,
@@ -7113,181 +7113,181 @@
         "false#overmargin#overmargin-bottom": {
             "currentFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         },
         "float-w-col-2#overmargin#overmargin-bottom": {
             "currentFigure": [
-                true,
-                "overmargin-bottom"
+                false,
+                false
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         },
         "float-w-col-4#overmargin#overmargin-bottom": {
             "currentFigure": [
-                true,
-                "overmargin-bottom"
+                false,
+                false
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         },
         "float-w-col-6#overmargin#overmargin-bottom": {
             "currentFigure": [
-                true,
-                "overmargin-bottom"
+                false,
+                false
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         },
         "inset#overmargin#overmargin-bottom": {
             "currentFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         },
         "regular#overmargin#overmargin-bottom": {
             "currentFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         },
         "regular-bottom#overmargin#overmargin-bottom": {
             "currentFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         },
         "overmargin#overmargin#overmargin-bottom": {
             "currentFigure": [
                 true,
-                "overmargin-bottom"
+                "regular-bottom"
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         },
         "overmargin-bottom#overmargin#overmargin-bottom": {
             "currentFigure": [
                 true,
-                "overmargin-bottom"
+                "regular-bottom"
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         },
         "false#overmargin-bottom#overmargin-bottom": {
             "currentFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         },
         "float-w-col-2#overmargin-bottom#overmargin-bottom": {
             "currentFigure": [
-                true,
-                "overmargin-bottom"
+                false,
+                false
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         },
         "float-w-col-4#overmargin-bottom#overmargin-bottom": {
             "currentFigure": [
-                true,
-                "overmargin-bottom"
+                false,
+                false
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         },
         "float-w-col-6#overmargin-bottom#overmargin-bottom": {
             "currentFigure": [
-                true,
-                "overmargin-bottom"
+                false,
+                false
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         },
         "inset#overmargin-bottom#overmargin-bottom": {
             "currentFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         },
         "regular#overmargin-bottom#overmargin-bottom": {
             "currentFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         },
         "regular-bottom#overmargin-bottom#overmargin-bottom": {
             "currentFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         },
         "overmargin#overmargin-bottom#overmargin-bottom": {
             "currentFigure": [
                 true,
-                "overmargin-bottom"
+                "regular-bottom"
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         },
         "overmargin-bottom#overmargin-bottom#overmargin-bottom": {
             "currentFigure": [
                 true,
-                "overmargin-bottom"
+                "regular-bottom"
             ],
             "nextFigure": [
                 true,
-                "overmargin-bottom"
+                false
             ]
         }
     }

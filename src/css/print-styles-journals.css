@@ -31,9 +31,6 @@
     margin-top: 15mm;
     margin-bottom: 20mm;
     /* marks: crop cross; */
-    /* page-content = 210-80 = 130mm
-    130mm -> sind 6 Spalten (Satzspiegel)
-    eine spalte ist 18mm breit, Zwischenraum 4.5mm */
 }
 
 @page :left {
@@ -87,7 +84,7 @@
 
 /* cover page */
 @page :nth(1) {
-    margin-top: 100%;
+    /* margin-top: 150%;   */
     margin-left: 30mm;
     margin-right: 30mm;
     background: var(--background-url);
@@ -210,10 +207,6 @@ p {
     overflow-wrap: break-word;
     widows: 2;
     orphans: 2;
-}
-
-.content-paragraph[data-last-split-element=true] {
-    /* clear:both; */
 }
 
 .paragraph-counter {
@@ -363,6 +356,7 @@ a.footnote-reference {
 }
 
 /* figure references */
+
 a.figure-reference {
     text-decoration:none;
     font-weight:600;
@@ -387,8 +381,11 @@ a.fn-ref {
     break-before: page;
     background:white;
     line-height: var(--line-height);
-    width:100%;
+    width: 100%;
     padding: 10mm 10mm;
+    position: absolute;
+    bottom: 10mm;
+    left: -7.5mm;
 }
 
 .abstract-headline {
@@ -581,7 +578,7 @@ span.footnote {
 
 .attribution {
     font-size: var(--caption-font-size);
-    margin: 1mm 0;
+    margin: 0.5mm 0;
     line-height: var(--line-height);
     color: #929292;
     text-align: left;
@@ -737,10 +734,6 @@ figCaption {
 styles for classified images
 ----------------------------------*/
 
-.float-w-col-2 > figCaption {
-    display:none;
-}
-
 .float-w-col-2.left-page {
     float: right;
     clear: both;
@@ -803,6 +796,10 @@ styles for classified images
     padding: 5mm 0;
     right: 0;
     bottom: 0;
+
+    /*   width: 100% !important;
+    margin-bottom: 7.5mm;
+    display: block; */
 }
 
 .regular.right-page > figCaption {

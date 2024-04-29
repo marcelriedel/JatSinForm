@@ -348,8 +348,7 @@ function getApiRefUrl(url) {
         return(false);
     }
 
-    /* CORS POLICY! API-keys? (field and gazetteer)
-
+    /* field and gazetteer
     if (url.hostname === "gazetteer.dainst.org") {
         https://gazetteer.dainst.org/doc/<placeId> // place weg!
         apiRefUrl = "https://gazetteer.dainst.org/doc" + url.pathname // e.g. 2095094
