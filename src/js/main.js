@@ -223,7 +223,9 @@ document.addEventListener("readystatechange", (event) => {
         }
         // setup
         else {
-            document.body.innerHTML = "Setup mode...(see console)!";
+            document.body.innerHTML = "Setup mode...(see console)!<br><br>" +
+            "Press p for rendering xml as pdf-preview.<br>" + 
+            "Press v for rendering xml as html-viewer.<br>";
         }   
     }
 });

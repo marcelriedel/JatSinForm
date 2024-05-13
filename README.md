@@ -21,7 +21,7 @@ The JATS-XML documents (of the German Archaeological Institute) are created by i
 - **index.html**: 
     - reference xml-file in meta-tag: `<meta name="--xml-file" content="example.xml">`
     - reference main.js in document head: `<script src="src/js/main.js" type="application/javascript"></script>` 
-    - open/serve/run index.html in your prefered browser (using your IDE as local webserver)
+    - open/serve/preview index.html in your prefered browser (using your IDE as local webserver. Installing "Live Preview"-Extension recommended)
 
 ## Libraries
 - pagedJs
