@@ -9,10 +9,8 @@ const pageSpaceBuffer = 0.89;
 const createToC = false;
 const urlRegex = /doi|handle|urn|ark:|orcid|ror/g;
 const specificUseRegex = "zenon|extrafeatures|supplements";
-const onTopOfPage = ["regular", "regular-bottom", "overmargin", "overmargin-bottom",
-"inset", "float-w-col-2", "float-w-col-4", "float-w-col-6"];
-/*["regular", "regular-bottom", "overmargin", "overmargin-bottom",
-"inset", "float-w-col-2", "float-w-col-4", "float-w-col-6"]; */
+const onTopOfPage = []; /*  ["regular", "regular-bottom", "overmargin", "overmargin-bottom",
+"inset", "float-w-col-2", "float-w-col-4", "float-w-col-6"]*/
 
 /** ------------------------------
  * control pagedJs-Handler (Hook), documentation: 
@@ -89,15 +87,16 @@ function controlPagedJsHandler() {
 
                 // handle layout of content paragraphs:
                 if (paragraphMap[sourceNode.id] && !paragraphMap[sourceNode.id]["isSet"]) {
+                    console.log("---------", sourceNode.id, "-----------------");
                     let nodeParams = defineRenderNodeParameter(sourceNode, renderNode, parsedContent);
 
                     // exclude figures for defined paragraphs (first text page)
                     if(contexts["pageId"] === firstTextPageId ) {
                         if(nodeParams["currentFigure"]) {
-                            addFigIdToNextParagraph(sourceNode.id, nodeParams["currentFigure"].id);
+                            pushFigRefToNextParagraph(sourceNode.id, nodeParams["currentFigure"].id);
                         }
                         if(nodeParams["nextFigure"]) {
-                            addFigIdToNextParagraph(sourceNode.id, nodeParams["nextFigure"].id);
+                            pushFigRefToNextParagraph(sourceNode.id, nodeParams["nextFigure"].id);
                         }
                     }
                     // process figure enhancing:
@@ -123,7 +122,7 @@ function controlPagedJsHandler() {
                     let maxNumFigures = 2; // limit of figures, each one single node can handle
                     if(nodeParams["figRefs"]) {
                         for (let i = maxNumFigures; i < nodeParams["figRefs"].length; i++) {
-                            addFigIdToNextParagraph(sourceNode.id, nodeParams["figRefs"][i]);
+                            pushFigRefToNextParagraph(sourceNode.id, nodeParams["figRefs"][i]);
                         }
                     }
                     // assign given paragraph styles to paragraph node
@@ -269,11 +268,10 @@ function createPDFArticle(content) {
     if(figureSection.querySelector("#poster-image") !== null) {
         figureSection.querySelector("#poster-image").remove();
     }
-
     // format notes as foot- or endnotes:
     let noteSection = document.createElement("div");
     if(content.querySelector(".footnotes-section") !== null) {
-        if (journalId === "e-DAI-F") {
+        if (journalId === "e-DAI-F" || setEndnotes) {
             noteSection = content.querySelector(".footnotes-section");
             noteSection.id = "endnotes-section";
             noteSection.classList.add("meta-section");
@@ -295,7 +293,6 @@ function createPDFArticle(content) {
     if(createToC) {
         meta.appendChild(tocList);
     }
-
     // append all sections to article:
     article.appendChild(coverPage);
     article.appendChild(titlePage);
@@ -442,7 +439,6 @@ function createTitlePage(content) {
         authors = articleContributors.querySelectorAll(".contrib[contrib-type='author']");
         contributors = articleContributors.querySelectorAll(".contrib[contrib-type='co-author']");
     }
-
     // collect names of each author:
     let authorsCollection = [];
     if(authors.length) {
@@ -458,7 +454,6 @@ function createTitlePage(content) {
             authorsCollection.push(givenName + " " + surName);
         }
     }
-
     // collect names of each contributor (e.g. co-author):
     let contributorsCollection = [];
     if(contributors.length) {
@@ -558,7 +553,6 @@ function reformatFootnotes(content) {
     const footnotesCollection = [];
 
     if (footnoteRefs && footnotes) {
-
         // reformat footnotes:
         for (let i = 0; i < footnotes.length; ++i) {
             let footnote = document.createElement("span");
@@ -668,7 +662,8 @@ function createReferenceList(content) {
 
             // append reference elements:
             references[i].innerHTML = "";
-            references[i].append(label);
+            mixedCitation.prepend(label);
+            // references[i].append(label);
             references[i].append(mixedCitation);
             referenceList.append(references[i]);
         }
@@ -690,7 +685,8 @@ function recreateFiguresSection(content) {
         figureSection = content.querySelector(".figure-section").cloneNode(true);
         figureSection.id = "cloned-images-container";
         figures = figureSection.querySelectorAll("figure:not(#poster-image)");
-    } else {
+    } 
+    else {
         figureSection = document.createElement("div");
         return(figureSection);
     }
@@ -871,10 +867,17 @@ function createContributorsCard(contributor) {
         let givenName = contributor.querySelector(".given-names").textContent;
         let surName = contributor.querySelector(".surname").textContent;
         if(contributor.querySelector(".contrib-id") !== null) {
-            contribIdLink.classList.add("contributors-link");
+            let contribId = contributor.querySelector(".contrib-id").textContent;
+            contribIdLink.classList.add("contributor-link");
             contribIdLink.target = "_blank";
-            contribIdLink.href = contributor.querySelector(".contrib-id").textContent;
-            contribIdLink.innerHTML = givenName + " " + surName + " &#9741;"
+            contribIdLink.href = contribId;
+            contribIdLink.innerHTML = givenName + " " + surName;
+            // add orcid-icon:
+            if(/orcid/.test(contribId)) {
+                let orcidIcon = document.createElement("span");
+                orcidIcon.classList.add("orcid-icon");
+                contribIdLink.append(orcidIcon);
+            }
             name.append(contribIdLink);
         } else { name.innerHTML = givenName + " " + surName;}
         contributorsCard.append(name);
@@ -883,10 +886,17 @@ function createContributorsCard(contributor) {
      // parse and reorder affiliation information: 
     if(contributor.querySelector(".institution") !== null) {
         if(contributor.querySelector(".institution-id") !== null) {
-            institutionIdLink.classList.add("contributors-link");
+            let institutionId = contributor.querySelector(".institution-id").textContent;
+            institutionIdLink.classList.add("institution-link");
             institutionIdLink.target = "_blank";
-            institutionIdLink.href = contributor.querySelector(".institution-id").textContent;
-            institutionIdLink.innerHTML = contributor.querySelector(".institution").textContent + " &#9741;"
+            institutionIdLink.href = institutionId
+            institutionIdLink.innerHTML = contributor.querySelector(".institution").textContent;
+            // add ror-icon:
+            if(/ror/.test(institutionId)) {
+                let rorIcon = document.createElement("span");
+                rorIcon.classList.add("ror-icon");
+                institutionIdLink.append(rorIcon);
+            }
             institution.append(institutionIdLink);
         } else { institution.innerHTML = contributor.querySelector(".institution").textContent;}
         contributorsCard.append(institution);
@@ -963,15 +973,6 @@ function createImprintSection(content) {
             publishingHistory = content.querySelector(".publishing-history > .meta-value");
             journalTitle.innerHTML += " " + publishingHistory.innerText;
             content.querySelector(".publishing-history").remove();
-
-            /* add journal url:
-            let journalUrl = document.createElement("a");
-            journalUrl.classList.add("ext-ref");
-            journalUrl.href = "https://publications.dainst.org/journals/FdAI";
-            journalUrl.innerText = journalUrl.href;
-            journalTitle.appendChild(journalUrl);
-            */
-
             imprintSection.appendChild(journalTitle);
         }
     }
@@ -1026,8 +1027,9 @@ function createImprintSection(content) {
     }
     // add credit to JatSinForm:
     let selfReferenceNotice = document.createElement("p");
+    selfReferenceNotice.classList.add("self-reference");
     selfReferenceNotice.innerHTML = "This PDF was created with " + 
-    "<a class='self-reference' href='' target='_blank'>JatSinForm</a>";
+    "<a href='https://github.com/marcelriedel/JatSinForm' target='_blank'>JatSinForm</a>";
     imprintSection.appendChild(selfReferenceNotice);
     return (imprintSection);
 }
@@ -1185,7 +1187,8 @@ function getNextParagraphInParagraphMap(paragraphMap, currentNodeId) {
 
 /**
  * create figure map
- * @param {HTMLElement} parsedContent content once parsed and given ids (data-ref and break rules from the css)
+ * @param {HTMLElement} parsedContent content once parsed and given ids 
+ * (data-ref and break rules from the css)
  * @param {JSON} previousMap previous map saved in local storage, e.g. with given style properties 
  * @returns {void} figureMap (with position, states, styles and typesettingClasses) will be saved in local storage
  */
@@ -1207,7 +1210,7 @@ function createFigureMap(parsedContent, previousMap) {
             "inserted": false,
             "style": (previousMap) ? previousMap[figure.id]["style"] : false,
             "typesettingClass": (previousMap) ? previousMap[figure.id]["typesettingClass"] : false,
-            "positionClass": (previousMap) ? previousMap[figure.id]["positionClass"] : false,
+            "positionClass": (previousMap) ? previousMap[figure.id]["positionClass"] : false
         };
         figureMap[figure.id] = values;
     }
@@ -1318,10 +1321,17 @@ function sortNextFigRefsByFigurePosition(nextFigRefs) {
     return(nextFigRefs);
 }
 
-function addFigIdToNextParagraph(currentNodeId, figureId) {
+/**
+ * push figure reference to next paragraph, used to skip typsetting figure, 
+ * which not fits in current node contexts
+ * @param {string, number} currentNodeId id of sourceNode to be rendered
+ * @param {string} figureId, figure reference as element-id of figure
+ * @returns {void} changes are saved in localStorage
+ * 
+ */
+function pushFigRefToNextParagraph(currentNodeId, figureId) {
 
     if(currentNodeId !== undefined && figureId !== undefined) {
-      
         let paragraphMap = JSON.parse(localStorage.getItem("paragraph-map"));
         let nextParagraph = getNextParagraphInParagraphMap(paragraphMap, currentNodeId);
 
@@ -1336,13 +1346,19 @@ function addFigIdToNextParagraph(currentNodeId, figureId) {
     }  
 }
 
+/**
+ * get next figure element by figure reference
+ * @param {string} nextFigRef is figure reference as element-id of figure
+ * @param {HTMLElement} parsedContent content once parsed and given ids 
+ * (data-ref and break rules from the css)
+ * @returns {HTMLElement} figureElement
+ * 
+ */
 function getNextFigureElement(nextFigRef, parsedContent) {
 
     let figureElement = false;
     if (nextFigRef) {
-        let figure = parsedContent.querySelector("figure#" + nextFigRef);
-        assignLayoutSpecsToFigure(figure);
-        figureElement = figure;
+        figureElement = parsedContent.querySelector("figure#" + nextFigRef);
     }
     return(figureElement);
 }
@@ -1410,13 +1426,13 @@ function definePageContextsOfSourceNode(sourceNode) {
     // calculate distances of node and page:
     let distanceToTopFromNodeBottom = Math.round(nodeBottom - pageContentTop);
     let distanceToTopFromNodeTop = Math.round(nodeTop - nodeMarginTop - paddingTop - pageContentTop);
-    let remainingSpace = pageContentHeight - distanceToTopFromNodeBottom;
-   
+
     // re-calculate distanceToTopFromNodeBottom of sourceNode split [data-split-to]: 
-    if(!remainingSpace) { // both = 0
+    if(!distanceToTopFromNodeTop || distanceToTopFromNodeTop < 0) { // distance = 0
         distanceToTopFromNodeBottom = calculateDistanceFromBottomOfNodeSplit(sourceNode, elementSetBefore, pageContentWidth);
-        remainingSpace = pageContentHeight - distanceToTopFromNodeBottom;
     }
+    let remainingSpace = pageContentHeight - distanceToTopFromNodeBottom;
+    
     // define where node-bottom (!) ends-up on page:
     let pageTopArea = (remainingSpace >= pageContentHeight * 0.75) ? true : false;
     let pageBottomArea = (!pageTopArea && remainingSpace <= pageContentHeight * 0.10) ? true : false;
@@ -1446,24 +1462,30 @@ function calculateDistanceFromBottomOfNodeSplit(sourceNode, elementSetBefore, pa
     let remainingSpaceElementBefore;
 
     // get remainingSpace of elementSetBefore
-    if(elementSetBefore && elementSetBefore !== undefined) {
+    if(elementSetBefore !== undefined && /content-paragraph/.test(elementSetBefore.className)) {
         remainingSpaceElementBefore = Number(elementSetBefore.getAttribute("data-remainingSpace"));
-   
-        // calculate text-width of sourceNode text:   
-        let textStyles = getComputedStylesOfTextElements(); 
-        let font = textStyles["paraFontSizeDeclared"] + " Noto Serif"; // "9.5pt Noto Serif"
-        let textWidth = getTextWidth(sourceNode.innerText, font);
-        let linesComplete = Math.ceil(textWidth / pageContentWidth); 
-        let heightParagraphLinePx = textStyles["heightParagraphLinePx"];
 
-        // calculate text-height by lineHeight:
-        let textHeight = linesComplete * Math.ceil(heightParagraphLinePx); 
-        if(textHeight > remainingSpaceElementBefore) {
-            distanceToTopFromNodeBottom = textHeight - remainingSpaceElementBefore;
+        console.log("elementBeforeSpace sourceNode", sourceNode.id);
+        console.log("elementBeforeSpace", remainingSpaceElementBefore);
+
+        if(remainingSpaceElementBefore !== 0 && remainingSpaceElementBefore !== undefined) {
+            // calculate text-width of sourceNode text:   
+            let textStyles = getComputedStylesOfTextElements(); 
+            let font = textStyles["paraFontSizeDeclared"] + " " + textStyles["paraFont"]; // "9.3pt Noto Serif"
+            let textWidth = getTextWidth(sourceNode.innerText, font);
+            let linesComplete = Math.ceil(textWidth / pageContentWidth); 
+            let heightParagraphLinePx = textStyles["heightParagraphLinePx"];
+
+            // calculate text-height by lineHeight:
+            let textHeight = linesComplete * Math.ceil(heightParagraphLinePx); 
+            if(textHeight > remainingSpaceElementBefore) {
+                distanceToTopFromNodeBottom = textHeight - remainingSpaceElementBefore;
+            }
+            else {
+                distanceToTopFromNodeBottom = remainingSpaceElementBefore - textHeight;
+            } 
+       
         }
-        else {
-            distanceToTopFromNodeBottom = remainingSpaceElementBefore - textHeight;
-        } 
     }
     return(distanceToTopFromNodeBottom);
 }
@@ -1524,8 +1546,12 @@ function processFigureEnhancing(nodeParams) {
     let currentFigure = nodeParams["currentFigure"];
     let nextFigure = nodeParams["nextFigure"];
 
+    // (pre)set layout specs of figures:
+    setLayoutSpecsOfFigure(currentFigure);
+    setLayoutSpecsOfFigure(nextFigure);
+
     // get typesetting instructions by figConstellationKeys:
-    let classes = getTypesettingClasses(contexts, nodeParams);
+    let classes = getTypesettingClassesOfConstellations(contexts, nodeParams);
     let keys = classes["beforeCurrent"] + "#" + classes["current"]  + "#" + classes["next"];
     let figConstellations = JSON.parse(localStorage.getItem("fig-constellations"))[0];
     let set = figConstellations[keys];
@@ -1534,7 +1560,6 @@ function processFigureEnhancing(nodeParams) {
     let fits = figuresFitInCurrentPageFrame(set, nodeParams);
 
     // DEV OUTPUT:
-    console.log("---------", sourceNode.id, "-----------------");
     console.log("FIG-REFS", nodeParams["figRefs"]);
     if(currentFigure) {
         console.log("currentFigure ->", currentFigure.id);
@@ -1554,8 +1579,8 @@ function processFigureEnhancing(nodeParams) {
     // execute instructions:
     if(fits["currentFigure"] && fits["nextFigure"]) {
 
-        reassignLayoutSpecsByGivenClass(currentFigure, set["currentFigure"][1]);
-        reassignLayoutSpecsByGivenClass(nextFigure, set["nextFigure"][1]);
+        setLayoutSpecsOfFigure(currentFigure, set["currentFigure"][1]);
+        setLayoutSpecsOfFigure(nextFigure, set["nextFigure"][1]);
 
         addVirtualMarginToFloatingFigure(nextFigure, contexts);
         addVirtualMarginToFloatingFigure(currentFigure, contexts);
@@ -1567,24 +1592,121 @@ function processFigureEnhancing(nodeParams) {
         updateFigureMap(currentFigure.id);
     }
     else if(fits["currentFigure"]) {
-        reassignLayoutSpecsByGivenClass(currentFigure, set["currentFigure"][1]);
 
+        setLayoutSpecsOfFigure(currentFigure, set["currentFigure"][1]);
         addVirtualMarginToFloatingFigure(currentFigure, contexts);
 
         renderNode.insertAdjacentElement("afterend", currentFigure);
         
         updateFigureMap(currentFigure.id);
-        addFigIdToNextParagraph(sourceNode.id, nextFigure.id);
+        pushFigRefToNextParagraph(sourceNode.id, nextFigure.id);
     } 
     else {
         // push current and nextFigureId to next paragraph:
-        addFigIdToNextParagraph(sourceNode.id, currentFigure.id);
-        addFigIdToNextParagraph(sourceNode.id, nextFigure.id);
+        pushFigRefToNextParagraph(sourceNode.id, currentFigure.id);
+        pushFigRefToNextParagraph(sourceNode.id, nextFigure.id);
     }
 }
 
+function setLayoutSpecsOfFigure(figure, addClass = false) {
+
+    if(figure) {
+        // define and set typesetting class:
+        let typesettingClass = setFigureTypesettingClass(figure, addClass);  
+        let figureModelSpecs = getFigureModelSpecs(typesettingClass);
+
+        // define figure specs by typesettingClass
+        let figureWidthPreset = (figureModelSpecs) ? figureModelSpecs[0] : false;
+        let figureHeightPreset = (figureModelSpecs) ? figureModelSpecs[1] : false;
+
+        // pre-assign specs of figure-width and -height:
+        figure.style.width = (figureWidthPreset) ? figureWidthPreset : "auto";
+        figure.style.height = (figureHeightPreset) ? figureHeightPreset : "auto";
+
+        // override figure styles with styles saved in figureMap
+        let figureId = (figure.id) ? figure.id : figure.getAttribute("data-id");
+        let figureMap = JSON.parse(localStorage.getItem("figure-map"));
+        if (figureMap) {
+            if (figureMap[figureId]["style"]) {
+                figure.style.cssText = figureMap[figureId]["style"];
+            }
+        } 
+    }
+}
+
+// set typesetting class of figure:
+function setFigureTypesettingClass(figure, addClass = false, toggle = false) {
+
+    let figureMap = JSON.parse(localStorage.getItem("figure-map"));
+    let typesettingClass;
+
+    // define typesetting class:
+    if(figure) {
+        // set typesettingClass saved in figureMap:
+        if(figureMap[figure.id]["typesettingClass"]) {
+            typesettingClass = figureMap[figure.id]["typesettingClass"];
+        }
+        // set typesettingClass given by user:
+        else if(addClass && toggle) {
+            console.log("removeToggle", figure.classList[typesettingClassListKey]);
+            console.log("addToggle", addClass);
+            let removeClass = figure.classList[typesettingClassListKey];
+            figure.classList.remove(removeClass);
+            typesettingClass = addClass;
+        }
+         // (re)set typesettingClass defined by figure constellations:
+        else if(addClass) {
+            console.log("removeConstellation", figure.classList[typesettingClassListKey]);
+            console.log("addConstelattion", addClass);
+            let removeClass = figure.classList[typesettingClassListKey];
+            figure.classList.remove(removeClass);
+            typesettingClass = addClass;
+            typesettingClass = addClass;
+        }
+        // set default typesettingClass
+        else {
+            typesettingClass = getDefaultFigureTypesettingClass(figure);
+        }
+        // add typesetting class to figure element:
+        figure.classList.add(typesettingClass);
+    }
+    return(typesettingClass);
+}
+
+function getDefaultFigureTypesettingClass(figure) {
+
+    let typesettingClass;
+    let figureKey;
+
+    // define search keys by calculated figure classes:
+    let resTypeFigure = (figure) ? figure.classList[resTypeClassListKey] : false;
+    let ratioFigure = (figure) ? figure.classList[ratioClassListKey] : false;
+    figureKey = (figure) ? resTypeFigure + "-" + ratioFigure : "";
+
+    // get typeSettingClass from journalConfig:
+    let journalConfig = JSON.parse(localStorage.getItem("journal-config"));
+    typesettingClass = journalConfig["figureTypesettingClass"][figureKey];
+    
+    return(typesettingClass);
+}
+
+function getFigureModelSpecs(typesettingClass) {
+
+    // define default specs:
+    let figureModelSpecs = ["100%", "100%"]; // default;
+ 
+    // get specs from journal-config:
+    let journalConfig = JSON.parse(localStorage.getItem("journal-config"));
+    if(journalConfig !== undefined) {
+        if(journalConfig["figureModelSpecs"][typesettingClass] !== undefined) {
+            figureModelSpecs = journalConfig["figureModelSpecs"][typesettingClass];
+        }
+    } 
+    return(figureModelSpecs);
+}
+
 // get typesetting classes of each figure in current figure constellation:
-function getTypesettingClasses(contexts, nodeParams) {
+function getTypesettingClassesOfConstellations(contexts, nodeParams) {
 
     let elementSetBefore = contexts["elementSetBefore"]
     let currentFigure = nodeParams["currentFigure"];
@@ -1623,19 +1745,23 @@ function figuresFitInCurrentPageFrame(set, nodeParams) {
     let clientHeightCurrentFigure = clientSizeCurrentFigure["clientHeightCalculated"];
     let clientHeightNextFigure = clientSizeNextFigure["clientHeightCalculated"];
     
-    // adjust calculated remaining space including height of footnoteArea and a slight pageSpaceBuffer:
-    let remainingSpace = (contexts["remainingSpace"] - contexts["footnoteAreaHeight"]) * pageSpaceBuffer;
+    // substract height of footnoteArea from pageContentHeight:
+    let remainingSpace = contexts["remainingSpace"] - contexts["footnoteAreaHeight"];
+    // add a slight pageSpaceBuffer:
+    remainingSpace = remainingSpace * pageSpaceBuffer;
+    // set pageContentHeight if remainingSpace has negative value (= leads to pageBreak):
+    remainingSpace = (remainingSpace < 0) ? contexts["pageContentHeight"] : remainingSpace;
 
     // check setting of current and next figure together:
     let fitsCurrentFigure;
     let fitsNextFigure;
     if(set["currentFigure"][0] && set["nextFigure"][0]) {
+        console.log("Test", remainingSpace, ">", clientHeightCurrentFigure);
         if(remainingSpace > (clientHeightCurrentFigure + clientHeightNextFigure)) {
             fitsCurrentFigure = true;
             fitsNextFigure = true;
         }
         else if(remainingSpace > clientHeightCurrentFigure) {
-            console.log("Measurements", remainingSpace, clientHeightCurrentFigure);
             fitsCurrentFigure = true;
             fitsNextFigure = false;
         }
@@ -1668,63 +1794,6 @@ function figuresFitInCurrentPageFrame(set, nodeParams) {
     return(fits);
 }
 
-function defineFigureTypesettingClass(figure) {
-
-    let typesettingClass;
-    let figureKey;
-
-    // define search keys by calculated figure classes:
-    let resTypeFigure = (figure) ? figure.classList[resTypeClassListKey] : false;
-    let ratioFigure = (figure) ? figure.classList[ratioClassListKey] : false;
-    figureKey = (figure) ? resTypeFigure + "-" + ratioFigure : "";
-
-    // get figureMap and journalConfig
-    let figureMap = JSON.parse(localStorage.getItem("figure-map"));
-    let journalConfig = JSON.parse(localStorage.getItem("journal-config"));
-
-    // check saved typesettingClass in figureMap before
-    if (figureMap[figure.id]["typesettingClass"]) {
-        typesettingClass = figureMap[figure.id]["typesettingClass"];
-    }
-    // get typeSettingClass from journalConfig:
-    else {
-        typesettingClass = journalConfig["figureTypesettingClass"][figureKey];
-    }
-    return (typesettingClass);
-}
-
-function assignLayoutSpecsToFigure(figure, givenClass = false) {
-
-    // define typesetting class and get style specs from different sources:
-    let typesettingClass = (!givenClass) ? defineFigureTypesettingClass(figure) : givenClass;
-    let journalConfig = JSON.parse(localStorage.getItem("journal-config"));
-    let figureModelSpecs = journalConfig["figureModelSpecs"][typesettingClass];
-    let figureMap = JSON.parse(localStorage.getItem("figure-map"));
-
-    // define figure specs by typesettingClass
-    let figureWidthPreset = (figureModelSpecs) ? figureModelSpecs[0] : false;
-    let figureHeightPreset = (figureModelSpecs) ? figureModelSpecs[1] : false;
-
-    // pre-assign figure width and height:
-    figure.style.width = (figureWidthPreset) ? figureWidthPreset : "auto";
-    figure.style.height = (figureHeightPreset) ? figureHeightPreset : "auto";
-
-    // override figure styles with styles saved in figureMap
-    let figureId = (figure.id) ? figure.id : figure.getAttribute("data-id");
-    if (figureMap) {
-        if (figureMap[figureId]["style"]) {
-            figure.style.cssText = figureMap[figureId]["style"];
-        }
-    }
-    // add figure typesetting class to figure:
-    figure.classList.add(typesettingClass);
-
-    // add given positionClass to figure:
-    if (figureMap[figureId]["positionClass"]) {
-        figure.classList.add(figureMap[figure.id]["positionClass"]);
-    }
-}
-
 function calculateClientSizeOfFigure(figure, contexts) {
 
     // calculate clientWidth and clientHeight of figure:
@@ -1733,15 +1802,14 @@ function calculateClientSizeOfFigure(figure, contexts) {
     let clientHeightCalculated = 0;
     let clientHeightFigCaption = 0;
 
-    if(figure) {
+    if(figure) {  
         // get available size parameter:
         let naturalWidth = figure.getAttribute("data-img-width");
         let naturalHeight = figure.getAttribute("data-img-height");
         let ratio = naturalWidth / naturalHeight;
-        let figureStyleWidth = figure.style.width;
 
         // calculate by pixel values (set by interactJs/resize):
-        if(/px/.test(figureStyleWidth)) {
+        if(/px/.test(figure.style.width)) {
             clientWidthCalculated = figure.style.width.slice(0, -2); // e.g. 325
             clientHeightCalculated = figure.style.height.slice(0, -2); // e.g. 245
         }
@@ -1792,7 +1860,7 @@ function calculateClientSizeOfFigCaption(figure, clientWidthCalculated) {
     let textStyles = getComputedStylesOfTextElements();
 
     // calculate length of textWidth
-    let captionFontStyles = textStyles["captionFontSizeDeclared"] + " " + textStyles["captionFont"] // "8pt Noto Sans Light";
+    let captionFontStyles = textStyles["captionFontSizeDeclared"] + " " + textStyles["captionFont"];
     let textWidth = getTextWidth(figCaption.innerText, captionFontStyles);
     let lines = textWidth / clientWidthCalculated;
     let captionLinesRound = Math.ceil(lines); // captionLines
@@ -1839,34 +1907,25 @@ function addVirtualMarginToFloatingFigure(figure, contexts) {
 
 function toggleFigureClasses(figure, toggleCase) {
 
-    let addClass;
-    let removeClass;
     let typesettingClass = figure.classList[typesettingClassListKey];
     let toggleFigureClassesMap = JSON.parse(localStorage.getItem("toggle-figure-classes"))[0];
+    let addClass;
 
     // get addClass from toggleFigureClassesMap:
     if(toggleCase === "figureClass") {
-        removeClass = typesettingClass;
         typesettingClass = /float/.test(typesettingClass) ? "float" : typesettingClass;
         addClass = toggleFigureClassesMap["figureClass"][typesettingClass];
     }
     if(toggleCase === "figureColumnWidth") {
         if(/float/.test(typesettingClass)) {
-            removeClass = typesettingClass;
             addClass = toggleFigureClassesMap["figureColumnWidth"][typesettingClass];
         }
     }
     if(toggleCase === "figureCaption") {
         if(/overmargin/.test(typesettingClass) || /regular/.test(typesettingClass)) {
-            removeClass = typesettingClass;
             addClass = toggleFigureClassesMap["figureCaption"][typesettingClass];
         }
     }
-    // replace classes and reassign layout-specs:
-    figure.classList.toggle(addClass);
-    figure.classList.remove(removeClass);
-    assignLayoutSpecsToFigure(figure, addClass);
-
     // save changes in figureMap:
     let figureId = (figure.id) ? figure.id : figure.getAttribute("data-id");
     let figureMap = JSON.parse(localStorage.getItem("figure-map"));
@@ -1874,26 +1933,16 @@ function toggleFigureClasses(figure, toggleCase) {
     figureMap[figureId]["style"] = false;
     localStorage.setItem("figure-map", JSON.stringify(figureMap));
 
+    // replace classes and reassign layout-specs:
+    setLayoutSpecsOfFigure(figure, addClass, true);
+
     // reload document after changes:
-    setTimeout(function(){
+    setTimeout(function() {
       window.location.reload();
     }, 2000);
 }
 
-function reassignLayoutSpecsByGivenClass(figure, addClass) {
-
-    if(figure && addClass) {
-        let figureMap = JSON.parse(localStorage.getItem("figure-map"));
-        if(figure && !figureMap[figure.id]["typesettingClass"]) {
-            let typesettingClass = figure.classList[typesettingClassListKey];
-            figure.classList.remove(typesettingClass);
-            figure.classList.toggle(addClass);
-            assignLayoutSpecsToFigure(figure, addClass);
-        }
-    }
-}
-
-/*---------TEST ---------------*/
+/*---TEST ---*/
 function insertPseudoNodeAtEndOfSections(nodeParams, parsedContent) {
                         
     let pseudoNode = document.createElement("p");
@@ -1908,7 +1957,7 @@ function insertPseudoNodeAtEndOfSections(nodeParams, parsedContent) {
         if(!figureMap[figRef]["inserted"]) {
             let figure = getNextFigureElement(figRef, parsedContent);
             if(figure) {
-                reassignLayoutSpecsByGivenClass(figure, "regular");
+                setLayoutSpecsOfFigure(figure);
                 pseudoNode.insertAdjacentElement("afterend", figure);
             }
         }
@@ -1918,7 +1967,6 @@ function insertPseudoNodeAtEndOfSections(nodeParams, parsedContent) {
 /* ---------------------------------------------
 Adjust elements after page rendering
 -----------------------------------------------*/
-
 function classifyPageOfElement(pageElement, page) {
 
     let pageContent = pageElement.querySelector(".pagedjs_page_content");
@@ -1943,23 +1991,22 @@ function classifyElementPositionOnPage(pageElement) {
 
     for (let i = 0; i < elementsOfPage.length; i++) {
         let element = elementsOfPage[i];      
-        if (element.matches("figure") || /title/.test(element.className)) {
-            switch (true) {
-                case (elementsOfPage.length === 1):
-                    element.classList.add("alone");
-                    break;
-                case (elementsOfPage[0] === element):
-                    element.classList.add("first-element");
-                    break;
-                case (elementsOfPage[lastIndex].id === element.id):
-                    element.classList.add("last-element");
-                    break;
-                default:
-                    element.classList.add("in-between");
-                    break;
-            }
-            element.title = element.className;
+        // still necessary? : if (element.matches("figure") || /title/.test(element.className)) {
+        switch (true) {
+            case (elementsOfPage.length === 1):
+                element.classList.add("alone");
+                break;
+            case (elementsOfPage[0] === element):
+                element.classList.add("first-element");
+                break;
+            case (elementsOfPage[lastIndex].id === element.id):
+                element.classList.add("last-element");
+                break;
+            default:
+                element.classList.add("in-between");
+                break;
         }
+        element.title = element.className;
     }
 }
 
@@ -2002,8 +2049,15 @@ function adjustElementPositionOnPage(pageElement) {
         let element = elementsOfPage[i];
         let firstElement = elementsOfPage[0];
 
-        //  push figures on top of each page
+        //  adjust figure elements:
         if (element.matches("figure") && i !== 0) {
+
+            // check positionClass and add positionClass saved in figureMap:
+            let figureMap = JSON.parse(localStorage.getItem("figure-map"));
+            if (figureMap[element.id]["positionClass"]) {
+                element.classList.add(figureMap[element.id]["positionClass"]);
+            }
+            //  push figure with positionClass on top of each page
             if (onTopOfPage.some(className => element.classList.contains(className))
                 || /onTopOfPage/.test(element.className)) {
 
@@ -2029,7 +2083,6 @@ function adjustElementPositionOnPage(pageElement) {
 function recreateAnchorsInFootnoteSpans(pageElement, page) {
 
     let elements = pageElement.querySelectorAll(".footnote");
-
     for (let i = 0; i < elements.length; i++) {
         elements[i].innerHTML = URLifyString(elements[i].innerText);
     }
@@ -2076,6 +2129,7 @@ function checkQualityOfUrls() {
         let anchors = document.querySelectorAll(
             "a:not(.fig-ref,.fn-ref,.bib-ref,.footnote)");
         anchors.forEach(function (anchor) {
+            console.log(anchor);
             let specificUse = anchor.getAttribute("data-specific-use");
             let href = anchor.href;
              // check anchors without specific usage only: 
@@ -2090,7 +2144,7 @@ function checkQualityOfUrls() {
     }
 }
 
-// TESTING:
+/*--TEST--*/
 function ignoreHyphenationByPagedJs(ignore, pageElement, page, breakToken) {
 
     if (ignore && pageElement.querySelector('.pagedjs_hyphen')) {
@@ -2160,16 +2214,18 @@ function getComputedStylesOfTextElements() {
     // get and parse declared style properties of content-paragraphs:
     let paraFont = getComputedStyle(documentRoot).getPropertyValue("--long-text-font-family"); 
     let paraFontSizeDeclared = getComputedStyle(documentRoot).getPropertyValue("--p-font-size");
-    let lineHeightDeclared = getComputedStyle(documentRoot).getPropertyValue("--line-height");
-    let lineHeight = (lineHeightDeclared) ? lineHeightDeclared : 1.5; 
+    let lineHeightDeclaredPara = getComputedStyle(documentRoot).getPropertyValue("--line-height-para");
+    let lineHeightPara = (lineHeightDeclaredPara) ? lineHeightDeclaredPara : 1.5; 
     let paraFontSize = (paraFontSizeDeclared) ? paraFontSizeDeclared.slice(0, -2) * 1.333 : 12.5; 
-    let heightParagraphLinePx = paraFontSize * lineHeight; 
+    let heightParagraphLinePx = paraFontSize * lineHeightPara; 
 
     // get and parse declared style properties of figCaptions:
     let captionFont = getComputedStyle(documentRoot).getPropertyValue("--short-text-font-family");
     let captionFontSizeDeclared = getComputedStyle(documentRoot).getPropertyValue("--caption-font-size");
-    let captionFontSize = (captionFontSizeDeclared) ? captionFontSizeDeclared.slice(0, -2) * 1.333 : 11;
-    let heightCaptionLinePx = captionFontSize * lineHeight;
+    let lineHeightDeclaredCap = getComputedStyle(documentRoot).getPropertyValue("--line-height-cap");
+    let lineHeightCap = (lineHeightDeclaredCap) ? lineHeightDeclaredCap : 1.37; 
+    let captionFontSize = (captionFontSizeDeclared) ? captionFontSizeDeclared.slice(0, -2) * 1.333 : 9.75;
+    let heightCaptionLinePx = captionFontSize * lineHeightCap;
 
     // collect computed styles in object
     let computedTextStyles = {
@@ -2177,7 +2233,8 @@ function getComputedStylesOfTextElements() {
         "paraFontSizeDeclared": paraFontSizeDeclared,
         "paraFontSize": paraFontSize,
         "heightParagraphLinePx": heightParagraphLinePx,
-        "lineHeight": lineHeight,
+        "lineHeightPara": lineHeightPara,
+        "lineHeightCap": lineHeightCap,
         "captionFont": captionFont,
         "captionFontSizeDeclared": captionFontSizeDeclared,
         "captionFontSize": captionFontSize,
@@ -2279,8 +2336,8 @@ function controlInteractJs() {
             }
             if(/content-paragraph/.test(event.currentTarget.className)) {
 
-                // save styles in paragraphMap
-                updateParagraphMap(event.currentTarget.id, "style", "clear:both");
+                // clear:both;margin-bottom:5mm
+                updateParagraphMap(event.currentTarget.id, "style", "margin-top:5mm;letter-spacing:0.1px;");
 
                 // reload document after changes:
                 setTimeout(function(){
