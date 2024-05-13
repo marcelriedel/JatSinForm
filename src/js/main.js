@@ -146,7 +146,6 @@ document.addEventListener("readystatechange", (event) => {
         if(localStorage.getItem("sizeClassSetGlobal") !== undefined) {
             sizeClassSetGlobal = localStorage.getItem("sizeClassSetGlobal");
         }
-
         images.forEach((image, index) => {
             let img = new Image();
             let resolve, reject;
@@ -170,9 +169,10 @@ document.addEventListener("readystatechange", (event) => {
             };
             img.src = image.src;
         });
-
+ 
         // add style properties to documentRoot:
         let documentRoot = document.querySelector(':root');
+        documentRoot.style.setProperty('--pages-flex-direction', pagesFlexDirection);
         documentRoot.style.setProperty('--journal-color', journalColor);
         documentRoot.style.setProperty('--background-url', getPosterImageBackgroundUrl());
 
@@ -235,39 +235,35 @@ document.addEventListener("readystatechange", (event) => {
  --------------------------------------*/
 document.addEventListener('keyup', function (e) {
 
-    // press r for reload
-    if (e.key === "r") {
+    // press p to set "renderAs" to "PDF"
+    if (e.key === renderAsPDF) {
+        localStorage.setItem("renderAs", "PDF");
         window.location.reload();
     }
-
-    // press q for hard reset (refresh figureMap)
-    if (e.key === "q") {
+    // press v to set "renderAs" to "Viewer"
+    if (e.key === renderAsViewer) {
+        localStorage.setItem("renderAs", "Viewer");
+        window.location.reload();
+    }
+    // press * to set "renderAs" to "Setup"
+    if (e.key === setupFigConstellations) {
+        localStorage.setItem("renderAs", "Setup");
+        window.location.reload();
+    }
+    // press r for reload
+    if (e.key === reload) {
+        window.location.reload();
+    }
+    // press q for hard reset (refresh maps)
+    if (e.key === hardReset) {
         localStorage.removeItem('figure-map');
         localStorage.removeItem('paragraph-map');
         localStorage.removeItem('documentState');
         window.location.reload();
     }
 
-    // press p to set "renderAs" to "PDF"
-    if (e.key === "p") {
-        localStorage.setItem("renderAs", "PDF");
-        window.location.reload();
-    }
-
-    // press v to set "renderAs" to "Viewer"
-    if (e.key === "v") {
-        localStorage.setItem("renderAs", "Viewer");
-        window.location.reload();
-    }
-
-    // press * to set "renderAs" to "Setup"
-    if (e.key === "*") {
-        localStorage.setItem("renderAs", "Setup");
-        window.location.reload();
-    }
-
     // press f to highlight figRefs:
-    if (e.key === "f") {
+    if (e.key === highlightFigReferences) {
         let highlightElements = document.querySelectorAll("a.fig-ref");
         for (let i = 0; i < highlightElements.length; i++) {
             highlightElements[i].style.background = "rgb(250 250 172)";
@@ -275,7 +271,7 @@ document.addEventListener('keyup', function (e) {
     }
 
     // press h to highlight context information of elements:
-    if (e.key === "h") {
+    if (e.key === highlightContextInfo) {
         let highlightElements = document.querySelectorAll(".content-paragraph, .title");
         for (let i = 0; i < highlightElements.length; i++) {
             highlightElements[i].classList.add("display-data-attributes");
@@ -283,29 +279,26 @@ document.addEventListener('keyup', function (e) {
     }
 
     // press o to see overflowing elements of pagedjs-page-content:
-    if (e.key === "o") {
+    if (e.key === showOverflows) {
         let pageContents = document.querySelectorAll(".pagedjs_page_content");
         for (let i = 0; i < pageContents.length; i++) {
             pageContents[i].style.display = "flex";
         }
     }
-
     // press t(op) to push figure on topOfPage:
-    if (e.key === "t") {
+    if (e.key === figureToTop) {
         if (document.querySelector(".active") !== null) {
             let figure = document.querySelector(".active").parentElement;
             let figureId = figure.id;
-            figure.classList.toggle("onTopOfPage");
             let figureMap = JSON.parse(localStorage.getItem("figure-map"));
             figureMap[figureId]["style"] = false;
             figureMap[figureId]["positionClass"] = "onTopOfPage";
             localStorage.setItem("figure-map", JSON.stringify(figureMap));
             setTimeout(function () {
                 window.location.reload();
-            }, 1000);
+            }, 2000);
         };
     }
-
     // press 2, 3, 4 or 6, 7, 8 to change "imageClassThreshold"
     if (e.key >= 2 && e.key < 5 || e.key > 5 && e.key <= 9) {
         let imageClassThreshold = e.key;
@@ -313,7 +306,6 @@ document.addEventListener('keyup', function (e) {
         localStorage.removeItem("sizeClassSetGlobal");
         window.location.reload();
     }
-
     // press 1, 5 or 9 to change set sizeClassGlobal:
     if (e.key == 1 || e.key == 5 || e.key == 9) {
         let sizeClassSetGlobal = false;
@@ -333,20 +325,6 @@ document.addEventListener('keyup', function (e) {
         localStorage.setItem("sizeClassSetGlobal", sizeClassSetGlobal);
         window.location.reload();
     }
-
-    
-    /* define figureClasses by presets defined in keyboard control settings (main.js)
-    let imageClassThreshold = localStorage.getItem("imageClassThreshold");
-    if(imageClassThreshold === "1") {
-        assignLayoutSpecsToFigure(firstFigure, "float-w-col-2");
-        reassignLayoutSpecsByGivenClass(secondFigure, "float-w-col-2")
-    }
-    if(imageClassThreshold === "9") {
-        assignLayoutSpecsToFigure(firstFigure, "overmargin");
-        reassignLayoutSpecsByGivenClass(secondFigure, "overmargin");
-    }
-    */
-
 });
 
 // handle processStage by storage listener:
@@ -535,6 +513,7 @@ function classifyImage(image, sizeClassSetGlobal) {
 function defineClassByImageResolution(mega_px) {
 
     let sizeClass;
+    const imageClassThresholdFactor = 5;
     let imageClassThreshold = localStorage.getItem("imageClassThreshold");
     imageClassThreshold = imageClassThreshold * imageClassThresholdFactor;
 
