@@ -3,22 +3,33 @@
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
       <title>JatSinForm</title>
-      <meta name="--xml-file" content="FdAI-2022_Baumeister.xml">
+      <meta name="--xml-file" content="FdAI_2024_Zielke_Baumeister.xml">
       <script src="src/js/main.js" types\="application/javascript"></script>
    </head>
    <body>
       <script>
-         // pdf layout control configs:
          const xmlFolder = "xml-documents"; // path to xml-documents:
+         const pagesFlexDirection = "row"; // "row" or "column"
          const firstTextPageId = "page-2";
          const rangeNextFigRefs = 6;
          const rangeOverSection = false;
-         const imageClassThresholdFactor = 5;
          const maxAbstractLength = 2500;
-         const maxFootnoteLength = 1500;
+         const maxFootnoteLength = 2000;
          const checkUrlPersistence = false;
+         const setEndnotes = false;
 
-         // set titles for meta-sections:
+         // keyboard control keys:
+         const reload = "r";
+         const hardReset = "q";
+         const renderAsPDF = "p";
+         const renderAsViewer = "v";
+         const setupFigConstellations = "*";
+         const highlightFigReferences = "f";
+         const highlightContextInfo = "h";
+         const showOverflows = "o";
+         const figureToTop = "t";   // while figure:hover (.active)
+      
+         // define titles of meta-section:
          const titlesOfAppendices = {
             "contents": {
                "de": "Inhalt",
