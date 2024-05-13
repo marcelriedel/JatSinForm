@@ -1,0 +1,964 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article article-type="research-article" dtd-version="1.2" xml:lang="de-DE">
+   <front>
+      <journal-meta>
+         <!-- Basis-Metadaten des Journal -->
+         <journal-id journal-id-type="publisher-id">FdAI</journal-id>
+         <journal-title-group>
+            <journal-title>Forum for Digital Archaeology and Infrastructure</journal-title>
+         </journal-title-group>
+         <!-- Herausgeber -->
+         <contrib-group content-type="Editors">
+            <role>Editors:</role>
+            <contrib contrib-type="Editor">
+               <name>
+                  <surname>Ducke</surname>
+                  <given-names>Benjamin</given-names>
+               </name>
+            </contrib>
+            <contrib contrib-type="Editor">
+               <name>
+                  <surname>Fless</surname>
+                  <given-names>Friederike</given-names>
+               </name>
+            </contrib>
+
+            <contrib contrib-type="Editor">
+               <name>
+                  <surname>Riebschläger</surname>
+                  <given-names>Fabian</given-names>
+               </name>
+            </contrib>
+            <contrib contrib-type="Editor">
+               <name>
+                  <surname>Senst</surname>
+                  <given-names>Henriette</given-names>
+               </name>
+            </contrib>
+         </contrib-group>
+
+
+         <!-- ISSN/ISBN -->
+         <issn publication-format="online">2748-8861</issn>
+
+         <!-- Herausgeber -->
+         <publisher>
+            <publisher-name>Deutsches Archäologisches Institut</publisher-name>
+            <publisher-loc>
+               <addr-line>Podbielskiallee 69–71</addr-line>
+               <city>14195 Berlin</city>
+               <country>Deutschland</country>
+               <ext-link ext-link-type="uri">http://www.dainst.org</ext-link>
+            </publisher-loc>
+         </publisher>
+         <!-- Custom-Meta-Felder für nicht im JATS-Metadatenmodell vorgesehene Informationen -->
+         <custom-meta-group>
+            <custom-meta>
+               <meta-name>publishing-history</meta-name>
+               <meta-value>published since 2021</meta-value>
+            </custom-meta>
+            <custom-meta>
+               <meta-name>editing-notice-label</meta-name>
+               <meta-value>Editing and Typesetting</meta-value>
+            </custom-meta>
+            <custom-meta>
+               <meta-name>editing-notice-publishing-editor</meta-name>
+               <meta-value>Publishing editor: FdAI, DAI Zentrale, Arbeitsstab Kommunikation</meta-value>
+            </custom-meta>
+            <custom-meta>
+               <meta-name>editing-notice-article-submissions</meta-name>
+               <meta-value>Contact for article submissions:
+                fdai-journal@dainst.de</meta-value>
+            </custom-meta>
+            <custom-meta>
+               <meta-name>editing-notice-editing</meta-name>
+               <meta-value>Editing: Antonie Brenne, Janina Rücker M.A.</meta-value>
+            </custom-meta>
+            <custom-meta>
+               <meta-name>editing-notice-layout</meta-name>
+               <meta-value>Corporate Design: LMK Büro für Kommunikationsdesign,
+                Berlin</meta-value>
+            </custom-meta>
+            <custom-meta>
+               <meta-name>editing-notice-webdesign</meta-name>
+               <meta-value>Webdesign: LMK Büro für Kommunikationsdesign, Berlin</meta-value>
+            </custom-meta>
+            <custom-meta>
+               <meta-name>editing-notice-webdesign-url</meta-name>
+               <meta-value>https://lm-kommunikation.de/</meta-value>
+            </custom-meta>
+            <custom-meta>
+               <meta-name>editing-notice-conversion</meta-name>
+               <meta-value>XML Conversion: digital publishing competence, München</meta-value>
+            </custom-meta>
+            <custom-meta>
+               <meta-name>editing-notice-conversion-url</meta-name>
+               <meta-value>https://www.dpc-consulting.org/</meta-value>
+            </custom-meta>
+            <custom-meta>
+               <meta-name>editing-notice-development</meta-name>
+               <meta-value>Programming Viewer: LEAN BAKERY, München</meta-value>
+            </custom-meta>
+            <custom-meta>
+               <meta-name>editing-notice-development-url</meta-name>
+               <meta-value>https://leanbakery.com/</meta-value>
+            </custom-meta>
+
+         </custom-meta-group>
+      </journal-meta>
+      <article-meta>
+         <article-id pub-id-type="doi">10.34780/cf6e-prcf</article-id>
+         <title-group>
+            <article-title>Das neue maschinenlesbare Zeitschriftenmodell des Deutschen Archäologischen Instituts </article-title>
+            <subtitle>Ein Werkstattbericht </subtitle>
+         </title-group>
+         <contrib-group>
+            <contrib contrib-type="author">
+               <contrib-id contrib-id-type="orcid">https://orcid.org/0000-0001-5430-1456</contrib-id>
+               <name>
+                  <surname>Baumeister</surname>
+                  <given-names>Peter</given-names>
+               </name>
+               <aff>
+                  <institution-wrap>
+                     <institution-id institution-id-type="gnd">https://ror.org/041qv0h25</institution-id>
+                     <institution>Deutsches Archäologisches Institut, Zentrale Wissenschaftliche Dienste</institution>
+                  </institution-wrap>
+                  <addr-line>Podbielskiallee 69–71</addr-line>
+                  <city>14195 Berlin</city>
+                  <country>Deutschland</country>
+                  <email>peter.baumeister@dainst.de</email>
+               </aff>
+            </contrib>
+         </contrib-group>
+         <pub-date pub-type="collection">
+            <year>2022</year>
+            <month>12</month>
+            <day>19</day>
+         </pub-date>
+         <volume>2022-1</volume>
+         <permissions>
+            <copyright-statement content-type="online">© 2022 Deutsches Archäologisches Institut</copyright-statement>
+            <license license-type="print">
+               <license-p content-type="copyright">All rights reserved.</license-p>
+            </license>
+            <license license-type="online">
+               <license-p content-type="terms-of-use">https://publications.dainst.org/journals</license-p>
+            </license>
+         </permissions>
+         <abstract xml:lang="de-DE">
+            <title>Zusammenfassung</title>
+            <p>
+               <styled-content style-type="abstract-title">Das neue maschinenlesbare Zeitschriftenmodell des Deutschen Archäologischen Instituts</styled-content>
+            </p>
+            <p>
+               <styled-content style-type="abstract-subtitle">Ein Werkstattbericht</styled-content>
+            </p>
+            <p>
+               <styled-content style-type="abstract-author">Peter Baumeister</styled-content>
+            </p>
+            <p>
+               <styled-content style-type="abstract-text">Auch bei archäologisch arbeitenden Disziplinen spielt nicht nur die Publikation der Forschungsdaten, die im Rahmen eines Projekts entstehen, eine zentrale Rolle, es gewinnen ebenso Interoperabilität und maschinelle Lesbarkeit der zu veröffentlichenden Inhalte zunehmend an Bedeutung, um die Ergebnisse ihrer Forschungsarbeit in bestmöglicher Form rezipier- und nachnutzbar zu machen. Der vorliegende Artikel will in Form eines Werkstattberichts zeigen, wie das Deutsche Archäologische Institut im Rahmen seiner Digitalisierungsstrategie ein neues Zeitschriftenmodell entwickelt, das dabei den Anspruch hat, Artikelinhalte in maschinenlesbarer Form zu publizieren und darüber hinaus dazugehörigen Forschungsdatenkonvoluten durch die inhaltliche und technische Verschränkung eine prominente Sichtbarkeit zu bieten.</styled-content>
+            </p>
+         </abstract>
+         <trans-abstract xml:lang="en-GB">
+            <title>Abstract</title>
+            <p>
+               <styled-content style-type="abstract-title">The new machine-readable journal model of the German Archaeological Institute </styled-content>
+            </p>
+            <p>
+               <styled-content style-type="abstract-title">A workshop report</styled-content>
+            </p>
+            <p>
+               <styled-content style-type="abstract-author">Peter Baumeister </styled-content>
+            </p>
+            <p>
+               <styled-content style-type="abstract-text">In all disciplines of Archaeology, not only the publication of research data plays a significant role. Interoperability and machine readability of all kinds of content are also becoming increasingly important in order to make the scientific outcome reusable in the best possible way. In the form of a workshop report, this article wants to share the German Archaeological Institute´s experiences in developing a new journal model as part of its digitization strategy, which aims not only to publish journal articles in machine-readable form, but also to give research data publications prominent visibility by including them directly into the corresponding research article.</styled-content>
+            </p>
+         </trans-abstract>
+         <kwd-group xml:lang="de-DE">
+            <title>Schlagwörter</title>
+            <kwd>Digitale Transformation</kwd>,            <kwd>Maschinenlesbarkeit</kwd>,            <kwd>Forschungsdatenmanagement</kwd>,            <kwd>Textverarbeitung</kwd>,            <kwd>XML</kwd>
+         </kwd-group>
+         <kwd-group xml:lang="en-GB">
+            <title>Keywords</title>
+            <kwd>Digital transformation</kwd>,            <kwd>Machine readability</kwd>,            <kwd>Research data management</kwd>,            <kwd>Text processing</kwd>,            <kwd>XML</kwd>
+         </kwd-group>
+
+         <custom-meta-group>
+            <custom-meta>
+               <meta-name>citation-guideline</meta-name>
+               <meta-value>P. Baumeister, Das neue maschinenlesbare Zeitschriftenmodell des Deutschen Archäologischen Instituts. Ein Werkstattbericht, FdAI 2022/1, § 1–67</meta-value>
+            </custom-meta>
+            <custom-meta>
+               <meta-name>issue-bibliography</meta-name>
+               <meta-value>https://zenon.dainst.org/Record/003024705</meta-value>
+            </custom-meta>
+            <custom-meta>
+               <meta-name>cover-illustration</meta-name>
+               <meta-value>Design: Tanja Lemke-Mahdavi</meta-value>
+            </custom-meta>
+         </custom-meta-group>
+      </article-meta>
+   </front>
+   <body>
+      <sec id="s-1">
+         <title>Ausgangspunkt</title>
+         <p id="p-1">
+            <named-content content-type="paragraph-counter">1</named-content>Auch bei archäologisch arbeitenden Disziplinen spielt nicht nur die Publikation der Forschungsdaten, die im Rahmen eines Projektes entstehen, eine zentrale Rolle, es gewinnen ebenso Interoperabilität und maschinelle Lesbarkeit der zu veröffentlichenden Inhalte zunehmend an Bedeutung, um die Ergebnisse ihrer Forschungsarbeit in bestmöglicher Form rezipierbar zu machen.</p>
+         <p id="p-2">
+            <named-content content-type="paragraph-counter">2</named-content>Durch die fortschreitende Ausdifferenzierung des Open Access-, Open Data- bzw. Open Science-Paradigmas werden die Anforderungen an die Eigenschaften der zu veröffentlichenden Inhalte zwar zunehmend klarer definiert<xref ref-type="fn" rid="fn-1">[1]</xref>. Dennoch bedeutet eine praktische Umsetzung für institutionelle Akteure, die Publikationen herausgeben, insbesondere in den Geisteswissenschaften weiterhin eine größere Herausforderung, da Standards, Konzepte zur technischen Umsetzung bzw. diesbezügliche Best-Practice-Beispiele und infrastrukturelle Voraussetzungen oftmals nur partiell oder nur in einer bedingten Übertragbarkeit vorhanden sind<xref ref-type="fn" rid="fn-2">[2]</xref>. Dies kann aus Gründen resultieren, die sehr disziplinenspezifisch sind, und betrifft konkret etwa bestimmte Formate bzw. Konzepte der Datenmodellierung, die für den Einsatz im eigenen Fachbereich noch angepasst oder ausdifferenziert werden müssen. Dies bedeutet gleichzeitig, dass auch die entsprechenden Anwendungen für die konkrete Prozessierung und Bereitstellung der Inhalte für einen belastbaren Regelbetrieb oftmals noch entwickelt oder daraufhin skaliert werden müssen.</p>
+         <p id="p-3">
+            <named-content content-type="paragraph-counter">3</named-content>Nicht zu unterschätzen sind in den Geisteswissenschaften und besonders  in den archäologisch arbeitenden Disziplinen aber auch abstraktere Faktoren, d. h.: Etablierte Erwartungen an die Eigenschaften der medialen Zwischen- und Endprodukte und vor allem auch an die Abläufe von Publikationsprozessen<xref ref-type="fn" rid="fn-3">[3]</xref>. Auch ist die Heterogenität der am Prozess beteiligten Anspruchsgruppen in Bezug auf die notwendigen spezifischen Kenntnisse nach wie vor groß.</p>
+         <p id="p-4">
+            <named-content content-type="paragraph-counter">4</named-content>Der vorliegende Artikel will in Form eines Werkstattberichts zeigen, wie das DAI im Rahmen seiner Digitalisierungsstrategie ein neues Zeitschriftenmodell entwickelt, das dabei den Anspruch hat, Artikelinhalte in maschinenlesbarer Form zu publizieren und darüber hinaus dazugehörigen Forschungsdatenkonvoluten durch die inhaltliche und technische Verschränkung eine prominente Sichtbarkeit zu bieten.</p>
+         <p id="p-5">
+            <named-content content-type="paragraph-counter">5</named-content>Das Modell möchte sich zudem als disziplinenspezifischer Beitrag zum Versuch einer Konzeptfindung sehen, an deren Ende ein Spektrum an Best-Practice-Lösungen steht, die andere Akteur:innen für sich übertragen können<xref ref-type="fn" rid="fn-4">[4]</xref>. Daher werden in dem Werkstattbericht aus Sicht der herausgeberischen bzw. der redaktionellen Praxis die Herausforderungen, aber vor allem die Hintergründe der Entscheidungsfindungen für die gewählten Lösungsansätze nachvollziehbar gemacht und damit ausdrücklich auch zur Diskussion gestellt. Gleichzeitig werden die vom DAI entwickelten Komponenten quelloffen und somit nachnutzbar der Community zur Verfügung stellt, um einen Beitrag zur möglichen Übertragbarkeit zu leisten.</p>
+      </sec>
+      <sec id="s-2">
+         <title>Ziele</title>
+         <p id="p-6">
+            <named-content content-type="paragraph-counter">6</named-content>Ausgangspunkt war die Neugestaltung des sog. Archäologischen Anzeigers, eines der international traditionsreichsten Publikationsorgane im Bereich der Archäologie und der Altertumswissenschaften<xref ref-type="fn" rid="fn-5">[5]</xref>. Der Archäologische Anzeiger (AA) wurde erstmals 1889 als Beiblatt zum Jahrbuch des Deutschen Archäologischen Instituts veröffentlicht, seit 1976 erscheint er als eigenständige Zeitschrift in zwei Teilbänden pro Jahr. Von Anfang an war er ein Ort für Aufsätze, aktuelle Berichte und kleinere Mitteilungen einer breiten, internationalen Fachcommunity.</p>
+         <p id="p-7">
+            <named-content content-type="paragraph-counter">7</named-content>Folgende Ziele wurden im Rahmen des Projektes definiert:</p>
+         <list list-type="bullet">
+            <list-item>
+               <p>Sowohl die Artikel selbst als auch die beschreibenden Metadaten sollen in einer maschinenlesbaren Form zur Verfügung gestellt werden, um eine bestmögliche Nachnutzung für die Community – auch durch automatisierte Verfahren – zu gewährleisten. </p>
+            </list-item>
+            <list-item>
+               <p>Dies soll in Form einer zitierfähigen Ausgabe in responsiver Webansicht geschehen, bei der die Text- und Bildinhalte durch klare Strukturierung gut erfassbar sind, um alle wichtigen wissenschaftlichen Anforderungen einer zunehmend digital arbeitenden Fachcommunity zu erfüllen.</p>
+            </list-item>
+            <list-item>
+               <p>Die Artikel sollen mit möglichst vielen Normdaten anreicherbar sein. Zudem sollen alle relevanten Metadaten beigefügt werden, die notwendig sind, um Inhalt und Kontributoren usw. beschreiben zu können, und zwar unter Verwendung etablierter persistenter Identifikatoren wie DOI, ORCID usw. inkl. der entsprechenden Registrierungsvorgängen bei den zuständigen Agenturen wie DataCite usw.</p>
+            </list-item>
+            <list-item>
+               <p>Es soll möglich sein, die Journal-Artikel mit Forschungsdatenpublikationen zu verschränken.</p>
+            </list-item>
+            <list-item>
+               <p>Eine hochwertige Druckausgabe soll weiterhin angeboten werden, da diese für die relevanten Zielgruppen – d. h. für Rezipient:innen, aber auch vor allem für Autor:innen – nach wie vor wichtiges Qualitätsmerkmal eines wissenschaftlichen Journals in der Archäologie bzw. auch ein Karriereargument und damit einen Publikationsanreiz darstellt<xref ref-type="fn" rid="fn-6">[6]</xref>.
+               </p>
+            </list-item>
+         </list>
+         <p id="p-8">
+            <named-content content-type="paragraph-counter">8</named-content>Mit den o. g. Merkmalen soll vor allem auch jener Perspektivwechsel ermöglicht werden, die Publikationen selbst als digitale Objekte betrachtbar machen zu können, was in Anlehnung an die FAIR-Prinzipien zunehmend an Bedeutung gewinnt<xref ref-type="fn" rid="fn-7">[7]</xref>.
+         </p>
+      </sec>
+      <sec id="s-3">
+         <title>Die Umsetzung</title>
+         <p id="p-9">
+            <named-content content-type="paragraph-counter">9</named-content>Die Konzeption und Umsetzung erfolgte in Form eines gemeinsamen Projektes der Redaktion der Zentrale und des damaligen IT-Referats, heute beides Arbeitseinheiten der Zentralen Wissenschaftlichen Dienste (ZWD)<xref ref-type="fn" rid="fn-8">[8]</xref>. Aufgrund der breitgefächerten Anforderungen, die überdies wegen des halbjährlichen Erscheinens des AA vor dem Hintergrund eines sehr eng getakteten Zeitplans zu bewältigen waren, war es nicht möglich, die Umsetzung in der Kürze der Zeit komplett inhouse zu bewerkstelligen.  Daher wurden zur Ausdetaillierung des Konzeptes und dessen Umsetzung, d. h. auch konkret zur Einrichtung der Produktionsstrecke, externe Dienstleister aus unterschiedlichen Gewerken ins Boot geholt, insbesondere aus den Bereichen Kommunikationsdesign<xref ref-type="fn" rid="fn-9">[9]</xref>, Realisierung von XML-Prozessen<xref ref-type="fn" rid="fn-10">[10]</xref> und allgemeine Programmierdienstleistungen für die Anpassungen des Viewers<xref ref-type="fn" rid="fn-11">[11]</xref>. Dem Arbeitsbereich Wissenschaftliche Informationstechnologien des DAI kommt dabei eine besondere Rolle zu, nicht nur im Hinblick auf entscheidende konzeptionelle Impulse und Fragen der Machbarkeit, sondern auch bei der konkreten technischen Umsetzung und der Begleitung und Steuerung der externen Programmierung.</p>
+         <sec id="s-3.1">
+            <title>Die maschinenlesbare Ausgabe</title>
+            <p id="p-10">
+               <named-content content-type="paragraph-counter">10</named-content>Für das Ausgangsformat der maschinenlesbaren Ausgabe fiel die Entscheidung aufgrund der Möglichkeiten zur formalen Strukturierung und semantischen Auszeichnung auf das JATS XML-Format, das sich in einigen Bereichen für wissenschaftliche Journals zum Standard zu entwickeln beginnt<xref ref-type="fn" rid="fn-12">[12]</xref>.
+            </p>
+            <p id="p-11">
+               <named-content content-type="paragraph-counter">11</named-content>Für die Anzeige fiel die Wahl auf den sog. eLife Lens, eine freie und quelloffene Anwendung (<xref ref-type="fig" rid="f-1">Abb. 1</xref>)               <xref ref-type="fn" rid="fn-13">[13]</xref>. Dies hat mehrere Gründe: Da das DAI im Sinne seiner Open Science-Strategie bestrebt ist, seine Informationsinfrastruktur möglichst auf Basis von Open Source-Produkten weiterzuentwickeln, schieden proprietäre Lösungen von vornherein aus. Entscheidend war dann nicht nur, dass sich viele Instanzen des eLife Lens in der Praxis des wissenschaftlichen Publikationsbetriebs bewährt haben, darunter auch in geisteswissenschaftlichen Kontexten<xref ref-type="fn" rid="fn-14">[14]</xref>, und dass der Viewer viele Anforderungen für wissenschaftliche Journals standardmäßig erfüllt, sondern auch, dass eLife seine Entwicklungen in gewisser Abstimmung mit dem PKP-Konsortium vornahm<xref ref-type="fn" rid="fn-15">[15]</xref>. Dies ist für das DAI insofern wichtig, da damit zumindest eine gewisse Kompatibilität mit den ebenfalls von im PKP-Umfeld entwickelten OJS- und OMP-Plattformen sichergestellt ist, von denen das DAI im Rahmen seiner iDAI.publications-Systeme betreibt, über die auch seine digitale Zeitschriftenausgaben veröffentlicht werden<xref ref-type="fn" rid="fn-16">[16]</xref>.
+            </p>
+         </sec>
+         <sec id="s-3.2">
+            <title>Verschränken der Journal-Artikel mit Forschungsdaten</title>
+            <p id="p-12">
+               <named-content content-type="paragraph-counter">12</named-content>Kernbestandteil des Konzeptes ist es, zusätzlich zu den Inhalten, die auch in der Print-Version ausgegeben werden, in die Viewer-Ausgabe der .xml-Version eines Artikels Daten aus anderen Informationsressourcen einzubinden und anzuzeigen, um Normdaten, vor allem aber umfangreichere Forschungsdatenkonvolute mit den auswertenden Beiträgen verschränken und damit letztere prominent publizieren zu können.</p>
+            <p id="p-13">
+               <named-content content-type="paragraph-counter">13</named-content>Das Konzept sieht vor, den Nutzer:innen in einer Vorschau die wichtigsten Informationen zum referenzierten Objekt, Befund, Normdatum usw. inklusive der wichtigsten Kernfelder der beschreibenden Metadaten anzuzeigen. Für alle weiteren Informationen zu den Normdaten bzw. dem Objekt/Befund, dessen Kontextualisierung usw. werden die Nutzer:innen dann in die entsprechende Quell-Systeme weitergeleitet. Dazu wurde bzw. wird der Viewer so modifiziert, dass nach und nach die Einbindung von Inhalten aus allen wichtigen Normdaten-, Objekt- und sonstigen Dokumentationssystemen der 
+                  iDAI.world
+               , der vernetzten Informationsinfrastruktur des DAI, möglich sein soll.</p>
+            <p id="p-14">
+               <named-content content-type="paragraph-counter">14</named-content>Zu diesem Zweck wurde der Viewer um sog. Labels erweitert, die in Form von Tabs in der rechten Spalte angezeigt werden. Dass dabei die Labels »Extra Features« und »Supplements« unterschieden werden, obgleich beide auf identische Weise Inhalte der iDAI.world anzeigen, liegt am zugrundeliegenden Konzept: Bei den »Extra Features« handelt es sich entweder um referenzierte Normdaten oder um allgemeine Verweise auf illustrierendes Material, das nicht zwingend von dem:der Autor:in selbst erstellt wurde und das daher weder Gegenstand des Begutachtungsprozesses noch der redaktionellen Bearbeitung des Beitrages ist (<xref ref-type="fig" rid="f-2">Abb. 2</xref>). Davon unterscheiden sich die »Supplements«, bei denen es sich um Daten-Konvolute handelt, die von dem:der Autor:in entweder erstellt oder für den Beitrag zusammengestellt wurden und die vor allem – wie der Artikel selbst – Gegenstand des fachwissenschaftlichen Peer-review-Prozesses waren (<xref ref-type="fig" rid="f-3">Abb. 3</xref>).
+            </p>
+            <p id="p-15">
+               <named-content content-type="paragraph-counter">15</named-content>In dieser Form angezeigt werden können zur Zeit Inhalte aus:</p>
+            <list list-type="bullet">
+               <list-item>
+                  <p>
+                     <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://arachne.dainst.org">iDAI.objects</ext-link>, dem Verzeichnissystem für Objektdaten</p>
+               </list-item>
+               <list-item>
+                  <p>
+                     <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://gazetteer.dainst.org/app/#!/home">iDAI.gazetteer</ext-link>, dem Normdatensystem für Ortsnamen (Toponyme) und deren geografische Koordinaten</p>
+               </list-item>
+               <list-item>
+                  <p>
+                     <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://field.idai.world/project">iDAI.field</ext-link>, dem System zur Dokumentation von archäologischen Ausgrabungen und Feldforschungsprojekten</p>
+               </list-item>
+            </list>
+            <p id="p-16">
+               <named-content content-type="paragraph-counter">16</named-content>Ein Sonderfall bietet <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://zenon.dainst.org">iDAI.bibliography</ext-link>: Hier wurde beschlossen, zunächst auf die dort existierenden Datensätze zu verlinken, um alle relevanten Funktionen des Fachsystems wie Export in verschiedene Datenformate etc. nutzen zu können (<xref ref-type="fig" rid="f-4">Abb. 4</xref>).
+            </p>
+            <p id="p-17">
+               <named-content content-type="paragraph-counter">17</named-content>Der Quellcode zu den oben genannten Anpassungen ist auf GitHub verfügbar<xref ref-type="fn" rid="fn-17">[17]</xref>.
+            </p>
+         </sec>
+         <sec id="s-3.3">
+            <title>Die Druckausgabe</title>
+            <p id="p-18">
+               <named-content content-type="paragraph-counter">18</named-content>Aus dem oben geschilderten Ziel, dass eine hochwertige Druckpublikation weiterhin zur Verfügung gestellt werden muss, leitete sich die Anforderung ab, eine gelayoutete Ausgabe in Form eines PDF-Formats vorzusehen. Der Aufwand, die in archäologischen Publikationen oft komplexe Korrelation von Texten, Bildern, Abbildungstableaus, maßstäblichen Zeichnungen usw. mit alternativen Textsatzsystemen oder darstellenden Auszeichnungssprachen umzusetzen (LaTeX, Print-CSS, XSL-FO o. Ä.), wurde dabei im Vorfeld als nur schwer kalkulierbar eingeschätzt<xref ref-type="fn" rid="fn-18">[18]</xref>. Da zudem das Risiko als zu hoch erschien, für beide Ausgabemedien gleichzeitig völlig neue Prozesse einzurichten, zumal vor dem Hintergrund der eng getakteten Erscheinungstermine kein Puffer für Fallback-Lösungen existierte, wurde die Entscheidung getroffen, die Druckausgabe in einer Übergangsphase zunächst weiterhin auf herkömmliche Weise in einem Satzprogramm vorzubereiten und damit im Falle des AA für den Satz der PDF-Ausgabe weiterhin InDesign zu verwenden.</p>
+         </sec>
+         <sec id="s-3.4">
+            <title>Das Aufbereiten der Manuskriptdaten für Viewer- und die Druck-Ausgabe</title>
+            <p id="p-19">
+               <named-content content-type="paragraph-counter">19</named-content>Bei der Umsetzung wurde zwar darauf geachtet, die Abläufe möglichst im Hinblick auf die Bedürfnisse der technischen Prozesslogik zu entwerfen. Diese Absicht musste allerdings insofern wieder eingeschränkt werden, als andere wichtige Faktoren – allen voran Erwartungen der Autor:innen an den Schreib- und Redaktionsprozess – ebenso zu berücksichtigen waren. Ein entscheidender Punkt dabei war, dass nach wie vor viele Autor:innen gewohnt sind, nicht nur ihre Manuskripte in MS Word zu erstellen, sondern auch eine gelayoutete Ausgabe zu Korrekturzwecken zu erhalten, was bedeutet, dass die Korrekturläufe zwischen Redaktion und Autor:in in gelayouteten PDFs zu bewerkstelligen sein müssen, da alle anderen Varianten wenig arbeitsökonomisch wären. Daher wurde eine Reihenfolge gewählt, in der in der .pdf-Korrekturphase keine mehrfachen und fehleranfälligen Konvertierungsprozesse notwendig sind, was nur zu erreichen ist, wenn das Quellformat, aus dem beide Ausgabeformate (.pdf und .xml) generiert werden, die in InDesign vorbereitete Satzdatei ist. Dies soll allerdings ausdrücklich nur eine mittelfristige Lösung darstellen, bis andere Formen des Austauschs zwischen Autor:in, Redaktion und technischer Aufbereitung sich zu etablieren beginnen.</p>
+         </sec>
+         <sec id="s-3.5">
+            <title>Tagging-Wortschatz</title>
+            <p id="p-20">
+               <named-content content-type="paragraph-counter">20</named-content>Aufgrund der Komplexität des .xml-Formats, aus dem der Viewer die responsive Web-Ausgabe generiert, wurde darauf geachtet, dass bei der ganzen Prozesskette die formalen Anforderungen dieses End-Formats von Anfang mitgedacht werden, um mögliche strukturelle Inkongruenzen und damit Fehler bei der Konvertierung oder der Darstellung zu vermeiden. Daher wurde in der Satzdatei ein umfangreicher Tagging-Wortschatz in Form von Zeichen- (77), Absatz- (43) und Objektformaten (13) angelegt, bei dem die Kategorien so definiert sind, dass die satztypischen Formatangaben beim Export in die notwendigen .xml-Elemente umgewandelt werden können (<xref ref-type="fig" rid="f-5">Abb. 5</xref>).
+            </p>
+            <p id="p-21">
+               <named-content content-type="paragraph-counter">21</named-content>So hoch diese Zahlen zunächst klingen, so dienen allerdings nur die wenigsten Formatvorlagen davon zur Auszeichnung der Texte selbst: Der allergrößte Teil dieser Formatvorlagen der Satzdatei – insgesamt 62 – sind für die korrekte metadatentechnische Beschreibung des Beitrages bzw. der Zeitschriftenausgabe notwendig. Das bedeutet, dass es sich in großen Teilen um denselben Aufwand handelt, der auch bei klassischen Print-Publikationen anfällt – bis auf den entscheidenden Unterschied, dass dieser bisher in der Regel erst nach der Veröffentlichung eines Bandes oder Beitrages und zudem zumeist in den Bibliotheken anfiel.</p>
+         </sec>
+         <sec id="s-3.6">
+            <title>Die Produktionsstrecke .indd nach .pdf und .xml</title>
+            <p id="p-22">
+               <named-content content-type="paragraph-counter">22</named-content>An die Satzherstellung und damit an die Erstellung der Druck-PDFs werden keine besonderen Anforderungen gestellt, außer dass die Auszeichnung sämtlicher Elemente (Textelemente, aber auch Text- und Bildrahmen usw.) sehr präzise sein muss.  Im Falle des Archäologischen Anzeigers wird die korrekte Auszeichnung der Artikel  bzw. der einzelnen Elemente mit sämtlichen Formaten vom Lektorat in einem Word-Dokument vorgenommen (siehe dazu unten unter Textverarbeitung). Anschließend wird der Satz der Artikel von einer Prepress-Firma durchgeführt, der eine entsprechende InDesign-Musterdatei mit den eingerichteten Formatvorlagen sowie die zur Konvertierung nach .xml notwendigen XSLT-Skripte übergeben wurden<xref ref-type="fn" rid="fn-19">[19]</xref>.
+            </p>
+            <p id="p-23">
+               <named-content content-type="paragraph-counter">23</named-content>Die Generierung des .xml (JATS)-Dokumentes, das vom Viewer angezeigt wird, aus der InDesign-Datei erfordert verschiedene Konvertierungsschritte, die von XSLT-Skripten gesteuert werden; die Skripte sind auf GitHub verfügbar<xref ref-type="fn" rid="fn-20">[20]</xref>. An zwei Stellen helfen Preflight-Kontrollen, die Prozesse zu überwachen. Der Ablauf gestaltet sich folgendermaßen:</p>
+            <list list-type="bullet">
+               <list-item>
+                  <p>Export des Dokumentes aus InDesign von .indd nach .xhtml.</p>
+               </list-item>
+               <list-item>
+                  <p>Erster Preflight-Test: Geprüft werden Strukturierung sowie die einzelnen Elemente, anschließend generiert die Produktionsstrecke ein sehr ausführliches Prüfprotokoll in Form eines .html-Reports (<xref ref-type="fig" rid="f-6">Abb. 6</xref>)                     <xref ref-type="fn" rid="fn-21">[21]</xref>.
+                  </p>
+               </list-item>
+               <list-item>
+                  <p>Es folgen drei Schritte, bei denen die Elemente schrittweise nach .xml (JATS) konvertiert werden.</p>
+               </list-item>
+               <list-item>
+                  <p>Zweiter Preflight-Test: Auf Basis des .xml (JATS)-Dokumentes wird eine .html-Preview des Inhalts generiert, um die strukturelle Korrektheit des Dokumentes vor dem Import in den Viewer ein letztes Mal zu prüfen.</p>
+               </list-item>
+            </list>
+            <p id="p-24">
+               <named-content content-type="paragraph-counter">24</named-content>Diese gesamte Produktionsstrecke kann von einer Satzfirma völlig autonom bearbeitet werden, was bedeutet, dass für diese komplexen Schritte nicht zwingend inhouse eine besondere Kompetenz vorhanden sein muss. Allerdings zeigt sich, dass die angezeigten Fehler oftmals mit unkorrekten Auszeichnungen der Word-Version zusammenhängen, so dass die bzw. der bearbeitende Redakteur:in die Ursachen deutlich schneller ermitteln kann als die Prepress-Firma und daher eine enge Zusammenarbeit empfohlen wird.</p>
+         </sec>
+         <sec id="s-3.7">
+            <title>Maßnahmen zur Aufwandsreduktion</title>
+            <sec id="s-3.7.1">
+               <title>Semi-automatisiertes Anreichern der Publikationstexte mit Normdaten</title>
+               <p id="p-25">
+                  <named-content content-type="paragraph-counter">25</named-content>Die Anreicherung der Publikationstexte mit Referenzen auf Inhalte anderer Informationsressourcen wie Objektdatenbanken oder Normdatenverzeichnisse führt im Vergleich zu bisher etablierten Publikationsworkflows gleich auf zwei Ebenen zu einem Mehraufwand: Zum einen müssen die Einträge der zu referenzierenden Entitäten in den Nachweissystemen bzw. Verzeichnissen gesucht und deren Identifier extrahiert werden. Zum anderen müssen die Verweisstellen im Text mit dem korrekten Format ausgezeichnet und mit dem extrahierten Identifier bzw. der URI/URL hinterlegt werden. Je nach Fallzahl führt dies zu einem nicht unerheblichen Mehraufwand.</p>
+               <p id="p-26">
+                  <named-content content-type="paragraph-counter">26</named-content>Ziel ist daher, diese Prozeduren wie das Heraussuchen von IDs oder die händische Auszeichnung von Verweisstellen im Text sukzessive zu semi-automatisieren, um signifikante Zusatzaufwände zu vermeiden, da diese eine Hürde für eine dauerhafte Akzeptanz des Modells und damit dessen Übertragbarkeit darstellen.</p>
+               <p id="p-27">
+                  <named-content content-type="paragraph-counter">27</named-content>Ein Beispiel dafür sind Literaturverweise und -verzeichnisse, die von den Autor:innen nach wie vor in den meisten Fällen in Form lediglich typographisch formatierter Text-Dokumente den Artikeln beigefügt werden und die keine Verweise auf Verzeichnissysteme wie iDAI.bibliography o. Ä. enthalten. Auch wenn davon auszugehen ist, dass Autor:innen mittel- und langfristig bibliographische Angaben zunehmend in strukturierter und mit relevanten Identifiern angereicherter Form einreichen werden, so müssen in der momentanen Übergangsphase kurzfristig semi-automatisierte Prozesse helfen, den Aufwand möglichst zu reduzieren.</p>
+               <p>
+                  <italic>Ein erstes Modul: Der iDAI.bibliography-assistant</italic>
+               </p>
+               <p id="p-28">
+                  <named-content content-type="paragraph-counter">28</named-content>Zu diesem Zweck hat das DAI in Zusammenarbeit mit Daniel de Oliveira einen webbasierten Bibliographie-Assistenten entwickelt<xref ref-type="fn" rid="fn-22">[22]</xref>. Die Web-Version wurde über das auf Elixir basierende Web-Development-Framework Phoenix realisiert; als Standard-Parser wird AnyStyle verwendet<xref ref-type="fn" rid="fn-23">[23]</xref>. Nach dem Kopieren der Literaturliste in das Eingabefeld der Anwendung parst das Werkzeug die Verweise, übergibt die segmentierten Einträge als JSON-Format und gleicht sie über die existierende Zenon-API mit Einträgen aus iDAI.bibliography ab. Danach zeigt das Tool konkordanzartig Treffer an bzw. bietet im Falle ambiguer Matches zu bestätigende Auswahlmöglichkeiten (<xref ref-type="fig" rid="f-7">Abb. 7</xref>). Abschließend kann die mit iDAI.bibliographiy-IDs angereicherte Ausgangsliste exportiert werden.</p>
+               <p id="p-29">
+                  <named-content content-type="paragraph-counter">29</named-content>Im laufenden Probebetrieb wird nach Möglichkeiten gesucht, die DAI-seitig zu beeinflussenden limitierenden Faktoren für die Trefferquote (d. h. Fehler beim Segmentieren, aber vor allem unkorrekte bzw. mehrere abweichende Einträge im Nachweissystem) möglichst arbeitsökonomisch zu verringern, wobei sich aber auch zeigt, dass artikelseitige Unzulänglichkeiten wie inkorrekte Literaturangaben ebenfalls eine relevante Anzahl unter den Fehlern ausmachen.</p>
+               <p id="p-30">
+                  <named-content content-type="paragraph-counter">30</named-content>Bei Artikeln, die sich in einem Themenbereich bewegen, der zu den traditionellen Forschungsschwerpunkten des DAI gehört, erreicht die Benutzung des Assistenten bereits jetzt sein Ziel, den Aufwand für die bearbeitende Redaktion maßgeblich zu reduzieren, da die referenzierte Literatur im Verzeichnisbestand der Bibliotheken des DAI und damit in iDAI.bibliography für das Tool auffindbar ist. Dies führt zu der konzeptionellen Frage, wie mit Artikeln umgegangen werden soll, die auf Literatur verweisen, die nicht traditionell zum Erwerbungsschwerpunkt des DAI gehört, da die Anreicherung von Artikeln mit Normdaten perspektivisch an Bedeutung zunehmen wird. Die Referenzierung auf Inhalte anderer Verzeichnissysteme wäre eine Option, hätte allerdings verschiedene Nachteile und würde u. a. bedeuten, den Verweis auf fehlerhafte Einträge hinnehmen zu müssen, da Korrekturen nicht selbst vorgenommen werden könnten. Es ist daher unbedingt zu präferieren, iDAI.bibliography mit den fehlenden Einträgen im Redaktionsprozess anzureichern. Damit das in einem bibliotheksseitig vertretbaren Aufwand erledigt werden kann, böte sich der Bibliography-Assistant als technisches Instrument an, um Teilschritte zu erledigen, da die entsprechenden Referenzen geparst im JSON-Format durch den Bibliography-Assistant bereitgestellt werden und so auf einfache Weise nach iDAI.bibliography gepusht werden könnten, wo im Anschluss eine Validierung vonseiten der Bibliothek erfolgen müsste.</p>
+            </sec>
+
+            <sec id="s-3.7.2">
+               <title>Textverarbeitung und Ansätze für skriptbasierte Bearbeitung</title>
+               <p id="p-31">
+                  <named-content content-type="paragraph-counter">31</named-content>Um bereits möglichst früh im Prozess die korrekten Formate zu verwenden, wurde eine .dotx-Formatvorlage für die Bearbeitung in MS Word erstellt, die nicht nur im vorbereitenden Redaktionsprozess genutzt wird, sondern die auch den Autor:innen  zur Verfügung gestellt wird. In ihr sind sämtliche Elemente des benötigten Tagging-Wortschatzes in entsprechenden Formatvorlagen abgebildet, die beim Import in die Satzdatei in einfacher Weise den dortigen InDesign-Formatvorlagen zugewiesen werden können.</p>
+               <p id="p-32">
+                  <named-content content-type="paragraph-counter">32</named-content>Neben der oben skizzierten Anreicherung von Normdaten usw. entsteht bei der redaktionellen und formalen Vorbereitung der Texte insofern noch ein weiterer zusätzlicher Aufwand, da es im Vergleich zu Artikeln, die für eine einfache Druckausgabe vorbereitet werden, mehr Bestandteile gibt, denen Meta-Informationen beigefügt werden müssen. So besteht etwa für Druckausgaben keine Notwendigkeit, einzelne Bestandteile von Abbildungsnachweisen o. Ä. separat auszuzeichnen, für maschinenlesbare Ausgabeformate aber schon. Das führt zum einen dazu, dass die Zahl der auszuführenden Auszeichnungsvorgängen höher ist.</p>
+               <p id="p-33">
+                  <named-content content-type="paragraph-counter">33</named-content>Zum anderen müssen die Auszeichnungen selbst auch sorgfältiger erfolgen  bzw.  es ist mit größerem Korrekturaufwand zu rechnen, da unvollständige oder unkorrekte Auszeichnungen, die bei der Vorbereitung von Printpublikationen nur typographische und damit oftmals tolerierbare Abweichungen im gedruckten Endprodukt hervorrufen, in der formatübergreifenden Prozesskette des Anzeiger-Modells aber entweder zu einem fehlermeldungsbegleiteten Stopp von Konvertierungsvorgängen oder zu Fehlern in der Anzeige führen.</p>
+               <p id="p-34">
+                  <named-content content-type="paragraph-counter">34</named-content>So naheliegend die Lösung einer skriptgesteuerten Bearbeitung der Text-Dokumente in der Theorie auch ist, umso schwieriger gestaltet sich ein praktikables Konzept für deren Umsetzung, da eine herausgebende Institution ihre Prozesse nicht allein auf die technische Umsetzbarkeit ausrichten kann, sondern – wie geschildert – auch auf andere Faktoren wie die fachlich etablierte Publikationskultur und damit auch auf die Erwartungen, die die Autor:innen an die Vorbereitung wissenschaftlicher Publikationen und deren Erscheinungsform haben, in angemessener Form Rücksicht nehmen muss. Das bedeutet:</p>
+               <list list-type="ordered">
+                  <list-item>
+                     <p>In Bezug auf individuelle Gewohnheiten: Einigen Akteur:innen, die zentrale Rollen im Prozess spielen, muss man die Möglichkeit zugestehen, zumindest in einer Übergangsphase mit ihren gewohnten Formaten weiter zu arbeiten (siehe auch oben zu Umbruch-PDFs). Dies gilt vor allem für Autor:innen, die bestimmte Erwartungen an ihre Art der Vorbereitung der Texte stellen, kann aber auch für jene Redakteur:innen  zutreffen, die vor allem aufgrund ihrer fachwissenschaftliche Expertise in den Redaktionsprozess involviert sind und denen man in einer Übergangsphase ebenfalls Zeit für eine Umstellung in neue Formen des wissenschaftlichen Publizierens einräumen muss.</p>
+                  </list-item>
+                  <list-item>
+                     <p>In Bezug auf fachliche Gewohnheiten der wissenschaftlichen Argumentationsführung: Für die Archäologie und Altertumswissenschaften ist vorauszusetzen, dass Texte zunächst weiterhin mit komplexen Fußnotenapparaten verschränkbar bleiben müssen, was bedeutet, dass man auf Formate von Anwendungen, die solche dynamischen Referenzierungen abbilden können, wird zurückgreifen müssen. Mit anderen Worten: Es ist zu antizipieren, dass man vermutlich noch eine Weile in der Lage sein muss, Inhalte, die im .docx-Format eingereicht werden, in der ein oder anderen Weise verarbeiten zu können.</p>
+                  </list-item>
+                  <list-item>
+                     <p>In Bezug auf fachliche Gewohnheiten bei der Darstellung des Abbildungsapparates: Wie eingangs dargelegt, bleibt – ebenso für eine Übergangszeit mangels alternativer Möglichkeiten – die Anforderung bestehen, wissenschaftliche Beiträge in einem Satzprogramm zu formatieren, um ein hochwertiges Layout im Hinblick auf erwartete Muster der Text-Bild-Kombination erstellen zu können, was bedeutet, dass an irgendeiner Stelle im Prozess Inhalte in einem .indd/.idml-Format (siehe oben) bearbeitet werden müssen.</p>
+                  </list-item>
+               </list>
+               <p id="p-35">
+                  <named-content content-type="paragraph-counter">35</named-content>Das führt zu der Frage: In welchem der genannten Formate bzw. im Kontext welcher Anwendung bzw. mit welcher Informationstechnologie kann eine skriptgesteuerte Aufbereitung am sinnvollsten stattfinden?</p>
+               <p id="p-36">
+                  <named-content content-type="paragraph-counter">36</named-content>Das .indd/.idml-Format wäre theoretisch sehr gut dafür geeignet: Anwendungen wie InDesign bieten nicht nur eine Umgebung für die Bearbeitung der Dokumente mit JavaScript oder grep, hinzukommt auch, dass es viele spezialisierte Dienstleister gibt, die in er Lage wären, auch sehr spezifische Anforderungen umzusetzen. In Hinblick  auf Korrekturläufe usw. wäre ein zusätzlicher Vorteil, dass die automatisierte Formatierung bereits in dem Format erfolgen würde, aus dem beide Ausgabemedien direkt generiert würden.</p>
+               <p id="p-37">
+                  <named-content content-type="paragraph-counter">37</named-content>Dagegen sprechen jedoch zwei gewichtige Argumente: Zum einen leitet sich aus den Anforderung an die Zurverfügungstellung wissenschaftlicher Inhalte ab, dass bei der Formatierung von Publikationsinhalten Satzprogramme nur noch eine Übergangslösung darstellen, da bei wissenschaftlichen Publikationen maschinenlesbare Ausgaben in Zukunft im Vordergrund stehen werden. Dass bedeutet, dass perspektivisch für eventuell notwendige .pdf-Ausgaben Anwendungen oder Formate genutzt werden, die besser zu diesen Workflows passen müssen (LaTeX, Print-CSS, XSL-FO o. Ä), so dass umfangreichere Investitionen in dieser Übergangsphase gut überlegt sein müssen. Vor allem würde es mangels Open Source-Alternativen zum anderen dazu führen, einen hohen Entwicklungsaufwand in Maßnahmen zur Bearbeitung proprietärer Formate zu investieren, was dem eigenen Anspruch an quelloffene Entwicklungen zuwider laufen würde und was nur in Betracht gezogen werden sollte, wenn pragmatische Alternativen fehlen.</p>
+               <p id="p-38">
+                  <named-content content-type="paragraph-counter">38</named-content>Ähnlich verhält es sich mit .docx-Formaten, für die es zweifellos ebenfalls sehr mächtige Skriptmöglichkeiten zur Bearbeitung gibt. Doch auch hier stellt sich in gleicher Weise die Frage, ob es sinnvoll ist, angesichts der oben skizzierten Ziele Ressourcen in Technologien zu investieren, die man nicht dauerhaft nutzen möchte. Dies gilt auch für die notwendige Expertise im Umgang damit: Es wäre ein hoher Aufwand nötig, alle am Prozess Beteiligten für die Arbeit mit spezialisierten und proprietären Formate zu schulen, wissend, dass es sich nur um Übergangslösungen handelt.</p>
+               <p>
+                  <italic>Ein Vorschlag zur Diskussion: .html als Zwischenprodukt?</italic>
+               </p>
+               <p id="p-39">
+                  <named-content content-type="paragraph-counter">39</named-content>Eine sehr pragmatischer Ansatz könnte sein, die automatisierte Bearbeitung in einem Format stattfinden zu lassen, das deutlich einfacher strukturiert ist als .docx oder .idml, nämlich .html<xref ref-type="fn" rid="fn-24">[24]</xref>. Abgesehen von seinen spezifischen Eigenschaften hat das .html-Format vor allem auch den entscheidenden Vorteil, dass viele Akteur:innen ohnehin bereits aus anderen Kontexten mit dessen Umgang vertraut sind. Daher kann das .html-Format als Zwischenprodukt garantieren, dass auch Akteur:innen mit allgemeinen Grundkenntnissen der Syntax in der Lage sind, die skriptgesteuerten Bearbeitungsschritte nachzuvollziehen. Vor allem können Fehler schneller identifiziert und einfacher korrigiert werden, als dies in komplexer strukturierten Formaten der Fall ist, bevor der automatisiert aufbereitete Inhalt zur weiteren Verarbeitung und Finalisierung für die Ausgabemedien in proprietäre Formate zurückkonvertiert wird.</p>
+               <p id="p-40">
+                  <named-content content-type="paragraph-counter">40</named-content>Eine einfache Anwendung, die testweise bereits zur Vorstrukturierung der Zeitschriftenbeiträge eingesetzt wird, zeigt, dass dieses Konzept grundsätzlich funktionieren kann<xref ref-type="fn" rid="fn-25">[25]</xref>. Man könnte demgemäß folgenden Vorschlag für ein Szenario skizzieren:</p>
+               <p id="p-41">
+                  <named-content content-type="paragraph-counter">41</named-content>Schritt 1: Im .docx-Format eingereichte Manuskripte werden mit 
+                     pandoc
+                    nach .html konvertiert. Dabei ist der Einsatz von pandoc nicht nur aufgrund seiner Funktion als Konvertierungstool von zentraler Bedeutung: Pandoc kann vielmehr auch insofern eine entscheidende Rolle im Prozess spielen, als es die Dokumente für die von ihm durchgeführte Konvertierung standardisiert<xref ref-type="fn" rid="fn-26">[26]</xref>, d. h. es gibt Dokumente aus, die mit einer sehr reduziertem und vor allem vereinheitlichten Spektrum an Auszeichnungen versehen sind. Diese Art der Normierung stellt eine wichtige Voraussetzung für nachfolgende erfolgreiche automatische Suchen/Ersetzen-Operationen dar.</p>
+               <p id="p-42">
+                  <named-content content-type="paragraph-counter">42</named-content>Schritt 2: Im .html-formatierten Text werden die einzelnen Bestandteile über einfaches Suchen/Ersetzen mit den Elementen ausgezeichnet, die gemäß dem oben geschilderten Tagging-Wortschatz notwendig sind. Dabei können nicht nur Zeichen- und Absatzformate automatisch festgelegt werden oder die notwendige Absatznummerierung durchgeführt werden. Vielmehr können hier mittels einfacher Wertelisten auch die aufwendigen Verlinkungen zu den Normdatensystemen erfolgen: So kann eine Tabelle, die vom iDAI.bibliography-assistant mit Zenon-IDs angereichert wurde (Autor/innen – Titel – Zenon-ID), als Werteliste dienen, auf Basis derer automatisch die Einträge der Literaturliste mit entsprechenden Links hinterlegt, aber vor allem die zahlreichen Autor-Jahr-Zitate in den Fußnoten getaggt werden. Dasselbe gilt auch für die Bildnachweise und Abbildungsunterschriften, deren Bestandteile ebenfalls jeweils separat ausgezeichnet werden müssen. Auch hier können sehr einfache Tabellen, die im .ods-Format vorbereitet und in .csv-Listen konvertiert werden, als Wertelisten dienen.</p>
+               <p id="p-43">
+                  <named-content content-type="paragraph-counter">43</named-content>Die Syntax der Auszeichnungen ist so definiert, dass die Tags beim Öffnen von einer aktuellen Microsoft Word-Version als korrekte Formatvorlagen des Anzeiger-Modells interpretiert werden (<xref ref-type="fig" rid="f-8">Abb. 8</xref>).
+               </p>
+               <p id="p-44">
+                  <named-content content-type="paragraph-counter">44</named-content>Schritt 3: Nach der Überarbeitung und automatischen Auszeichnung kann der Text in Word geöffnet und wie gewohnt redigiert und weiterverarbeitet werden. Da die Bestandteile bereits mit den korrekten Formatvorlagen ausgezeichnet sind (siehe oben), können die Texte nach Abschluss der fachwissenschaftlich-redaktionellen Bearbeitung in InDesign importiert werden, das die Formate automatisch mappt.</p>
+               <p id="p-45">
+                  <named-content content-type="paragraph-counter">45</named-content>Dieses Szenario wird zur Zeit bei einzelnen Artikeln auf seine grundsätzliche Praxistauglichkeit hin evaluiert. Noch ist unklar, wie sinnvoll es ist, mit .html noch ein weiteres Format einzuführen. Letztendlich könnte man auch die sehr grundsätzliche Frage aufwerfen, welche Notwendigkeiten überhaupt bestehen, an .xml als Zielformat festzuhalten bzw. ob nicht auch einfacher strukturierte Formate wie .html alle notwendigen Anforderungen erfüllen können, zumal diese mit deutlich weniger Aufwand zu verarbeiten sind.</p>
+               <p id="p-46">
+                  <named-content content-type="paragraph-counter">46</named-content>Das bedeutet, dass zeitnah auch andere Ansätze sorgfältig geprüft werden müssten, bevor man sich auf eine langfristige Lösung festlegt, die dann idealerweise in einer webfähigen Anwendung aufgesetzt werden müsste.</p>
+            </sec>
+            <sec id="s-3.7.3">
+               <title>Aufbereiten von Forschungsdatenkonvoluten für eine supplementäre Publikation</title>
+               <p id="p-47">
+                  <named-content content-type="paragraph-counter">47</named-content>Der Aufwand, der für die Aufbereitung der Forschungsdatenkonvolute für eine supplementäre Publikation notwendig ist, ist am schwierigsten zu beziffern, da dieser von sehr vielen Faktoren abhängig ist und teilweise sehr individuelle Lösungen erfordert. Im Wesentlichen lassen sich zur Zeit zwei Anforderungsszenarien unterscheiden: Autor:innen möchten Daten veröffentlichen,</p>
+               <list list-type="ordered">
+                  <list-item>
+                     <p>die in Datenmodellen strukturiert sind, die prinzipiell auf einen Austausch und potenzielle Nachnutzung hin konzipiert wurden oder die sich bereits in der iDAI.world befinden</p>
+                  </list-item>
+                  <list-item>
+                     <p>die sehr spezifisch im Hinblick auf die Anforderungen des jeweiligen Forschungsprojektes hin modelliert sind und die erst nachträglich in die iDAI.world-Systeme eingepflegt werden.</p>
+                  </list-item>
+               </list>
+               <p id="p-48">
+                  <named-content content-type="paragraph-counter">48</named-content>Im ersten Fall entsteht entweder kein oder nur geringer zusätzlicher Aufwand, da die Daten bei ihrer Aufzeichnung oder Erzeugung entsprechend prä-modelliert<xref ref-type="fn" rid="fn-27">[27]</xref> wurden bzw. die Strukturierung ein einfaches Mapping erlauben. Im zweiten Fall kann je nach Zustand der Ausgangsdaten ein mitunter sehr großer Aufwand entstehen, da die Ausgangsdaten/Formate der lokalen Datensammlung eines Projektes für eine supplementäre Publikation zunächst re-modelliert werden müssen, bevor sie in das Fachsystem migriert werden können. Die Lösungen, wie diese Aufwände zu reduzieren sind, müssen zwangsläufig ebenfalls individuell sein, was kurz- und mittelfristig ein ungelöstes Problem des Modells darstellt.</p>
+               <p id="p-49">
+                  <named-content content-type="paragraph-counter">49</named-content>Für den Fall, dass für eine Forschungsdatenpublikation eine Aufbereitung und ein Import von Daten in die iDAI.world-Systeme notwendig ist, hat das DAI bereits begonnen, Tools zu entwickeln, die den Aufwand erheblich reduzieren. Ein Beispiel dafür ist die ArachneImportAppX (AIAX), die einen semi-automatisierten Import von Datenbeständen in die zentrale Objektdatenbank des DAI iDAI.objects/Arachne ermöglicht, auch wenn je nach Zustand des Quellbestands ein mehr oder weniger großer Zusatzaufwand bestehen bleibt<xref ref-type="fn" rid="fn-28">[28]</xref>. Das Tool schließt aber nur eine der Lücken, da perspektivisch auch Lösungen für andere iDAI.world-Systeme gefunden werden müssen. Das DAI arbeitet zudem zur Zeit an der Implementierung eines Systems mit klassischem Repositoriencharakter, das auch eine niedrigschwelligere Publikation von Datensupplementen erlauben wird, sofern der hohe Aufwand einer Strukturierung für die anderen Systeme durch das Projekt nicht geleistet werden kann – was dann allerdings auf Kosten der Kontextualisierung mit anderen Datensätzen in der iDAI.world gehen wird.</p>
+            </sec>
+         </sec>
+      </sec>
+      <sec id="s-4">
+         <title>Fazit</title>
+         <sec id="s-4.8">
+            <title>Der Blick zurück</title>
+            <p id="p-50">
+               <named-content content-type="paragraph-counter">50</named-content>Die Arbeiten am Konzept haben im Frühjahr 2018 begonnen. Seitdem ist nicht nur die Zahl an Publikationen, die Vorschläge für die Modellierung von Open-Access-Workflows im Publikationsbereich machen<xref ref-type="fn" rid="fn-29">[29]</xref>, sondern auch die der Initiativen und Vorhaben, die infrastrukturelle Lösungsansätze zu entwickeln beginnen, stark angestiegen<xref ref-type="fn" rid="fn-30">[30]</xref>. Im Rückblick zeigt sich allerdings, dass der heutige Kenntnisstand bei derselben Zielsetzung vermutlich nur bedingt Einfluss auf die Entscheidungsfindung im Rahmen des Anzeiger-Projektes gehabt hätte, da spezifische Fragen zur Ausdetaillierung bestimmter Prozessschritte, Standards usw., die oben angesprochen wurden, entweder ausgeklammert, nicht in der notwendigen Detailtiefe betrachtet wurden<xref ref-type="fn" rid="fn-31">[31]</xref> oder im Falle der aktuelleren Projekte als noch umzusetzende Desiderate formuliert werden<xref ref-type="fn" rid="fn-32">[32]</xref>. Das gilt letztendlich auch in Bezug auf Projekte, die zu Anfang der Konzeptionsphase des AA bereits weit fortgeschritten waren und die in der Zwischenzeit durch einen erfolgreichen Regelbetrieb den Proof of Concept angetreten haben<xref ref-type="fn" rid="fn-33">[33]</xref>.
+            </p>
+            <p id="p-51">
+               <named-content content-type="paragraph-counter">51</named-content>Eine rückblickende Erfahrung ist auch, dass selbst bei vielversprechenden Open Source-Anwendungen kaum vorhersehbar ist, ob die Intensität der Community-getriebenen Weiterentwicklung hoch genug bleibt, um für das eigene Projekt mit einer einsatzfähigen Version rechnen zu können – auch wenn sehr engagierte Konsortien und Akteur:innen dahinterstehen<xref ref-type="fn" rid="fn-34">[34]</xref>.
+            </p>
+         </sec>
+         <sec id="s-4.9">
+            <title>Abgleich mit den Zielen</title>
+            <p id="p-52">
+               <named-content content-type="paragraph-counter">52</named-content>Im Hinblick auf die Sichtbarkeit von Forschungsdatenpublikationen erfüllt  das Modell insofern seine Erwartungen, als die Zahl der Einreichungen von Manuskripten mit ergänzenden Datenkonvoluten zunimmt und zu manchen Artikeln mittlerweile umfangreichere und komplexere Datenbestände publiziert werden<xref ref-type="fn" rid="fn-35">[35]</xref>. Damit kann das Modell perspektivisch einen Anreiz zur Veröffentlichung der Projektdaten darstellen. Auch zeigt sich, dass immer mehr Autor:innen die Möglichkeit nutzen, ihre Beiträge mit Normdaten anzureichern. Die Tatsache, dass das Konzept, Forschungsdaten in Journal-Artikel einzubinden und somit Inhalte der iDAI.world sichtbar zu machen, in der Lage war, eine Jury zu überzeugen, den Archäologischen Anzeiger auf der Frankfurter Buchmesse 2020 mit einem der Digital Publishing Awards  auszuzeichnen (<xref ref-type="fig" rid="f-9">Abb. 9</xref>)               <xref ref-type="fn" rid="fn-36">[36]</xref>, macht in erster  Linie Hoffnung, dass Lösungen aus der Archäologie und der Altertumswissenschaften den Diskurs auch außerhalb der eigenen Disziplinen bereichern und damit die Suche nach Best-Practice-Lösungen unterstützen können.</p>
+            <p id="p-53">
+               <named-content content-type="paragraph-counter">53</named-content>Nach dem Start des neuen Modells im Jahre 2019 haben mittlerweile fünf  weitere wissenschaftliche Zeitschriften des DAI dieses Modell – mit kleineren Abweichungen – übernommen (<xref ref-type="fig" rid="f-10">Abb. 10</xref>)               <xref ref-type="fn" rid="fn-37">[37]</xref>. Das zeigt, dass ein Workflow, der zu einem maschinenlesbaren Endprodukt führt, grundsätzlich auch von Redaktionen übernommen werden kann, die ihre Publikationen bisher auf herkömmliche Weise bearbeitet bzw. produziert haben.</p>
+            <p id="p-54">
+               <named-content content-type="paragraph-counter">54</named-content>Ein wichtiges Fazit ist allerdings auch, dass die Prozesse und unterstützenden Werkzeuge noch weiter verbessert werden müssen. Im Hinblick auf die Aufwände und eine mögliche Übertragbarkeit ist daher Folgendes zu konstatieren:</p>
+            <sec id="s-4.9.5">
+               <title>Maschinenlesbarkeit</title>
+               <p id="p-55">
+                  <named-content content-type="paragraph-counter">55</named-content>Für viele der zentralen Komponenten, die nicht nur für die Publikation, sondern auch für die Vorbereitung maschinenlesbarer Inhalte notwendig sind, gibt es – wie gezeigt – quelloffene oder frei nutzbare Anwendungen, die – je nach Anspruch an die Gestaltung und Funktionalität – mit mehr oder weniger Aufwand auf die eigenen Bedürfnisse hin konfiguriert werden können. Allerdings klaffen für die Geisteswissenschaften im allgemeinen sowie für die Archäologie und Altertumswissenschaften im besonderen einige Lücken, da bestehende Lösungen die fachspezifischen Anforderungen nicht vollständig erfüllen bzw. in Teilen auch den Erwartungen an die Abläufe und Endprodukte, die durch die geisteswissenschaftliche Publikationskultur geprägt sind, nicht gerecht werden.</p>
+               <p id="p-56">
+                  <named-content content-type="paragraph-counter">56</named-content>Die Zurverfügungstellung einer maschinenlesbaren Ausgabe führt daher im Vergleich zur Vorbereitung und Veröffentlichung herkömmlicher Publikationen zu Mehraufwänden, wobei diese in zwei Arten zu unterscheiden sind: </p>
+               <list list-type="ordered">
+                  <list-item>
+                     <p>Mehraufwände, die dadurch entstehen, dass die Ausgabeformate eine höhere Informationsdichte erreichen müssen (Anreicherung mit Normdaten, Verschränken mit bestehenden Forschungsdatenpublikationen usw.) und </p>
+                  </list-item>
+                  <list-item>
+                     <p>Mehraufwände, die daraus resultieren, dass die Arbeitsweise der am Prozess Beteiligten noch auf den Umgang mit anderen Formaten ausgerichtet ist.</p>
+                  </list-item>
+               </list>
+               <p id="p-57">
+
+                  <named-content content-type="paragraph-counter">57</named-content>Dass sich erstgenannte Aufwände perspektivisch zuverlässig reduzieren lassen, zeigen Anwendungen wie der iDAI.bibliography-assistant, die auch für andere Aufgaben Problemlösungen werden bieten können. Ziel muss daher sein, diesen Werkzeugkasten sukzessive zu erweitern.</p>
+               <p id="p-58">
+                  <named-content content-type="paragraph-counter">58</named-content>Die Umstellung der Arbeitsweise wird hingegen ein längerer Prozess sein, da eine arbeitsökonomische Verarbeitung der Dokumente – insbesondere im Hinblick auf die zahlreichen notwendigen und rekursiven Übergabevorgänge (Autor:in &lt;&gt; Redakteur:in &lt;&gt; technische Aufbereitung usw.) – nur möglich ist, wenn die Zahl der notwendigen Konvertierungs- und Formatierungsschritte deutlich reduziert wird. Das setzt allerdings voraus, dass alle am Prozess Beteiligten auf ähnlichem Kenntnisstand und mit einheitlichen Standards operieren. Anwendungen, die in anderen Disziplinen im Publikationsbereich längst etabliert sind und für sehr reibungslose Abläufe sorgen, stellen nur bedingt eine Lösungsmöglichkeit dar, da sie bestimmte fachliche Anforderungen und individuelle Erwartungen im Bereich der Geisteswissenschaft bzw. der Archäologie und Altertumswissenschaften nur mit Abstrichen erfüllen.</p>
+               <p id="p-59">
+                  <named-content content-type="paragraph-counter">59</named-content>Anzuregen ist auch, die Textverarbeitung als Problem an sich mehr in den Fokus zu rücken, da der informationstechnologisch bezogene Umgang mit Texten in den Geisteswissenschaften zwar durchaus ein sehr zentrales Thema darstellt, allerdings oft andere Schwerpunkte setzt, wodurch gewisse Lücke bleiben<xref ref-type="fn" rid="fn-38">[38]</xref>.
+               </p>
+               <p id="p-60">
+                  <named-content content-type="paragraph-counter">60</named-content>Zudem ist zu konstatieren, dass bestimmte Aufwände an einer anderen Stelle der Prozesskette (relativ am Anfang) und zu einem anderen Zeitpunkt (relativ früh) auftreten, als dies bei der Vorbereitung herkömmlicher Publikationen der Fall war. Durch diese Vorverlagerung von Aufgaben und Aufwänden müssen mittel- wie langfristig die Abläufe in allen beteiligten Arbeitseinheiten sowie deren Rollen neu gedacht werden. Das bedeutet vor allem, dass Kapazitäten und Ressourcen anders alloziert werden müssen.</p>
+            </sec>
+            <sec id="s-4.9.6">
+               <title>Verschränkung mit Forschungsdatenpublikationen</title>
+               <p id="p-61">
+                  <named-content content-type="paragraph-counter">61</named-content>Die Komponenten, die den entscheidenden Mehrwert des neuen Zeitschriftenmodells (jenseits der Maschinenlesbarkeit) bedingen, liegen genau genommen außerhalb des hier geschilderten Konzeptes, nämlich in der vernetzten Informationsinfrastruktur des DAI (iDAI.world). Die in den entsprechenden Fachsystemen und -diensten vorhandenen oder zu veröffentlichenden Datenbestände erfahren durch das neue Zeitschriftenmodell aufgrund ihrer inhaltlichen und technischen Verschränkung mit den klassischen Zeitschriften-Artikeln lediglich eine prominente Sichtbarkeit. Insofern ist das Modell zwar in Teilen übertragbar, als auch Forschungsdatenbestände eines beliebigen Repositoriums referenziert und angezeigt werden können, sofern dieses die in der Wissenschaft ohnehin notwendigen infrastrukturellen Voraussetzungen (Langzeitverfügbarkeit, nachhaltige Referenzierbarkeit, Zugreifbarkeit über Schnittstellen usw.) erfüllt. Allerdings entfallen aber dann auch jene entscheidende Mehrwerte, wie sie die vernetzte Informationsinfrastruktur des DAI bietet.</p>
+               <p id="p-62">
+                  <named-content content-type="paragraph-counter">62</named-content>Der teilweise recht hohe Aufwand, der in manchen Fällen für die Aufbereitung und den Import der zu publizierenden Forschungsdaten in spezifischen Fachsystemen mit semantik-orientierten Datenmodellen anfallen kann, ist zweifellos ein Problem. Allerdings kann dies mittelfristig überwunden werden, sofern weitere Tools zur semi-automatisierten Vorbereitung entwickelt werden und darüber hinaus eine Institution auch bereit ist, alle zur Verfügung stehenden Optimierungspotenziale im Bereich der bisherigen redaktionellen Bearbeitung und der Publikationsvorbereitung zu nutzen, um die auf diese Weise freiwerdenden Kapazitäten und Ressourcen in den Bereich der Forschungsdatenaufbereitung umschichten zu können. Beispiele seien hierfür eine streng prozesslogische Segmentierung der Bearbeitungsschritte, die konsequente Anwendung standardisierter Vorgaben und Prozeduren und damit der Verzicht auf alle Arten von Sonderlösungen, auch im Hinblick auf die medialen Eigenschaften (sofern diese nicht zwingend wissenschaftlich notwendig sind), bis hin zum konsequenten Nutzen von Open Source-Anwendungen in möglichst allen Stadien der Vorbereitung.</p>
+               <p id="p-63">
+                  <named-content content-type="paragraph-counter">63</named-content>Auch wenn noch nicht abzusehen ist, ob diese Maßnahmen in der Summe ausreichend sein werden, um die Zusatzaufwände so zu reduzieren, dass in der Gesamtbetrachtung keine Aufwüchse erforderlich sein werden, so werden sie doch  dafür sorgen können, die Prozesse beherrschbar zu machen, zumal davon auszugehen ist, dass Anforderungen zum Umgang mit Forschungsdaten, wie sie Forschungsförderer oder der Wissenschaftsrat formulieren, mittelfristig dazu führen, dass die zu publizierenden Forschungsdaten ohnehin in einem Zustand vorgehalten werden, der aufwendige Re-Modellierungen überflüssig macht.</p>
+               <p id="p-64">
+                  <named-content content-type="paragraph-counter">64</named-content>Im Hinblick auf eine mögliche Übertragbarkeit der Mechanismen in Bezug auf die Forschungsdatenpublikationen stößt das vom DAI entwickelte Modell insofern an seine Grenzen, als die Werkzeuge, die es zur semi-automatisierten Aufbereitung bzw. zum Import entwickelt, sehr spezifisch auf die Datensysteme der iDAI.world zugeschnitten sind und daher für andere Institutionen nur sehr bedingt nachnutzbar sein werden.</p>
+            </sec>
+         </sec>
+         <sec id="s-4.10">
+            <title>Ausblick</title>
+            <p id="p-65">
+               <named-content content-type="paragraph-counter">65</named-content>Zusammenfassend ist festzuhalten, dass ein dauerhaft tragfähiger Betrieb nur dann zu gewährleisten ist, wenn eine Institution bereit ist, die oben geschilderten Maßnahmen zur Aufwandsreduzierung sowie zur Umschichtung von Kapazitäten konsequent umzusetzen.</p>
+            <p id="p-66">
+               <named-content content-type="paragraph-counter">66</named-content>Wichtiger sind aber die Veränderungen, die die Community herbeiführen muss: Zum einen müssen zeitnah noch jene Standards vereinbart und jene spezifischen Werkzeuge entwickelt werden, die für eine effiziente semi-automatisierte Vorbereitung und Publikation der Dokumente in der Prozesskette noch fehlen. Zum anderen  müssen vor allem die archäologisch arbeitenden Disziplinen beginnen, bei der Vorbereitung ihrer Ergebnispublikationen einen formatkritischeren Blick auf die Inhalte zu werfen, damit vorrangig die Eigenschaften der zu veröffentlichenden Inhalte die Wahl der Medien und Anwendungen für die Publikation bestimmen. Nur unter dieser Voraussetzung wird es mittelfristig möglich sein, Komponenten, die andernorts bereits erfolgreich im Einsatz sind  bzw. die sich im Stadium des Entstehens befinden, in die eigene Produktionsstrecke zu integrieren.</p>
+            <p id="p-67">
+               <named-content content-type="paragraph-counter">67</named-content>Die vom DAI entwickelten und zur Nachnutzung zur Verfügung gestellten Komponenten können zwar bis zu einem gewissen Grad einen Beitrag dazu leisten, dass auch andere Institutionen vergleichbare Modelle einführen. Entscheidend wird jedoch sein, dass sich die Fachcommunity in Zukunft noch intensiver über Standards im Hinblick auf Digitalisierungsprozesse im Publikationsbereich austauscht, damit das Repertoire an Best Practice-Lösungen, das auf die Bedarfe anderer Wissenschaftsbereiche zugeschnitten ist, für die spezifischen Anforderungen der archäologisch arbeitenden Disziplinen und deren Nachbarwissenschaften ergänzend erweitert werden kann.</p>
+            <sec id="images-container">
+               <title>Abbildungen</title>
+               <fig id="poster-image" fig-type="poster-image">
+                  <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_content_picture.jpg"/>
+               </fig>
+               <fig id="f-1" fig-type="content-image">
+                  <label>Abb. 1</label>
+                  <caption>
+                     <p>Darstellung der Viewer-Ausgabe des Archäologischen Anzeigers</p>
+                  </caption>
+                  <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_1.jpg"/>
+                  <attrib>Design: Tanja Lemke-Mahdavi</attrib>
+               </fig>
+               <fig id="f-2" fig-type="content-image">
+                  <label>Abb. 2</label>
+                  <caption>
+                     <p>Beispiel für einen referenzierten Datendatensatz aus dem Normdatensystem für Ortsnamen und deren geografische Koordinaten iDAI.gazetteer, dessen Vorschau unter »Extra Features« angezeigt wird</p>
+                  </caption>
+                  <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_2.jpg"/>
+                  <attrib>Screenshot: Peter Baumeister</attrib>
+               </fig>
+               <fig id="f-3" fig-type="content-image">
+                  <label>Abb. 3</label>
+                  <caption>
+                     <p>Beispiel für einen Datensatz, der ergänzend zu einem Artikel in einem strukturierten Konvolut in iDAI.objects/Arachne veröffentlicht wurde und dessen Vorschau unter »Supplements« in der Viewer-Version des Artikels angezeigt wird</p>
+                  </caption>
+                  <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_3.jpg"/>
+                  <attrib>Screenshot: Peter Baumeister</attrib>
+               </fig>
+               <fig id="f-4" fig-type="content-image">
+                  <label>Abb. 4</label>
+                  <caption>
+                     <p>Beispiel für einen verlinkten bibliographischen Datensatz in iDAI.bibliography</p>
+                  </caption>
+                  <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_4.jpg"/>
+                  <attrib>Screenshot: Peter Baumeister</attrib>
+               </fig>
+               <fig id="f-5" fig-type="content-image">
+                  <label>Abb. 5</label>
+                  <caption>
+                     <p>Auszug aus dem Tagging-Wortschatz, eingeblendet die korrespondierenden Absatz- und Zeichenformate der Satzdatei</p>
+                  </caption>
+                  <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_5.jpg"/>
+                  <attrib>Screenshot: Peter Baumeister</attrib>
+               </fig>
+               <fig id="f-6" fig-type="content-image">
+                  <label>Abb. 6</label>
+                  <caption>
+                     <p>Ausschnitt aus dem Prüfprotokoll des ersten Preflight-Tests der XSLT-Konvertierungsstrecke</p>
+                  </caption>
+                  <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_6.jpg"/>
+                  <attrib>Screenshot: Peter Baumeister</attrib>
+               </fig>
+               <fig id="f-7" fig-type="content-image">
+                  <label>Abb. 7</label>
+                  <caption>
+                     <p>Der iDAI.bibliography-assistant zum semi-automatisierten Anreichern bibliographischer Normdaten aus iDAI.bibliography/Zenon</p>
+                  </caption>
+                  <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_7.jpg"/>
+                  <attrib>Screenshot: Peter Baumeister</attrib>
+               </fig>
+               <fig id="f-8" fig-type="content-image">
+                  <label>Abb. 8</label>
+                  <caption>
+                     <p>Automatisiert ausgezeichnete .html-Version und Übernahme der korrekten Formatvorlagen in MS Word</p>
+                  </caption>
+                  <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_8.jpg"/>
+                  <attrib>Screenshot: Peter Baumeister</attrib>
+               </fig>
+               <fig id="f-9" fig-type="content-image">
+                  <label>Abb. 9</label>
+                  <caption>
+                     <p>Der Digital Publishing Award in der Kategorie Prozess/Technologie für das Konzept der in Journal-Artikel eingebundenen Forschungsdaten</p>
+                  </caption>
+                  <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_9.jpg"/>
+                  <attrib>Screenshot: Peter Baumeister</attrib>
+               </fig>
+               <fig id="f-10" fig-type="content-image">
+                  <label>Abb. 10</label>
+                  <caption>
+                     <p>Zeitschriften des DAI, die das neue Modell bereits übernommen haben</p>
+                  </caption>
+                  <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_10.jpg"/>
+                  <attrib>Screenshot: Peter Baumeister</attrib>
+               </fig>
+            </sec>
+         </sec>
+      </sec>
+   </body>
+   <back>
+      <ref-list content-type="references">
+         <ref id="ref-BethesdaStatement2003">
+            <label>Bethesda Statement 2003</label>
+            <mixed-citation>
+            Bethesda Statement on Open Access Publishing (2003), http://legacy.earlham.edu/%7Epeters/fos/bethesda.htm (01.04.2022)</mixed-citation>
+         </ref>
+         <ref id="ref-BilderLinNeylon2020">
+            <label>Bilder – Lin – Neylon 2020</label>
+            <mixed-citation>
+            G. Bilder – J. Lin – C. Neylon, The Principles of Open Scholarly Infrastructure (2022), https://doi.org/10.24343/C34W2H</mixed-citation>
+         </ref>
+         <ref id="ref-Böhmetal2020">
+            <label>Böhm et al. 2020</label>
+            <mixed-citation>
+            D. Böhm – A. Grossmann – M. Reiche – A. Schrader, Open-Access-Publikationsworkflow für akademische Bücher. Ein Handbuch für Hochschulen und Universitäten (Leipzig 2020), http://doi.org/10.33968/9783966270175-00</mixed-citation>
+         </ref>
+         <ref id="ref-Boeckeretal2021">
+            <label>Boecker et al. 2021</label>
+            <mixed-citation>
+
+               <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="zenon" xlink:href="https://zenon.dainst.org/Record/002058713&#xD;">
+               V. Boecker – T. Burmeister – S. Moshfegh Nia – J. Watson, iDAI.werkstatt@dainst.de. Reflexionen aus der ersten Arbeitswerkstatt zur Rekontextualisierung und Aufbereitung archäologischer Forschung mit iDAI.world-Systemen 2021, FdAI 2021/1, § 1–37, https://doi.org/10.34780/h9z4-61v1
+               </ext-link>
+            </mixed-citation>
+         </ref>
+         <ref id="ref-Bosmanetal2021">
+            <label>Bosman et al. 2021</label>
+            <mixed-citation>
+            J. Bosman – H. de Jonge – B. Kramer – J. Sondervan, Advancing Open Access in the Netherlands After 2020: From Quantity to Quality, Insights 34 (1) 16 (2021), https://doi.org/10.1629/uksg.545</mixed-citation>
+         </ref>
+         <ref id="ref-BreuerTrilcke2021">
+            <label>Breuer – Trilcke 2021</label>
+            <mixed-citation>
+            C. Breuer – P. Trilcke, Die Ausweitung der Wissenschaftspraxis des Publizierens unter den Bedingungen des digitalen Wandels. Herausgegeben von der Arbeitsgruppe »Wissenschaftspraxis« im Rahmen der Schwerpunktinitiative »Digitale Information« der Allianz der deutschen Wissenschaftsorganisationen (2021), https://doi.org/10.48440/allianzoa.041</mixed-citation>
+         </ref>
+         <ref id="ref-ChronopoulosMaierNovokhatko2020">
+            <label>Chronopoulos – Maier – Novokhatko 2020</label>
+            <mixed-citation>
+
+               <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="zenon" xlink:href="https://zenon.dainst.org/Record/002030251&#xD;">
+               St. Chronopoulos – F. K. Maier – A. Novokhatko (Hrsg.), Digitale Altertumswissenschaften. Thesen und Debatten zu Methoden und Anwendungen (Heidelberg 2020), https://doi.org/10.11588/propylaeum.563
+               </ext-link>
+            </mixed-citation>
+         </ref>
+         <ref id="ref-CristianiSienra2016">
+            <label>Cristiani Sienra 2016</label>
+            <mixed-citation>
+            A. Cristiani Sienra, Journal Article Tag Suite (JATS): situación actual y análisis de implantación del estándar promovido por NISO para revistas científicas basado en XML (Madrid 2016), http://hdl.handle.net/10016/24418 (09.04.2022)</mixed-citation>
+         </ref>
+         <ref id="ref-DigitalesPublizierenindenGeisteswissenschaften2021">
+            <label>Digitales Publizieren in den Geisteswissenschaften 2021</label>
+            <mixed-citation>
+            Digitales Publizieren in den Geisteswissenschaften: Begriffe, Standards, Empfehlungen. Hg. von der AG Digitales Publizieren. (= Zeitschrift für digitale Geisteswissenschaften / Working Papers, 1) (Wolfenbüttel 2021), https://doi.org/10.17175/wp_2021_001</mixed-citation>
+         </ref>
+         <ref id="ref-DreherLangOberländer2020">
+            <label>Dreher –Lang –Oberländer 2020</label>
+            <mixed-citation>
+            L. Dreher – I. Lang – A. Oberländer, Bereitschaft zu Open Access in den Geisteswissenschaften: Ergebnisse einer Umfrage unter geisteswissenschaftlichen Herausgeber*innen im Rahmen des Projekts OLH-DE, o-bib. Das offene Bibliotheksjournal 7, 2020, 1–20, https://dx.doi.org/10.5282/o-bib/5512</mixed-citation>
+         </ref>
+         <ref id="ref-EffingerKrabbesWithanage2018">
+            <label>Effinger – Krabbes – Withanage 2018</label>
+            <mixed-citation>
+            M. Effinger – F. Krabbes – D. Withanage, Crossmediales Publizieren bei Heidelberg University Publishing (heiUP), in: BIT online 21, 5 (Wiesbaden 2018) 393-403, https://www.b-i-t-online.de/heft/2018-05-fachbeitrag-effinger.pdf (02.04.2022)</mixed-citation>
+         </ref>
+         <ref id="ref-Funk2018">
+            <label>Funk 2018</label>
+            <mixed-citation>
+            St. E. Funk, Elektronisches Publizieren von Digitalen Forschungsdaten am Beispiel des TextGrid Repositorys – Umsetzung von Digitalen Publikationsworkflows für die eHumanities (2018), http://dx.doi.org/10.20375/0000-000B-D269-2</mixed-citation>
+         </ref>
+         <ref id="ref-Garnettetal2017">
+            <label>Garnett et al. 2017</label>
+            <mixed-citation>
+            A. Garnett – M. Aufreiter – O. Buchtala – J. P. Alperin, Introducing Texture: An Open Source WYSIWYG Javascript Editor for JATS, Journal Article Tag Suite Conference (JATS-Con) Proceedings 2017 [Internet]. Bethesda (MD): National Center for Biotechnology Information (US) (2017), https://www.ncbi.nlm.nih.gov/books/NBK425544/</mixed-citation>
+         </ref>
+         <ref id="ref-Hacker2017">
+            <label>Hacker 2017</label>
+            <mixed-citation>
+            A. Hacker, Software für den Publikationsworkflow und den Peer-Review Prozess, in: K. Söllner – B. Mittermaier (Hrsg.), Praxishandbuch Open Access (Berlin 2017), 283-290, https://doi.org/10.1515/9783110494068-033</mixed-citation>
+         </ref>
+         <ref id="ref-HackerCorrao2017">
+            <label>Hacker – Corrao 2017</label>
+            <mixed-citation>
+            A. Hacker – E. Corrao, Laying Tracks as the Train Approaches: Innovative Open Access Book Publishing at Heidelberg University from the Editors' Point of View, Journal of Scholarly Publishing 48, 2017, https://doi.org/10.3138/jsp.48.2.76</mixed-citation>
+         </ref>
+         <ref id="ref-Hintze2020">
+            <label>Hintze 20202</label>
+            <mixed-citation>
+
+               <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="zenon" xlink:href="https://zenon.dainst.org/Record/002030251&#xD;">
+               M. Hintze, Die digitale Online-Publikation in den Geisteswissenschaften – ein ungenutztes Potential?, in: Chronopoulos – Maier – Novokhatko 2020, 191–206
+               </ext-link>
+            </mixed-citation>
+         </ref>
+         <ref id="ref-KuhnHagenhoff2019">
+            <label>Kuhn – Hagenhoff 2019</label>
+            <mixed-citation>
+            A. Kuhn – S. Hagenhoff, Nicht geeignet oder nur unzureichend gestaltet? Digitale Monographien in den Geisteswissenschaften, Zeitschrift für digitale Geisteswissenschaften (Wolfenbüttel 2019), https://doi.org/10.17175/2019_002</mixed-citation>
+         </ref>
+         <ref id="ref-Pampel2021">
+            <label>Pampel 2021</label>
+            <mixed-citation>
+            H. Pampel, Strategische und operative Handlungsoptionen für wissenschaftliche Einrichtungen zur Gestaltung der Open-Access-Transformation (Berlin 2021), https://doi.org/10.18452/22946</mixed-citation>
+         </ref>
+         <ref id="ref-Piez2017">
+            <label>Piez 2017</label>
+            <mixed-citation>
+            W. Piez, HTML First?: Testing an alternative approach to producing JATS from arbitrary (unconstrained or »wild«) .docx (WordML) format. In: Journal Article Tag Suite Conference (JATS-Con) Proceedings 2017 [Internet]. Bethesda (MD): National Center for Biotechnology Information (US) (2017), https://www.ncbi.nlm.nih.gov/books/NBK425546/</mixed-citation>
+         </ref>
+         <ref id="ref-Pieperetal2018">
+            <label>Pieper et al. 2018</label>
+            <mixed-citation>
+            D. Pieper – S. Fund – K. Werner – A. Jobmann, Qualitätsstandards für den Einstieg in die Open-Access-Stellung von Büchern 2(Bielefeld 2018), http://nbn-resolving.de/urn:nbn:de:0070-pub-29321893</mixed-citation>
+         </ref>
+         <ref id="ref-ProjektAuROA2022">
+            <label>Projekt AuROA 2022</label>
+            <mixed-citation>
+            Projekt AuROA, Publizieren und Open Access in den Geisteswissenschaften: Erkenntnisse aus dem Projekt AuROA zu den Stakeholdern im Publikationsprozess (Essen 2022), https://projekt-auroa.de/wp-content/uploads/2022/03/AuROA-Publizieren-und-Open-Access-in-den-Geisteswissenschaften.pdf (05.04.2022)</mixed-citation>
+         </ref>
+         <ref id="ref-UNESCO2021">
+            <label>UNESCO 2021</label>
+            <mixed-citation>
+            First draft of the UNESCO Recommendation on Open Science, https://unesdoc.unesco.org/ark:/48223/pf0000374837 (02.04.2022)</mixed-citation>
+         </ref>
+         <ref id="ref-Wilkinsonetal2016">
+            <label>Wilkinson et al. 2016</label>
+            <mixed-citation>
+            M. Wilkinson – M. Dumontier – I. Aalbersberg et al., The FAIR Guiding Principles for scientific data management and stewardship, Sci Data 3, 160018 (2016), https://doi.org/10.1038/sdata.2016.18</mixed-citation>
+         </ref>
+         <ref id="ref-Wissenschaftsrat2022">
+            <label>Wissenschaftsrat 2022</label>
+            <mixed-citation>
+            Wissenschaftsrat (Hrsg.), Empfehlungen zur Transformation des wissenschaftlichen Publizierens zu Open Access (Köln 2022), https://doi.org/10.57674/fyrc-vb61</mixed-citation>
+         </ref>
+      </ref-list>
+      <fn-group content-type="footnotes">
+         <title>Fussnoten</title>
+         <fn id="fn-1">
+            <label>1</label>
+            <p>
+               Stellvertretend und nur auszugsweise seien hier folgende Positions- und Strategiepapiere angeführt mit Verweis auf die dort weiter genannte Literatur: <xref ref-type="bibr" rid="ref-UNESCO2021">UNESCO 2021</xref>,               <xref ref-type="bibr" rid="ref-BilderLinNeylon2020">Bilder – Lin – Neylon 2020</xref>,               <xref ref-type="bibr" rid="ref-Wilkinsonetal2016">Wilkinson et al. 2016</xref>,               <xref ref-type="bibr" rid="ref-BethesdaStatement2003">Bethesda Statement 2003</xref>, siehe auch <xref ref-type="bibr" rid="ref-Bosmanetal2021">Bosman et al. 2021</xref>,               <xref ref-type="bibr" rid="ref-Pampel2021">Pampel 2021</xref>, aktuell für den Publikationsbereich besonders relevant: <xref ref-type="bibr" rid="ref-Wissenschaftsrat2022">Wissenschaftsrat 2022</xref>, aber auch <xref ref-type="bibr" rid="ref-Pieperetal2018">Pieper et al. 2018</xref>,               <xref ref-type="bibr" rid="ref-DigitalesPublizierenindenGeisteswissenschaften2021">Digitales Publizieren in den Geisteswissenschaften 2021</xref>.
+            </p>
+         </fn>
+         <fn id="fn-2">
+            <label>2</label>
+            <p>
+               Anders stellt es sich dar etwa für die Bereiche rechtliche Rahmenbedingungen/Lizenzierung, Finanzierungs- bzw. Geschäftsmodelle usw., in denen sehr gute Vorlagen bzw. eine aktive unterstützende Community mit Helpdesks, Veranstaltungen usw. existieren, vgl. die in Anm. 1 genannte Literatur und siehe – nur stellvertretend genannt – Initiativen wie 
+               <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://open-access.network">https://open-access.network</ext-link>
+                (05.04.2022).</p>
+         </fn>
+         <fn id="fn-3">
+            <label>3</label>
+            <p>
+               Erfahrungen, die die Redaktionen des DAI diesbezüglich im Umgang mit den Autor:innen machen, werden durch verschiedene Untersuchungen bestätigt, vgl. <xref ref-type="bibr" rid="ref-ProjektAuROA2022">Projekt AuROA 2022</xref>. Weitere Faktoren nennen <xref ref-type="bibr" rid="ref-KuhnHagenhoff2019">Kuhn – Hagenhoff 2019</xref> in ihrer Analyse zur Rolle digitaler Monographien in den Geisteswissenschaften; interessant sind insbesondere die Ausführungen zur Interdependenz zwischen (Text)form und hermeneutischen Prozessen in den Geisteswissenschaften.</p>
+         </fn>
+         <fn id="fn-4">
+            <label>4</label>
+            <p>
+               Wie wichtig disziplinenspezifische Beiträge sind, zeigen <xref ref-type="bibr" rid="ref-Böhmetal2020">Böhm et al. 2020</xref>, 238: So mag es für manche Fachbereiche der Geisteswissenschaften zutreffen, dass deren Manuskripte »nur geringe Anforderungen an die Automatisierbarkeit [stellen], da sie in der Regel strukturell nur wenig komplex sind«. Dies gilt aber nicht für jene Disziplinen, die bild- und textwissenschaftlich arbeiten, komplexe Abbildungsapparate benötigen oder mit einem breiten Spektrum an Formaten und strukturierten Inhalten umgehen, wie Katalogtexten, Fotos, SFM-Modellen, naturwissenschaftlichen Analyse-, Grabungs-/Vermessungs-, Geo- bzw. Fernerkundungsdaten usw. – alles Punkte, die auf archäologisch und altertumswissenschaftlich arbeitende Disziplinen und deren Nachbarwissenschaften zutreffen.</p>
+         </fn>
+         <fn id="fn-5">
+            <label>5</label>
+            <p>
+               Vgl. das Editorial des ersten neugestalteten Bandes: F. Fless – Ph. von Rummel, Editorial, AA 2019/1, § 1–10, 
+               <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://doi.org/10.34780/x04h-kv97">https://doi.org/10.34780/x04h-kv97</ext-link>. Zum AA siehe 
+               <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://publications.dainst.org/journals/aa">
+               https://publications.dainst.org/journals/aa</ext-link>
+               .
+            </p>
+         </fn>
+         <fn id="fn-6">
+            <label>6</label>
+            <p>
+               Vgl. zur Bedeutung von traditionellen Publikationsformen in den Geisteswissenschaften etwa zuletzt das <xref ref-type="bibr" rid="ref-ProjektAuROA2022">Projekt AuROA 2022, 6</xref>;               <xref ref-type="bibr" rid="ref-DreherLangOberländer2020">Dreher – Lang – Oberländer 2020, 13</xref>; zu den Altertumswissenschaften: <xref ref-type="bibr" rid="ref-Hintze2020">Hintze 2020</xref>, bes. 197. 205. 206; siehe auch allgemein das DFG-Positionspapier »<ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://www.dfg.de/download/pdf/foerderung/programme/lis/pos_papier_elektron_publizieren_0504.pdf ">
+Elektronisches Publizieren</ext-link>« vom März 2005 (10.02.2022), 9, dessen Gültigkeit durch die eingangs genannten Publikationen weiterhin bestätigt wird.</p>
+         </fn>
+         <fn id="fn-7">
+            <label>7</label>
+            <p>
+               Siehe dazu allgemein <xref ref-type="bibr" rid="ref-Wissenschaftsrat2022">Wissenschaftsrat 2022</xref>, 43–48.</p>
+         </fn>
+         <fn id="fn-8">
+            <label>8</label>
+            <p>
+               Benedikt Boyxen hatte bzw. hat als verantwortlicher Redakteur des AA maßgeblichen Anteil an der Konzeption, Umsetzung und kontinuierlichen Weiterentwicklung. Wir danken zudem Sebastian Cuy, der das Projekt trotz vielerlei anderer Verpflichtungen stets äußerst engagiert begleitet hat, und vor allem Reinhard Förtsch (beide ehemals IT-Referat) sowie der Präsidentin des DAI, Friederike Fless, für ihre uneingeschränkte Unterstützung. Benedikt Boyxen und Marcel Riedel danke ich für die kritische Durchsicht des Beitrages und ihre Anregungen.</p>
+         </fn>
+         <fn id="fn-9">
+            <label>9</label>
+            <p>
+               Tanja Lemke-Mahdavi, <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="lm-kommunikation.de">
+LMK</ext-link> – Büro für Kommunikationsdesign, Berlin.</p>
+         </fn>
+         <fn id="fn-10">
+            <label>10</label>
+            <p>
+               <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" specific-use="weblink" xlink:href="dpc-consulting.org" ext-link-type="uri">
+Fabian Kern</ext-link>, digital publishing competence, München.</p>
+         </fn>
+         <fn id="fn-11">
+            <label>11</label>
+            <p>Friedrich Stoller, Florian Bergmann, <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" specific-use="weblink" xlink:href="leanbakery.com" ext-link-type="uri">
+LEAN BAKERY</ext-link>, München.</p>
+         </fn>
+         <fn id="fn-12">
+            <label>12</label>
+            <p>
+
+
+               <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://jats.nlm.nih.gov/index.html">https://jats.nlm.nih.gov/index.html</ext-link>
+            (02.04.2022). Eine gute Übersicht zur Genese und zur Literatur bis 2016 findet sich bei <xref ref-type="bibr" rid="ref-CristianiSienra2016">Cristiani Sienra 2016</xref>, 101–107.</p>
+         </fn>
+         <fn id="fn-13">
+            <label>13</label>
+            <p>
+
+
+               <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://lens.elifesciences.org">https://lens.elifesciences.org</ext-link>
+                (02.04.2022) bzw. 
+               <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://GitHub.com/elifesciences/lens">https://GitHub.com/elifesciences/lens</ext-link>
+               . Siehe das Mission Statement zum Start des Projektes 2013 unter 
+               <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://elifesciences.org/inside-elife/0414db99/seeing-through-the-elife-lens-a-new-way-to-view-research">https://elifesciences.org/inside-elife/0414db99/seeing-through-the-elife-lens-a-new-way-to-view-research</ext-link>
+               . Das DAI nutzt dabei den Release 2.0.0.</p>
+         </fn>
+         <fn id="fn-14">
+            <label>14</label>
+            <p>
+               In github sind mehr als 70 Forks verzeichnet. Einen nutzt die UB Heidelberg für ihr Publikationsportal (
+               <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://github.com/UB-Heidelberg/lens">https://github.com/UB-Heidelberg/lens</ext-link>), siehe zu heiUP bzw. heiMPT unten Anm. 33.</p>
+         </fn>
+         <fn id="fn-15">
+            <label>15</label>
+            <p>
+               Siehe 
+               <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://elifesciences.org/for-the-press/ca18fdae/elife-invests-in-texture-to-provide-open-source-content-production-tools-for-publishers">https://elifesciences.org/for-the-press/ca18fdae/elife-invests-in-texture-to-provide-open-source-content-production-tools-for-publishers</ext-link>
+                (18.04.2022).</p>
+         </fn>
+         <fn id="fn-16">
+            <label>16</label>
+            <p>
+               Basierend auf OJS: <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://publications.dainst.org/journals">https://publications.dainst.org/journals</ext-link>, basierend auf OMP: <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://publications.dainst.org/books/dai">https://publications.dainst.org/books/dai</ext-link>.
+            </p>
+         </fn>
+         <fn id="fn-17">
+            <label>17</label>
+            <p>
+
+
+               <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://github.com/dainst/dai-lens">https://github.com/dainst/dai-lens</ext-link>. Desiderate bleiben einstweilen die Implementierung für iDAI.geoserver, das iDAI.world-System für Geodaten (<ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://geoserver.dainst.org">https://geoserver.dainst.org</ext-link>), sowie eine Erweiterung der Bandbreite anzeigbarer Dateiformate (3D-Modelle, Filme usw.), wobei aber noch unklar ist, ob eine technische Umsetzung möglich ist.</p>
+         </fn>
+         <fn id="fn-18">
+            <label>18</label>
+            <p>
+               Siehe dazu auch Anm. 31, 32 und bes. 33.</p>
+         </fn>
+         <fn id="fn-19">
+            <label>19</label>
+            <p>
+               Mangels Open Source-Alternativen nutzt das DAI für diesen Teil der Produktionsstrecke den <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="Oxygen XML Editor">Oxygen XML Editor</ext-link>. Zum Problem freier XML-Editoren siehe u. Anm. 34.</p>
+         </fn>
+         <fn id="fn-20">
+            <label>20</label>
+            <p>
+
+
+               <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://github.com/dainst/dai-jats-produktionsstrecke">https://github.com/dainst/dai-jats-produktionsstrecke</ext-link>. Entwickelt von Fabian Kern, digital publishing competence, München (<ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="dpc-consulting.org">DPC</ext-link>).
+            </p>
+         </fn>
+         <fn id="fn-21">
+            <label>21</label>
+            <p>
+               Allgemeine Prüfungen der InDesign-Dokument-Struktur, Prüfung der Vollständigkeit aller Artikelelemente, Prüfung Textrahmen und Formate im Artikel-Haupttext, Prüfungen der Elemente für die JATS-Metadaten, Prüfungen von Abstract, Abstract-Übersetzungen und Keywords, Prüfungen des Title-Textrahmens und der enthaltenen Absatz-Formate, Prüfungen von Abbildungen und Abbildungsnachweis, Prüfungen der Referenzen, Prüfungen von Autor:innen und Autor:innen-Metadaten.</p>
+         </fn>
+         <fn id="fn-22">
+            <label>22</label>
+            <p>
+               Die Entwicklung wurde begleitet von Marcel Riedel. Das Tool wird zur Zeit noch getestet und ist daher noch nicht freigeschaltet; der Quellcode ist aber bereits verfügbar, siehe Anmerkung 23.</p>
+         </fn>
+         <fn id="fn-23">
+            <label>23</label>
+            <p>
+               <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://github.com/dainst/bibliography-assistant">https://github.com/dainst/bibliography-assistant</ext-link>. Siehe auch 
+               <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://anystyle.io/">https://anystyle.io</ext-link> bzw.  <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://github.com/inukshuk/anystyle">https://github.com/inukshuk/anystyle</ext-link>. Optional kann auch 
+               <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://github.com/kermitt2/grobid">Grobid</ext-link>
+                eingebunden werden. Zu Phoenix siehe <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://www.phoenixframework.org">https://www.phoenixframework.org</ext-link>.
+            </p>
+         </fn>
+         <fn id="fn-24">
+            <label>24</label>
+            <p>
+               In anderen Kontexten wurde bereits darauf hingewiesen, dass .html als Zwischenformat eine sinnvolle Rolle bei Konvertierungsprozessen zwischen .docx und .xml (JATS) spielen kann, siehe beispielsweise <xref ref-type="bibr" rid="ref-Piez2017">Piez 2017</xref>.
+            </p>
+         </fn>
+         <fn id="fn-25">
+            <label>25</label>
+            <p>
+
+
+               <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://doi.org/10.5281/zenodo.7051409">https://doi.org/10.5281/zenodo.7051409</ext-link>
+.
+            </p>
+         </fn>
+         <fn id="fn-26">
+            <label>26</label>
+            <p>
+               Das Problem der Ausgangsdaten aus Word beschreibt <xref ref-type="bibr" rid="ref-Piez2017">Piez 2017</xref> folgendermaßen: »Much as authors labor over documents in MS Word, any ›random Word document‹ turns out, regrettably, as often as not to be lamentably far from ready for ingest into any system much less a publishing system.«</p>
+         </fn>
+         <fn id="fn-27">
+            <label>27</label>
+            <p>
+               Diese Formulierungen verdanke ich Marcel Riedel.</p>
+         </fn>
+         <fn id="fn-28">
+            <label>28</label>
+            <p>
+               Entwickelt von Marcel Riedel. Siehe dazu <xref ref-type="bibr" rid="ref-Boeckeretal2021">Boecker et al. 2021</xref>, § 20.</p>
+         </fn>
+         <fn id="fn-29">
+            <label>29</label>
+            <p>
+               Allen voran <xref ref-type="bibr" rid="ref-Böhmetal2020">Böhm et al. 2020</xref>.
+            </p>
+         </fn>
+         <fn id="fn-30">
+            <label>30</label>
+            <p>
+               Exemplarisch seien folgende Projekte genannt, die erst nach Abschluss des AA-Projektes gestartet wurden: Das vom BMBF geförtderte Projekt »Open Source Academic Publishing Suite« (                 <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://os-aps.de/">OS-APS</ext-link>
+), aber auch das Projekt »OPEN-ACCESS-Strukturierte-Kommunikation (OA-STRUKTKOMM)«, das »Werkzeuge und Strategien zur Beschleunigung der Transformation des wissenschaftlichen Publikationssystems hin zu Open Access« inkl. eines »automatisierten XML-first-Satzsystems zur Herstellung von OA-Monografien« entwickelt (<ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://doi.org/10.5281/zenodo.5526686">https://doi.org/10.5281/zenodo.5526686</ext-link>). Zum Projekt 
+               <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://libero.pub">https://libero.pub</ext-link>
+                siehe unten Anm. 31.</p>
+         </fn>
+         <fn id="fn-31">
+            <label>31</label>
+            <p>
+               Die Fallstudien zum XML-first-Workflow bei <xref ref-type="bibr" rid="ref-Böhmetal2020">Böhm et al. 2020 </xref>(in Fremdleistung: 285–300, bzw. in Fremd- und Eigenleistung: 301–316) belegen, dass auch andere Akteure an denselben Stellen der Prozesskette – wenn auch bei etwas abweichender Ausgangslage – auf sehr ähnliche ungelöste Probleme gestoßen sind, was die Einschätzung bekräftigt, dass vielerorts noch Standards gesucht werden bzw. Best-Practice-Lösungen nicht existent sind oder noch nicht so beschrieben wurden, dass sie einfach übertragen werden können. Dies betrifft letztendlich alle Aspekte, die in diesem Artikel beschrieben und diskutiert werden: Vom Umgang mit Stakeholdern wie Autorinnen und Autoren bzw. deren Arbeitsweise (43) über Fragen zur Anreicherung der XML-Daten (310) bis hin zum Problem der Generieren der Ausgabeformate usw. (312).</p>
+         </fn>
+         <fn id="fn-32">
+            <label>32</label>
+            <p>
+               Siehe den Antragstext von OS-APS unter 
+               <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://os-aps.de/files/2020_08_07_BMBF_OS-APS_FAU_Antrag_kurz.pdf">https://os-aps.de/files/2020_08_07_BMBF_OS-APS_FAU_Antrag_kurz.pdf</ext-link>
+                (02.04.2022), z. B. zum Import von Word-Dokumenten, bei dem Metadaten teilautomatisiert aus den Manuskripten herausgelegen werden (6), Einrichten Entwicklungsumgebung zur Entwicklung eigener Satztemplates, auch um die »Lücke des fehlenden Satzes« zu schließen. (1) usw.</p>
+         </fn>
+         <fn id="fn-33">
+            <label>33</label>
+            <p>
+               Insbesondere zu nennen ist – nicht nur aufgrund des geisteswissenschaftlichen Bezugs – Heidelberg University Publishing (heiUP) und das Heidelberg Monograph Publishing Tool (heiMPT), siehe <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://heiup.uni-heidelberg.de">https://heiup.uni-heidelberg.de</ext-link>,               <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://github.com/withanage/heiMPT">https://github.com/withanage/heiMPT</ext-link> (18.04.2022). Siehe dazu, inkl. sehr hilfreicher Erfahrungsberichte, <xref ref-type="bibr" rid="ref-HackerCorrao2017">Hacker – Corrao 2017</xref>;               <xref ref-type="bibr" rid="ref-EffingerKrabbesWithanage2018">Effinger – Krabbes – Withanage 2018</xref>. Zur Schwierigkeit einer PDF-Ausgabe ohne InDesign besonders <xref ref-type="bibr" rid="ref-EffingerKrabbesWithanage2018">Effinger – Krabbes – Withanage 2018</xref>, 400 f.</p>
+         </fn>
+         <fn id="fn-34">
+            <label>34</label>
+            <p>
+               Exemplarisch genannt sei der Texture Editor, ein web-basierter Open Source-XML-Texteditor für wissenschaftliche Dokumente, der als eine musterhafte Lösung für viele Anforderungen konzipiert war (siehe <xref ref-type="bibr" rid="ref-Garnettetal2017">Garnett et al. 2017</xref>), deren Hauptentwickler die Arbeit daran allerdings eingestellt haben. Siehe dazu das Fazit eines der Entwickler, der die Herausforderungen beschreibt: <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://letsken.com/michael/online-plattform-entwickeln#hcc54f">https://letsken.com/michael/online-plattform-entwickeln#hcc54f</ext-link> (02.04.2022): »For about a decade my big mission was helping scientists publish their research more effectively. We failed – the process was too complex and bureaucratic.« ( <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://letsken.com/about">https://letsken.com/about</ext-link> [02.04.2022]). Verfolgt wurden ebenfalls die Entwicklungen im Rahmen der »Libero publishing suite«,da diese maßgeblich von eLife, also jener Institution, die auch den eLife-Lens-Viewer entwickelt hat, betrieben wurde, siehe <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://libero.pub">https://libero.pub</ext-link> (02.04.2022) bzw. <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href=" https://github.com/libero"> https://github.com/libero</ext-link> (»Open-source platform of services and applications to help publishers do more with everything they publish«). eLife scheint sich aus der Entwicklung zurückzuziehen, weswegen abzuwarten bleibt, ob und wie das Projekt weiterentwickelt wird, vgl. die entsprechende Meldung unter <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://elifesciences.org/inside-elife/daf1b699/elife-latest-announcing-a-new-technology-direction">https://elifesciences.org/inside-elife/daf1b699/elife-latest-announcing-a-new-technology-direction</ext-link> (02.04.2022).</p>
+         </fn>
+         <fn id="fn-35">
+            <label>35</label>
+            <p>
+               Exemplarisch dafür steht ein Beitrag zur Stratigraphie und Fundvorlage einer Sondage in Henchir Bourgou (Djerba, Tunesien), bei dem die Grabungsdokumentation in iDAI.field als digitales Supplement in den Artikel eingebunden wird, siehe <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://doi.org/10.34780/f05j-59fd">https://doi.org/10.34780/f05j-59fd</ext-link>.
+            </p>
+         </fn>
+         <fn id="fn-36">
+            <label>36</label>
+            <p>
+               Auszeichnung in der Kategorie Prozess/Technologie. In der Jury saßen Vertreter:innen von Google, den Ullstein Buchverlagen, der Frankfurter Buchmesse, smart digits, Kohl Consulting, Berlin Consulting und dem Springer Gabler Verlag. Siehe 
+               <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://www.buchreport.de/news/das-sind-die-sieger-des-digital-publishing-award-2020">https://www.buchreport.de/news/das-sind-die-sieger-des-digital-publishing-award-2020</ext-link>
+                (02.04.2020), 
+               <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://www.dainst.org/presse/pressemitteilung/-/article-display/L11mBpjClzu5/4662694">https://www.dainst.org/presse/pressemitteilung/-/article-display/L11mBpjClzu5/4662694</ext-link>
+                (02.04.2022). Allgemein zum Award siehe 
+               <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://www.dpr-award.com">https://www.dpr-award.com</ext-link>
+                (09.11.2022).</p>
+         </fn>
+         <fn id="fn-37">
+            <label>37</label>
+            <p>
+               Das <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://publications.dainst.org/journals/joga">Journal of Global Archaeology</ext-link>, die <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://publications.dainst.org/journals/efb">e-Forschungsberichte</ext-link>, das <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://publications.dainst.org/journals/FdAI">Forum for Digital Archaeology and Infrastructure</ext-link>, die <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://publications.dainst.org/journals/mm">Madrider Mitteilungen</ext-link> sowie die <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://publications.dainst.org/journals/rm">Mitteilungen des Deutschen Archäologischen Instituts, Römische Abteilung</ext-link>.
+            </p>
+         </fn>
+         <fn id="fn-38">
+            <label>38</label>
+            <p>
+               Schwerpunkte z. B. Textmining/Textanalyse, Anwendungen im editionswissenschaftlichen Kontext usw. Einen repräsentativen Eindruck kann der Blick in die Tagungsakten der CAA-Konferenzen der letzten Jahre (
+               <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://caa-international.org">https://caa-international.org</ext-link> [02.04.2022]) oder auf die Seiten relevanter Informationsaggregatoren (<ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://archdigi.hypotheses.org">https://archdigi.hypotheses.org</ext-link> [02.04.2022]) geben. Beispiel für den editionswissenschaftlichen Kontext: <xref ref-type="bibr" rid="ref-Funk2018">Funk 2018</xref>. Vgl. allgemeiner und hier lediglich zur Illustration herausgegriffen die Inhaltsverzeichnisse der Zeitschrift für digitale Geisteswissenschaften <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://zfdg.de/alle-artikel">https://zfdg.de/alle-artikel</ext-link> [02.04.2022]).</p>
+         </fn>
+      </fn-group>
+   </back>
+</article>
