@@ -9,7 +9,7 @@ The core functionalities of **JatSinForm** (=> renderAsPDF.js) are primarily bas
 Currently **JatSinForm** is tailored (article-design, css-styles, typesetting classes, assets) to the highly standardized journals published by the German Archaeological Institute. But, it might be - at least partly - adaptable to other journal (or book) designs.
 
 The html-views (=>renderAsViewer.js) are not fully implemented yet.
-The JATS-XML documents (of the German Archaeological Institute) are created by independant tool chains (e.g. TagToolWizard and/or InDesign-workflows).
+The JATS-XML documents (of the German Archaeological Institute) are created by independant tool chains (e.g. [TagToolWizard](https://github.com/pBxr/TagTool_WiZArd) and/or InDesign-workflows).
 
 ## Prerequisites
 - You need a browser (tested with Chrome and Firefox only)
