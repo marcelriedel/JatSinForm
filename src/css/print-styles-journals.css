@@ -7,12 +7,14 @@
     --short-text-color: black;
     --color-marginBox: transparent;
     --long-text-font-family: "Noto Serif";
-    --short-text-font-family: "Noto Sans Light";
-    --p-font-size: 9.5pt;
-    --footnote-font-size: 7.5pt;
-    --caption-font-size: 8pt;
-    --li-font-size: 9.5pt;
-    --line-height: 1.5;
+    --headline-text-font-family: "Noto Sans";
+    --short-text-font-family: "Noto Sans";
+    --p-font-size: 9.3pt;
+    --line-height-para: 1.5; /* default */
+    --footnote-font-size: 7pt; 
+    --caption-font-size: 7.3pt;
+    --line-height-cap: 1.37; /* 10pt to 7.3pt */
+    --li-font-size: 9.3pt;
     --imgMarginBottom: 2.5mm;
     --floatFigureMarginToText: 10mm;
     --floatFigureMarginBottom: 7.5mm;
@@ -42,6 +44,8 @@
         content: var(--article-title);
         font-family: var(--short-text-font-family);
         font-size: 6pt;
+        font-weight: 300;
+        line-height: 1.5;
         padding-bottom: 30pt;
         align-items: end;
     }
@@ -57,10 +61,13 @@
     margin-left: 60mm;
     margin-right: 20mm;
     box-shadow: 0px -1px 5px 2px #e1e1e1;
+
     @bottom-right {
         content: var(--article-title);
         font-family: var(--short-text-font-family);
         font-size: 6pt;
+        font-weight: 300;
+        line-height: 1.5;
         padding-bottom: 30pt;
         align-items: end;
     }
@@ -100,7 +107,7 @@
 
 @media screen, pagedjs-ignore {
     body {
-        background: url(/../assets/idaiworld-banner.png);
+        background: url(/../assets/graphics/idaiworld-banner.png);
     }
 
     .pagedjs_pages {
@@ -108,6 +115,8 @@
         width: calc(var(--pagedjs-width) * 2);
         flex: 0;
         flex-wrap: wrap;
+        align-content: center;
+        flex-direction: var(--pages-flex-direction);
         margin: 0 auto;
     }
 
@@ -193,20 +202,18 @@ p {
     font-family: var(--long-text-font-family);
     font-size: var(--p-font-size);
     color: var(--long-text-color);
-    line-height: var(--line-height);
+    line-height: var(--line-height-para);
+    font-weight: 300; /* light */
     margin-top:0;
-}
-
-.content-paragraph {
-    margin-bottom: 2.5mm; /* 0 */
+    margin-bottom: 0.5mm; /* 0 or 2.5mm;  */
     text-align: justify;
     hyphens: auto;
     -moz-hyphens: auto;
     -ms-hyphens: auto;
     word-wrap: break-word;
     overflow-wrap: break-word;
-    widows: 2;
-    orphans: 2;
+    widows: 3;
+    orphans: 3;
 }
 
 .paragraph-counter {
@@ -215,23 +222,27 @@ p {
     font-size: var(--p-font-size);
     font-style: normal;
     font-weight: 300;
-    margin-right: 2vw;
+    margin-right: 10mm;
+}
+
+p.content-paragraph:hover {
+    cursor: pointer;
 }
 
 p.catalog-number {
-    font-size: 12pt;
+    font-size: 10pt;
     color: var(--journal-color);
     font-weight: 600;
 }
 
 span.text-medium {
-    font-weight: 600;
+    font-weight: 500;
 }
 
 li {
     color: var(--long-text-color);
     font-size: var(--li-font-size);
-    line-height: var(--line-height);
+    line-height: var(--line-height-para);
     padding-left: 2.5mm;
 }
 
@@ -251,9 +262,9 @@ pre, code {
 /* headlines:
 ----------------*/
 h1, h2, h3, h4, h5, h6 {
-    font-family: var(--short-text-font-family);
+    font-family: var(--headline-text-font-family);
     color: var(--journal-color);
-    font-weight: 600;
+    font-weight: 400; /* regular */
 }
 
 .title {
@@ -268,7 +279,7 @@ h1, h2, h3, h4, h5, h6 {
 .main-title {
     font-size: 14pt;
     margin: 5mm 0 3mm 0;
-    line-height: var(--line-height);
+    line-height: 1.5; /* 21pt to 14pt */
 }
 
 .main-title.first-element {
@@ -276,7 +287,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .section-title {
-    font-size: 12pt;
+    font-size: 11pt;
+    line-height: 1.27; /* 14pt to 11pt */
     margin: 5mm 0 3mm 0;
 }
 
@@ -286,14 +298,17 @@ h1, h2, h3, h4, h5, h6 {
 
 .subsection-title {
     color: var(--long-text-color);
-    font-size: 10pt;
+    font-size: var(--p-font-size);
+    line-height: 1.5; /* 9.3pt to 14pt */
     margin: 5mm 0 2mm 0;
 }
 
 .title-appendix {
+    font-family: var(--headline-text-font-family);
+    line-height: 1.5; /* 14pt to 9.3pt */;
+    font-weight: 500; /* medium */
+    color: black;
     text-transform: uppercase;
-    color: var(--long-text-color);
-    letter-spacing: 1pt;
     border-top: 3px solid var(--journal-color);
     margin-top: 0;
     padding-top: 2mm;
@@ -304,9 +319,45 @@ h1, h2, h3, h4, h5, h6 {
     padding-top: 2mm;
 }
 
+/* anchors and hyperlinks
+-----------------------------------*/
+a {
+    text-decoration: underline;
+    color: black;
+    word-break: break-all;
+}
+
+a:hover {
+    background: rgb(250 250 172);
+}
+
+a.footnote-reference {
+    text-decoration: none;
+    font-size: var(--p-font-size);
+}
+
+/* figure references */
+a.figure-reference {
+    text-decoration:none;
+    font-weight:600;
+}
+
+a.fig-ref {
+    text-decoration:none;
+    word-break: keep-all;
+}
+
+a.bib-ref {
+    text-decoration:none;
+}
+
+a.fn-ref {
+    text-decoration:none;
+    word-break: keep-all;
+}
+
 /* table styles
 ------------------*/
-
 .table-wrap {
     margin-top: 5mm;
     margin-bottom: 5mm;
@@ -339,48 +390,13 @@ td {
 table td { border-left: 1px solid #ededed; }
 table td:first-child { border-left: none; }
 
-/* anchors and hyperlinks
------------------------------------*/
-a {
-    text-decoration: underline;
-    color: black;
-}
-
-a:hover {
-    background: rgb(250 250 172);
-}
-
-a.footnote-reference {
-    text-decoration: none;
-    font-size: 10pt;
-}
-
-/* figure references */
-
-a.figure-reference {
-    text-decoration:none;
-    font-weight:600;
-}
-
-a.fig-ref {
-    text-decoration:none;
-}
-
-a.bib-ref {
-    text-decoration:none;
-}
-
-a.fn-ref {
-    text-decoration:none;
-}
-
 /* cover-Page:
  ----------------*/
 .cover-page {
     font-family: var(--short-text-font-family);
     break-before: page;
     background:white;
-    line-height: var(--line-height);
+    line-height: var(--line-height);  /* 14pt zu 9.3pt */
     width: 100%;
     padding: 10mm 10mm;
     position: absolute;
@@ -389,43 +405,50 @@ a.fn-ref {
 }
 
 .abstract-headline {
-    font-size: 12pt;
+    font-family: var(--headline-text-font-family);
+    font-size: var(--p-font-size);
+    font-weight: 500; /* medium */
     text-transform: uppercase;
     color: black;
     margin-bottom: 0;
 }
 
 .abstract-title {
+    font-family: var(--headline-text-font-family);
+    font-weight: 500; /* medium */
     color: var(--journal-color);
-    font-size: 12pt;
-    font-weight: 500;
+    font-size: 10pt;
     margin: 0;
+    text-align: left;
+    hyphens: none;
 }
 
 .abstract-subtitle {
     color: var(--journal-color);
-    font-size: 11pt;
-    font-weight: 300;
+    font-size: var(--p-font-size);
+    font-weight: 300; /* light */
     margin: 0;
 }
 
 .abstract-author {
     color: #929292;
-    font-size:  11pt;
+    font-size: var(--p-font-size);
     padding: 0;
     margin: 0;
 }
 
 .abstract-text {
     color: #929292;
-    font-size: 9pt;
+    font-size: var(--p-font-size);
     margin: 5mm 0;
     display:block;
     text-align: justify;
 }
 
 .keywords-headline {
-    font-size: 12pt;
+    font-family: var(--headline-text-font-family);
+    font-size: var(--p-font-size);
+    font-weight: 500; /* medium */
     text-transform: uppercase;
     color: black;
     margin-bottom: 0;
@@ -434,9 +457,9 @@ a.fn-ref {
 }
 
 .kwd-group {
+    font-size: var(--p-font-size);
     font-family: var(--short-text-font-family);
     color: #929292;
-    font-size: 10pt;
     margin: 0;
     text-align: justify;
 }
@@ -444,7 +467,6 @@ a.fn-ref {
 /* page-header:
  ----------------*/
 .page-header {
-    font-family: var(--short-text-font-family);
     break-before: page;
     break-after: avoid;
     margin-bottom: 20mm;
@@ -453,38 +475,45 @@ a.fn-ref {
 }
 
 .page-authors {
+    font-family: var(--headline-text-font-family);
+    font-size: 10pt;
+    line-height: 1.6;  /* 16pt to 10pt */
+    font-weight: 400; /* regular */
+    color: #929292;
     text-transform: uppercase;
     text-align:justify;
-    color: #929292;
     margin: 0;
-    font-size: 11pt;
-    font-weight: 600;
     padding: 0 0 5mm 0;
 }
 
 .page-title {
+    font-family: var(--headline-text-font-family);
     color: var(--journal-color);
-    font-weight:400;
+    font-weight: 300; /* light */
     font-size: 30pt;
-    line-height: var(--line-height);
+    line-height: 1.25; /* 38pt to 30pt */
     margin: 0;
     border-top: 5mm solid var(--journal-color);
     padding-top: 5mm;
 }
 
 .page-subtitle {
+    font-family: var(--headline-text-font-family);
+    font-weight: 300; /* light */
+    font-size: 18pt;
+    line-height: 1.45; /* 26pt to 18pt */
     color: var(--journal-color);
     margin: 0;
-    font-size: 20pt;
-    font-weight:300;
-    line-height: var(--line-height);
 }
 
 .page-contributors {
-    text-align:justify;
+    font-family: var(--headline-text-font-family);
+    font-weight: 300; /* light */
+    font-size: var(--p-font-size);
+    line-height: var(--line-height); /* 9.3pt to 14pt */
     color: #929292;
+    text-align:justify;
     margin: 0;
-    font-size: 11pt;
     padding: 5mm 0 0 0;
 }
 
@@ -493,6 +522,8 @@ a.fn-ref {
 span.footnote {
     font-family: var(--long-text-font-family);
     font-size: var(--footnote-font-size);
+    font-weight: 300; /* light */
+    line-height: 1.25; /* 8.75pt to 7pt */
     float: footnote;
 }
 
@@ -529,34 +560,42 @@ span.footnote {
 /* Reference List
 ---------------------*/
 #reference-list {
-    font-family: var(--short-text-font-family);
     break-after: page;
     break-before: page;
     text-align: left;
 }
 
 #reference-list .main-title {
-    font-size: 14pt;
-    color:var(--journal-color);
     margin-top:0;
     margin-bottom:5mm;
 }
 
 .reference {
-    font-family: var(--short-text-font-family);
+    font-family: var(--long-text-font-family);
     page-break-inside: avoid;
-}
-
-.reference > .label {
-    margin: 0;
-    font-family: var(--short-text-font-family);
-    font-size: var(--p-font-size);
-    font-weight:600;
+    text-align: left;
+    padding-bottom: 2.5mm;
 }
 
 .reference > .mixed-citation {
-    font-family: var(--short-text-font-family);
+    font-family: var(--long-text-font-family);
+    font-size: 8.3pt;
+    font-weight: 300; /* light */
+    line-height: 1.385;/* 11.5pt to 8.3pt */
     margin-top:0;
+    text-align: left;
+}
+
+.mixed-citation > .label {
+    font-family: var(--long-text-font-family);
+    font-size: 8.3pt;
+    font-weight: 600; /* semi-bold */
+    line-height: 1.385;/* 11.5pt to 8.3pt */
+    margin: 0;
+    margin-right: 2.5mm;
+}
+
+.mixed-citation > a {
     text-decoration: none;
 }
 
@@ -565,6 +604,7 @@ span.footnote {
 }
 
 .ext-ref[data-specific-use='zenon'] {
+    word-break: keep-all;
     margin-left: 0.5mm;
     text-decoration: none;
 }
@@ -577,10 +617,12 @@ span.footnote {
 }
 
 .attribution {
-    font-size: var(--caption-font-size);
-    margin: 0.5mm 0;
-    line-height: var(--line-height);
+    font-family: var(--short-text-font-family);
+    font-size: var(--p-font-size);
+    font-weight: 300;
+    line-height: 1.5 /* 14pt to 9.3pt */;
     color: #929292;
+    margin: 0.5mm 0;
     text-align: left;
 }
 
@@ -609,10 +651,35 @@ span.footnote {
 
 .contributors-card > p {
     font-family: var(--short-text-font-family);
+    text-align:left;
     margin: 0;
 }
 
-.contributors-link {
+.contributor-link {
+    text-decoration: none;
+    word-break: keep-all;
+}
+
+.institution-link {
+    text-decoration: none;
+    word-break: keep-all;
+}
+
+.orcid-icon {
+    padding-right: 4mm;
+    margin-left: 1mm;
+    background: url(/../assets/graphics/ORCID.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    text-decoration: none;
+}
+
+.ror-icon {
+    padding-right: 6mm;
+    margin-left: 1mm;
+    background: url(/../assets/graphics/ROR.png);
+    background-size: contain;
+    background-repeat: no-repeat;
     text-decoration: none;
 }
 
@@ -633,16 +700,26 @@ span.footnote {
 
 #imprint > p {
     font-family: var(--short-text-font-family);
+    font-size: var(--p-font-size);
+    font-weight: 300;
+    line-height: 1.5 /* 14pt to 9.3pt */;
+    text-align: left;
 }
 
 .publisher > p {
     font-family: var(--short-text-font-family);
+    font-size: var(--p-font-size);
+    font-weight: 300;
+    line-height: 1.5 /* 14pt to 9.3pt */;
+    text-align: left;
     padding:0;
-    margin:0;
 }
 
 .publisher-loc > p {
     font-family: var(--short-text-font-family);
+    font-size: var(--p-font-size);
+    font-weight: 300;
+    line-height: 1.5 /* 14pt to 9.3pt */;
     padding:0;
     margin:0;
 }
@@ -663,17 +740,19 @@ span.footnote {
     font-family: var(--short-text-font-family);
     font-style: italic;
     padding:0;
-    margin:0;
     margin-top: 2.5mm;
 }
 
 .self-reference {
+    margin-top: 2.5mm;
+}
+
+.self-reference > a {
     font-style: italic;
 }
 
 /* image components
 --------------------*/
-
 #cloned-images-container {
     break-before: page;
 }
@@ -694,6 +773,7 @@ figure.first-element {
 }
 
 img {
+    /* height: 100%; */
     width: 100%;
     margin-bottom: var(--imgMarginBottom);
 }
@@ -703,23 +783,31 @@ img:hover{
 }
 
 figCaption {
-    font-family: var(--short-text-font-family);
+    text-align: justify;
+    hyphens: auto;
     margin-top: 5mm;
 }
 
 .caption-text {
+    font-family: var(--short-text-font-family);
     font-size: var(--caption-font-size);
-    text-align: justify;
-    hyphens: auto;
+    font-weight: 300; /* light */
+    line-height: var(--line-height-cap);
     margin:0;
 }
 
 .img-label {
+    font-family: var(--short-text-font-family);
     font-size: var(--caption-font-size);
+    font-weight: 300; /* light */
+    line-height: 1.37; /* 10pt to 7.3pt */
 }
 
 .fig-number {
+    font-family: var(--short-text-font-family);
     font-size: var(--caption-font-size);
+    font-weight: 300; /* light */
+    line-height: 1.37; /* 10pt to 7.3pt */
 }
 
 .fig-number.left-page {
