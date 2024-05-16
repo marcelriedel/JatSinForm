@@ -28,7 +28,7 @@ The JATS-XML documents (of the German Archaeological Institute) are created by i
         - installing "Live Preview"-Extension recommended
 
 ## Control views and editing functions in pagedJs-preview
-The keyboard-control keys are defined in index.html. By default use:
+The keyboard-control keys are defined in  **index.html**. By default use:
 
 |Key | Action                       | Const in index.html   |
 |----|------------------------------|-----------------------|
@@ -44,9 +44,9 @@ The keyboard-control keys are defined in index.html. By default use:
 
 The mouse-click-events are defined as follows:
 
-- click (+ mouse over figure) => switch width-class of floating figures
-- double-click (+ mouse over figure) => switch typesetting-class of figure
-- on-hold-click (+ mouse over figure) => switch display-mode of figCaption (bottom or regular)
+- click (on figure) => switch width-class of floating figures
+- double-click (on figure) => switch typesetting-class of figure
+- on-hold-click (on figure) => switch display-mode of figCaption (bottom or regular)
 
 ## Libraries
 - pagedJs
