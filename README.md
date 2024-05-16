@@ -27,6 +27,27 @@ The JATS-XML documents (of the German Archaeological Institute) are created by i
         - using your IDE as local webserver 
         - installing "Live Preview"-Extension recommended
 
+## Control views and editing functions in pagedJs-preview
+The keyboard-control keys are defined in index.html. By default use:
+
+|Key | Action                       | Const in index.html   |
+|----|------------------------------|-----------------------|
+| r  | reload                       |  reload|
+| q  | hardReset                    |  hardReset|
+| p  | render xml with pagedJs      |  renderAsPDF|
+| v  | render xml in a web-view     |  renderAsViewer|
+| f  | highlight figure references  | highlightFigReference |
+| h  | highlight page contexts info | highlightContextInfo|
+| o  | show page overflows (of text)| showOverflows |
+| t  | push figure to top of page (+ mouse over figure)  |figureToTop
+| *  | dev-only: setup figure constellations  | setupFigConstellations|
+
+The mouse-click-events are defined as follows:
+
+- click (+ mouse over figure) => switch width-class of floating figures
+- double-click (+ mouse over figure) => switch typesetting-class of figure
+- on-hold-click (+ mouse over figure) => switch display-mode of figCaption (bottom or regular)
+
 ## Libraries
 - pagedJs
 - interactJs
