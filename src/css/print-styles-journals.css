@@ -223,6 +223,7 @@ p {
     font-style: normal;
     font-weight: 300;
     margin-right: 10mm;
+    border-left: 1px solid var(--color-paper);
 }
 
 p.content-paragraph:hover {
@@ -528,7 +529,7 @@ span.footnote {
 }
 
 .footnote-1-10 {
-    text-indent: calc(var(--footnote-font-size) * -2);  /* -15pt; */
+    text-indent: calc(var(--footnote-font-size) * -2);  /* 15pt; */
     padding-left: 20pt;
 }
 
@@ -583,7 +584,7 @@ span.footnote {
     font-weight: 300; /* light */
     line-height: 1.385;/* 11.5pt to 8.3pt */
     margin-top:0;
-    text-align: left;
+    text-align: justify;
 }
 
 .mixed-citation > .label {
@@ -625,6 +626,18 @@ span.footnote {
     margin: 0.5mm 0;
     text-align: left;
 }
+
+.attribution > .img-label {
+    font-family: var(--short-text-font-family);
+    font-size: var(--p-font-size);
+    font-weight: 300;
+    line-height: 1.5 /* 14pt to 9.3pt */;
+    color: #929292;
+    margin: 0.5mm 0;
+    text-align: left;
+}
+
+
 
 /* meta-section (appendices):
 ---------------------------*/
