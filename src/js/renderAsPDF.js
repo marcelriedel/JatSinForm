@@ -9,8 +9,9 @@ const pageSpaceBuffer = 0.89;
 const createToC = false;
 const urlRegex = /doi|handle|urn|ark:|orcid|ror/g;
 const specificUseRegex = "zenon|extrafeatures|supplements";
-const onTopOfPage = []; /*  ["regular", "regular-bottom", "overmargin", "overmargin-bottom",
-"inset", "float-w-col-2", "float-w-col-4", "float-w-col-6"]*/
+const onTopOfPage = ["regular", "regular-bottom", "overmargin", "overmargin-bottom",
+"inset", "float-w-col-2", "float-w-col-4", "float-w-col-6"]; /*  ["regular", "regular-bottom", "overmargin", "overmargin-bottom",
+"inset", "float-w-col-2", "float-w-col-4", "float-w-col-6"] */
 
 /** ------------------------------
  * control pagedJs-Handler (Hook), documentation: 
@@ -79,19 +80,20 @@ function controlPagedJsHandler() {
 
             if (sourceNode && sourceNode.nodeType == Node.ELEMENT_NODE) {
 
-                // define page contexts of source node:
+                // get paragrapMap and parsedContent:
                 let paragraphMap = JSON.parse(localStorage.getItem("paragraph-map"));
-                let pageContent = sourceNode.closest(".pagedjs_page_content");
                 let parsedContent = Layout.hooks.afterParsed.context.source.firstChild;
-                let contexts = definePageContextsOfSourceNode(sourceNode, renderNode, pageContent);
 
                 // handle layout of content paragraphs:
                 if (paragraphMap[sourceNode.id] && !paragraphMap[sourceNode.id]["isSet"]) {
-                    console.log("---------", sourceNode.id, "-----------------");
-                    let nodeParams = defineRenderNodeParameter(sourceNode, renderNode, parsedContent);
 
+                    console.log("---------", sourceNode.id, "-----------------");
+      
+                    // define nodeParams (e.g. position on page, figure references):
+                    let nodeParams = defineRenderNodeParameter(sourceNode, renderNode, parsedContent);
+          
                     // exclude figures for defined paragraphs (first text page)
-                    if(contexts["pageId"] === firstTextPageId ) {
+                    if(nodeParams["contexts"]["pageId"] === firstTextPageId ) {
                         if(nodeParams["currentFigure"]) {
                             pushFigRefToNextParagraph(sourceNode.id, nodeParams["currentFigure"].id);
                         }
@@ -129,26 +131,9 @@ function controlPagedJsHandler() {
                     updateParagraphMap(sourceNode.id, "isSet", true);
                     sourceNode.style.cssText = paragraphMap[sourceNode.id]["style"];
                 }
-
-                // handle layout of regular headlines:
-                if (/title/.test(sourceNode.className) || /title-appendix/.test(sourceNode.className)) {
-                    setPageContextsAsElementAttribute(contexts, sourceNode, renderNode);
-
-                    // exclude titles on cover-page:
-                    let parentElementClass = sourceNode.parentElement.className;
-                    if(parentElementClass !== "abstract" && parentElementClass !== "kwd-group") {
-                        adjustLayoutOfElements(sourceNode, contexts);
-                    }
-                }
-                // handle layout of table blocks:
-                if (/table-wrap/.test(sourceNode.className)) {
-                    setPageContextsAsElementAttribute(contexts, sourceNode, renderNode);
-                    adjustLayoutOfElements(sourceNode, contexts);
-                }
-                // handle layout of catalogs:
-                if (/catalog-number/.test(sourceNode.className)) {
-                    setPageContextsAsElementAttribute(contexts, sourceNode, renderNode);
-                    adjustLayoutOfElements(sourceNode, contexts);
+                 // handle layout of text elements (e.g. title elements and tables):
+                else {
+                    adjustLayoutOfTextElements(sourceNode, renderNode);
                 }
             }
         }
@@ -646,7 +631,7 @@ function createReferenceList(content) {
                         extRefLink.innerHTML = "[Zenon &#9741]";
                     };
                     if(specificUse === "weblink") { 
-                        extRefLink.innerHTML = "[" + extRef.href + "]";
+                        extRefLink.innerHTML = "" + extRef.href + "";
                     };
                 }
                 // extract reference text from ext-ref-element
@@ -1028,8 +1013,8 @@ function createImprintSection(content) {
     // add credit to JatSinForm:
     let selfReferenceNotice = document.createElement("p");
     selfReferenceNotice.classList.add("self-reference");
-    selfReferenceNotice.innerHTML = "This PDF was created with " + 
-    "<a href='https://github.com/marcelriedel/JatSinForm' target='_blank'>JatSinForm</a>";
+    selfReferenceNotice.innerHTML = "This PDF was created with " +
+    "<a href='https://github.com/dainst/JatSinForm' target='_blank'>JatSinForm</a>";
     imprintSection.appendChild(selfReferenceNotice);
     return (imprintSection);
 }
@@ -1187,7 +1172,7 @@ function getNextParagraphInParagraphMap(paragraphMap, currentNodeId) {
 
 /**
  * create figure map
- * @param {HTMLElement} parsedContent content once parsed and given ids 
+ * @param {HTMLElement} parsedContent content once parsed and given ids
  * (data-ref and break rules from the css)
  * @param {JSON} previousMap previous map saved in local storage, e.g. with given style properties 
  * @returns {void} figureMap (with position, states, styles and typesettingClasses) will be saved in local storage
@@ -1276,7 +1261,7 @@ function getNextFigRefs(currentNodeId) {
             }
         }
         // if node is first of content section:
-        if (paragraph && !paragraphMap[nodeId]["isFirstOfSection"]) {
+        if(paragraph && !paragraphMap[nodeId]["isFirstOfSection"]) {
             ++i; // proceed (next paragraph)
         }
         // if rangeOverSection is true (allowed):  
@@ -1366,15 +1351,25 @@ function getNextFigureElement(nextFigRef, parsedContent) {
 /* -------------------------------------
 Control page layout of element nodes
 ----------------------------------------*/
+/**
+ * define parameter of renderNode
+ * @param {node} sourceNode original node from parsedContent currently rendered
+ * @param {node} renderNode cloned node that is added to the DOM; if pagedJs splits
+ * the sourceNode, renderNode is rendered on the next page
+ * @param {HTMLElement} parsedContent content once parsed and given ids
+ * (data-ref and break rules from the css)
+ * @returns {JSON} nodeParams: parameter collection (e.g. pageContext-parameter,
+ * target figure references, target figure Elements)
+ * 
+ */
 function defineRenderNodeParameter(sourceNode, renderNode, parsedContent) {
 
     // define distribution ratio of section (relation between figures to text-content):
     let distributionRatio = defineDistributionRatioOfSection(sourceNode);
 
     // define page contexts of source node:
-    let contexts = definePageContextsOfSourceNode(sourceNode);
-    setPageContextsAsElementAttribute(contexts, sourceNode, renderNode);
- 
+    let contexts = definePageContextsOfSourceNode(sourceNode, renderNode);
+
     // get next figRefs and sort nextFigRefs:
     let nextFigRefs = getNextFigRefs(sourceNode.id);
     nextFigRefs = sortNextFigRefsByFigurePosition(nextFigRefs);
@@ -1397,94 +1392,171 @@ function defineRenderNodeParameter(sourceNode, renderNode, parsedContent) {
     return(nodeParams);
 }
 
-function definePageContextsOfSourceNode(sourceNode) {
+/**
+ * define page contexts of sourceNode
+ * @param {node} sourceNode original node from parsedContent currently rendered
+ * @param {node} renderNode cloned node that is added to the DOM; if pagedJs splits
+ * the sourceNode, renderNode is rendered on the next page
+ * @returns {JSON} pageContexts: parameter collection (e.g. pageId, distances to top,
+ * remaining space on page, elements set before node); certain parameters will be added
+ * to element as data-after-attribute (to display parameter in pagedJs preview)
+ * 
+ */
+function definePageContextsOfSourceNode(sourceNode, renderNode) {
 
-    // get pageContent of sourceNode:
+    // get pageContent, pageElement and pageId of sourceNode:
     let pageContent = sourceNode.closest(".pagedjs_page_content");
-
-    // get pageId:
     let pageElement = pageContent.closest(".pagedjs_page");
     let pageId = (pageElement !== null) ? pageElement.id : false;
 
-    // get element set before on page:
+    // get elements set before on page:
     let elementsOfPage = pageContent.querySelectorAll("p.content-paragraph,.title,table,ul,figure,.page-title");
     let elementSetBefore = (elementsOfPage.length >= 2) ? elementsOfPage[elementsOfPage.length - 2] : false;
+    let elementSetBeforeTagName = (elementSetBefore) ? elementSetBefore.tagName : "FALSE";
 
-    // get bounding rectangles of pageContent:
-    let nodeBottom = sourceNode.getBoundingClientRect().bottom;
+    // get bounding client rectangles of pageContent:
     let pageContentTop = pageContent.getBoundingClientRect().top;
-    let nodeTop = sourceNode.getBoundingClientRect().top;
-    let nodeMarginTop = parseInt(getComputedStyle(sourceNode).marginTop);
-    let paddingTop = parseInt(getComputedStyle(sourceNode).paddingTop);
     let pageContentHeight = pageContent.offsetHeight;
     let pageContentWidth = pageContent.offsetWidth;
 
-    // height of footnoteArea:
+    // get height of footnoteArea:
     let footnoteArea = pageElement.querySelector(".pagedjs_footnote_area");
     let footnoteAreaHeight = footnoteArea.getBoundingClientRect().height;
 
-    // calculate distances of node and page:
-    let distanceToTopFromNodeBottom = Math.round(nodeBottom - pageContentTop);
-    let distanceToTopFromNodeTop = Math.round(nodeTop - nodeMarginTop - paddingTop - pageContentTop);
+    // get bounding client rectangle of nodes:
+    let nodeTop = sourceNode.getBoundingClientRect().top;
+    let nodeBottom = sourceNode.getBoundingClientRect().bottom;
+    let nodeMarginTop = parseInt(getComputedStyle(sourceNode).marginTop);
+    let paddingTop = parseInt(getComputedStyle(sourceNode).paddingTop);
 
-    // re-calculate distanceToTopFromNodeBottom of sourceNode split [data-split-to]: 
-    if(!distanceToTopFromNodeTop || distanceToTopFromNodeTop < 0) { // distance = 0
-        distanceToTopFromNodeBottom = calculateDistanceFromBottomOfNodeSplit(sourceNode, elementSetBefore, pageContentWidth);
+    // pre-calculate distances of node on page:
+    let distanceToTopFromNodeTop = Math.round(nodeTop - nodeMarginTop - paddingTop - pageContentTop);
+    let distanceToTopFromNodeBottom = Math.round(nodeBottom - pageContentTop);
+
+    // detecting node splits and pages with figures:
+    let nodeSplit = (distanceToTopFromNodeBottom >= pageContentHeight) ? true : false;
+    let pageHasFigures = (pageContent.querySelectorAll("FIGURE").length > 0) ? true : false;
+
+    // calculate final distances integrating figure inserts and split-nodes:
+    let nodeHeight; 
+    let remainingSpace;
+
+    // adjust parameter of nodes split and partly render on next page:
+    if(nodeSplit) {
+        distanceToTopFromNodeBottom = calculateDistanceFromBottomOfNodeSplit(sourceNode, elementSetBefore, pageContent);
     }
-    let remainingSpace = pageContentHeight - distanceToTopFromNodeBottom;
-    
-    // define where node-bottom (!) ends-up on page:
-    let pageTopArea = (remainingSpace >= pageContentHeight * 0.75) ? true : false;
-    let pageBottomArea = (!pageTopArea && remainingSpace <= pageContentHeight * 0.10) ? true : false;
-    let pageInBetweenArea = (!pageTopArea && !pageBottomArea) ? true : false;
+    // add stats of elementsBefore to currentNode if page has figure
+    if(pageHasFigures && elementSetBefore) {
+        fromNodeBottomBefore = parseFloat(elementSetBefore.getAttribute("fromNodeBottom"));
+        let currentNodeHeight = distanceToTopFromNodeBottom - distanceToTopFromNodeTop; 
+        let newDistanceToTopFromNodeTop = fromNodeBottomBefore  + 20;
+        
+        // calculate new distances (fromNodeTop and fromNodeBottom)
+        if(newDistanceToTopFromNodeTop + currentNodeHeight < pageContentHeight) {
+            distanceToTopFromNodeTop = newDistanceToTopFromNodeTop
+            distanceToTopFromNodeBottom = newDistanceToTopFromNodeTop + currentNodeHeight;
+        }
+        // ignore split nodes from adding stats of elementBefore
+        else {
+            distanceToTopFromNodeTop = 0;
+            distanceToTopFromNodeBottom = calculateDistanceFromBottomOfNodeSplit(sourceNode, elementSetBefore, pageContent)
+        }
+    }
+    // adjust distances of figure nodes:
+    if(/FIGURE/.test(sourceNode.tagName)) {
+        let figure = pageContent.querySelector("#" + sourceNode.id);
+        let clientSizes = calculateClientSizeOfFigure(figure, pageContentWidth);
+        let figureHeight = Math.round(clientSizes["clientHeightCalculated"]);
+        distanceToTopFromNodeBottom = distanceToTopFromNodeTop + figureHeight;
+    }
+
+    // calculate nodeHeight and remaining space:
+    nodeHeight = distanceToTopFromNodeBottom - distanceToTopFromNodeTop; 
+    remainingSpace = pageContentHeight - distanceToTopFromNodeBottom;
 
     // collect values in pageContexts object:
     let pageContexts = {
         "pageId": pageId,
         "pageContentHeight": pageContentHeight,
         "pageContentWidth": pageContentWidth,
+        "footnoteAreaHeight": footnoteAreaHeight,
+        "elementSetBefore": elementSetBefore,
+        "elementSetBeforeTagName": elementSetBeforeTagName,
         "distanceToTopFromNodeBottom": distanceToTopFromNodeBottom,
         "distanceToTopFromNodeTop": distanceToTopFromNodeTop,
+        "nodeHeight": nodeHeight,
         "remainingSpace": remainingSpace,
-        "footnoteAreaHeight": footnoteAreaHeight,
-        "pageTopArea": pageTopArea,
-        "pageBottomArea": pageBottomArea,
-        "pageInBetweenArea": pageInBetweenArea,
-        "elementSetBefore": elementSetBefore
+        "nodeSplit": nodeSplit
     };
+
+    // save pageContexts-stats as element attribute:
+    setPageContextsAsElementAttribute(pageContexts, sourceNode, renderNode);
     return (pageContexts);
 }
 
-// re-calculate distanceToTopFromNodeBottom of sourceNode split [data-split-to]: 
-function calculateDistanceFromBottomOfNodeSplit(sourceNode, elementSetBefore, pageContentWidth) {
+function calculateFinalNodeDistances(contexts) {
 
-    let distanceToTopFromNodeBottom = 0;
+    if(nodeSplit) {
+        distanceToTopFromNodeBottom = calculateDistanceFromBottomOfNodeSplit(sourceNode, elementSetBefore, pageContent);
+    }
+    if(/FIGURE/.test(sourceNode.tagName)) {
+        let figure = pageContent.querySelector("#" + sourceNode.id);
+        let clientSizes = calculateClientSizeOfFigure(figure, pageContentWidth);
+        let figureHeight = Math.round(clientSizes["clientHeightCalculated"]);
+        distanceToTopFromNodeBottom = distanceToTopFromNodeTop + figureHeight;
+    }
+    if(pageHasFigures && elementSetBefore) {
+        
+        fromNodeBottomBefore = parseFloat(elementSetBefore.getAttribute("fromNodeBottom"));
+        let nodeHeight = distanceToTopFromNodeBottom - distanceToTopFromNodeTop; 
+        let newDistanceToTopFromNodeTop = fromNodeBottomBefore  + 20;
+        
+        if(newDistanceToTopFromNodeTop + nodeHeight < pageContentHeight) {
+            distanceToTopFromNodeTop = newDistanceToTopFromNodeTop
+            distanceToTopFromNodeBottom = newDistanceToTopFromNodeTop + nodeHeight;
+        }
+        else {
+            distanceToTopFromNodeTop = 0;
+            distanceToTopFromNodeBottom = calculateDistanceFromBottomOfNodeSplit(sourceNode, elementSetBefore, pageContent)
+        }
+    }
+
+    let nodeHeight = distanceToTopFromNodeBottom - distanceToTopFromNodeTop; 
+    let remainingSpace = pageContentHeight - distanceToTopFromNodeBottom;
+
+    return(contexts);
+}
+
+// re-calculate distanceToTopFromNodeBottom of sourceNode split [data-split-to]: 
+function calculateDistanceFromBottomOfNodeSplit(sourceNode, elementSetBefore, pageContent) {
+
+    let pageContentWidth = pageContent.offsetWidth;
+    let pageContentHeight = pageContent.offsetHeight;
+    let distanceToTopFromNodeBottom = 0;    
     let remainingSpaceElementBefore;
 
     // get remainingSpace of elementSetBefore
-    if(elementSetBefore !== undefined && /content-paragraph/.test(elementSetBefore.className)) {
-        remainingSpaceElementBefore = Number(elementSetBefore.getAttribute("data-remainingSpace"));
-
-        console.log("elementBeforeSpace sourceNode", sourceNode.id);
-        console.log("elementBeforeSpace", remainingSpaceElementBefore);
-
+    if(elementSetBefore && elementSetBefore !== undefined) {
+        remainingSpaceElementBefore = parseFloat(elementSetBefore.getAttribute("remainingSpace"));
         if(remainingSpaceElementBefore !== 0 && remainingSpaceElementBefore !== undefined) {
             // calculate text-width of sourceNode text:   
             let textStyles = getComputedStylesOfTextElements(); 
-            let font = textStyles["paraFontSizeDeclared"] + " " + textStyles["paraFont"]; // "9.3pt Noto Serif"
+            let font = textStyles["paraFontSizeDeclared"] + " " + textStyles["paraFont"]; // "e.g. 9.3pt Noto Serif"
             let textWidth = getTextWidth(sourceNode.innerText, font);
             let linesComplete = Math.ceil(textWidth / pageContentWidth); 
             let heightParagraphLinePx = textStyles["heightParagraphLinePx"];
 
             // calculate text-height by lineHeight:
             let textHeight = linesComplete * Math.ceil(heightParagraphLinePx); 
-            if(textHeight > remainingSpaceElementBefore) {
+            if(textHeight > pageContentHeight) {
+                distanceToTopFromNodeBottom = textHeight - pageContentHeight - remainingSpaceElementBefore;
+            }
+            else if(textHeight > remainingSpaceElementBefore) {
                 distanceToTopFromNodeBottom = textHeight - remainingSpaceElementBefore;
             }
             else {
                 distanceToTopFromNodeBottom = remainingSpaceElementBefore - textHeight;
             } 
-       
         }
     }
     return(distanceToTopFromNodeBottom);
@@ -1492,32 +1564,27 @@ function calculateDistanceFromBottomOfNodeSplit(sourceNode, elementSetBefore, pa
 
 function setPageContextsAsElementAttribute(contexts, sourceNode, renderNode) {
 
-    let attributeValue;
-    let pageCursor;
-    if(contexts["pageTopArea"]) {
-        pageCursor = "pageTopArea";
-    }
-    else if (contexts["pageBottomArea"]) {
-        pageCursor = "pageBottomArea";
-    }
-    else {
-        pageCursor = "in-between";
-    }
-    // define attributes values as data-after-attribute:
-    attributeValue = "cursor: " + pageCursor + " | " +
-    "fromBottom: " + contexts["distanceToTopFromNodeBottom"] + "px | " +
-    "fromTop: " + contexts["distanceToTopFromNodeTop"] + "px | " +
-    "remains: " + contexts["remainingSpace"] + "px | " +
-    contexts["elementSetBefore"].tagName;
+    // set attributes for key-contexts values:
+    sourceNode.setAttribute('fromNodeTop', contexts["distanceToTopFromNodeTop"]);
+    renderNode.setAttribute('fromNodeTop', contexts["distanceToTopFromNodeTop"]);
+    sourceNode.setAttribute('fromNodeBottom', contexts["distanceToTopFromNodeBottom"]);
+    renderNode.setAttribute('fromNodeBottom', contexts["distanceToTopFromNodeBottom"]);
+    renderNode.setAttribute('nodeHeight', contexts["nodeHeight"]);
+    sourceNode.setAttribute('nodeHeight', contexts["nodeHeight"]);
+    sourceNode.setAttribute('remainingSpace', contexts["remainingSpace"]);
+    renderNode.setAttribute('remainingSpace', contexts["remainingSpace"]);
 
-    // set attribute for nodes:
-    sourceNode.setAttribute('data-after', attributeValue);
-    renderNode.setAttribute('data-after', attributeValue);
+    // concat all attributes values together:
+    let allAttributeValues = "" +
+    "fromNodeTop: " + contexts["distanceToTopFromNodeTop"] + "px | " +
+    "fromNodeBottom: " + contexts["distanceToTopFromNodeBottom"] + "px | " +
+    "nodeHeight: " + contexts["nodeHeight"] + "px | " +
+    "remainingSpace: " + contexts["remainingSpace"] + "px | " +
+    "elementBefore: " + contexts["elementSetBeforeTagName"];
 
-    // set remainingSpace as separate attribute:
-    sourceNode.setAttribute('data-remainingSpace', contexts["remainingSpace"]);
-    renderNode.setAttribute('data-remainingSpace', contexts["remainingSpace"]);
-
+    // add all attributes as data-after-attribute:
+    sourceNode.setAttribute('data-after', allAttributeValues);
+    renderNode.setAttribute('data-after', allAttributeValues);
 }
 
 function defineDistributionRatioOfSection(sourceNode) {
@@ -1559,8 +1626,8 @@ function processFigureEnhancing(nodeParams) {
     // check if figures fit in current page frame (remaining space)
     let fits = figuresFitInCurrentPageFrame(set, nodeParams);
 
-    // DEV OUTPUT:
-    console.log("FIG-REFS", nodeParams["figRefs"]);
+    /* DEV OUTPUT:
+    // console.log("FIG-REFS", nodeParams["figRefs"]);
     if(currentFigure) {
         console.log("currentFigure ->", currentFigure.id);
         console.log("fitsCurrentFigure:",  fits["currentFigure"]);
@@ -1613,7 +1680,7 @@ function setLayoutSpecsOfFigure(figure, addClass = false) {
     if(figure) {
         // define and set typesetting class:
         let typesettingClass = setFigureTypesettingClass(figure, addClass);  
-        let figureModelSpecs = getFigureModelSpecs(typesettingClass);
+        let figureModelSpecs = getFigureModelSpecs(figure, typesettingClass);
 
         // define figure specs by typesettingClass
         let figureWidthPreset = (figureModelSpecs) ? figureModelSpecs[0] : false;
@@ -1622,15 +1689,6 @@ function setLayoutSpecsOfFigure(figure, addClass = false) {
         // pre-assign specs of figure-width and -height:
         figure.style.width = (figureWidthPreset) ? figureWidthPreset : "auto";
         figure.style.height = (figureHeightPreset) ? figureHeightPreset : "auto";
-
-        // override figure styles with styles saved in figureMap
-        let figureId = (figure.id) ? figure.id : figure.getAttribute("data-id");
-        let figureMap = JSON.parse(localStorage.getItem("figure-map"));
-        if (figureMap) {
-            if (figureMap[figureId]["style"]) {
-                figure.style.cssText = figureMap[figureId]["style"];
-            }
-        } 
     }
 }
 
@@ -1648,16 +1706,12 @@ function setFigureTypesettingClass(figure, addClass = false, toggle = false) {
         }
         // set typesettingClass given by user:
         else if(addClass && toggle) {
-            console.log("removeToggle", figure.classList[typesettingClassListKey]);
-            console.log("addToggle", addClass);
             let removeClass = figure.classList[typesettingClassListKey];
             figure.classList.remove(removeClass);
             typesettingClass = addClass;
         }
          // (re)set typesettingClass defined by figure constellations:
         else if(addClass) {
-            console.log("removeConstellation", figure.classList[typesettingClassListKey]);
-            console.log("addConstelattion", addClass);
             let removeClass = figure.classList[typesettingClassListKey];
             figure.classList.remove(removeClass);
             typesettingClass = addClass;
@@ -1690,18 +1744,25 @@ function getDefaultFigureTypesettingClass(figure) {
     return(typesettingClass);
 }
 
-function getFigureModelSpecs(typesettingClass) {
+function getFigureModelSpecs(figure, typesettingClass) {
 
-    // define default specs:
-    let figureModelSpecs = ["100%", "100%"]; // default;
- 
-    // get specs from journal-config:
+    let figureModelSpecs;
+    let figureMap = JSON.parse(localStorage.getItem("figure-map"));
     let journalConfig = JSON.parse(localStorage.getItem("journal-config"));
-    if(journalConfig !== undefined) {
-        if(journalConfig["figureModelSpecs"][typesettingClass] !== undefined) {
-            figureModelSpecs = journalConfig["figureModelSpecs"][typesettingClass];
-        }
+
+    // check for figure styles saved in figureMap:
+    if(figureMap && figureMap[figure.id]["style"]) {
+        figure.style.cssText = figureMap[figure.id]["style"];
+        figureModelSpecs = [figure.style.width, figure.style.height];
     } 
+    // get specs from journal-config:
+    else if(journalConfig["figureModelSpecs"][typesettingClass] !== undefined) {
+        figureModelSpecs = journalConfig["figureModelSpecs"][typesettingClass];
+    }
+    // set default specs:
+    else {
+        figureModelSpecs = ["100%", "100%"];
+    }    
     return(figureModelSpecs);
 }
 
@@ -1740,15 +1801,16 @@ function figuresFitInCurrentPageFrame(set, nodeParams) {
     let nextFigure = nodeParams["nextFigure"];
    
     // calculate clientSize of figure (includes figCaption and marginBottom)
-    let clientSizeCurrentFigure = calculateClientSizeOfFigure(currentFigure, contexts);
-    let clientSizeNextFigure = calculateClientSizeOfFigure(nextFigure, contexts);
+    let pageContentWidth = contexts["pageContentWidth"];
+    let clientSizeCurrentFigure = calculateClientSizeOfFigure(currentFigure, pageContentWidth);
+    let clientSizeNextFigure = calculateClientSizeOfFigure(nextFigure, pageContentWidth);
     let clientHeightCurrentFigure = clientSizeCurrentFigure["clientHeightCalculated"];
     let clientHeightNextFigure = clientSizeNextFigure["clientHeightCalculated"];
-    
+
     // substract height of footnoteArea from pageContentHeight:
     let remainingSpace = contexts["remainingSpace"] - contexts["footnoteAreaHeight"];
-    // add a slight pageSpaceBuffer:
-    remainingSpace = remainingSpace * pageSpaceBuffer;
+    remainingSpace = remainingSpace * pageSpaceBuffer; // add a slight pageSpaceBuffer:
+    
     // set pageContentHeight if remainingSpace has negative value (= leads to pageBreak):
     remainingSpace = (remainingSpace < 0) ? contexts["pageContentHeight"] : remainingSpace;
 
@@ -1756,7 +1818,6 @@ function figuresFitInCurrentPageFrame(set, nodeParams) {
     let fitsCurrentFigure;
     let fitsNextFigure;
     if(set["currentFigure"][0] && set["nextFigure"][0]) {
-        console.log("Test", remainingSpace, ">", clientHeightCurrentFigure);
         if(remainingSpace > (clientHeightCurrentFigure + clientHeightNextFigure)) {
             fitsCurrentFigure = true;
             fitsNextFigure = true;
@@ -1772,16 +1833,11 @@ function figuresFitInCurrentPageFrame(set, nodeParams) {
     }
     // check setting of current figure only:
     if(set["currentFigure"][0] && !set["nextFigure"][0]) {
-        if(contexts["pageBottomArea"]) {
-            fitsCurrentFigure = true;
-            fitsNextFigure = false;
-        }
-        else if((remainingSpace > clientHeightCurrentFigure)) {
+        if((remainingSpace > clientHeightCurrentFigure)) {
             fitsCurrentFigure = true;
             fitsNextFigure = false;
         }
         else {
-            spaceAfter = remainingSpace;
             fitsCurrentFigure = false;
             fitsNextFigure = false;
         }
@@ -1794,7 +1850,7 @@ function figuresFitInCurrentPageFrame(set, nodeParams) {
     return(fits);
 }
 
-function calculateClientSizeOfFigure(figure, contexts) {
+function calculateClientSizeOfFigure(figure, pageContentWidth) {
 
     // calculate clientWidth and clientHeight of figure:
     let clientSizes = {};
@@ -1816,21 +1872,19 @@ function calculateClientSizeOfFigure(figure, contexts) {
         // calculate by width (css-)percentage values:
         else {
             let widthPercentage = figure.style.width.slice(0, -1); // e.g. 50
-            clientWidthCalculated = contexts["pageContentWidth"] * widthPercentage / 100;
+            clientWidthCalculated = pageContentWidth * widthPercentage / 100;
             clientHeightCalculated = clientWidthCalculated / ratio;        
         }
-        // calculate img margins:
+        // calculate img and figure margins:
         let documentRoot = document.querySelector(':root');
         let imgMarginBottomDeclared = getComputedStyle(documentRoot).getPropertyValue("--imgMarginBottom");
         let imgMarginBottom = (imgMarginBottomDeclared) ? imgMarginBottomDeclared.slice(0, -2) * 3.78 : 10;
+        let marginBottomDeclared = getComputedStyle(documentRoot).getPropertyValue("--floatFigureMarginBottom");
+        let marginBottom = (marginBottomDeclared) ? marginBottomDeclared.slice(0, -2) * 3.78 : 28;
      
         // calculate clientHeight of figCaption
         clientHeightFigCaption = calculateClientSizeOfFigCaption(figure, clientWidthCalculated);
-
-        // calculate marginBottom of figure:
-        let marginBottomDeclared = getComputedStyle(documentRoot).getPropertyValue("--floatFigureMarginBottom");
-        let marginBottom = (marginBottomDeclared) ? marginBottomDeclared.slice(0, -2) * 3.78 : 28;
-
+ 
         // add clientHeightFigCaption and marginBottom to calculated clientHeight of figure:
         clientHeightCalculated = clientHeightCalculated + imgMarginBottom + clientHeightFigCaption + marginBottom;
 
@@ -1840,8 +1894,8 @@ function calculateClientSizeOfFigure(figure, contexts) {
         clientWidthCalculated = clientWidthCalculated + sideMargin;
 
         // round client sizes by fixed-point notation:
-        clientWidthCalculated = Number.parseFloat(clientWidthCalculated).toFixed(2);
-        clientHeightCalculated = Number.parseFloat(clientHeightCalculated).toFixed(2);
+        clientWidthCalculated = Math.round(parseFloat(clientWidthCalculated));
+        clientHeightCalculated = Math.round(parseFloat(clientHeightCalculated));
 
         // assign values to clientSizes:
         clientSizes = {
@@ -1858,13 +1912,16 @@ function calculateClientSizeOfFigCaption(figure, clientWidthCalculated) {
     // get all parameters:
     let figCaption = figure.querySelector(".caption-text");
     let textStyles = getComputedStylesOfTextElements();
-
-    // calculate length of textWidth
     let captionFontStyles = textStyles["captionFontSizeDeclared"] + " " + textStyles["captionFont"];
-    let textWidth = getTextWidth(figCaption.innerText, captionFontStyles);
-    let lines = textWidth / clientWidthCalculated;
-    let captionLinesRound = Math.ceil(lines); // captionLines
-    let heightFigCaption = captionLinesRound * textStyles["heightCaptionLinePx"];
+
+    // calculate length of textWidth:
+    let heightFigCaption = 0;
+    if(figCaption && figCaption !== undefined && figCaption !== null) {
+        let textWidth = getTextWidth(figCaption.innerText, captionFontStyles);
+        let lines = textWidth / clientWidthCalculated;
+        let captionLinesRound = Math.ceil(lines); // captionLines
+        heightFigCaption = captionLinesRound * textStyles["heightCaptionLinePx"];
+    }
     return(heightFigCaption);
 }
   
@@ -1883,7 +1940,8 @@ function addVirtualMarginToFloatingFigure(figure, contexts) {
         offsetToMarginArea = Math.abs(offsetToMarginArea); // turn negative value to positive
       
         // calculate client sizes of figure:
-        let clientSizes = calculateClientSizeOfFigure(figure, contexts);
+        let pageContentWidth = contexts["pageContentWidth"];
+        let clientSizes = calculateClientSizeOfFigure(figure, pageContentWidth);
         let figureWidth = clientSizes["clientWidthCalculated"];
         let figureHeight = clientSizes["clientHeightCalculated"];
         let marginBottom = clientSizes["marginBottom"];
@@ -1891,8 +1949,8 @@ function addVirtualMarginToFloatingFigure(figure, contexts) {
         // calculate floating text lines space:
         let lines = figureHeight /  textStyles["heightParagraphLinePx"];
         let lineWidth = figureWidth - offsetToMarginArea;
-        let textFloatWidth = contexts["pageContentWidth"] - lineWidth;
-        let textFloatPercent = textFloatWidth / contexts["pageContentWidth"];
+        let textFloatWidth = pageContentWidth - lineWidth;
+        let textFloatPercent = textFloatWidth / pageContentWidth;
 
         // calculate virtualMargin (- subtract regular marginBottom):
         let virtualMargin = (lines * textStyles["heightParagraphLinePx"]) * textFloatPercent - marginBottom; 
@@ -1964,9 +2022,9 @@ function insertPseudoNodeAtEndOfSections(nodeParams, parsedContent) {
     }
 }
 
-/* ---------------------------------------------
-Adjust elements after page rendering
------------------------------------------------*/
+/* --------------------------------------------------------
+classify and adjust elements after node is rendered on page
+------------------------------------------------------------*/
 function classifyPageOfElement(pageElement, page) {
 
     let pageContent = pageElement.querySelector(".pagedjs_page_content");
@@ -1979,7 +2037,10 @@ function classifyPageOfElement(pageElement, page) {
         } else {
             element.classList.add("left-page");
         }
-        element.title = element.className;
+        // add classes as element-title attribute:
+        if(addClassesAsElementTitle) {
+            element.title = element.className;
+        }
     }
 }
 
@@ -2006,24 +2067,37 @@ function classifyElementPositionOnPage(pageElement) {
                 element.classList.add("in-between");
                 break;
         }
-        element.title = element.className;
+        // add classes as element-title attribute:
+        if(addClassesAsElementTitle) {
+            element.title = element.className;
+        }
     }
 }
 
-function adjustLayoutOfElements(sourceNode, contexts) {
+function adjustLayoutOfTextElements(sourceNode, renderNode) {
 
+    // get pageContext of elements:
+    let contexts = definePageContextsOfSourceNode(sourceNode, renderNode);
+
+    // define threshold values:
     let bottomAreaNoHeadlinePx = contexts["pageContentHeight"] / 9;
     let bottomAreaNoTitleAppendixPx = contexts["pageContentHeight"]-100;
     let bottomAreaNoTablePx = contexts["pageContentHeight"] / 7;
   
+    // handle layout of regular headlines:
     if(/title/.test(sourceNode.className)) {
-        // add top-margins to headlines and push them to next page:
-        if(contexts["remainingSpace"] < bottomAreaNoHeadlinePx) {
-            sourceNode.style.marginTop = contexts["remainingSpace"] + 50 + "px";
-        }
-        // remove top-padding from headlines set after figure element:
-        if(contexts["elementSetBefore"].tagName === "FIGURE") {
-            sourceNode.style.paddingTop = 0;
+        // exclude titles on cover-page:
+        let parentElementClass = sourceNode.parentElement.className;
+        if(parentElementClass !== "abstract" && parentElementClass !== "kwd-group") {
+            // add top-margins to headlines and push them to next page:
+            if(contexts["remainingSpace"] < bottomAreaNoHeadlinePx &&
+            contexts["remainingSpace"] > 20) {
+                sourceNode.style.marginTop = contexts["remainingSpace"] + 50 + "px";
+            }
+            // remove top-padding from headlines set after figure element:
+            if(contexts["elementSetBefore"].tagName === "FIGURE") {
+                sourceNode.style.paddingTop = 0;
+            }
         }
     }
     // add top-margins to title-appendixes and push them to next column
@@ -2034,6 +2108,13 @@ function adjustLayoutOfElements(sourceNode, contexts) {
     // avoid table blocks starting at bottom of page
     if(/table-wrap/.test(sourceNode.className)) {
         // add top-margins to headlines and push them to next page:
+        if(contexts["remainingSpace"] < bottomAreaNoTablePx) {
+            sourceNode.style.marginTop = contexts["remainingSpace"] + 50 + "mm";
+        }
+    }
+    // handle layout of catalogs:
+    if (/catalog-number/.test(sourceNode.className)) {
+        // add top-margins to catalog number and push them to next page:
         if(contexts["remainingSpace"] < bottomAreaNoTablePx) {
             sourceNode.style.marginTop = contexts["remainingSpace"] + 50 + "mm";
         }
@@ -2265,6 +2346,7 @@ function makeElementsInteractive(pageElement) {
         }
         if (/content-paragraph/.test(element.className)) {
             element.classList.add("tap-target");
+            // element.classList.add("resizable-paragraph");
         }
     }
 }
@@ -2295,8 +2377,8 @@ function controlInteractJs() {
 
                     // reload
                     setTimeout(function(){
-                        window.location.reload();
-                    }, 4000);
+                       window.location.reload();
+                    }, 5000);
                 }
             },
             modifiers: [
@@ -2314,6 +2396,21 @@ function controlInteractJs() {
             if(event.dt >= 80 && event.dt <= 500) {
                 if(event.currentTarget.tagName === "FIGURE") {
                     toggleFigureClasses(event.currentTarget, "figureColumnWidth");
+                }
+                if(/content-paragraph/.test(event.currentTarget.className)) {
+
+                    // clear:both;margin-bottom:5mm
+                    event.currentTarget.style.marginTop = "5mm";
+                    event.currentTarget.style.letterSpacing = "0.2px";
+
+                    event.currentTarget.classList.add("styled-flag");
+                    updateParagraphMap(event.currentTarget.id, "style", "margin-top:5mm;letter-spacing:0.2px;");
+    
+                    /* reload document after changes:
+                    setTimeout(function(){
+                        window.location.reload();
+                    }, 2000);
+                    */
                 }
             }
             // skip tap-event (one click) if double-tap fires:
@@ -2333,16 +2430,6 @@ function controlInteractJs() {
         .on('hold', function (event) {
             if(event.currentTarget.tagName === "FIGURE") {
                 toggleFigureClasses(event.currentTarget, "figureCaption");
-            }
-            if(/content-paragraph/.test(event.currentTarget.className)) {
-
-                // clear:both;margin-bottom:5mm
-                updateParagraphMap(event.currentTarget.id, "style", "margin-top:5mm;letter-spacing:0.1px;");
-
-                // reload document after changes:
-                setTimeout(function(){
-                window.location.reload();
-                }, 2000);
             }
             event.preventDefault();
         })
@@ -2371,7 +2458,7 @@ function URLifyString(string){
     const urls = string.match(/((((ftp|https?):\/\/)|(w{3}\.))[\-\w@:%_\+.~#?,&\/\/=]+)/g);
     if (urls) {
         urls.forEach(function (url) {
-            string = string.replace(url, '<a target="_blank" href="' + url + '">' + url + "</a>");
+            string = string.replace(url, '<a class ="ext-ref" target="_blank" href="' + url + '">' + url + "</a>");
         });
     }
     return(string);
