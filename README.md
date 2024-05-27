@@ -28,9 +28,11 @@ The JATS-XML documents (of the German Archaeological Institute) are created by i
         - installing "Live Preview"-Extension recommended
 
 ## Control views and editing functions in pagedJs-preview
-The keyboard-control keys are defined in  **index.html**. By default use:
+The keyboard-control keys can be defined in  **index.html**. 
 
-|Key | Action                       | Const in index.html   |
+By default use:
+
+|Key | Action                       | const in index.html   |
 |----|------------------------------|-----------------------|
 | r  | reload                       |  reload|
 | q  | hardReset                    |  hardReset|
