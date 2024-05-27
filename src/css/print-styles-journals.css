@@ -48,6 +48,7 @@
         line-height: 1.5;
         padding-bottom: 30pt;
         align-items: end;
+        color: gray;
     }
     @bottom-right-corner {
         content: counter(page);
@@ -70,6 +71,7 @@
         line-height: 1.5;
         padding-bottom: 30pt;
         align-items: end;
+        color: gray;
     }
     @bottom-left-corner {
         content: counter(page);
@@ -95,7 +97,7 @@
     margin-left: 30mm;
     margin-right: 30mm;
     background: var(--background-url);
-    /* background-repeat:no-repeat; */
+    background-repeat:no-repeat;
 
     @bottom-right {
         content: "";
@@ -180,16 +182,6 @@
     }
 }
 
-/* super classes
--------------------*/
-.page-break-before {
-    break-before: page;
-}
-
-.page-break-after {
-    break-after: page;
-}
-
 /* main compontents:
 --------------------*/
 body {
@@ -228,6 +220,12 @@ p {
 
 p.content-paragraph:hover {
     cursor: pointer;
+    border-top:5mm dotted rgb(213, 234, 218);
+    letter-spacing:0.2px;
+}
+
+p.styled-flag:hover {
+    border:none;
 }
 
 p.catalog-number {
@@ -597,7 +595,7 @@ span.footnote {
 }
 
 .mixed-citation > a {
-    text-decoration: none;
+    /* text-decoration: none; */
 }
 
 .ext-ref {
@@ -637,8 +635,6 @@ span.footnote {
     text-align: left;
 }
 
-
-
 /* meta-section (appendices):
 ---------------------------*/
 .meta-section {
@@ -647,7 +643,7 @@ span.footnote {
     -webkit-column-count: 2;
     -moz-column-count: 2;
     column-fill: auto;
-    column-gap: 5mm;
+    column-gap: 4mm;
 }
 
 .meta-section.right-page {
@@ -796,7 +792,7 @@ img:hover{
 }
 
 figCaption {
-    text-align: justify;
+    text-align: left;
     hyphens: auto;
     margin-top: 5mm;
 }
@@ -941,7 +937,7 @@ styles for classified images
 
 .overmargin.right-page > figCaption {
     position: absolute;
-    width: 35mm !important;
+    width: 32.5mm !important;
     float: left;
     margin-top: 7.5mm;
     left: 0;
@@ -949,7 +945,7 @@ styles for classified images
 
 .overmargin.left-page > figCaption {
     position: absolute;
-    width: 35mm !important;
+    width: 32.5mm !important;
     float: right;
     margin-top: 7.5mm;
     right: 0;
