@@ -1494,39 +1494,6 @@ function definePageContextsOfSourceNode(sourceNode, renderNode) {
     return (pageContexts);
 }
 
-function calculateFinalNodeDistances(contexts) {
-
-    if(nodeSplit) {
-        distanceToTopFromNodeBottom = calculateDistanceFromBottomOfNodeSplit(sourceNode, elementSetBefore, pageContent);
-    }
-    if(/FIGURE/.test(sourceNode.tagName)) {
-        let figure = pageContent.querySelector("#" + sourceNode.id);
-        let clientSizes = calculateClientSizeOfFigure(figure, pageContentWidth);
-        let figureHeight = Math.round(clientSizes["clientHeightCalculated"]);
-        distanceToTopFromNodeBottom = distanceToTopFromNodeTop + figureHeight;
-    }
-    if(pageHasFigures && elementSetBefore) {
-        
-        fromNodeBottomBefore = parseFloat(elementSetBefore.getAttribute("fromNodeBottom"));
-        let nodeHeight = distanceToTopFromNodeBottom - distanceToTopFromNodeTop; 
-        let newDistanceToTopFromNodeTop = fromNodeBottomBefore  + 20;
-        
-        if(newDistanceToTopFromNodeTop + nodeHeight < pageContentHeight) {
-            distanceToTopFromNodeTop = newDistanceToTopFromNodeTop
-            distanceToTopFromNodeBottom = newDistanceToTopFromNodeTop + nodeHeight;
-        }
-        else {
-            distanceToTopFromNodeTop = 0;
-            distanceToTopFromNodeBottom = calculateDistanceFromBottomOfNodeSplit(sourceNode, elementSetBefore, pageContent)
-        }
-    }
-
-    let nodeHeight = distanceToTopFromNodeBottom - distanceToTopFromNodeTop; 
-    let remainingSpace = pageContentHeight - distanceToTopFromNodeBottom;
-
-    return(contexts);
-}
-
 // re-calculate distanceToTopFromNodeBottom of sourceNode split [data-split-to]: 
 function calculateDistanceFromBottomOfNodeSplit(sourceNode, elementSetBefore, pageContent) {
 
