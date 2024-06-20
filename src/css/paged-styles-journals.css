@@ -218,16 +218,6 @@ p {
     border-left: 1px solid var(--color-paper);
 }
 
-p.content-paragraph:hover {
-    cursor: pointer;
-    border-top:5mm dotted rgb(213, 234, 218);
-    letter-spacing:0.2px;
-}
-
-p.styled-flag:hover {
-    border:none;
-}
-
 p.catalog-number {
     font-size: 10pt;
     color: var(--journal-color);
@@ -239,10 +229,19 @@ span.text-medium {
 }
 
 li {
+    font-family: var(--long-text-font-family);
+    font-weight: 300; /* light */
     color: var(--long-text-color);
     font-size: var(--li-font-size);
     line-height: var(--line-height-para);
     padding-left: 2.5mm;
+    margin: 1.5mm 0;
+    text-align: justify;
+    hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 p.signature {
@@ -795,6 +794,7 @@ figCaption {
     text-align: left;
     hyphens: auto;
     margin-top: 5mm;
+    display:none;
 }
 
 .caption-text {
@@ -1033,11 +1033,16 @@ ul.toc-list {
 
 /* application specific
  ------------------------*/
-.display-data-attributes::before {
-    font-size:8pt;
-    border:1px dotted deeppink;
-    color: deeppink;
-    content: attr(data-before) " ";
+ .text-content:hover {
+    cursor: pointer;
+    border-top: 5mm dotted whitesmoke;
+    border-radius: 10px 10px;
+    letter-spacing:0.2px;
+    transition: border-top 2s;
+}
+
+.text-content.styled-flag:hover {
+    border:none;
 }
 
 .display-data-attributes::after {
