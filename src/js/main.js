@@ -29,7 +29,7 @@ pagedJsScript.src = "src/js/pagedjs.js";  // 'https://unpkg.com/pagedjs/dist/pag
 // interactJs-script
 const interactJsScript = document.createElement('script');
 interactJsScript.type = 'text/javascript';
-interactJsScript.src = 'https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js';
+interactJsScript.src = 'https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js' // "src/js/interact.min.js";
 
 // highlightJS-script:
 const highlightJsScript = document.createElement('script');
@@ -45,7 +45,7 @@ highlightJsCSSLink.rel = 'stylesheet';
 // qrcodejs-script:
 const qrcodejs = document.createElement('script');
 qrcodejs.type = 'text/javascript';
-qrcodejs.src = "https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js";
+qrcodejs.src = "https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"; // "src/js/qrcode.min.js"
 
 /** -------------------------------------
  * prepare document constants:
@@ -72,7 +72,6 @@ document.addEventListener("readystatechange", (event) => {
 
         // checkout xml-path
         if (document.querySelector('meta[name="--xml-file"]') !== null) {
-
             // request jats.xml:
             let xmlFile = document.querySelector('meta[name="--xml-file"]').content;
             let xmlPath = xmlFolder + "/" + xmlFile;
@@ -259,7 +258,7 @@ document.addEventListener('keyup', function (e) {
     // press q for hard reset (refresh maps)
     if (e.key === hardReset) {
         localStorage.removeItem('figure-map');
-        localStorage.removeItem('paragraph-map');
+        localStorage.removeItem('text-content-map');
         localStorage.removeItem('documentState');
         window.location.reload();
     }
@@ -274,7 +273,7 @@ document.addEventListener('keyup', function (e) {
 
     // press h to highlight context information of elements:
     if (e.key === highlightContextInfo) {
-        let highlightElements = document.querySelectorAll(".content-paragraph, .title");
+        let highlightElements = document.querySelectorAll(".text-content,FIGURE");
         for (let i = 0; i < highlightElements.length; i++) {
             highlightElements[i].classList.add("display-data-attributes");
         }
@@ -364,89 +363,16 @@ function convertXMLToHtmlBody(xmlDoc) {
     let xmlBody = xmlDoc.getElementsByTagName("body")[0];
     let xmlFront = xmlDoc.getElementsByTagName("front")[0];
     let xmlBack = xmlDoc.getElementsByTagName("back")[0];
+    
+    // append meta-content-elements:
     xmlBody.appendChild(xmlFront)
     xmlBody.appendChild(xmlBack);
 
-    // pre-check: find id-less paragraphs with fig-refs:
-    let idLessParagraphs = xmlBody.querySelectorAll("p:not(p[id])");
-    for (let i = 0; i < idLessParagraphs.length; i++) {
-        if(idLessParagraphs[i].querySelectorAll("xref[ref-type='fig']").length) {
-            // assing randomId to paragraph-element:
-            idLessParagraphs[i].id = "generatedId-" + Math.floor(Math.random() * 100);
-            idLessParagraphs[i].classList.add("content-paragraph");
-            // log warning message:
-            console.log("Notice: Element with tag <p> has no id-attribute! \n" + 
-            "Random-ID assigned to XML-Element \n" + idLessParagraphs[i].outerHTML);
-        };
-    }
-    // remove empty tags except of graphic:
-    let emptyTags = xmlBody.querySelectorAll("*:empty");
-    for (let i = 0; i < emptyTags.length; i++) {
-        if(emptyTags[i].tagName !== "graphic") {
-            emptyTags[i].remove();
-            // log warning message:
-            console.log("Notice: Empty elements has been removed!");
-        }
-    }
-    // convert selectors as defined in tagConversionMap:
-    for (let selector in tagConversionMap) {
-        let tagName = tagConversionMap[selector]["tagName"];
-        let classname = tagConversionMap[selector]["className"];
+    // remove empty elements except of graphic:
+    removeEmptyElements(xmlBody, "graphic");
 
-        if (xmlBody.querySelectorAll(selector).length !== 0) {
-            let xmlElements = xmlBody.querySelectorAll(selector);
-        
-            for (let i = 0; i < xmlElements.length; ++i) {
-                // create new element with ids and classNames:
-                let newElement = document.createElement(tagName);
-                if (xmlElements[i].id) { newElement.id = xmlElements[i].id; }
-                if (classname) { newElement.classList.add(classname); }
-
-                // set ref-links:
-                if (tagConversionMap[selector].hasOwnProperty("refAttribute")) {
-                    let refAttribute = tagConversionMap[selector]["refAttribute"];
-                    let refValue = xmlElements[i].getAttribute(refAttribute);
-
-                    // image source-links:
-                    if (selector === "graphic") {
-                        newElement.src = (refValue) ? xmlFolder + "/" + refValue : "";
-                    }
-                    // external url-links:
-                    else if (selector === "ext-link") {
-                        // handle over specific-use attributes of ext-link
-                        if(xmlElements[i].getAttribute("specific-use")) {
-                            let specificUseValue = xmlElements[i].getAttribute("specific-use");
-                            newElement.setAttribute("data-specific-use", specificUseValue);
-                        }
-                        newElement.href = (refValue) ? (refValue).trim() : "";
-                    // internal id-links:
-                    } else {
-                        newElement.href = (refValue) ? "#" + (refValue).trim() : "";
-                    }
-                }
-                // set defined attribute to newElement
-                if (tagConversionMap[selector].hasOwnProperty("setAttribute")) {
-                    let attributeKey = tagConversionMap[selector]["setAttribute"];
-                    let attributeValue = xmlElements[i].getAttribute(attributeKey);
-                    // add missing content-type to article contributors group:
-                    if(selector === "contrib-group" && attributeValue == null) {
-                        // check firstChild of contrib-group:
-                        let firstChild = xmlElements[i].firstElementChild;
-                        if(firstChild && firstChild.getAttribute("contrib-type") === "author") {
-                            attributeValue = "article-contributors";
-                        }
-                    }
-                    newElement.setAttribute(attributeKey, attributeValue);
-                }
-                // transfer content and replace xml-element:
-                newElement.innerHTML = xmlElements[i].innerHTML;
-                xmlElements[i].replaceWith(newElement);
-            }
-        }
-        else {
-            console.log("Notice: Tag/Element <" + selector + "> not found in XML.");
-        }
-    }
+    // convert xml elements to html elements:
+    convertElementsBySelectorInTagConversionMap(xmlBody, tagConversionMap);
 
     // enhance code wit <pre> and language-class:
     let codeItems = xmlDoc.querySelectorAll("code");
@@ -470,11 +396,21 @@ function convertXMLToHtmlBody(xmlDoc) {
         }
     }
 
+    // assign generated element-id if missing:
+    let textContentElements = xmlBody.querySelectorAll("p,.title,li,table,pre,code");
+    for (let i = 0; i < textContentElements.length; i++) {
+        // use loop id to define element-id (can´t be random-generated)
+        if(!textContentElements[i].id) {
+            textContentElements[i].id = "genId-" + i;
+        }
+    }
+
     // wrap xmlBody as htmlContentBody
     let htmlContentBody = document.createElement('div');
     htmlContentBody.classList.add("content-body");
     htmlContentBody.innerHTML = xmlBody.innerHTML;
     return (htmlContentBody);
+
 }
 
 function transformSelfClosingTags(xml) {
@@ -487,6 +423,83 @@ function transformSelfClosingTags(xml) {
         newXml += split[i] + "></" + elementName + ">";
     }
     return newXml + split[split.length-1];
+}
+
+function removeEmptyElements(xmlBody, excludeSelector) {
+
+    let emptyTags = xmlBody.querySelectorAll("*:empty");
+    for (let i = 0; i < emptyTags.length; i++) {
+        if(emptyTags[i].tagName !== excludeSelector) {
+            emptyTags[i].remove();
+            console.log("Notice: Empty elements has been removed!");
+        }
+    }
+}
+
+function convertElementsBySelectorInTagConversionMap(xmlBody, tagConversionMap) {
+    // convert selectors as defined in tagConversionMap:
+  for (let selector in tagConversionMap) {
+      let mapTagName = tagConversionMap[selector]["tagName"];
+      let mapClassname = tagConversionMap[selector]["className"];
+
+      if (xmlBody.querySelectorAll(selector).length !== 0) {
+          let xmlElements = xmlBody.querySelectorAll(selector);
+
+          for (let i = 0; i < xmlElements.length; ++i) {
+              let newElement = document.createElement(mapTagName);
+              
+              // transfer ids and classnames of xml-elements:
+              if (xmlElements[i].className) {newElement.classList.add(xmlElements[i].className);}
+              if (xmlElements[i].id) {newElement.id = xmlElements[i].id;}
+              
+              // add new defined classnames in tagConversionMap
+              if (mapClassname) {newElement.classList.add(mapClassname);}
+
+              // set ref-links:
+              if (tagConversionMap[selector].hasOwnProperty("refAttribute")) {
+                  let refAttribute = tagConversionMap[selector]["refAttribute"];
+                  let refValue = xmlElements[i].getAttribute(refAttribute);
+
+                  // image source-links:
+                  if (selector === "graphic") {
+                      newElement.src = (refValue) ? xmlFolder + "/" + refValue : "";
+                  }
+                  // external url-links:
+                  else if (selector === "ext-link") {
+                      // handle over specific-use attributes of ext-link
+                      if(xmlElements[i].getAttribute("specific-use")) {
+                          let specificUseValue = xmlElements[i].getAttribute("specific-use");
+                          newElement.setAttribute("data-specific-use", specificUseValue);
+                      }
+                      newElement.href = (refValue) ? (refValue).trim() : "";
+                  // internal id-links:
+                  } else {
+                      newElement.href = (refValue) ? "#" + (refValue).trim() : "";
+                  }
+              }
+              // set defined attribute to newElement
+              if (tagConversionMap[selector].hasOwnProperty("setAttribute")) {
+                  let attributeKey = tagConversionMap[selector]["setAttribute"];
+                  let attributeValue = xmlElements[i].getAttribute(attributeKey);
+                  // add missing content-type to article contributors group:
+                  if(selector === "contrib-group" && attributeValue == null) {
+                      // check firstChild of contrib-group:
+                      let firstChild = xmlElements[i].firstElementChild;
+                      if(firstChild && firstChild.getAttribute("contrib-type") === "author") {
+                          attributeValue = "article-contributors";
+                      }
+                  }
+                  newElement.setAttribute(attributeKey, attributeValue);
+              }
+              // transfer content and replace xml-element:
+              newElement.innerHTML = xmlElements[i].innerHTML;
+              xmlElements[i].replaceWith(newElement);
+          }
+      }
+      else {
+          console.log("Notice: Tag/Element <" + selector + "> not found in XML.");
+      }
+  }
 }
 
 /* element classifiers
@@ -603,7 +616,7 @@ function getStyleSheetLink(journalId) {
     styleSheetLink.rel = 'stylesheet';
 
     // define stylesheet src
-    let stylesheet = (journalId === "e-DAI-F") ? "print-styles-berichte" : "print-styles-journals";
+    let stylesheet = (journalId === "e-DAI-F") ? "paged-styles-reports" : "paged-styles-journals";
 
     // set stylesheet src
     styleSheetLink.href = 'src/css/' + stylesheet + '.css';
