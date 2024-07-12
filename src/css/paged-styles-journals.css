@@ -19,6 +19,7 @@
     --floatFigureMarginToText: 10mm;
     --floatFigureMarginBottom: 7.5mm;
     --floatFigureOffsetToMarginArea: -40mm;
+    --figureMarginBottomDefault: 7.5mm;
     --pagedjs-crop-color: black;
     --pagedjs-crop-shadow: white;
     --pagedjs-crop-stroke: 1px;
@@ -97,7 +98,7 @@
     margin-left: 30mm;
     margin-right: 30mm;
     background: var(--background-url);
-    background-repeat:no-repeat;
+    background-repeat: no-repeat;
 
     @bottom-right {
         content: "";
@@ -188,6 +189,16 @@ body {
     text-rendering: optimizeLegibility;
 }
 
+.content-body {
+     /* test columns layout
+     column-count: 2;
+     -webkit-column-count: 2;
+     -moz-column-count: 2;
+     column-fill:balance;
+     column-gap: 4mm;
+     */
+}
+
 /* text blocks
 -----------------*/
 p {
@@ -197,7 +208,7 @@ p {
     line-height: var(--line-height-para);
     font-weight: 300; /* light */
     margin-top:0;
-    margin-bottom: 0.5mm; /* 0 or 2.5mm;  */
+    margin-bottom: 2.5mm; /* 0, 0.5 or 2.5mm;  */
     text-align: justify;
     hyphens: auto;
     -moz-hyphens: auto;
@@ -555,7 +566,26 @@ span.footnote {
     white-space:pre;
 }
 
-/* Reference List
+/* endnotes-section
+---------------------*/
+#endnotes-section {
+    break-after: page;
+    break-before: page;
+    text-align: left;
+}
+
+#endnotes-section > .footnote {
+    font-family: var(--long-text-font-family);
+    font-size: 8.3pt;
+    font-weight: 300; /* light */
+    line-height: 1.385;/* 11.5pt to 8.3pt */
+    padding-bottom: 2.5mm;
+    text-align: justify;
+    break-inside: avoid;
+    float:none;
+}
+
+/* reference List
 ---------------------*/
 #reference-list {
     break-after: page;
@@ -598,7 +628,7 @@ span.footnote {
 }
 
 .ext-ref {
-    color: #38a;
+    color: var(--long-text-color);
 }
 
 .ext-ref[data-specific-use='zenon'] {
@@ -670,7 +700,6 @@ span.footnote {
 
 .institution-link {
     text-decoration: none;
-    word-break: keep-all;
 }
 
 .orcid-icon {
@@ -834,8 +863,8 @@ styles for classified images
 .float-w-col-2.left-page {
     float: right;
     clear: both;
-    margin-right: var(--floatFigureOffsetToMarginArea) !important;
-    margin-left: 5mm !important;
+    margin-left: 5mm !important; 
+    margin-right: var(--floatFigureOffsetToMarginArea) !important; 
     margin-bottom: var(--floatFigureMarginBottom) !important;
     margin-top: 1mm !important;
 }
@@ -855,7 +884,7 @@ styles for classified images
     margin-right: var(--floatFigureOffsetToMarginArea) !important;
     margin-left: var( --floatFigureMarginToText) !important;
     margin-bottom: var(--floatFigureMarginBottom) !important;
-    margin-top: 1mm !important;
+    margin-top: 5mm !important;
 }
 
 .float-w-col-4.right-page {
@@ -864,7 +893,7 @@ styles for classified images
     margin-left: var(--floatFigureOffsetToMarginArea) !important;
     margin-right: var( --floatFigureMarginToText) !important;
     margin-bottom: var(--floatFigureMarginBottom) !important;
-    margin-top: 1mm !important;
+    margin-top: 5mm !important;
 }
 
 .float-w-col-6.left-page {
@@ -873,7 +902,7 @@ styles for classified images
     margin-right: var(--floatFigureOffsetToMarginArea) !important;
     margin-left: var( --floatFigureMarginToText) !important;
     margin-bottom: var(--floatFigureMarginBottom) !important;
-    margin-top: 1mm !important;
+    margin-top: 5mm !important;
 }
 
 .float-w-col-6.right-page {
@@ -882,7 +911,7 @@ styles for classified images
     margin-left: var(--floatFigureOffsetToMarginArea) !important;
     margin-right: var( --floatFigureMarginToText) !important;
     margin-bottom: var(--floatFigureMarginBottom) !important;
-    margin-top: 1mm !important;
+    margin-top: 5mm !important;
 }
 
 .inset > figcaption {
@@ -1035,20 +1064,23 @@ ul.toc-list {
  ------------------------*/
  .text-content:hover {
     cursor: pointer;
-    border-top: 5mm dotted whitesmoke;
-    border-radius: 10px 10px;
+    border-top: 5mm dotted;
+    border-color:white;
     letter-spacing:0.2px;
     transition: border-top 2s;
+    letter-spacing: 0.25px;
 }
 
 .text-content.styled-flag:hover {
-    border:none;
+    cursor: pointer;
+    border: none;
 }
 
 .display-data-attributes::after {
     font-size:8pt;
     border:1px dotted deeppink;
     color: deeppink;
+    background: var(--color-paper);
     content: " " attr(data-after);
 }
 

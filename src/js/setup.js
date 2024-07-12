@@ -35,25 +35,26 @@ for (let i = 0; i < constellationKeys.length; i++) {
     if(splits[indexNextFig] === "false") {
         nextFigureSet = "[false, false]";
     }
-    if(/float/.test(splits[indexFigBefore])
-    && /overmargin/.test(splits[indexCurrentFig])) {
-        currentFigureSet = "[false, false]" + ",";
-    }
-    // avoid order: float and overmargin
-    if(/float/.test(splits[indexCurrentFig])
-    && /overmargin/.test(splits[indexNextFig])) {
-        currentFigureSet = "[true, false]" + ",";
-        nextFigureSet = "[false, false]";
-    }
 
     // avoid order: float and overmargin
     if(/float/.test(splits[indexFigBefore])
     && /overmargin/.test(splits[indexCurrentFig])) {
         currentFigureSet = "[false, false]" + ",";
     }
-    // avoid order: float and overmargin
     if(/float/.test(splits[indexCurrentFig])
     && /overmargin/.test(splits[indexNextFig])) {
+        currentFigureSet = "[true, false]" + ",";
+        nextFigureSet = "[false, false]";
+    }
+    // avoid order: float and regular
+    if(/float/.test(splits[indexFigBefore])
+    && /regular/.test(splits[indexCurrentFig])) {
+        currentFigureSet = "[false, false]" + ",";
+    }
+    // avoid order: float and regular
+    if(/float/.test(splits[indexCurrentFig])
+    && /regular/.test(splits[indexNextFig])) {
+        currentFigureSet = "[true, false]" + ",";
         nextFigureSet = "[false, false]";
     }
     
@@ -73,12 +74,11 @@ for (let i = 0; i < constellationKeys.length; i++) {
     && /overmargin/.test(splits[indexCurrentFig])) {
         currentFigureSet = "[true, \"regular-bottom\"]" + ",";
     }
-    // avoid three floating figure on one page:
-    if(/float/.test(splits[indexFigBefore])
-    && /float/.test(splits[indexCurrentFig])
-    && /float/.test(splits[indexNextFig])) {
-        currentFigureSet = "[true, false]" + ",";
-        nextFigureSet = "[false, false]";
+    // avoid collision of figCaptions (overmargin -> float)
+    if(/overmargin/.test(splits[indexCurrentFig])
+    && /overmargin/.test(splits[indexNextFig])) {
+        currentFigureSet = "[true, \"overmargin-bottom\"]" + ",";
+        nextFigureSet = "[true, false]";
     }
 
     /* adjust width-type of floats */

@@ -287,7 +287,7 @@ document.addEventListener('keyup', function (e) {
     }
 
     // press o to see overflowing elements of pagedjs-page-content:
-    if (e.key === showOverflows) {
+    if (e.key === displayOverflows) {
         let pageContents = document.querySelectorAll(".pagedjs_page_content");
         for (let i = 0; i < pageContents.length; i++) {
             pageContents[i].style.display = "flex";
@@ -511,8 +511,8 @@ function convertElementsBySelectorInTagConversionMap(xmlBody, tagConversionMap) 
     }
 }
 
-/* element classifiers
-------------------------*/
+/* classify images and toggle figure classes
+----------------------------------------------*/
 function classifyImage(image, sizeClassSetGlobal) {
 
     let width = image.naturalWidth;
@@ -577,6 +577,43 @@ function defineClassByImageRatio(ratio) {
             break;
     }
     return (ratioClass);
+}
+
+function toggleFigureClasses(figure, toggleCase) {
+
+    let typesettingClass = figure.classList[typesettingClassListKey];
+    let toggleFigureClassesMap = JSON.parse(localStorage.getItem("toggle-figure-classes"))[0];
+    let addClass;
+
+    // get addClass from toggleFigureClassesMap:
+    if(toggleCase === "figureClass") {
+        typesettingClass = /float/.test(typesettingClass) ? "float" : typesettingClass;
+        addClass = toggleFigureClassesMap["figureClass"][typesettingClass];
+    }
+    if(toggleCase === "figureColumnWidth") {
+        if(/float/.test(typesettingClass)) {
+            addClass = toggleFigureClassesMap["figureColumnWidth"][typesettingClass];
+        }
+    }
+    if(toggleCase === "figureCaption") {
+        if(/overmargin/.test(typesettingClass) || /regular/.test(typesettingClass)) {
+            addClass = toggleFigureClassesMap["figureCaption"][typesettingClass];
+        }
+    }
+    // save changes in figureMap:
+    let figureId = (figure.id) ? figure.id : figure.getAttribute("data-id");
+    let figureMap = JSON.parse(localStorage.getItem("figure-map"));
+    figureMap[figureId]["typesettingClass"] = addClass;
+    figureMap[figureId]["style"] = false;
+    localStorage.setItem("figure-map", JSON.stringify(figureMap));
+
+    // replace classes and reassign layout-specs:
+    setLayoutSpecsOfFigure(figure, addClass, true);
+
+    // reload document after changes:
+    setTimeout(function() {
+      window.location.reload();
+    }, 2000);
 }
 
 /* --------------------------------------
@@ -813,10 +850,10 @@ function controlInteractJs() {
                     }
                     else {
                         event.currentTarget.style.marginTop = "5mm";
-                        event.currentTarget.style.letterSpacing = "0.2px";
+                        event.currentTarget.style.letterSpacing = "0.25px";
                         event.currentTarget.classList.add("styled-flag");
                         updateTextContentMap(event.currentTarget.id, "class", "styled-flag");
-                        updateTextContentMap(event.currentTarget.id, "style", "margin-top:5mm;letter-spacing:0.2px;");
+                        updateTextContentMap(event.currentTarget.id, "style", "margin-top:5mm;letter-spacing:0.25px;");
                     }
                 }
             }
