@@ -8,27 +8,20 @@
    </head>
    <body>
       <script>
-         const xmlFolder = "xml-documents"; // path to xml-documents:
+         // xml-document related constants:
+         const xmlFolder = "xml-documents"; // path to xml:
          const pagesFlexDirection = "row"; // "row" or "column"
          const firstTextPageId = "page-2";
-         const rangeNextFigRefs = 6;
-         const rangeOverSection = false;
+         const rangeNextFigRefs = 20;
          const maxAbstractLength = 2500;
          const maxFootnoteLength = 2000;
+         const allFiguresOnTop = true;
+         const rangeOverSection = true;
          const checkUrlPersistence = false;
          const setEndnotes = false;
+         const createToC = false;
+         const addClassesAsElementTitle = true;
 
-         // keyboard control keys:
-         const reload = "r";
-         const hardReset = "q";
-         const renderAsPDF = "p";
-         const renderAsViewer = "v";
-         const setupFigConstellations = "*";
-         const highlightFigReferences = "f";
-         const highlightContextInfo = "h";
-         const showOverflows = "o";
-         const figureToTop = "t";   // while figure:hover (.active)
-      
          // define titles of meta-section:
          const titlesOfAppendices = {
             "contents": {
@@ -88,6 +81,17 @@
             "sp": "con contribuciones del",
             "es": "con contribuciones del"
          };
+
+         // keyboard control keys:
+         const reload = "r";
+         const hardReset = "q";
+         const renderAsPDF = "p";
+         const renderAsViewer = "v";
+         const setupFigConstellations = "*";
+         const highlightFigReferences = "f";
+         const highlightContextInfo = "h";
+         const displayOverflows = "o";
+         const figureToTop = "t";   // while figure:hover (.active)
       </script>
    </body>
 </html>
