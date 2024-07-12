@@ -462,7 +462,7 @@
         },
         "float-w-col-2#regular#false": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -472,7 +472,7 @@
         },
         "float-w-col-4#regular#false": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -482,7 +482,7 @@
         },
         "float-w-col-6#regular#false": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -552,7 +552,7 @@
         },
         "float-w-col-2#regular-bottom#false": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -562,7 +562,7 @@
         },
         "float-w-col-4#regular-bottom#false": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -572,7 +572,7 @@
         },
         "float-w-col-6#regular-bottom#false": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -1272,7 +1272,7 @@
         },
         "float-w-col-2#regular#float-w-col-2": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -1282,7 +1282,7 @@
         },
         "float-w-col-4#regular#float-w-col-2": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -1292,7 +1292,7 @@
         },
         "float-w-col-6#regular#float-w-col-2": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -1362,7 +1362,7 @@
         },
         "float-w-col-2#regular-bottom#float-w-col-2": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -1372,7 +1372,7 @@
         },
         "float-w-col-4#regular-bottom#float-w-col-2": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -1382,7 +1382,7 @@
         },
         "float-w-col-6#regular-bottom#float-w-col-2": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -2082,7 +2082,7 @@
         },
         "float-w-col-2#regular#float-w-col-4": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -2092,7 +2092,7 @@
         },
         "float-w-col-4#regular#float-w-col-4": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -2102,7 +2102,7 @@
         },
         "float-w-col-6#regular#float-w-col-4": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -2172,7 +2172,7 @@
         },
         "float-w-col-2#regular-bottom#float-w-col-4": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -2182,7 +2182,7 @@
         },
         "float-w-col-4#regular-bottom#float-w-col-4": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -2192,7 +2192,7 @@
         },
         "float-w-col-6#regular-bottom#float-w-col-4": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -2892,7 +2892,7 @@
         },
         "float-w-col-2#regular#float-w-col-6": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -2902,7 +2902,7 @@
         },
         "float-w-col-4#regular#float-w-col-6": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -2912,7 +2912,7 @@
         },
         "float-w-col-6#regular#float-w-col-6": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -2982,7 +2982,7 @@
         },
         "float-w-col-2#regular-bottom#float-w-col-6": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -2992,7 +2992,7 @@
         },
         "float-w-col-4#regular-bottom#float-w-col-6": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -3002,7 +3002,7 @@
         },
         "float-w-col-6#regular-bottom#float-w-col-6": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -3702,7 +3702,7 @@
         },
         "float-w-col-2#regular#inset": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -3712,7 +3712,7 @@
         },
         "float-w-col-4#regular#inset": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -3722,7 +3722,7 @@
         },
         "float-w-col-6#regular#inset": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -3792,7 +3792,7 @@
         },
         "float-w-col-2#regular-bottom#inset": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -3802,7 +3802,7 @@
         },
         "float-w-col-4#regular-bottom#inset": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -3812,7 +3812,7 @@
         },
         "float-w-col-6#regular-bottom#inset": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -4146,7 +4146,7 @@
                 false
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -4156,7 +4156,7 @@
                 "float-w-col-2"
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -4166,7 +4166,7 @@
                 "float-w-col-4"
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -4176,7 +4176,7 @@
                 "float-w-col-6"
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -4186,7 +4186,7 @@
                 false
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -4196,7 +4196,7 @@
                 false
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -4206,7 +4206,7 @@
                 false
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -4216,7 +4216,7 @@
                 "regular-bottom"
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -4226,7 +4226,7 @@
                 "regular-bottom"
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -4236,7 +4236,7 @@
                 false
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -4246,7 +4246,7 @@
                 "float-w-col-2"
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -4256,7 +4256,7 @@
                 "float-w-col-4"
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -4266,7 +4266,7 @@
                 "float-w-col-6"
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -4276,7 +4276,7 @@
                 false
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -4286,7 +4286,7 @@
                 false
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -4296,7 +4296,7 @@
                 false
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -4306,7 +4306,7 @@
                 "regular-bottom"
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -4316,7 +4316,7 @@
                 "regular-bottom"
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -4326,7 +4326,7 @@
                 false
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -4336,7 +4336,7 @@
                 "float-w-col-2"
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -4346,7 +4346,7 @@
                 "float-w-col-4"
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -4356,7 +4356,7 @@
                 "float-w-col-6"
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -4366,7 +4366,7 @@
                 false
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -4376,7 +4376,7 @@
                 false
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -4386,7 +4386,7 @@
                 false
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -4396,7 +4396,7 @@
                 "regular-bottom"
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -4406,7 +4406,7 @@
                 "regular-bottom"
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -4512,7 +4512,7 @@
         },
         "float-w-col-2#regular#regular": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -4522,7 +4522,7 @@
         },
         "float-w-col-4#regular#regular": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -4532,7 +4532,7 @@
         },
         "float-w-col-6#regular#regular": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -4602,7 +4602,7 @@
         },
         "float-w-col-2#regular-bottom#regular": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -4612,7 +4612,7 @@
         },
         "float-w-col-4#regular-bottom#regular": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -4622,7 +4622,7 @@
         },
         "float-w-col-6#regular-bottom#regular": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -4956,7 +4956,7 @@
                 false
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -4966,7 +4966,7 @@
                 "float-w-col-2"
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -4976,7 +4976,7 @@
                 "float-w-col-4"
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -4986,7 +4986,7 @@
                 "float-w-col-6"
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -4996,7 +4996,7 @@
                 false
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -5006,7 +5006,7 @@
                 false
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -5016,7 +5016,7 @@
                 false
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -5026,7 +5026,7 @@
                 "regular-bottom"
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -5036,7 +5036,7 @@
                 "regular-bottom"
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -5046,7 +5046,7 @@
                 false
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -5056,7 +5056,7 @@
                 "float-w-col-2"
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -5066,7 +5066,7 @@
                 "float-w-col-4"
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -5076,7 +5076,7 @@
                 "float-w-col-6"
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -5086,7 +5086,7 @@
                 false
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -5096,7 +5096,7 @@
                 false
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -5106,7 +5106,7 @@
                 false
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -5116,7 +5116,7 @@
                 "regular-bottom"
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -5126,7 +5126,7 @@
                 "regular-bottom"
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -5136,7 +5136,7 @@
                 false
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -5146,7 +5146,7 @@
                 "float-w-col-2"
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -5156,7 +5156,7 @@
                 "float-w-col-4"
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -5166,7 +5166,7 @@
                 "float-w-col-6"
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -5176,7 +5176,7 @@
                 false
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -5186,7 +5186,7 @@
                 false
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -5196,7 +5196,7 @@
                 false
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -5206,7 +5206,7 @@
                 "regular-bottom"
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -5216,7 +5216,7 @@
                 "regular-bottom"
             ],
             "nextFigure": [
-                true,
+                false,
                 false
             ]
         },
@@ -5322,7 +5322,7 @@
         },
         "float-w-col-2#regular#regular-bottom": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -5332,7 +5332,7 @@
         },
         "float-w-col-4#regular#regular-bottom": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -5342,7 +5342,7 @@
         },
         "float-w-col-6#regular#regular-bottom": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -5412,7 +5412,7 @@
         },
         "float-w-col-2#regular-bottom#regular-bottom": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -5422,7 +5422,7 @@
         },
         "float-w-col-4#regular-bottom#regular-bottom": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -5432,7 +5432,7 @@
         },
         "float-w-col-6#regular-bottom#regular-bottom": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -6132,7 +6132,7 @@
         },
         "float-w-col-2#regular#overmargin": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -6142,7 +6142,7 @@
         },
         "float-w-col-4#regular#overmargin": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -6152,7 +6152,7 @@
         },
         "float-w-col-6#regular#overmargin": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -6222,7 +6222,7 @@
         },
         "float-w-col-2#regular-bottom#overmargin": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -6232,7 +6232,7 @@
         },
         "float-w-col-4#regular-bottom#overmargin": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -6242,7 +6242,7 @@
         },
         "float-w-col-6#regular-bottom#overmargin": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -6303,7 +6303,7 @@
         "false#overmargin#overmargin": {
             "currentFigure": [
                 true,
-                false
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
@@ -6312,8 +6312,8 @@
         },
         "float-w-col-2#overmargin#overmargin": {
             "currentFigure": [
-                false,
-                false
+                true,
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
@@ -6322,8 +6322,8 @@
         },
         "float-w-col-4#overmargin#overmargin": {
             "currentFigure": [
-                false,
-                false
+                true,
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
@@ -6332,8 +6332,8 @@
         },
         "float-w-col-6#overmargin#overmargin": {
             "currentFigure": [
-                false,
-                false
+                true,
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
@@ -6343,7 +6343,7 @@
         "inset#overmargin#overmargin": {
             "currentFigure": [
                 true,
-                false
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
@@ -6353,7 +6353,7 @@
         "regular#overmargin#overmargin": {
             "currentFigure": [
                 true,
-                false
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
@@ -6363,7 +6363,7 @@
         "regular-bottom#overmargin#overmargin": {
             "currentFigure": [
                 true,
-                false
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
@@ -6373,7 +6373,7 @@
         "overmargin#overmargin#overmargin": {
             "currentFigure": [
                 true,
-                "regular-bottom"
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
@@ -6383,7 +6383,7 @@
         "overmargin-bottom#overmargin#overmargin": {
             "currentFigure": [
                 true,
-                "regular-bottom"
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
@@ -6393,7 +6393,7 @@
         "false#overmargin-bottom#overmargin": {
             "currentFigure": [
                 true,
-                false
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
@@ -6402,8 +6402,8 @@
         },
         "float-w-col-2#overmargin-bottom#overmargin": {
             "currentFigure": [
-                false,
-                false
+                true,
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
@@ -6412,8 +6412,8 @@
         },
         "float-w-col-4#overmargin-bottom#overmargin": {
             "currentFigure": [
-                false,
-                false
+                true,
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
@@ -6422,8 +6422,8 @@
         },
         "float-w-col-6#overmargin-bottom#overmargin": {
             "currentFigure": [
-                false,
-                false
+                true,
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
@@ -6433,7 +6433,7 @@
         "inset#overmargin-bottom#overmargin": {
             "currentFigure": [
                 true,
-                false
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
@@ -6443,7 +6443,7 @@
         "regular#overmargin-bottom#overmargin": {
             "currentFigure": [
                 true,
-                false
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
@@ -6453,7 +6453,7 @@
         "regular-bottom#overmargin-bottom#overmargin": {
             "currentFigure": [
                 true,
-                false
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
@@ -6463,7 +6463,7 @@
         "overmargin#overmargin-bottom#overmargin": {
             "currentFigure": [
                 true,
-                "regular-bottom"
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
@@ -6473,7 +6473,7 @@
         "overmargin-bottom#overmargin-bottom#overmargin": {
             "currentFigure": [
                 true,
-                "regular-bottom"
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
@@ -6942,7 +6942,7 @@
         },
         "float-w-col-2#regular#overmargin-bottom": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -6952,7 +6952,7 @@
         },
         "float-w-col-4#regular#overmargin-bottom": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -6962,7 +6962,7 @@
         },
         "float-w-col-6#regular#overmargin-bottom": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -7032,7 +7032,7 @@
         },
         "float-w-col-2#regular-bottom#overmargin-bottom": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -7042,7 +7042,7 @@
         },
         "float-w-col-4#regular-bottom#overmargin-bottom": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -7052,7 +7052,7 @@
         },
         "float-w-col-6#regular-bottom#overmargin-bottom": {
             "currentFigure": [
-                true,
+                false,
                 false
             ],
             "nextFigure": [
@@ -7113,7 +7113,7 @@
         "false#overmargin#overmargin-bottom": {
             "currentFigure": [
                 true,
-                false
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
@@ -7122,8 +7122,8 @@
         },
         "float-w-col-2#overmargin#overmargin-bottom": {
             "currentFigure": [
-                false,
-                false
+                true,
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
@@ -7132,8 +7132,8 @@
         },
         "float-w-col-4#overmargin#overmargin-bottom": {
             "currentFigure": [
-                false,
-                false
+                true,
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
@@ -7142,8 +7142,8 @@
         },
         "float-w-col-6#overmargin#overmargin-bottom": {
             "currentFigure": [
-                false,
-                false
+                true,
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
@@ -7153,7 +7153,7 @@
         "inset#overmargin#overmargin-bottom": {
             "currentFigure": [
                 true,
-                false
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
@@ -7163,7 +7163,7 @@
         "regular#overmargin#overmargin-bottom": {
             "currentFigure": [
                 true,
-                false
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
@@ -7173,7 +7173,7 @@
         "regular-bottom#overmargin#overmargin-bottom": {
             "currentFigure": [
                 true,
-                false
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
@@ -7183,7 +7183,7 @@
         "overmargin#overmargin#overmargin-bottom": {
             "currentFigure": [
                 true,
-                "regular-bottom"
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
@@ -7193,7 +7193,7 @@
         "overmargin-bottom#overmargin#overmargin-bottom": {
             "currentFigure": [
                 true,
-                "regular-bottom"
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
@@ -7203,7 +7203,7 @@
         "false#overmargin-bottom#overmargin-bottom": {
             "currentFigure": [
                 true,
-                false
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
@@ -7212,8 +7212,8 @@
         },
         "float-w-col-2#overmargin-bottom#overmargin-bottom": {
             "currentFigure": [
-                false,
-                false
+                true,
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
@@ -7222,8 +7222,8 @@
         },
         "float-w-col-4#overmargin-bottom#overmargin-bottom": {
             "currentFigure": [
-                false,
-                false
+                true,
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
@@ -7232,8 +7232,8 @@
         },
         "float-w-col-6#overmargin-bottom#overmargin-bottom": {
             "currentFigure": [
-                false,
-                false
+                true,
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
@@ -7243,7 +7243,7 @@
         "inset#overmargin-bottom#overmargin-bottom": {
             "currentFigure": [
                 true,
-                false
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
@@ -7253,7 +7253,7 @@
         "regular#overmargin-bottom#overmargin-bottom": {
             "currentFigure": [
                 true,
-                false
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
@@ -7263,7 +7263,7 @@
         "regular-bottom#overmargin-bottom#overmargin-bottom": {
             "currentFigure": [
                 true,
-                false
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
@@ -7273,7 +7273,7 @@
         "overmargin#overmargin-bottom#overmargin-bottom": {
             "currentFigure": [
                 true,
-                "regular-bottom"
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
@@ -7283,7 +7283,7 @@
         "overmargin-bottom#overmargin-bottom#overmargin-bottom": {
             "currentFigure": [
                 true,
-                "regular-bottom"
+                "overmargin-bottom"
             ],
             "nextFigure": [
                 true,
