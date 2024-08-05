@@ -1,85 +1,440 @@
-[{
-    "label": {"tagName": "span", "className": "label"},
-    "graphic": {"tagName": "img", "className": false, "refAttribute": "xlink:href"},
-    "caption": {"tagName": "figCaption", "className": false},
-    "attrib": {"tagName": "p", "className": "attribution"},
-    "fig[fig-type='content-image']": {"tagName": "figure", "className": "content-image"},
-    "fig[fig-type='poster-image']": {"tagName": "figure", "className": "poster-image"},
-    "named-content": {"tagName": "span", "className": "paragraph-counter"},
-    "mixed-citation": {"tagName": "p", "className": "mixed-citation"},
-    "styled-content[style-type='catalog-number']": {"tagName": "p", "className": "catalog-number"},
-    "styled-content[style-type='text-medium']": {"tagName": "span", "className": "text-medium"},
-    "list[list-type='ordered']": {"tagName": "ol", "className": false},
-    "list[list-type='bullet']": {"tagName": "ul", "className": false},
-    "list-item": {"tagName": "li", "className": false},
-    "code": {"tagName": "code", "className": false, "setAttribute": "language"},
-    "italic": {"tagName": "span", "className": "italic"},
-    "ext-link": {"tagName": "a", "className": "ext-ref", "refAttribute": "xlink:href"},
-    "xref[ref-type='fig']": {"tagName": "a", "className": "fig-ref", "refAttribute": "rid"},
-    "xref[ref-type='fn']": {"tagName": "a", "className": "fn-ref", "refAttribute": "rid"},
-    "xref[ref-type='bibr']": {"tagName": "a", "className": "bib-ref", "refAttribute": "rid"},
-    "p[id]": {"tagName": "p", "className": "content-paragraph"},
-    "table-wrap": {"tagName": "div", "className": "table-wrap"},
-    "title": {"tagName": "h3", "className": "title"},
-    "ref": {"tagName": "div", "className": "reference"},
-    "fn": {"tagName": "div", "className": "footnote"},
-    "#images-container": {"tagName": "div", "className": "figure-section"},
-    "fn-group": {"tagName": "div", "className": "footnotes-section"},
-    "ref-list": {"tagName": "div", "className": "reference-section"},
-    "back": {"tagName": "div", "className": "back"},
-
-    "front": {"tagName": "div", "className": "front"},
-    "journal-meta": {"tagName": "div", "className": "journal-meta"},
-    "article-meta": {"tagName": "div", "className": "article-meta"},
-    "journal-id": {"tagName": "p", "className": "journal-id", "setAttribute": "journal-id-type"},
-    "journal-title-group": {"tagName": "div", "className": "journal-title-group"},
-    "journal-title": {"tagName": "p", "className": "journal-title"},
-    "contrib-group": {"tagName": "div", "className": "contrib-group", "setAttribute": "content-type"},
-    "role": {"tagName": "p", "className": "role"},
-    "contrib": {"tagName": "div", "className": "contrib", "setAttribute": "contrib-type"},
-    "contrib-id": {"tagName": "p", "className": "contrib-id", "setAttribute": "contrib-id-type"},
-    "name": {"tagName": "div", "className": "name"},
-    "surname": {"tagName": "p", "className": "surname"},
-    "given-names": {"tagName": "p", "className": "given-names"},
-    "prefix": {"tagName": "span", "className": "prefix"},
-    "address":{"tagName": "div", "className": "address"},
-    "aff": {"tagName": "div", "className": "aff"},
-    "institution-wrap": {"tagName": "div", "className": "institution-wrap"},
-    "institution-id": {"tagName": "p", "className": "institution-id"},
-    "institution": {"tagName": "p", "className": "institution"},
-    "addr-line": {"tagName": "p", "className": "addr-line"},
-    "city": {"tagName": "p", "className": "city"},
-    "country": {"tagName": "p", "className": "country"},
-    "email": {"tagName": "p", "className": "email"},
-    "issn": {"tagName": "p", "className": "issn", "setAttribute": "publication-format"},
-    "isbn": {"tagName": "p", "className": "issn", "setAttribute": "publication-format"},
-    "publisher": {"tagName": "div", "className": "publisher"},
-    "publisher-name": {"tagName": "p", "className": "publisher-name"},
-    "publisher-loc": {"tagName": "div", "className": "publisher-loc"},
-    "custom-meta-group": {"tagName": "div", "className": "custom-meta-group"},
-    "custom-meta": {"tagName": "p", "className": "custom-meta"},
-    "meta-name": {"tagName": "span", "className": "meta-name"},
-    "meta-value": {"tagName": "span", "className": "meta-value"},
-    "article-id": {"tagName": "p", "className": "article-id", "setAttribute": "pub-id-type"},
-    "title-group": {"tagName": "div", "className": "title-group"},
-    "article-title": {"tagName": "p", "className": "article-title"},
-    "subtitle": {"tagName": "p", "className": "subtitle"},
-    "pub-date": {"tagName": "p", "className": "pub-date", "setAttribute": "pub-type"},
-    "year": {"tagName": "span", "className": "year"},
-    "month": {"tagName": "span", "className": "month"},
-    "day": {"tagName": "span", "className": "day"},
-    "volume": {"tagName": "p", "className": "volume"},
-    "permissions": {"tagName": "div", "className": "permissions"},
-    "copyright-statement": {"tagName": "div", "className": "copyright-statement", "setAttribute": "content-type"},
-    "license": {"tagName": "div", "className": "license", "setAttribute": "license-type"},
-    "license-p": {"tagName": "p", "className": "license-p", "setAttribute": "content-type"},
-    "self-uri": {"tagName": "p", "className": "self-uri", "setAttribute": "content-type"},
-    "abstract": {"tagName": "div", "className": "abstract", "setAttribute": "xml:lang"},
-    "trans-abstract": {"tagName": "div", "className": "trans-abstract", "setAttribute": "xml:lang"},
-    "styled-content[style-type='abstract-title']": {"tagName": "p", "className": "abstract-title"},
-    "styled-content[style-type='abstract-subtitle']": {"tagName": "p", "className": "abstract-subtitle"},
-    "styled-content[style-type='abstract-author']": {"tagName": "p", "className": "abstract-author"},
-    "styled-content[style-type='abstract-text']": {"tagName": "p", "className": "abstract-text"},
-    "kwd-group": {"tagName": "div", "className": "kwd-group", "setAttribute": "xml:lang"},
-    "kwd": {"tagName": "span", "className": "keyword"}
- }]
+[
+    {
+        "label": {
+            "tagName": "span",
+            "className": "label",
+            "obligatory": false
+        },
+        "graphic": {
+            "tagName": "img",
+            "className": false,
+            "refAttribute": "xlink:href",
+            "obligatory": false
+        },
+        "caption": {
+            "tagName": "figCaption",
+            "className": false,
+            "obligatory": false
+        },
+        "attrib": {
+            "tagName": "p",
+            "className": "attribution",
+            "obligatory": false
+        },
+        "fig[fig-type='content-image']": {
+            "tagName": "figure",
+            "className": "content-image",
+            "obligatory": false
+        },
+        "fig[fig-type='poster-image']": {
+            "tagName": "figure",
+            "className": "poster-image",
+            "obligatory": false
+        },
+        "named-content": {
+            "tagName": "span",
+            "className": "paragraph-counter",
+            "obligatory": false
+        },
+        "mixed-citation": {
+            "tagName": "p",
+            "className": "mixed-citation",
+            "obligatory": false
+        },
+        "styled-content[style-type='catalog-number']": {
+            "tagName": "p",
+            "className": "catalog-number",
+            "obligatory": false
+        },
+        "styled-content[style-type='text-medium']": {
+            "tagName": "span",
+            "className": "text-medium",
+            "obligatory": false
+        },
+        "list[list-type='ordered']": {
+            "tagName": "ol",
+            "className": false,
+            "obligatory": false
+        },
+        "list[list-type='bullet']": {
+            "tagName": "ul",
+            "className": false,
+            "obligatory": false
+        },
+        "list-item": {
+            "tagName": "li",
+            "className": false,
+            "obligatory": false
+        },
+        "code": {
+            "tagName": "code",
+            "className": false,
+            "setAttribute": "language",
+            "obligatory": false
+        },
+        "italic": {
+            "tagName": "span",
+            "className": "italic",
+            "obligatory": false
+        },
+        "ext-link": {
+            "tagName": "a",
+            "className": "ext-ref",
+            "refAttribute": "xlink:href",
+            "obligatory": false
+        },
+        "xref[ref-type='fig']": {
+            "tagName": "a",
+            "className": "fig-ref",
+            "refAttribute": "rid",
+            "obligatory": false
+        },
+        "xref[ref-type='fn']": {
+            "tagName": "a",
+            "className": "fn-ref",
+            "refAttribute": "rid",
+            "obligatory": false
+        },
+        "xref[ref-type='bibr']": {
+            "tagName": "a",
+            "className": "bib-ref",
+            "refAttribute": "rid",
+            "obligatory": false
+        },
+        "p[id]": {
+            "tagName": "p",
+            "className": "content-paragraph",
+            "obligatory": false
+        },
+        "table-wrap": {
+            "tagName": "div",
+            "className": "table-wrap",
+            "obligatory": false
+        },
+        "title": {
+            "tagName": "h3",
+            "className": "title",
+            "obligatory": false
+        },
+        "ref": {
+            "tagName": "div",
+            "className": "reference",
+            "obligatory": false
+        },
+        "fn": {
+            "tagName": "div",
+            "className": "footnote",
+            "obligatory": false
+        },
+        "#images-container": {
+            "tagName": "div",
+            "className": "figure-section",
+            "obligatory": false
+        },
+        "fn-group": {
+            "tagName": "div",
+            "className": "footnotes-section",
+            "obligatory": false
+        },
+        "ref-list": {
+            "tagName": "div",
+            "className": "reference-section",
+            "obligatory": false
+        },
+        "body": {
+            "tagName": "body",
+            "className": "body-text",
+            "obligatory": true
+        },
+        "back": {
+            "tagName": "div",
+            "className": "back",
+            "obligatory": true
+        },
+        "front": {
+            "tagName": "div",
+            "className": "front",
+            "obligatory": true
+        },
+        "journal-meta": {
+            "tagName": "div",
+            "className": "journal-meta",
+            "obligatory": true
+        },
+        "article-meta": {
+            "tagName": "div",
+            "className": "article-meta",
+            "obligatory": true
+        },
+        "journal-id": {
+            "tagName": "p",
+            "className": "journal-id",
+            "setAttribute": "journal-id-type",
+            "obligatory": true
+        },
+        "journal-title-group": {
+            "tagName": "div",
+            "className": "journal-title-group",
+            "obligatory": false
+        },
+        "journal-title": {
+            "tagName": "p",
+            "className": "journal-title",
+            "obligatory": false
+        },
+        "contrib-group": {
+            "tagName": "div",
+            "className": "contrib-group",
+            "setAttribute": "content-type",
+            "obligatory": false
+        },
+        "role": {
+            "tagName": "p",
+            "className": "role",
+            "obligatory": false
+        },
+        "contrib": {
+            "tagName": "div",
+            "className": "contrib",
+            "setAttribute": "contrib-type",
+            "obligatory": false
+        },
+        "contrib-id": {
+            "tagName": "p",
+            "className": "contrib-id",
+            "setAttribute": "contrib-id-type",
+            "obligatory": false
+        },
+        "name": {
+            "tagName": "div",
+            "className": "name",
+            "obligatory": false
+        },
+        "surname": {
+            "tagName": "p",
+            "className": "surname",
+            "obligatory": false
+        },
+        "given-names": {
+            "tagName": "p",
+            "className": "given-names",
+            "obligatory": false
+        },
+        "prefix": {
+            "tagName": "span",
+            "className": "prefix",
+            "obligatory": false
+        },
+        "address": {
+            "tagName": "div",
+            "className": "address",
+            "obligatory": false
+        },
+        "aff": {
+            "tagName": "div",
+            "className": "aff",
+            "obligatory": false
+        },
+        "institution-wrap": {
+            "tagName": "div",
+            "className": "institution-wrap",
+            "obligatory": false
+        },
+        "institution-id": {
+            "tagName": "p",
+            "className": "institution-id",
+            "obligatory": false
+        },
+        "institution": {
+            "tagName": "p",
+            "className": "institution",
+            "obligatory": false
+        },
+        "addr-line": {
+            "tagName": "p",
+            "className": "addr-line",
+            "obligatory": false
+        },
+        "city": {
+            "tagName": "p",
+            "className": "city",
+            "obligatory": false
+        },
+        "country": {
+            "tagName": "p",
+            "className": "country",
+            "obligatory": false
+        },
+        "email": {
+            "tagName": "p",
+            "className": "email",
+            "obligatory": false
+        },
+        "issn": {
+            "tagName": "p",
+            "className": "issn",
+            "setAttribute": "publication-format",
+            "obligatory": false
+        },
+        "isbn": {
+            "tagName": "p",
+            "className": "issn",
+            "setAttribute": "publication-format",
+            "obligatory": false
+        },
+        "publisher": {
+            "tagName": "div",
+            "className": "publisher",
+            "obligatory": false
+        },
+        "publisher-name": {
+            "tagName": "p",
+            "className": "publisher-name",
+            "obligatory": false
+        },
+        "publisher-loc": {
+            "tagName": "div",
+            "className": "publisher-loc",
+            "obligatory": false
+        },
+        "custom-meta-group": {
+            "tagName": "div",
+            "className": "custom-meta-group",
+            "obligatory": false
+        },
+        "custom-meta": {
+            "tagName": "p",
+            "className": "custom-meta",
+            "obligatory": false
+        },
+        "meta-name": {
+            "tagName": "span",
+            "className": "meta-name",
+            "obligatory": false
+        },
+        "meta-value": {
+            "tagName": "span",
+            "className": "meta-value",
+            "obligatory": false
+        },
+        "article-id": {
+            "tagName": "p",
+            "className": "article-id",
+            "setAttribute": "pub-id-type",
+            "obligatory": true
+        },
+        "title-group": {
+            "tagName": "div",
+            "className": "title-group",
+            "obligatory": true
+        },
+        "article-title": {
+            "tagName": "p",
+            "className": "article-title",
+            "obligatory": true
+        },
+        "subtitle": {
+            "tagName": "p",
+            "className": "subtitle",
+            "obligatory": false
+        },
+        "pub-date": {
+            "tagName": "p",
+            "className": "pub-date",
+            "setAttribute": "pub-type",
+            "obligatory": false
+        },
+        "year": {
+            "tagName": "span",
+            "className": "year",
+            "obligatory": false
+        },
+        "month": {
+            "tagName": "span",
+            "className": "month",
+            "obligatory": false
+        },
+        "day": {
+            "tagName": "span",
+            "className": "day",
+            "obligatory": false
+        },
+        "volume": {
+            "tagName": "p",
+            "className": "volume",
+            "obligatory": false
+        },
+        "permissions": {
+            "tagName": "div",
+            "className": "permissions",
+            "obligatory": false
+        },
+        "copyright-statement": {
+            "tagName": "div",
+            "className": "copyright-statement",
+            "setAttribute": "content-type",
+            "obligatory": false
+        },
+        "license": {
+            "tagName": "div",
+            "className": "license",
+            "setAttribute": "license-type",
+            "obligatory": false
+        },
+        "license-p": {
+            "tagName": "p",
+            "className": "license-p",
+            "setAttribute": "content-type",
+            "obligatory": false
+        },
+        "self-uri": {
+            "tagName": "p",
+            "className": "self-uri",
+            "setAttribute": "content-type",
+            "obligatory": false
+        },
+        "abstract": {
+            "tagName": "div",
+            "className": "abstract",
+            "setAttribute": "xml:lang",
+            "obligatory": false
+        },
+        "trans-abstract": {
+            "tagName": "div",
+            "className": "trans-abstract",
+            "setAttribute": "xml:lang",
+            "obligatory": false
+        },
+        "styled-content[style-type='abstract-title']": {
+            "tagName": "p",
+            "className": "abstract-title",
+            "obligatory": false
+        },
+        "styled-content[style-type='abstract-subtitle']": {
+            "tagName": "p",
+            "className": "abstract-subtitle",
+            "obligatory": false
+        },
+        "styled-content[style-type='abstract-author']": {
+            "tagName": "p",
+            "className": "abstract-author",
+            "obligatory": false
+        },
+        "styled-content[style-type='abstract-text']": {
+            "tagName": "p",
+            "className": "abstract-text",
+            "obligatory": false
+        },
+        "kwd-group": {
+            "tagName": "div",
+            "className": "kwd-group",
+            "setAttribute": "xml:lang",
+            "obligatory": false
+        },
+        "kwd": {
+            "tagName": "span",
+            "className": "keyword",
+            "obligatory": false
+        }
+    }
+]

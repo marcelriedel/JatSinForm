@@ -29,7 +29,7 @@ function controlPagedJsHandler() {
          *  content → document-fragment made from the original DOM
          */
         beforeParsed(content) {
-            updateStorageEventListener("Parsing document...");
+            updateStorageEventListener("Create PDF article...");
             // create article and replace content
             let article = createPDFArticle(content);
             content.replaceChildren();
@@ -38,7 +38,7 @@ function controlPagedJsHandler() {
 
         /** Chunker: afterParsed:
          *  runs after the content has been parsed but before rendering has started
-         *  parsed → content once parsed and given ids (data-ref and break rules from the css
+         *  parsed → content once parsed and given ids (data-ref and break rules from the css)
          */
         afterParsed(parsed) {
            
@@ -68,7 +68,7 @@ function controlPagedJsHandler() {
 
             if (sourceNode && sourceNode.nodeType == Node.ELEMENT_NODE) {
 
-                // get paragrapMap and parsedContent:
+                // get textContentMap and parsedContent:
                 let textContentMap = JSON.parse(localStorage.getItem("text-content-map"));
                 let parsedContent = Layout.hooks.afterParsed.context.source.firstChild;
 
@@ -121,26 +121,6 @@ function controlPagedJsHandler() {
             }
         }
 
-        /*
-        onBreakToken(breakToken, overflow, rendered) {
-
-            console.log(breakToken);
-            console.log(breakToken.node);
-            console.log(breakToken.node.className);
-
-            if(breakToken.node.id == "p-4") {
-                console.log(breakToken);
-                console.log(overflow);
-                console.log(rendered);
-
-                let headlineExample = document.getElementById("genId-5");
-                console.log(headlineExample);
-
-        
-            }
-        }
-        */
-
         /** Chunker: afterPageLayout
          *  runs after a single page has gone through layout, and allows adjusting the breakToken
          *  pageElement → page element that just been rendered,
@@ -160,8 +140,6 @@ function controlPagedJsHandler() {
 
             // classify position of elements on page:
             classifyElementPositionOnPage(pageElement,".text-content,figure");
-            
-            //?? adjustLayoutOfHeadlines(pageElement, page, breakToken); **//
 
             // render figCaptions at the bottom area of each page:
             let journalConfig = JSON.parse(localStorage.getItem("journal-config"));
@@ -169,18 +147,30 @@ function controlPagedJsHandler() {
                 renderFigCaptionsAtpageBottomArea(pageElement);
             }
 
-            // adjust position of element on page:
-            adjustElementPositionOnPage(pageElement, 
+            // push figure element on top of page:
+            pushFigureElementOnTopOfPage(pageElement, 
                 "p,.title,table,ul,figure,figCaption, pre");
 
-            // assign interactiveJs classes to given elements:
-            makeElementsInteractive(pageElement);
+            // set figCaptions as block element after page rendering:
+            let pageContent = pageElement.querySelector(".pagedjs_page_content");
+            let figCaptions = pageContent.querySelectorAll("figcaption");
+            for (let i = 0; i < figCaptions.length; i++) {
+                figCaptions[i].style.display = "block";
+            }
 
             // urlify plain url-strings in footnote spans:
-            recreateAnchorsInFootnoteSpans(pageElement, page);
+            let footnoteSpans = pageElement.querySelectorAll(".footnote");
+            for (let i = 0; i < footnoteSpans.length; i++) {
+                let element = footnoteSpans[i];
+                element.innerHTML = URLifyString(element.innerText);
+            }
+            // recreateAnchorsInFootnoteSpans(pageElement, page);
 
             // check urls:
             checkQualityOfUrls();
+
+            // assign interactiveJs classes to given elements:
+            makeElementsInteractive(pageElement);
         }
 
         /** Chunker: afterRendered
@@ -210,13 +200,15 @@ function controlPagedJsHandler() {
             // remove last page if cloned images container is empty:
             let removePage = true;
             let clonedImagesContainer = document.querySelector("#cloned-images-container");
-            clonedImagesContainer.childNodes.forEach(element => {
-                if(/FIGURE/.test(element.tagName)) {
-                    removePage = false;
-                }});
-            if(removePage) {
-                let page = clonedImagesContainer.closest(".pagedjs_page");
-                page.remove();
+            if(clonedImagesContainer !== null) {
+                clonedImagesContainer.childNodes.forEach(element => {
+                    if(/FIGURE/.test(element.tagName)) {
+                        removePage = false;
+                    }});
+                if(removePage) {
+                    let page = clonedImagesContainer.closest(".pagedjs_page");
+                    page.remove();
+                }
             }
         }
     }
@@ -629,7 +621,7 @@ function createReferenceList(content) {
         for (let i = 0; i < references.length; i++) {
             let label = references[i].querySelector(".label");
             let mixedCitation = references[i].querySelector(".mixed-citation");
-
+            
             // handle ext-ref-links and urlify plain url strings:
             let extRef;
             if(references[i].querySelector(".ext-ref") !== null) {
@@ -657,10 +649,12 @@ function createReferenceList(content) {
                 mixedCitation.innerHTML = URLifyString(mixedCitation.textContent);
                 mixedCitation.append(extRefLink);
             }
+            else if(mixedCitation !== null) {
+                mixedCitation.innerHTML = URLifyString(mixedCitation.innerText);
+            }
             else {
-                if(mixedCitation !== null) {
-                    mixedCitation.innerHTML = URLifyString(mixedCitation.innerText);
-                }
+                mixedCitation = document.createElement("p");
+                mixedCitation.classList.add("mixed-citation");
             }
 
             // append reference elements:
@@ -1176,10 +1170,10 @@ function updateTextContentMap(currentNodeId, property, value) {
 }
 
 /**
- * get properties of nextParagraph in textContentMap
+ * get properties of next element in textContentMap
  * @param {JSON} textContentMap textContentMap (with figRefs, position and other params) will be saved in local storage
  * @param {string} currentNodeId id of regular text-node (e.g. paragraphs) 
- * @returns {JSON, boolean=false} JSON-properties of nextParagraph or boolean=false;
+ * @returns {JSON, boolean=false} JSON-properties of next element or boolean=false;
  */
 function getNextElementInTextContentMap(textContentMap, currentNodeId) {
 
@@ -1188,15 +1182,15 @@ function getNextElementInTextContentMap(textContentMap, currentNodeId) {
     let nextNodeId = Object.keys(textContentMap)
         .find(key => textContentMap[key]["position"] === currentNodePosition + 1);
  
-    // get nextParagraph:
-    let nextParagraph;
+    // get next element:
+    let nextElement;
     if(textContentMap[nextNodeId] !== undefined) {
-        nextParagraph = textContentMap[nextNodeId];
+        nextElement = textContentMap[nextNodeId];
     }
     else {
-        nextParagraph = false;
+        nextElement = false;
     }
-    return (nextParagraph);
+    return (nextElement);
 }
 
 /**
@@ -1460,7 +1454,7 @@ function definePageContextsOfSourceNode(sourceNode, renderNode) {
     let pageElement = pageContent.closest(".pagedjs_page");
     let pageId = (pageElement !== null) ? pageElement.id : false;
 
-    // get elements set before on page:
+    // get element set before on page:
     let elementsOfPage = pageContent.querySelectorAll(".text-content,figure");
     let index = Array.prototype.indexOf.call(elementsOfPage, sourceNode);
     let elementSetBefore = (index >= 1) ? elementsOfPage[index-1] : false;
@@ -2052,7 +2046,11 @@ function figuresFitInCurrentPageFrame(set, nodeParams) {
         fitsCurrentFigure = false;
         fitsNextFigure = false;
     }
-
+    // avoid figure after headline:
+    if(/title/.test(nodeParams["sourceNode"].className)) {
+        fitsCurrentFigure = false;
+        fitsNextFigure = false;
+    }
     // return results as object:
     return fits = {
         "currentFigure": fitsCurrentFigure,
@@ -2188,7 +2186,6 @@ function classifyPageOfElements(pageElement, selector) {
  * @returns {void} classes (e.g. "first-element", "last-element") are added to 
  * selected elements (also as title-attributes)
  */ 
-
 function classifyElementPositionOnPage(pageElement, selector) {
 
     let pageContent = pageElement.querySelector(".pagedjs_page_content");
@@ -2218,13 +2215,19 @@ function classifyElementPositionOnPage(pageElement, selector) {
     }
 }
 
-function adjustElementPositionOnPage(pageElement, selector) {
+/**
+ * push (figure) element on top of page with respect to the given figure order.
+ * @param {node} pageElement page element that just been rendered
+ * @param {string} selector querySelector of all common block elements on page
+ * @returns {void} figure elements will be relocated by insertAdjacent-statements
+ */ 
+function pushFigureElementOnTopOfPage(pageElement, selector) {
 
-    let pageContent = pageElement.querySelector(".pagedjs_page_content");
-    let elementsOfPage = pageContent.querySelectorAll(selector);
     let onTopOfPage = (allFiguresOnTop) ? ["regular", "regular-bottom", "overmargin", 
         "overmargin-bottom", "inset", "float-w-col-2", "float-w-col-4", "float-w-col-6"] : [];
 
+    let pageContent = pageElement.querySelector(".pagedjs_page_content");
+    let elementsOfPage = pageContent.querySelectorAll(selector);
     for (let i = 0; i < elementsOfPage.length; i++) {
         let element = elementsOfPage[i];
         let firstElement = elementsOfPage[0];
@@ -2237,7 +2240,7 @@ function adjustElementPositionOnPage(pageElement, selector) {
                 element.classList.add(figureMap[element.id]["positionClass"]);
             }
             //  push figure with positionClass on top of each page
-            if (onTopOfPage.some(className => element.classList.contains(className))
+            if(onTopOfPage.some(className => element.classList.contains(className))
                 || /onTopOfPage/.test(element.className)) {
 
                 // if first element is figure push element after this figure:
@@ -2252,21 +2255,15 @@ function adjustElementPositionOnPage(pageElement, selector) {
                 }
             }
         }
-        // set figcaptions to block after page rendering:
-        if (element.matches("figcaption")) {
-            element.style.display = "block";
-        }
     }
 }
 
-function recreateAnchorsInFootnoteSpans(pageElement, page) {
+/* ---------
+Deprecated
+-----------*/
 
-    let elements = pageElement.querySelectorAll(".footnote");
-    for (let i = 0; i < elements.length; i++) {
-        elements[i].innerHTML = URLifyString(elements[i].innerText);
-    }
-}
-
+/* function has been implemented for certain journal (e-fb), 
+but probably deprecated in the near future*/ 
 function renderFigCaptionsAtpageBottomArea(pageElement) {
 
     let pageContent = pageElement.querySelector(".pagedjs_page_content");
@@ -2360,26 +2357,10 @@ function ignoreHyphenationByPagedJs(ignore, pageElement, page, breakToken) {
 }
 
 /*--TEST--*/
-function adjustLayoutOfHeadlines(pageElement, page, breakToken) {
+function adjustLayoutOfHeadlines(headline, content) {
 
-    let lastElement = pageElement.querySelector('.last-element');
-
-    if (lastElement && /title/.test(lastElement.className)) {
-
-        // console.log(lastElement);
-
-
-        /*
-        let lastElementParent = lastElement.parentElement;
-        let headlineText = lastElementParent.outerHTML;
-        let newText = headlineText + breakToken.node.innerHTML;
-        breakToken.node.innerHTML = newText;
-
-        page.breakToken = page.endToken.offset - lastElement.innerHTML.length;
-        breakToken.offset = page.endToken.offset - lastElement.innerHTML.length;
-   
-        console.log("after ", breakToken);
-        */    
+    if(headline) {
+        console.log(headline);
     }
 }
 

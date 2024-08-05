@@ -11,7 +11,7 @@
     --short-text-font-family: "Noto Sans";
     --p-font-size: 9.3pt;
     --line-height-para: 1.5; /* default */
-    --footnote-font-size: 7pt; 
+    --footnote-font-size: 7.3pt; 
     --caption-font-size: 7.3pt;
     --line-height-cap: 1.37; /* 10pt to 7.3pt */
     --li-font-size: 9.3pt;
@@ -107,7 +107,6 @@
         content: "";
     }
 }
-
 @media screen, pagedjs-ignore {
     body {
         background: url(/../assets/graphics/idaiworld-banner.png);
@@ -208,7 +207,7 @@ p {
     line-height: var(--line-height-para);
     font-weight: 300; /* light */
     margin-top:0;
-    margin-bottom: 2.5mm; /* 0, 0.5 or 2.5mm;  */
+    margin-bottom: 0.5mm; /* 0, 0.5 or 2.5mm;  */
     text-align: justify;
     hyphens: auto;
     -moz-hyphens: auto;
@@ -270,6 +269,7 @@ pre, code {
 
 /* headlines:
 ----------------*/
+
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--headline-text-font-family);
     color: var(--journal-color);

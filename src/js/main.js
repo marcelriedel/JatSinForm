@@ -51,11 +51,26 @@ qrcodejs.src = "https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.
  * prepare application constants:
  * @type {Constants}
 ---------------------------------------*/
-const progressBar = document.createElement("div");
-progressBar.id = "progressBar";
 const defaultJournal = "AA";
 const urlRegex = /doi|handle|urn|ark:|orcid|ror/g;
 const specificUseRegex = "zenon|extrafeatures|supplements";
+
+const progressBar = document.createElement("div");
+progressBar.id = "progressBar";
+const errorConsole = document.createElement("div");
+errorConsole.id = "error";
+errorConsole.innerHTML = "<h3>Critical error found in XML:</h3>";
+
+/** -------------------------------------
+ * handle processStage by storage listener:
+ * @type {window}
+ * @type {EventListenerObject}
+ --------------------------------------*/
+ window.addEventListener("storage", () => {
+    document.body.prepend(progressBar);
+    let processStage = localStorage.getItem("processStage");
+    initProgressBar(processStage);
+});
 
 /** --------------------------------------
  * document state event listener:
@@ -73,139 +88,20 @@ document.addEventListener("readystatechange", (event) => {
         requestSourceFile("configs/toggleFigureClasses.json", "toggle-figure-classes");
 
         // checkout xml-path
-        if (document.querySelector('meta[name="--xml-file"]') !== null) {
-            // request jats.xml:
-            let xmlFile = document.querySelector('meta[name="--xml-file"]').content;
-            let xmlPath = xmlFolder + "/" + xmlFile;
-            requestSourceFile(xmlPath, "jats-xml");
-
-            // prepare document:
-            let xmlRequest = localStorage.getItem("jats-xml");
-            if (!xmlRequest.match(/ERROR/)) {
-                // prepare document text:
-                let xml = localStorage.getItem("jats-xml");
-
-                // replace nested <sec>-elements with <section>-tag before:
-                xml = xml.replaceAll("<sec", "<section")
-                    .replaceAll("</sec>", "</section>");
-
-                // transform self-closing tags to 
-                xml = transformSelfClosingTags(xml);
-            
-                // create XML-document:
-                let parser = new DOMParser();
-                let xmlDoc = parser.parseFromString(xml, "text/xml");
-
-                // prepare document properties:
-                let documentId = getDocumentStateProperty("documentId");
-                let articleId;
-                if(xmlDoc.querySelector("article-id[pub-id-type='doi']") !== null) {
-                    articleId = xmlDoc.querySelector("article-id[pub-id-type='doi']").textContent;
-                }
-                else {articleId = "DocumentWithoutId"};
- 
-                // checkout reload of previous document
-                if (!documentId || documentId !== articleId) {
-                    let documentState = {
-                        "documentId": articleId,   // commonly a doi-url
-                        "scrollPosition": [0, 0]     // x- and y-coordinates
-                    }
-                    localStorage.setItem("documentState", JSON.stringify(documentState));
-                }
-
-                // get and add language code to html (short form):
-                let lang = xmlDoc.querySelector("article").getAttribute("xml:lang");
-                lang = (lang) ? lang.slice(0, 2) : "de";
-                document.documentElement.setAttribute("lang", lang);
-
-                // convert xml to htmlContentBody:
-                let htmlContentBody = convertXMLToHtmlBody(xmlDoc);
-                console.log("htmlContentBody", htmlContentBody);
-                document.body.innerHTML = htmlContentBody.outerHTML;
-            }
-            else {
-                document.body.innerHTML = xmlRequest;
-                throw new Error(xmlRequest);
-            }
-        }
-        else {
-            document.body.innerHTML =
-                "<div>ERROR:<br>No xml-file given! Checkout index.html: meta[name=\"--xml-file\"]";
+        if (document.querySelector('meta[name="--xml-file"]') === null) {
+            errorConsole.innerHTML = "No xml-file given! Checkout index.html: meta[name=\"--xml-file\"]";
+            document.body.append(errorConsole);
             throw new Error();
         }
-    
-        // define journal related properties:
-        let journalId = document.querySelector(".journal-id").textContent;
-        let journalConfigs = JSON.parse(localStorage.getItem("journals-config"))[0];
-        let journalKey = (journalConfigs[journalId]) ? journalId : defaultJournal;
-        let journalColor = journalConfigs[journalKey]["journal-main-color"];
-        localStorage.setItem("journal-config", JSON.stringify(journalConfigs[journalId]));
 
-        // preload and classify images:
-        let images = document.querySelectorAll("img");
-        let sizeClassSetGlobal = false;
-        if(localStorage.getItem("sizeClassSetGlobal") !== undefined) {
-            sizeClassSetGlobal = localStorage.getItem("sizeClassSetGlobal");
-        }
-        images.forEach((image, index) => {
-            let img = new Image();
-            let resolve, reject;
-            let imageLoaded = new Promise(function (r, x) {
-                resolve = r;
-                reject = x;
-            });
-            // classify image:
-            img.onload = function () {
-                classifyImage(img, sizeClassSetGlobal);
-                let figure = image.parentElement;
-                image.classList = img.classList;
-                figure.classList = img.classList;
-                figure.setAttribute("data-img-width", img.naturalWidth);
-                figure.setAttribute("data-img-height", img.naturalHeight);
-                resolve();
-            };
-            img.onerror = function (img) {
-                console.log("error: ", img);
-                reject();
-            };
-            img.src = image.src;
-        });
- 
-        // add style properties to documentRoot:
-        let documentRoot = document.querySelector(':root');
-        documentRoot.style.setProperty('--pages-flex-direction', pagesFlexDirection);
-        documentRoot.style.setProperty('--journal-color', journalColor);
-        documentRoot.style.setProperty('--background-url', getPosterImageBackgroundUrl());
+        // request jats.xml:
+        let xmlFile = document.querySelector('meta[name="--xml-file"]').content;
+        let xmlPath = xmlFolder + "/" + xmlFile;
+        requestSourceFile(xmlPath, "jats-xml");
 
-        // add styles and render scripts:
-        let styleSheetLink = getStyleSheetLink(journalId);
-
-        // switch between pdf and viewer-format
-        if (localStorage.getItem("renderAs") === "PDF") {
-           
-            // prevent auto start of pagedJs previewer:
-            window.PagedConfig = { auto: false };
-
-            // set default imageSizeClass
-            if (localStorage.getItem("imageClassThreshold") === undefined) {
-                localStorage.setItem("imageClassThreshold", imageClassThresholdDefault);
-            }
-            document.head.appendChild(styleSheetLink);
-            document.head.appendChild(renderAsPDFScript);
-            document.head.appendChild(pagedJsScript);
-        }
-        else if(localStorage.getItem("renderAs") === "Viewer") {
-            document.head.appendChild(renderAsViewerScript);
-        }
-        else {
-            document.head.appendChild(setupScript);
-        }
-
-        // add third-party libraries
-        document.head.appendChild(interactJsScript);
-        document.head.appendChild(highlightJsCSSLink);
-        document.head.appendChild(highlightJsScript);
-        document.head.appendChild(qrcodejs);
+        // process xml with pre-validation:
+        updateStorageEventListener("Process XML document...");
+        processXmlDocument();  // awaiting preflightXmlRequest();
     }
 
     if (event.target.readyState === "complete") {
@@ -336,31 +232,204 @@ document.addEventListener('keyup', function (e) {
     }
 });
 
-// handle processStage by storage listener:
-window.addEventListener("storage", () => {
-    document.body.prepend(progressBar);
-    let processStage = localStorage.getItem("processStage");
-    initProgressBar(processStage);
-});
+/** -------------------------------------
+ * process XML document and xml preflight-
+ * checks asynchronously
+ * @type {Script}
+  --------------------------------------*/
 
-/** convert JATS-XML and prepare HTML
- * @type {!HTMLScriptElement}
- */
+async function processXmlDocument() {
 
-function requestSourceFile(path, type) {
+    // preflight xml:
+    let xmlErrorResult = await preflightXmlRequest();
+    if(xmlErrorResult) {
+        document.body.append(errorConsole);
+        throw new Error("XML-Parsing-Error");
+    }
 
-    let response;
-    let request = new XMLHttpRequest();
-    request.open("GET", path);
-    request.onreadystatechange = function () {
-        if (this.status === 200) { response = request.responseText; }
-        else {
-            response = request.responseText +
-            "<div>ERROR => File: " + path + "</div>";
+    // replace nested <sec>-elements with <section>-tag before:
+    let xml = localStorage.getItem("jats-xml");
+    xml = xml.replaceAll("<sec", "<section")
+        .replaceAll("</sec>", "</section>");
+    xml = transformSelfClosingTags(xml);  // transform self-closing tags
+
+    // create XML-document:
+    let parser = new DOMParser();
+    let xmlDoc = parser.parseFromString(xml, "text/xml");
+
+    // prepare document properties:
+    let documentId = getDocumentStateProperty("documentId");
+    let articleId;
+    if(xmlDoc.querySelector("article-id[pub-id-type='doi']") !== null) {
+        articleId = xmlDoc.querySelector("article-id[pub-id-type='doi']").textContent;
+    }
+    else {articleId = "document-without-id"};
+
+    // checkout reload of previous document
+    if (!documentId || documentId !== articleId) {
+        let documentState = {
+            "documentId": articleId,   // commonly a doi-url
+            "scrollPosition": [0, 0]     // x- and y-coordinates
         }
-        localStorage.setItem(type, response);
-    };
-    request.send();
+        localStorage.setItem("documentState", JSON.stringify(documentState));
+    }
+
+    // get and add language code to html (short form):
+    let lang = xmlDoc.querySelector("article").getAttribute("xml:lang");
+    lang = (lang) ? lang.slice(0, 2) : "de";
+    document.documentElement.setAttribute("lang", lang);
+
+    // convert xml to htmlContentBody:
+    let htmlContentBody = convertXMLToHtmlBody(xmlDoc);
+    console.log("htmlContentBody", htmlContentBody);
+    document.body.innerHTML = htmlContentBody.outerHTML;
+
+    // define journal related properties:
+    let journalId = document.querySelector(".journal-id").textContent;
+    let journalConfigs = JSON.parse(localStorage.getItem("journals-config"))[0];
+    let journalKey = (journalConfigs[journalId] !== undefined) ? journalId : defaultJournal;
+    let journalColor = journalConfigs[journalKey]["journal-main-color"];
+    localStorage.setItem("journal-config", JSON.stringify(journalConfigs[journalKey]));
+
+    // preload and classify images
+    let imageResult = await preloadImages();
+    if(imageResult) {
+        console.log(imageResult);
+    }
+
+    // add style properties to documentRoot:
+    let documentRoot = document.querySelector(':root');
+    documentRoot.style.setProperty('--pages-flex-direction', pagesFlexDirection);
+    documentRoot.style.setProperty('--journal-color', journalColor);
+    documentRoot.style.setProperty('--background-url', getPosterImageBackgroundUrl());
+
+    // add styles and render scripts:
+    let styleSheetLink = getStyleSheetLink(journalId);
+
+    // switch between pdf and viewer-format
+    if (localStorage.getItem("renderAs") === "PDF") {
+    
+        // prevent auto start of pagedJs previewer:
+        window.PagedConfig = { auto: false };
+
+        // set default imageSizeClass
+        if (localStorage.getItem("imageClassThreshold") === undefined) {
+            localStorage.setItem("imageClassThreshold", imageClassThresholdDefault);
+        }
+        document.head.appendChild(styleSheetLink);
+        document.head.appendChild(renderAsPDFScript);
+        document.head.appendChild(pagedJsScript);
+    }
+    else if(localStorage.getItem("renderAs") === "Viewer") {
+        document.head.appendChild(renderAsViewerScript);
+    }
+    else {
+        document.head.appendChild(setupScript);
+    }
+
+    // add third-party libraries
+    document.head.appendChild(interactJsScript);
+    document.head.appendChild(highlightJsCSSLink);
+    document.head.appendChild(highlightJsScript);
+    document.head.appendChild(qrcodejs);
+}
+
+async function preflightXmlRequest() {
+
+    updateStorageEventListener("Preflight XML document...");
+    let tagConversionMap = JSON.parse(localStorage.getItem("tag-conversion-map"))[0];
+    let xml = localStorage.getItem("jats-xml");
+    xml = replaceInvalidCharacters(xml);
+    let parser = new DOMParser();
+    let xmlDoc = parser.parseFromString(xml, "text/xml");
+
+    // validate xml
+    let errorText;
+    let parseErrorNode = xmlDoc.querySelector('parsererror');
+    if (parseErrorNode) {
+        errorText = parseErrorNode.querySelector("div");
+        errorConsole.append(errorText);
+        return(errorConsole);
+    }
+
+    // collect elements which are obligatory:
+    let isObligatory = [];
+    Object.keys(tagConversionMap).forEach(function(key){
+        let element = tagConversionMap[key];
+        if(element.hasOwnProperty("obligatory")) {
+            if(element.obligatory) {
+                isObligatory.push(key)
+            }
+        }
+    });
+    // check availability of critical xml elements:
+    for (let i = 0; i < isObligatory.length; i++) {
+        let element = xmlDoc.querySelector(isObligatory[i]);
+        // is not available
+        if(element === null) {
+            errorText = "<" + isObligatory[i] + ">-element missing";
+            errorConsole.append(errorText);
+            return(errorConsole);
+        }
+    }
+    // check xlink:href of graphics for invalid characters:
+    let graphics = xmlDoc.querySelectorAll("graphic");
+    for (let i = 0; i < graphics.length; i++) {
+        if (graphics !== null && graphics.length > 0) {
+            let href = graphics[i].getAttribute("xlink:href");
+            if(/[(){}<>?~;,]/.test(href)) {
+                errorText = "Path to: '" + href + "' has invalid characters like [(){}<>?~;,";
+                errorConsole.append(errorText);
+                return(errorConsole);
+            }
+            else {
+               
+            }
+        }
+    }
+    return(false);
+}
+
+async function preloadImages() {
+
+    updateStorageEventListener("Preflight images...");
+
+    let sizeClassSetGlobal = false;
+    if(localStorage.getItem("sizeClassSetGlobal") !== undefined) {
+        sizeClassSetGlobal = localStorage.getItem("sizeClassSetGlobal");
+    }
+
+    // preload and classify images:
+    let imagePromises = [];
+    let images = document.querySelectorAll("img");
+    images.forEach((image) => {
+        let img = new Image();
+        let resolve, reject;
+        let imageLoaded = new Promise(function (r, x) {
+            resolve = r;
+            reject = x;
+        });
+        // classify image:
+        img.onload = function () {
+            classifyImage(img, sizeClassSetGlobal);
+            let figure = image.parentElement;
+            image.classList = img.classList;
+            figure.classList = img.classList;
+            figure.setAttribute("data-img-width", img.naturalWidth);
+            figure.setAttribute("data-img-height", img.naturalHeight);
+            resolve();
+        };
+        img.onerror = function () {
+            image.alt = "Could not load image: '" + img.src + "' not found. Checkout xlink:href for graphic!";
+            img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+            image.style.background = "antiquewhite";
+            reject(image);
+        };
+        img.src = image.src;
+        imageLoaded.then(imagePromises.push(imageLoaded))
+            .catch( error => console.log(error));
+    });
+    return(imagePromises);
 }
 
 /* xml parsing functions
@@ -418,7 +487,6 @@ function convertXMLToHtmlBody(xmlDoc) {
     htmlContentBody.classList.add("content-body");
     htmlContentBody.innerHTML = xmlBody.innerHTML;
     return (htmlContentBody);
-
 }
 
 function transformSelfClosingTags(xml) {
@@ -442,6 +510,11 @@ function removeEmptyElements(xmlBody, excludeSelector) {
             console.log("Notice: Empty elements has been removed!");
         }
     }
+}
+
+function replaceInvalidCharacters(xml) {
+    xml = xml.replaceAll("&", "&amp;"); // & not allowed in XML
+    return (xml);
 }
 
 function convertElementsBySelectorInTagConversionMap(xmlBody, tagConversionMap) {
@@ -619,6 +692,23 @@ function toggleFigureClasses(figure, toggleCase) {
 /* --------------------------------------
 Application or library related functions:
 -----------------------------------------*/
+function requestSourceFile(path, type) {
+
+    let response;
+    let request = new XMLHttpRequest();
+    request.open("GET", path);
+    request.onreadystatechange = function () {
+        if (this.status === 200) {response = request.responseText;}
+        else {
+            response = request.responseText;
+            errorConsole.append(response);
+            document.body.append(errorConsole);
+        }
+        localStorage.setItem(type, response);
+    };
+    request.send();
+}
+
 function getDocumentStateProperty(propertyKey) {
 
     let property;
@@ -634,8 +724,6 @@ function getDocumentStateProperty(propertyKey) {
 }
 
 function initProgressBar(processStage) {
-
-    progressBar.style = "color:white;text-shadow: 1px 1px 2px black;font-family:Noto Sans Light;";
 
     if (processStage === "Ready") {
         progressBar.innerHTML = processStage + "!";
@@ -677,14 +765,7 @@ function getPosterImageBackgroundUrl() {
     let posterImage = document.querySelector("#poster-image");
    
     if (posterImage) {
-        let url = posterImage.firstElementChild.src;
-
-        // test url for invalid characters, e.g. ()
-        if(/[(){}<>?~;,]/.test(url)) {
-            console.log("Error: background-URL contains invalid characters \"(){}<>?~;,\" \n", 
-                posterImage.firstElementChild.src);
-        }
-        else {
+        if(posterImage.firstElementChild.src) {
             backgroundUrl = "url(" + posterImage.firstElementChild.src + ")";
         }
     }
