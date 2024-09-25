@@ -3,13 +3,15 @@
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
       <title>JatSinForm</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="--xml-file" content="FdAI-2022_Baumeister.xml">
       <script src="src/js/main.js" types\="application/javascript"></script>
    </head>
    <body>
       <script>
          // xml-document related constants:
-         const xmlFolder = "xml-documents"; // path to xml:
+         const xmlFromEditor = false; // load editor-xml from localStorage
+         const xmlFolder = "xml-documents" // path to xml
          const pagesFlexDirection = "row"; // "row" or "column"
          const firstTextPageId = "page-2";
          const rangeNextFigRefs = 20;
@@ -17,7 +19,7 @@
          const maxFootnoteLength = 2000;
          const allFiguresOnTop = true;
          const rangeOverSection = true;
-         const checkUrlPersistence = false;
+         const checkUrlPersistence = true;
          const setEndnotes = false;
          const createToC = false;
          const addClassesAsElementTitle = true;
@@ -85,8 +87,8 @@
          // keyboard control keys:
          const reload = "r";
          const hardReset = "q";
-         const renderAsPDF = "p";
-         const renderAsViewer = "v";
+         const renderPagedView = "p";
+         const renderHTMLView = "v";
          const setupFigConstellations = "*";
          const highlightFigReferences = "f";
          const highlightContextInfo = "h";

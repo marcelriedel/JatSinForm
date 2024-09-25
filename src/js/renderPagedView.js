@@ -29,8 +29,8 @@ function controlPagedJsHandler() {
          *  content → document-fragment made from the original DOM
          */
         beforeParsed(content) {
-            updateStorageEventListener("Create PDF article...");
             // create article and replace content
+            updateStorageEventListener("Create PDF article...");
             let article = createPDFArticle(content);
             content.replaceChildren();
             content.append(article);
@@ -41,7 +41,7 @@ function controlPagedJsHandler() {
          *  parsed → content once parsed and given ids (data-ref and break rules from the css)
          */
         afterParsed(parsed) {
-           
+
             let documentId = getDocumentStateProperty("documentId");
             let previousParaMap = JSON.parse(localStorage.getItem("text-content-map"));
             if (previousParaMap && previousParaMap["documentId"] === documentId) {
@@ -76,7 +76,7 @@ function controlPagedJsHandler() {
                 if (textContentMap[sourceNode.id] && !textContentMap[sourceNode.id]["isSet"]) {
                     // define nodeParams (e.g. position on page, figure references):
                     let nodeParams = defineSourceNodeParameter(sourceNode, renderNode, parsedContent);
-          
+
                     // exclude figures for defined paragraphs (first text page)
                     if(nodeParams["contexts"]["pageId"] === firstTextPageId ) {
                         if(nodeParams["currentFigure"]) {
@@ -234,7 +234,6 @@ function createPDFArticle(content) {
     let articleTitle = content.querySelector(".article-title").textContent;
     let documentRoot = document.querySelector(':root');
     documentRoot.style.setProperty('--article-title', "'" + articleTitle + "'");
-    let journalId = content.querySelector(".journal-id").textContent;
 
     // generate components from src-content:
     let coverPage = createCoverPage(content);
@@ -291,17 +290,20 @@ function createPDFArticle(content) {
     // append all sections to article:
     article.appendChild(coverPage);
     article.appendChild(titlePage);
-    addHeadlineClassesBySectionHierarchy(content, ".title");
     article.innerHTML += content.querySelector(".content-body").outerHTML;
     article.appendChild(referenceList);
     article.append(noteSection);
     article.appendChild(meta);
     article.append(figureSection);
- 
+
     // remove or hide redundant elements:
-    article.querySelector(".front").remove();
-    article.querySelector(".back").remove();
-    if( article.querySelector("#images-container")) {
+    if(article.querySelector(".front") != null) {
+        article.querySelector(".front").remove();
+    }
+    if(article.querySelector(".back") !== null) {
+        article.querySelector(".back").remove();
+    }
+    if(article.querySelector("#images-container") !== null) {
         article.querySelector("#images-container").remove();
         article.querySelector("#cloned-images-container > .title").remove();
     }
@@ -339,14 +341,16 @@ function createCoverPage(content) {
 function createAbstractSection(content, selector) {
 
     let abstract = content.querySelector(selector);
-    if(abstract) {
+    if(abstract !== null) {
         // re-classify abstractHeadline
         let abstractHeadline = abstract.querySelector(".title");
-        if(selector === ".abstract") {
-            abstractHeadline.classList.add("abstract-headline");
-        }
-        else {
-            abstractHeadline.classList.add("title-appendix");
+        if(abstractHeadline !== null) {
+            if(selector === ".abstract") {
+                abstractHeadline.classList.add("abstract-headline");
+            }
+            else {
+                abstractHeadline.classList.add("title-appendix");
+            }
         }
         // check maxLength of abstractText
         let abstractText = abstract.querySelectorAll(".abstract-text");
@@ -364,8 +368,10 @@ function createAbstractSection(content, selector) {
                 // if keywords correspond to abstractLang
                 if(keywordsLang === abstractLang) {
                     kwHeadline = kwdGroup[i].querySelector(".title");
-                    kwHeadline.classList.add("keywords-headline");
-                    keywordsSection.appendChild(kwHeadline);
+                    if(kwHeadline !== null) {
+                        kwHeadline.classList.add("keywords-headline");
+                        keywordsSection.appendChild(kwHeadline);
+                    }
                     let keywords = kwdGroup[i].querySelectorAll(".keyword");
                     // add each keyword (span> to keywordSection:
                     for (let i = 0; i < keywords.length; i++) {
@@ -1031,35 +1037,6 @@ function createImprintSection(content) {
     return (imprintSection);
 }
 
-/**
- * add headline classes by hierarchy of section-elements
- * @param {HTMLElement} content document-fragment made from original DOM
- * @param {selector} selector css-class-selector for headlines, e.g. ".title"
- * @returns {void}
- */
-function addHeadlineClassesBySectionHierarchy(content, selector) {
-
-    let headlines = content.querySelectorAll(selector);
-    for (let i = 0; i < headlines.length; i++) {
-        let parentNodeId = headlines[i].parentNode.id;
-        let numberOfSeparators = parentNodeId.split(".").length-1;
-        // add section hierarchy related headline-classes
-        switch (true) {
-            case (numberOfSeparators === 0):
-                headlines[i].classList.add("main-title");
-                break;
-            case (numberOfSeparators === 1):
-                headlines[i].classList.add("section-title");
-                break;
-            case (numberOfSeparators >= 2):
-                headlines[i].classList.add("subsection-title");
-                break;
-            default:
-                headlines[i].classList.add("main-title");
-        }
-    }
-}
-
 /* -----------------------------
 Handle figure and text-content maps
 --------------------------------*/
@@ -1085,7 +1062,7 @@ function createTextContentMap(parsedContent, previousMap) {
 
     // get content-body and define text-content-selector
     let contentBody = parsedContent.querySelector(".content-body");
-    let selector = "p,li,table,pre,code,.title";
+    let selector = "p,table,ul,ol,li,pre,code,.title";
 
     // select text-content elements:;
     if(contentBody.querySelectorAll(selector) !== null) {
@@ -1203,7 +1180,7 @@ function getNextElementInTextContentMap(textContentMap, currentNodeId) {
 function createFigureMap(parsedContent, previousMap) {
 
     let figureMap = {};
- 
+
     // set hash for current html document:
     let documentId = parsedContent.querySelector("article").id;
     figureMap["documentId"] = documentId;
@@ -1211,18 +1188,17 @@ function createFigureMap(parsedContent, previousMap) {
     // create map of regular paragraphs:
     let figures = parsedContent.querySelectorAll("figure:not(#poster-image)");
     for (let i = 0; i < figures.length; i++) {
-        let figure = figures[i];
+        let figure = figures[i];  
         let values = {
             "position": i,
             "id": figure.id,
             "inserted": false,
-            "style": (previousMap) ? previousMap[figure.id]["style"] : false,
-            "typesettingClass": (previousMap) ? previousMap[figure.id]["typesettingClass"] : false,
-            "positionClass": (previousMap) ? previousMap[figure.id]["positionClass"] : false
+            "style": (previousMap[figure.id] !== undefined) ? previousMap[figure.id]["style"] : false,
+            "typesettingClass": (previousMap[figure.id] !== undefined) ? previousMap[figure.id]["typesettingClass"] : false,
+            "positionClass": (previousMap[figure.id] !== undefined) ? previousMap[figure.id]["positionClass"] : false
         };
         figureMap[figure.id] = values;
     }
-
     // save entire map in local storage:
     localStorage.setItem("figure-map", JSON.stringify(figureMap));
 }
@@ -1260,31 +1236,33 @@ Handle figure reference management:
  */
 function getNextFigRefs(currentNodeId) {
 
-    // get paragraph and figure map:
+    // get textContent and figure map:
     let textContentMap = JSON.parse(localStorage.getItem("text-content-map"));
     let figureMap = JSON.parse(localStorage.getItem("figure-map"));
     let currentNodePosition = textContentMap[currentNodeId]["position"];
-    
-    // find next figure references in all paragraphs within rangeNextFigRefs:
+    delete textContentMap["documentId"];  // skip documentId:
+
+    // find next figure references in all textElement within rangeNextFigRefs:
     let nextFigRefs = [];
     let i = 1;  // starting point (currentNode)
     while (i < rangeNextFigRefs) {
         let nodeId = Object.keys(textContentMap)[currentNodePosition + i];
-        let paragraph = textContentMap[nodeId];
-        if (paragraph && paragraph.figRefs.length) {
-            let figRef;
-            // check figRefs of each paragraph
-            for (let i = 0; i < paragraph.figRefs.length; ++i) {
-                figRef = paragraph.figRefs[i];
+        let textElement = textContentMap[nodeId];
+        if(textElement && textElement.figRefs.length) {
+            let figRef;   // check figRefs of each text element
+            for (let i = 0; i < textElement.figRefs.length; ++i) {
+                figRef = textElement.figRefs[i];
                 // collect each figRef in nextFigRefs:
-                if (!figureMap[figRef]["inserted"] &&  // if figure not already inserted
-                !nextFigRefs.includes(figRef)) {       // and not already included in array
-                    nextFigRefs.push(figRef);
+                if(figureMap[figRef] !== undefined) {
+                    if (!figureMap[figRef]["inserted"]     // if figure not already inserted
+                     && !nextFigRefs.includes(figRef)) {   // and not already included in array
+                        nextFigRefs.push(figRef);
+                    }
                 }
             }
         }
         // if node is first of content section:
-        if(paragraph && !textContentMap[nodeId]["isFirstOfSection"]) {
+        if(textElement && !textContentMap[nodeId]["isFirstOfSection"]) {
             ++i; // proceed (next paragraph)
         }
         // if rangeOverSection is true (allowed):  
@@ -1734,32 +1712,33 @@ function processFigureEnhancing(nodeParams) {
     let keys = classes["beforeCurrent"] + "#" + classes["current"]  + "#" + classes["next"];
     let figConstellations = JSON.parse(localStorage.getItem("fig-constellations"))[0];
     let set = figConstellations[keys];
+    if(set && set !== undefined) {
+        // set final layout specs of figures:
+        if(currentFigure) setLayoutSpecsOfFigure(currentFigure, set["currentFigure"][1]);
+        if(nextFigure) setLayoutSpecsOfFigure(nextFigure, set["nextFigure"][1]);
 
-    // set final layout specs of figures:
-    if(currentFigure) setLayoutSpecsOfFigure(currentFigure, set["currentFigure"][1]);
-    if(nextFigure) setLayoutSpecsOfFigure(nextFigure, set["nextFigure"][1]);
+        // check if figures fit in current page frame (remaining space)
+        let fits = figuresFitInCurrentPageFrame(set, nodeParams);
 
-    // check if figures fit in current page frame (remaining space)
-    let fits = figuresFitInCurrentPageFrame(set, nodeParams);
-
-    // execute instructions:
-    if(fits["currentFigure"] && fits["nextFigure"]) {
-        addTemporaryMarginToFloatingFigure(nextFigure, contexts);
-        addTemporaryMarginToFloatingFigure(currentFigure, contexts);
-        renderNode.insertAdjacentElement("afterend", nextFigure);
-        renderNode.insertAdjacentElement("afterend", currentFigure);
-        updateFigureMap(nextFigure.id);
-        updateFigureMap(currentFigure.id);
-    }
-    else if(fits["currentFigure"]) {
-        addTemporaryMarginToFloatingFigure(currentFigure, contexts);
-        renderNode.insertAdjacentElement("afterend", currentFigure);
-        updateFigureMap(currentFigure.id);
-        pushFigRefToNextNode(sourceNode.id, nextFigure.id);
-    } 
-    else {
-        pushFigRefToNextNode(sourceNode.id, currentFigure.id);
-        pushFigRefToNextNode(sourceNode.id, nextFigure.id);
+        // execute instructions:
+        if(fits["currentFigure"] && fits["nextFigure"]) {
+            addTemporaryMarginToFloatingFigure(nextFigure, contexts);
+            addTemporaryMarginToFloatingFigure(currentFigure, contexts);
+            renderNode.insertAdjacentElement("afterend", nextFigure);
+            renderNode.insertAdjacentElement("afterend", currentFigure);
+            updateFigureMap(nextFigure.id);
+            updateFigureMap(currentFigure.id);
+        }
+        else if(fits["currentFigure"]) {
+            addTemporaryMarginToFloatingFigure(currentFigure, contexts);
+            renderNode.insertAdjacentElement("afterend", currentFigure);
+            updateFigureMap(currentFigure.id);
+            pushFigRefToNextNode(sourceNode.id, nextFigure.id);
+        } 
+        else {
+            pushFigRefToNextNode(sourceNode.id, currentFigure.id);
+            pushFigRefToNextNode(sourceNode.id, nextFigure.id);
+        }
     }
 }
 
@@ -1894,7 +1873,7 @@ function getTypesettingClassesOfConstellations(contexts, nodeParams) {
     let elementSetBefore = contexts["elementSetBefore"]
     let currentFigure = nodeParams["currentFigure"];
     let nextFigure = nodeParams["nextFigure"];
-    
+
     let currentFigureClass = (currentFigure) ? currentFigure.classList[typesettingClassListKey] : false;
     let nextFigureClass = (nextFigure) ? nextFigure.classList[typesettingClassListKey] : false;
     let figureBeforeCurrentClass;

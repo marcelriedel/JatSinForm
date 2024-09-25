@@ -5,6 +5,12 @@
             "className": "label",
             "obligatory": false
         },
+        "inline-graphic": {
+            "tagName": "img",
+            "className": "inline-graphic",
+            "refAttribute": "xlink:href",
+            "obligatory": false
+        },
         "graphic": {
             "tagName": "img",
             "className": false,
@@ -29,6 +35,11 @@
         "fig[fig-type='poster-image']": {
             "tagName": "figure",
             "className": "poster-image",
+            "obligatory": false
+        },
+        "fig": {
+            "tagName": "figure",
+            "className": false,
             "obligatory": false
         },
         "named-content": {

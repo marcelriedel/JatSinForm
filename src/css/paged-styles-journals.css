@@ -207,7 +207,7 @@ p {
     line-height: var(--line-height-para);
     font-weight: 300; /* light */
     margin-top:0;
-    margin-bottom: 0.5mm; /* 0, 0.5 or 2.5mm;  */
+    margin-bottom: 2.5mm; /* 0, 0.5 or 2.5mm;  */
     text-align: justify;
     hyphens: auto;
     -moz-hyphens: auto;
@@ -797,6 +797,12 @@ span.footnote {
 .cover-image {
     margin-top: 3vh;
     width: 100% !important;
+}
+
+img.inline-graphic {
+    display: inline-block;
+    width: 1.25em;
+    transform: translate(0, 0.2em);
 }
 
 figure {

@@ -3,14 +3,14 @@
  * @type {HTMLScriptElement}
  --------------------------------------*/
 // viewer-script
-const renderAsPDFScript = document.createElement('script');
-renderAsPDFScript.type = 'text/javascript';
-renderAsPDFScript.src = 'src/js/renderAsPDF.js';
+const renderPagedViewScript = document.createElement('script');
+renderPagedViewScript.type = 'text/javascript';
+renderPagedViewScript.src = 'src/js/renderPagedView.js';
 
 // viewer-script
-const renderAsViewerScript = document.createElement('script');
-renderAsViewerScript.type = 'text/javascript';
-renderAsViewerScript.src = 'src/js/renderAsViewer.js';
+const renderHTMLViewScript = document.createElement('script');
+renderHTMLViewScript.type = 'text/javascript';
+renderHTMLViewScript.src = 'src/js/renderHTMLView.js';
 
 // setup-script
 const setupScript = document.createElement('script');
@@ -24,7 +24,7 @@ setupScript.src = 'src/js/setup.js';
 // pagedJs-script
 const pagedJsScript = document.createElement('script');
 pagedJsScript.type = 'text/javascript';
-pagedJsScript.src = "src/js/pagedjs.js";  // 'https://unpkg.com/pagedjs/dist/paged.polyfill.js';
+pagedJsScript.src = "src/js/pagedjs.js";  // src/js/pagedjs.js
 
 // interactJs-script
 const interactJsScript = document.createElement('script');
@@ -46,6 +46,17 @@ highlightJsCSSLink.rel = 'stylesheet';
 const qrcodejs = document.createElement('script');
 qrcodejs.type = 'text/javascript';
 qrcodejs.src = "https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"; // "src/js/qrcode.min.js"
+
+// leaflet
+const leaflet = document.createElement('script');
+leaflet.type = 'text/javascript';
+leaflet.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+
+// leafletCssLink:
+const leafletCssLink = document.createElement('link');
+leafletCssLink.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+leafletCssLink.type = 'text/css';
+leafletCssLink.rel = 'stylesheet';
 
 /** -------------------------------------
  * prepare application constants:
@@ -97,11 +108,36 @@ document.addEventListener("readystatechange", (event) => {
         // request jats.xml:
         let xmlFile = document.querySelector('meta[name="--xml-file"]').content;
         let xmlPath = xmlFolder + "/" + xmlFile;
-        requestSourceFile(xmlPath, "jats-xml");
+        requestSourceFile(xmlPath, "local-xml-file");
+
+        // load xml:
+        let xml = false;
+        if(xmlFromEditor) {
+            xml = localStorage.getItem("editor-xml");
+            console.log(xml);
+        } else {
+            xml = localStorage.getItem("local-xml-file");
+        }
+        if(!xml || xml === null) {
+            errorConsole.innerHTML = "ERROR: Could not load xml!";
+            document.body.append(errorConsole);
+            throw new Error();
+        }
+
+        // replace nested <sec>-elements with <section>-tag before:
+        xml = xml.replaceAll("<sec", "<section")
+            .replaceAll("</sec>", "</section>");
+        xml = transformSelfClosingTags(xml);  // transform self-closing tags
+        
+        // xml = replaceInvalidCharacters(xml);
+
+        // create XML-document:
+        let parser = new DOMParser();
+        let xmlDoc = parser.parseFromString(xml, "text/xml");
 
         // process xml with pre-validation:
         updateStorageEventListener("Process XML document...");
-        processXmlDocument();  // awaiting preflightXmlRequest();
+        processXmlDocument(xmlDoc);  // awaiting preflightXmlRequest();
     }
 
     if (event.target.readyState === "complete") {
@@ -121,8 +157,8 @@ document.addEventListener("readystatechange", (event) => {
         // setup
         else {
             document.body.innerHTML = "Setup mode...(see console)!<br><br>" +
-            "Press p for rendering xml as pdf-preview.<br>" + 
-            "Press v for rendering xml as html-viewer.<br>";
+            "Press p for rendering jats-xml as pdf-preview.<br>" + 
+            "Press v for rendering jats-xml as html-view.<br>";
         }
     }
 });
@@ -134,13 +170,18 @@ document.addEventListener("readystatechange", (event) => {
  --------------------------------------*/
 document.addEventListener('keyup', function (e) {
 
-    // press p to set "renderAs" to "PDF"
-    if (e.key === renderAsPDF) {
+    // press e to switch to editorjs:
+    if (e.key === "e") {
+        let editorLocation = "/xml-generation/editorjs/editor.html"
+        window.location = location.origin + editorLocation;
+    }
+    // press p to set "renderAs" to "PDF-Preview"
+    if (e.key === renderPagedView) {
         localStorage.setItem("renderAs", "PDF");
         window.location.reload();
     }
-    // press v to set "renderAs" to "Viewer"
-    if (e.key === renderAsViewer) {
+    // press v to set "renderAs" to "HTML-View"
+    if (e.key === renderHTMLView) {
         localStorage.setItem("renderAs", "Viewer");
         window.location.reload();
     }
@@ -149,7 +190,6 @@ document.addEventListener('keyup', function (e) {
         localStorage.setItem("renderAs", "Setup");
         window.location.reload();
     }
-
     // press r for reload
     if (e.key === reload) {
         window.location.reload();
@@ -163,7 +203,12 @@ document.addEventListener('keyup', function (e) {
     }
     // press r for reload
     if (e.key === "@") {
-        downloadDocumentConfig();
+        if(localStorage.getItem("renderAs") === "PDF") {
+            downloadDocumentConfig();
+        }
+        if(localStorage.getItem("renderAs") === "Viewer") {
+            downloadHTMLDocument();
+        }
     }
 
     // press f to highlight figRefs:
@@ -238,28 +283,18 @@ document.addEventListener('keyup', function (e) {
  * @type {Script}
   --------------------------------------*/
 
-async function processXmlDocument() {
+async function processXmlDocument(xmlDoc) {
 
     // preflight xml:
-    let xmlErrorResult = await preflightXmlRequest();
+    let xmlErrorResult = await preflightXmlRequest(xmlDoc);
     if(xmlErrorResult) {
         document.body.append(errorConsole);
         throw new Error("XML-Parsing-Error");
     }
-
-    // replace nested <sec>-elements with <section>-tag before:
-    let xml = localStorage.getItem("jats-xml");
-    xml = xml.replaceAll("<sec", "<section")
-        .replaceAll("</sec>", "</section>");
-    xml = transformSelfClosingTags(xml);  // transform self-closing tags
-
-    // create XML-document:
-    let parser = new DOMParser();
-    let xmlDoc = parser.parseFromString(xml, "text/xml");
-
+    
     // prepare document properties:
-    let documentId = getDocumentStateProperty("documentId");
     let articleId;
+    let documentId = getDocumentStateProperty("documentId");
     if(xmlDoc.querySelector("article-id[pub-id-type='doi']") !== null) {
         articleId = xmlDoc.querySelector("article-id[pub-id-type='doi']").textContent;
     }
@@ -277,13 +312,13 @@ async function processXmlDocument() {
     // get and add language code to html (short form):
     let lang = xmlDoc.querySelector("article").getAttribute("xml:lang");
     lang = (lang) ? lang.slice(0, 2) : "de";
+    localStorage.setItem("documentLang", lang);
     document.documentElement.setAttribute("lang", lang);
 
     // convert xml to htmlContentBody:
     let htmlContentBody = convertXMLToHtmlBody(xmlDoc);
-    console.log("htmlContentBody", htmlContentBody);
     document.body.innerHTML = htmlContentBody.outerHTML;
-
+    
     // define journal related properties:
     let journalId = document.querySelector(".journal-id").textContent;
     let journalConfigs = JSON.parse(localStorage.getItem("journals-config"))[0];
@@ -291,11 +326,32 @@ async function processXmlDocument() {
     let journalColor = journalConfigs[journalKey]["journal-main-color"];
     localStorage.setItem("journal-config", JSON.stringify(journalConfigs[journalKey]));
 
-    // preload and classify images
-    let imageResult = await preloadImages();
-    if(imageResult) {
-        console.log(imageResult);
+    // classify images
+    let images = document.querySelectorAll("img");
+    let sizeClassSetGlobal = false;
+    if(localStorage.getItem("sizeClassSetGlobal") !== undefined) {
+        sizeClassSetGlobal = localStorage.getItem("sizeClassSetGlobal");
     }
+    images.forEach((image) => {
+        let img = new Image();
+        img.onload = function () {
+            if(image.className === "inline-graphic") {
+                img.className = image.className;
+                // classify inline-graphic?
+                image.setAttribute("data-img-width", img.naturalWidth);
+                image.setAttribute("data-img-height", img.naturalHeight);
+            }
+            else {
+                classifyImage(img, sizeClassSetGlobal);
+                let figure = image.parentElement;
+                image.classList = img.classList;
+                figure.classList = img.classList;
+                figure.setAttribute("data-img-width", img.naturalWidth);
+                figure.setAttribute("data-img-height", img.naturalHeight);
+            }
+        };
+        img.src = image.src;
+    });
 
     // add style properties to documentRoot:
     let documentRoot = document.querySelector(':root');
@@ -317,33 +373,33 @@ async function processXmlDocument() {
             localStorage.setItem("imageClassThreshold", imageClassThresholdDefault);
         }
         document.head.appendChild(styleSheetLink);
-        document.head.appendChild(renderAsPDFScript);
+        document.head.appendChild(renderPagedViewScript);
         document.head.appendChild(pagedJsScript);
     }
     else if(localStorage.getItem("renderAs") === "Viewer") {
-        document.head.appendChild(renderAsViewerScript);
+        localStorage.setItem("documentRoot", documentRoot);
+        localStorage.setItem("documentBody", document.body.outerHTML);
+        document.head.appendChild(renderHTMLViewScript);   
     }
     else {
         document.head.appendChild(setupScript);
     }
-
+    
     // add third-party libraries
     document.head.appendChild(interactJsScript);
     document.head.appendChild(highlightJsCSSLink);
     document.head.appendChild(highlightJsScript);
     document.head.appendChild(qrcodejs);
+    document.head.appendChild(leafletCssLink);
+    document.head.appendChild(leaflet);
 }
 
-async function preflightXmlRequest() {
+async function preflightXmlRequest(xmlDoc) {
 
     updateStorageEventListener("Preflight XML document...");
     let tagConversionMap = JSON.parse(localStorage.getItem("tag-conversion-map"))[0];
-    let xml = localStorage.getItem("jats-xml");
-    xml = replaceInvalidCharacters(xml);
-    let parser = new DOMParser();
-    let xmlDoc = parser.parseFromString(xml, "text/xml");
 
-    // validate xml
+    // catch xml parsing errors:
     let errorText;
     let parseErrorNode = xmlDoc.querySelector('parsererror');
     if (parseErrorNode) {
@@ -371,19 +427,30 @@ async function preflightXmlRequest() {
             errorConsole.append(errorText);
             return(errorConsole);
         }
+        if(!element.hasChildNodes()) {
+            if(element.tagName !== "back") {
+                errorText = "<" + isObligatory[i] + ">-element is empty";
+                errorConsole.append(errorText);
+                return(errorConsole);
+            };
+        }
     }
-    // check xlink:href of graphics for invalid characters:
-    let graphics = xmlDoc.querySelectorAll("graphic");
+    // check graphics:
+    let graphics = xmlDoc.querySelectorAll("graphic,inline-graphic");
     for (let i = 0; i < graphics.length; i++) {
         if (graphics !== null && graphics.length > 0) {
             let href = graphics[i].getAttribute("xlink:href");
+            // check image paths:
             if(/[(){}<>?~;,]/.test(href)) {
                 errorText = "Path to: '" + href + "' has invalid characters like [(){}<>?~;,";
                 errorConsole.append(errorText);
                 return(errorConsole);
             }
-            else {
-               
+            // check image extensions:
+            if(/.tif/.test(href) || /.tiff/.test(href)) {
+                errorText = "image: '" + href + "' has invalid format (jpeg or png expected)";
+                errorConsole.append(errorText);
+                return(errorConsole);
             }
         }
     }
@@ -392,14 +459,8 @@ async function preflightXmlRequest() {
 
 async function preloadImages() {
 
-    updateStorageEventListener("Preflight images...");
-
-    let sizeClassSetGlobal = false;
-    if(localStorage.getItem("sizeClassSetGlobal") !== undefined) {
-        sizeClassSetGlobal = localStorage.getItem("sizeClassSetGlobal");
-    }
-
-    // preload and classify images:
+    updateStorageEventListener("Preload images...");
+    
     let imagePromises = [];
     let images = document.querySelectorAll("img");
     images.forEach((image) => {
@@ -409,14 +470,7 @@ async function preloadImages() {
             resolve = r;
             reject = x;
         });
-        // classify image:
         img.onload = function () {
-            classifyImage(img, sizeClassSetGlobal);
-            let figure = image.parentElement;
-            image.classList = img.classList;
-            figure.classList = img.classList;
-            figure.setAttribute("data-img-width", img.naturalWidth);
-            figure.setAttribute("data-img-height", img.naturalHeight);
             resolve();
         };
         img.onerror = function () {
@@ -445,11 +499,11 @@ function convertXMLToHtmlBody(xmlDoc) {
     xmlBody.appendChild(xmlFront)
     xmlBody.appendChild(xmlBack);
 
-    // remove empty elements except of graphic:
-    removeEmptyElements(xmlBody, "graphic");
+    // remove empty elements except of (inline-)graphic:
+    removeEmptyElements(xmlBody);
 
     // convert xml elements to html elements:
-    convertElementsBySelectorInTagConversionMap(xmlBody, tagConversionMap);
+    convertElementsByTagConversionMap(xmlBody, tagConversionMap);
 
     // enhance code wit <pre> and language-class:
     let codeItems = xmlDoc.querySelectorAll("code");
@@ -482,10 +536,13 @@ function convertXMLToHtmlBody(xmlDoc) {
         }
     }
 
+    addHeadlineClassesBySectionHierarchy(xmlBody, ".title");
+
     // wrap xmlBody as htmlContentBody
     let htmlContentBody = document.createElement('div');
     htmlContentBody.classList.add("content-body");
     htmlContentBody.innerHTML = xmlBody.innerHTML;
+    console.log(htmlContentBody);
     return (htmlContentBody);
 }
 
@@ -501,29 +558,26 @@ function transformSelfClosingTags(xml) {
     return newXml + split[split.length-1];
 }
 
-function removeEmptyElements(xmlBody, excludeSelector) {
+function removeEmptyElements(xmlBody) {
 
-    let emptyTags = xmlBody.querySelectorAll("*:empty");
+    // get empty elements excluding graphic and inline-graphic:
+    let emptyTags = xmlBody.querySelectorAll(
+        "*:empty:not(graphic,inline-graphic)");
+    
     for (let i = 0; i < emptyTags.length; i++) {
-        if(emptyTags[i].tagName !== excludeSelector) {
-            emptyTags[i].remove();
-            console.log("Notice: Empty elements has been removed!");
-        }
+        emptyTags[i].remove();
+        console.log("Notice: Empty elements has been removed!");
     }
 }
 
-function replaceInvalidCharacters(xml) {
-    xml = xml.replaceAll("&", "&amp;"); // & not allowed in XML
-    return (xml);
-}
+function convertElementsByTagConversionMap(xmlBody, tagConversionMap) {
 
-function convertElementsBySelectorInTagConversionMap(xmlBody, tagConversionMap) {
-  
     // convert selectors as defined in tagConversionMap:
     for (let selector in tagConversionMap) {
         let mapTagName = tagConversionMap[selector]["tagName"];
         let mapClassname = tagConversionMap[selector]["className"];
 
+        // process each selector
         if (xmlBody.querySelectorAll(selector).length !== 0) {
             let xmlElements = xmlBody.querySelectorAll(selector);
 
@@ -543,7 +597,7 @@ function convertElementsBySelectorInTagConversionMap(xmlBody, tagConversionMap) 
                     let refValue = xmlElements[i].getAttribute(refAttribute);
 
                     // image source-links:
-                    if (selector === "graphic") {
+                    if (selector === "graphic" || selector == "inline-graphic") {
                         newElement.src = (refValue) ? xmlFolder + "/" + refValue : "";
                     }
                     // external url-links:
@@ -563,6 +617,9 @@ function convertElementsBySelectorInTagConversionMap(xmlBody, tagConversionMap) 
                 if (tagConversionMap[selector].hasOwnProperty("setAttribute")) {
                     let attributeKey = tagConversionMap[selector]["setAttribute"];
                     let attributeValue = xmlElements[i].getAttribute(attributeKey);
+
+                    // transform xml:lang-attribute to lang (html)
+                    attributeKey = (attributeKey === "xml:lang") ? "lang" : attributeKey;
                     // add missing content-type to article contributors group:
                     if(selector === "contrib-group" && attributeValue == null) {
                         // check firstChild of contrib-group:
@@ -580,6 +637,44 @@ function convertElementsBySelectorInTagConversionMap(xmlBody, tagConversionMap) 
         }
         else {
             console.log("Notice: Tag/Element <" + selector + "> not found in XML.");
+        }
+    }
+}
+
+/* classify headline hierarchy:
+----------------------------------*/
+/**
+ * add headline classes by hierarchy of section-elements
+ * @param {HTMLElement} content document-fragment made from original DOM
+ * @param {selector} selector css-class-selector for headlines, e.g. ".title"
+ * @returns {void}
+ */
+function addHeadlineClassesBySectionHierarchy(content, selector) {
+
+    // check position in section hierarchy
+    let headlines = content.querySelectorAll(selector);
+    for (let i = 0; i < headlines.length; i++) {
+        let parent = headlines[i].parentElement;
+        let level = 0; // no-level at all
+        do {
+            parent = parent.parentElement;
+            level++; // at least 1 (loop always run once)
+        }
+        while (parent !== null && parent.tagName !== "body");
+
+        // assign headline classes by level:
+        switch (true) {
+            case (level === 1):
+                headlines[i].classList.add("main-title");
+                break;
+            case (level === 2):
+                headlines[i].classList.add("section-title");
+                break;
+            case (level > 2):
+                headlines[i].classList.add("subsection-title");
+                break;
+            default:
+                headlines[i].classList.add("main-title");
         }
     }
 }
@@ -841,7 +936,7 @@ function checkQualityOfUrls() {
     if(checkUrlPersistence) {
         // get all anchors with external reference
         let anchors = document.querySelectorAll(
-            "a:not(.fig-ref,.fn-ref,.bib-ref,.footnote)");
+            "a:not(.fig-ref,.fn-ref,.bib-ref,.footnote,.panel-anchors,.heading-ref-a)");
         anchors.forEach(function (anchor) {
             let specificUse = anchor.getAttribute("data-specific-use");
             let href = anchor.href;
@@ -1087,12 +1182,33 @@ function downloadDocumentConfig() {
         "figure-map": JSON.parse(figureMap),
         "text-content-map": JSON.parse(textContentMap)
     }
-    // create blob and download link:
-    const blob = new Blob([JSON.stringify(json)], { type: "text/json" });
+    let filename = documentId + ".json";
+    download(JSON.stringify(json), "text/json", filename);
+}
+
+function downloadHTMLDocument() {
+
+    let documentRoot = document.querySelector(':root');
+    let documentId = getDocumentStateProperty("documentId");
+    let documentBody = localStorage.getItem("documentBody");
+    let journalColor = getComputedStyle(documentRoot).getPropertyValue("--journal-color"); 
+    let lang = localStorage.getItem("documentLang");
+    let htmlDocument = 
+    "<html lang = '" + lang + "'>" +
+        "<head>" +
+        " <meta name='--journal-color' content='" + journalColor + "'>" +
+        "</head>" +
+        documentBody +
+    "</html>";
+    let filename = documentId + ".html";
+    download(htmlDocument, "text/html", filename);
+
+    /* create blob and download link:
+    const blob = new Blob([htmlDocument], { type: "text/html" });
     const link = document.createElement("a");
-    link.download = documentId + ".json"; // filename
+    link.download = documentId + ".html"; // filename
     link.href = window.URL.createObjectURL(blob);
-    link.dataset.downloadurl = ["text/json", link.download, link.href].join(":");
+    link.dataset.downloadurl = ["text/html", link.download, link.href].join(":");
 
     // proceed download by adding click event:
     const evt = new MouseEvent("click", {
@@ -1103,4 +1219,25 @@ function downloadDocumentConfig() {
 
     link.dispatchEvent(evt);
     link.remove();
+    */
+}
+
+function download(content, type, filename) {
+
+     // create blob and download link:
+     const blob = new Blob([content], { type: type });
+     const link = document.createElement("a");
+     link.download = filename;
+     link.href = window.URL.createObjectURL(blob);
+     link.dataset.downloadurl = [type, link.download, link.href].join(":");
+ 
+     // proceed download by adding click event:
+     const evt = new MouseEvent("click", {
+         view: window,
+         bubbles: true,
+         cancelable: true,
+     });
+ 
+     link.dispatchEvent(evt);
+     link.remove();
 }
