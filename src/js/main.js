@@ -58,12 +58,27 @@ leafletCssLink.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
 leafletCssLink.type = 'text/css';
 leafletCssLink.rel = 'stylesheet';
 
+// medium-zoom-Script: https://github.com/francoischalifour/medium-zoom
+const mediumZoomScript = document.createElement('script');
+mediumZoomScript.type = 'text/javascript';
+mediumZoomScript.src = "https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js";
+
+const zoomistScript = document.createElement('script');
+zoomistScript.type = 'text/javascript';
+zoomistScript.src = "https://cdn.jsdelivr.net/npm/zoomist@2/zoomist.umd.js";
+
+// font awesome 4 icons:
+const fontAwesomeLink = document.createElement('link');
+fontAwesomeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css';
+fontAwesomeLink.type = 'text/css';
+fontAwesomeLink.rel = 'stylesheet';
+
 /** -------------------------------------
  * prepare application constants:
  * @type {Constants}
 ---------------------------------------*/
 const defaultJournal = "AA";
-const urlRegex = /doi|handle|urn|ark:|orcid|ror/g;
+const urlRegex = /doi|handle|urn|ark:|orcid|ror|dainst|idai.world|wikipedia/g;
 const specificUseRegex = "zenon|extrafeatures|supplements";
 
 const progressBar = document.createElement("div");
@@ -91,12 +106,13 @@ errorConsole.innerHTML = "<h3>Critical error found in XML:</h3>";
 document.addEventListener("readystatechange", (event) => {
 
     if (event.target.readyState === "interactive") {
-
+        
         // request tagConversionMap, journals.json and figureConstellations:
         requestSourceFile("configs/tagConversionMap.json", "tag-conversion-map");
         requestSourceFile("configs/journals.json", "journals-config");
         requestSourceFile("configs/figConstellations.json", "fig-constellations");
         requestSourceFile("configs/toggleFigureClasses.json", "toggle-figure-classes");
+        requestSourceFile("src/css/viewer-styles.css", "viewer-styles");
 
         // checkout xml-path
         if (document.querySelector('meta[name="--xml-file"]') === null) {
@@ -105,17 +121,16 @@ document.addEventListener("readystatechange", (event) => {
             throw new Error();
         }
 
-        // request jats.xml:
-        let xmlFile = document.querySelector('meta[name="--xml-file"]').content;
-        let xmlPath = xmlFolder + "/" + xmlFile;
-        requestSourceFile(xmlPath, "local-xml-file");
-
         // load xml:
         let xml = false;
         if(xmlFromEditor) {
             xml = localStorage.getItem("editor-xml");
             console.log(xml);
         } else {
+             // request jats.xml:
+            let xmlFile = document.querySelector('meta[name="--xml-file"]').content;
+            let xmlPath = xmlFolder + "/" + xmlFile;
+            requestSourceFile(xmlPath, "local-xml-file");
             xml = localStorage.getItem("local-xml-file");
         }
         if(!xml || xml === null) {
@@ -164,7 +179,7 @@ document.addEventListener("readystatechange", (event) => {
 });
 
 /** -------------------------------------
- * define keyboard control settings:
+ * document keyboard event listener:
  * @type {document}
  * @type {EventListenerObject}
  --------------------------------------*/
@@ -201,7 +216,7 @@ document.addEventListener('keyup', function (e) {
         localStorage.removeItem('documentState');
         window.location.reload();
     }
-    // press r for reload
+    // press @ to download documentConfig
     if (e.key === "@") {
         if(localStorage.getItem("renderAs") === "PDF") {
             downloadDocumentConfig();
@@ -291,7 +306,7 @@ async function processXmlDocument(xmlDoc) {
         document.body.append(errorConsole);
         throw new Error("XML-Parsing-Error");
     }
-    
+
     // prepare document properties:
     let articleId;
     let documentId = getDocumentStateProperty("documentId");
@@ -301,12 +316,16 @@ async function processXmlDocument(xmlDoc) {
     else {articleId = "document-without-id"};
 
     // checkout reload of previous document
+    let documentReloaded = false;
     if (!documentId || documentId !== articleId) {
         let documentState = {
             "documentId": articleId,   // commonly a doi-url
             "scrollPosition": [0, 0]     // x- and y-coordinates
         }
         localStorage.setItem("documentState", JSON.stringify(documentState));
+    }
+    else {
+        documentReloaded = true; 
     }
 
     // get and add language code to html (short form):
@@ -326,15 +345,18 @@ async function processXmlDocument(xmlDoc) {
     let journalColor = journalConfigs[journalKey]["journal-main-color"];
     localStorage.setItem("journal-config", JSON.stringify(journalConfigs[journalKey]));
 
-    // classify images
-    let images = document.querySelectorAll("img");
     let sizeClassSetGlobal = false;
     if(localStorage.getItem("sizeClassSetGlobal") !== undefined) {
         sizeClassSetGlobal = localStorage.getItem("sizeClassSetGlobal");
     }
+
+    let images = document.querySelectorAll("img"); 
     images.forEach((image) => {
         let img = new Image();
         img.onload = function () {
+            if(!documentReloaded) {
+                preloadImage(image);
+            }
             if(image.className === "inline-graphic") {
                 img.className = image.className;
                 // classify inline-graphic?
@@ -352,6 +374,7 @@ async function processXmlDocument(xmlDoc) {
         };
         img.src = image.src;
     });
+    updateStorageEventListener("Ready");
 
     // add style properties to documentRoot:
     let documentRoot = document.querySelector(':root');
@@ -379,7 +402,8 @@ async function processXmlDocument(xmlDoc) {
     else if(localStorage.getItem("renderAs") === "Viewer") {
         localStorage.setItem("documentRoot", documentRoot);
         localStorage.setItem("documentBody", document.body.outerHTML);
-        document.head.appendChild(renderHTMLViewScript);   
+        document.head.appendChild(renderHTMLViewScript); 
+
     }
     else {
         document.head.appendChild(setupScript);
@@ -392,6 +416,9 @@ async function processXmlDocument(xmlDoc) {
     document.head.appendChild(qrcodejs);
     document.head.appendChild(leafletCssLink);
     document.head.appendChild(leaflet);
+    document.head.appendChild(mediumZoomScript); 
+    document.head.appendChild(zoomistScript);
+    document.head.appendChild(fontAwesomeLink);
 }
 
 async function preflightXmlRequest(xmlDoc) {
@@ -457,33 +484,25 @@ async function preflightXmlRequest(xmlDoc) {
     return(false);
 }
 
-async function preloadImages() {
+async function preloadImage(image) {
 
-    updateStorageEventListener("Preload images...");
-    
-    let imagePromises = [];
-    let images = document.querySelectorAll("img");
-    images.forEach((image) => {
-        let img = new Image();
-        let resolve, reject;
-        let imageLoaded = new Promise(function (r, x) {
-            resolve = r;
-            reject = x;
-        });
-        img.onload = function () {
-            resolve();
-        };
-        img.onerror = function () {
-            image.alt = "Could not load image: '" + img.src + "' not found. Checkout xlink:href for graphic!";
-            img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
-            image.style.background = "antiquewhite";
-            reject(image);
-        };
-        img.src = image.src;
-        imageLoaded.then(imagePromises.push(imageLoaded))
-            .catch( error => console.log(error));
-    });
-    return(imagePromises);
+    let dataUrl;
+    let img = new Image();
+    img.onload = function () {
+        let canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        let ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+        dataUrl = canvas.toDataURL("image/jpeg", 1.0);
+        image.src = dataUrl;
+        updateStorageEventListener("Image preloading... " + image.parentElement.id);
+    };
+    img.onerror = function () {
+        image.alt = "Could not convert image: " + img.src;
+        img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+    };
+    img.src = image.src;
 }
 
 /* xml parsing functions
@@ -663,6 +682,7 @@ function addHeadlineClassesBySectionHierarchy(content, selector) {
         while (parent !== null && parent.tagName !== "body");
 
         // assign headline classes by level:
+        headlines[i].setAttribute("level", level);
         switch (true) {
             case (level === 1):
                 headlines[i].classList.add("main-title");
@@ -819,6 +839,9 @@ function getDocumentStateProperty(propertyKey) {
 }
 
 function initProgressBar(processStage) {
+
+    progressBar.style.fontFamily = "UI-MONOSPACE";
+    progressBar.style.fontSize = "0.9em";
 
     if (processStage === "Ready") {
         progressBar.innerHTML = processStage + "!";
@@ -1189,37 +1212,30 @@ function downloadDocumentConfig() {
 function downloadHTMLDocument() {
 
     let documentRoot = document.querySelector(':root');
+    let styles = getComputedStyle(documentRoot);
+    let journalColor = styles.getPropertyValue("--journal-color"); 
     let documentId = getDocumentStateProperty("documentId");
-    let documentBody = localStorage.getItem("documentBody");
-    let journalColor = getComputedStyle(documentRoot).getPropertyValue("--journal-color"); 
     let lang = localStorage.getItem("documentLang");
+    let viewerStyles = localStorage.getItem("viewer-styles");
+    let documentBody = document.body.outerHTML;
+
     let htmlDocument = 
-    "<html lang = '" + lang + "'>" +
+    "<html lang = '" + lang + "' style = '--journal-color:" + journalColor + ";'>" +
         "<head>" +
         " <meta name='--journal-color' content='" + journalColor + "'>" +
+        "  <link rel='preconnect' href='https://fonts.googleapis.com'>" +
+        "  <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>" +
+        "  <link href='https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap' rel='stylesheet'>" +
+        "  <link href='https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap' rel='stylesheet'></link>" +
+        "  <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' type='text/css' rel='stylesheet'></link>" +
+        "  <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js'></script>" +
+        " <style>" + viewerStyles + "</style>" +
         "</head>" +
         documentBody +
     "</html>";
+
     let filename = documentId + ".html";
     download(htmlDocument, "text/html", filename);
-
-    /* create blob and download link:
-    const blob = new Blob([htmlDocument], { type: "text/html" });
-    const link = document.createElement("a");
-    link.download = documentId + ".html"; // filename
-    link.href = window.URL.createObjectURL(blob);
-    link.dataset.downloadurl = ["text/html", link.download, link.href].join(":");
-
-    // proceed download by adding click event:
-    const evt = new MouseEvent("click", {
-        view: window,
-        bubbles: true,
-        cancelable: true,
-    });
-
-    link.dispatchEvent(evt);
-    link.remove();
-    */
 }
 
 function download(content, type, filename) {
@@ -1241,3 +1257,11 @@ function download(content, type, filename) {
      link.dispatchEvent(evt);
      link.remove();
 }
+
+function base64convert(file) {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      console.log(e.target.result)
+    }
+    reader.readAsDataURL(file)
+  }
