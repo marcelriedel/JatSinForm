@@ -27,7 +27,6 @@ additionalResourcesWrapper.classList.add("column");
 
 const navHeader = document.createElement("div");
 navHeader.id = "nav-header";
-
 const navigationPanelsDocument = [];
 
 /** --------------------------------------
@@ -42,145 +41,86 @@ const navigationPanelsDocument = [];
         // get content-body
         let contentBody = document.querySelectorAll(".content-body")[0];
 
-        // create title header
+        // create additional document elements:
+        let doiElement = createDoiElement();
         let titlePage = createTitleHeader(contentBody);
-
-        // create abstract sections:
         let abstractSection = getAbstractSection(contentBody);
 
-        // create panelContents always by default:
+        // create content panel (ToC):
         const panelContents = createPanel("contents", false);
         navigationPanelsDocument.push("contents");
-    
-        // add posterImage to panelContents:
         let posterImage = contentBody.querySelector("#poster-image");
         if (posterImage) {
             posterImage.classList.add("cover-image");
             panelContents.appendChild(posterImage);
         }
 
-        // add tocList to panelContents:
-        let tocList = createToCByHeadlines(contentBody);
-        panelContents.appendChild(tocList);
-        additionalResourcesWrapper.appendChild(panelContents);
-
-        // panel figures:
-        let figureSection = contentBody.querySelectorAll(".figure-section")[0];
-        if (figureSection) {
-            let panel = createPanel("figures", figureSection);
-            additionalResourcesWrapper.appendChild(panel);
-            navigationPanelsDocument.push("figures");
-        }
-        // panel references:
-        let referenceSection = contentBody.querySelectorAll(".reference-section")[0]
-        if(referenceSection) {
-            let panel = createPanel("references", referenceSection);
-            additionalResourcesWrapper.appendChild(panel);
-            navigationPanelsDocument.push("references");
-        }
-
-        // panel footnotes:
-        let footnoteSection = contentBody.querySelectorAll(".footnotes-section")[0];
-        if(footnoteSection) {
-            let panel = createPanel("notes", footnoteSection);
-            additionalResourcesWrapper.appendChild(panel);
-            navigationPanelsDocument.push("notes");
-        }
-
-        // extract supplement links (objects and locations):
-        let supplementLinksCollection = extractSupplementLinks();
-       
-        // panel locations:
-        if(supplementLinksCollection["locations"].length) {
-            let panel = createPanel("locations", false);
-            fetchExternalData(supplementLinksCollection["locations"]);
-            additionalResourcesWrapper.appendChild(panel);
-            navigationPanelsDocument.push("locations");
-        }
-
-        // panel supplement data:       
-        if(supplementLinksCollection["objects"].length) {
-            const supplementSection = document.createElement("div");
-            supplementSection.id = "supplement-section";
-            fetchExternalData(supplementLinksCollection["objects"]);
-
-            let panel = createPanel("objects", supplementSection);
-            additionalResourcesWrapper.appendChild(panel);
-            navigationPanelsDocument.push("objects");
-        }
+        // create all content panels:
+        createContentPanels(contentBody);
 
         // hide <front>
         contentBody.querySelector(".front").style.display = "none";
      
         // add content to textContentWrapper
+        textContentWrapper.append(doiElement);
         textContentWrapper.append(titlePage);
         textContentWrapper.append(contentBody);
         textContentWrapper.append(abstractSection);
-        
+  
         // add wrapper to document-body:
         mainWrapper.appendChild(textContentWrapper);
         mainWrapper.appendChild(additionalResourcesWrapper);
         document.body.appendChild(navHeader);
         document.body.appendChild(mainWrapper);
-        addPanelNavigationTonavHeader(navigationPanelsDocument);
+        addPanelNavigationToNavHeader(navigationPanelsDocument);
+
+        // create ToC-list and add to panel contents
+        let tocList = createToCByHeadlines();
+        panelContents.appendChild(tocList);
+        additionalResourcesWrapper.appendChild(panelContents);
 
         // define image rendering:
         document.querySelectorAll('img').forEach(function(img){
-            img.onerror = function(){this.style.display='none';}; 
+            img.onerror = function(){this.style.display='none';};
             img.setAttribute("loading", "lazy");
+            img.setAttribute("data-zoomable", true);
+
+            /*
+            let zoomistContainer = document.createElement("div");
+            zoomistContainer.classList.add("zoomist-container");
+            let zoomistWrapper = document.createElement("div");
+            zoomistWrapper.classList.add("zoomist-wrapper");
+            let zoomistImage = document.createElement("div");
+            zoomistImage.classList.add("zoomist-image");
+            zoomistWrapper.appendChild(zoomistImage);
+            zoomistContainer.appendChild(zoomistWrapper);
+            img.parentElement.appendChild(zoomistContainer);
+            zoomistImage.appendChild(img);
+            */
+
         });
 
+        // add styles and fade-in
         document.head.appendChild(stylesCssLink);
         document.body.classList.add("fade-in");
 
-        showSelectedPanel("locations"); // fix: needs preload!
+        // init js-functions:
         focusTargetsOnHoverReferences();
+        showPanelOfAnchorTarget();
         checkQualityOfUrls();
+        mediumZoom('[data-zoomable]', {background: 'rgb(65 65 65)'});
+        enhanceDocumentInfosTable();
+        // default tab:
+        showSelectedPanel("contents");
 
-        console.log(document.documentElement);
+        /* can i query the image itself ?*/
+        let zoomistElement = document.querySelector('.medium-zoom-overlay');
+        new Zoomist(zoomistElement);
     }
 });
 
 /* FUNCTIONS
 --------------*/
-function createPanel(panelName, content = false) {
-
-    let panel = document.createElement("div");
-    panel.classList.add("panel", "resource-view", "hidden");
-    panel.id = panelName;
-    if(content) {
-        panel.appendChild(content);
-    }
-    let title = panel.querySelector(".title");
-    if(title !== null) {
-        title.remove();
-    }
-    return(panel);
-}
-
-function addPanelNavigationTonavHeader(navigationPanelsDocument) {
-    
-    if(navigationPanelsDocument.length > 0) {
-        let contextToggles = document.createElement("nav");
-        contextToggles.classList.add("context-toggles");
-        let uList = document.createElement("ul");
-
-        navigationPanelsDocument.forEach((panelName) => { 
-            let li = document.createElement("li");
-            let a = document.createElement("a");
-            a.classList.add("panel-anchors");
-            a.id = "a-" + panelName;
-            a.innerHTML = panelName;
-            a.addEventListener("click", function() {
-                showSelectedPanel(panelName);
-            });
-            li.appendChild(a);
-            uList.appendChild(li);
-        });
-        contextToggles.appendChild(uList);
-        navHeader.appendChild(contextToggles);
-    }
-}
 
 function createTitleHeader(contentBody) {
 
@@ -192,88 +132,274 @@ function createTitleHeader(contentBody) {
 
     // transform author information to String:
     let authorsCollection = [];
+    let givenName;
+    let surName;
     for (let i = 0; i < authors.length; i++) {
-        let givenName = authors[i].querySelector(".given-names").textContent;
-        let surName = authors[i].querySelector(".surname").textContent;
+        if(authors[i].querySelector(".given-names") !== null) {
+            givenName = authors[i].querySelector(".given-names").textContent;
+        }
+        if(authors[i].querySelector(".surname") !== null) {
+            surName = authors[i].querySelector(".surname").textContent;
+        }
         authorsCollection.push(givenName + " " + surName);
     }
 
     // transform contributors information to String:
     let contributorsCollection = [];
+    let givenNameContributor;
+    let surNameContributor;
     for (let i = 0; i < contributors.length; i++) {
-        let givenName = contributors[i].querySelector(".given-names").textContent;
-        let surName = contributors[i].querySelector(".surname").textContent;
-        contributorsCollection.push(givenName + " " + surName);
+        if(contributors[i].querySelector(".given-names") !== null) {
+            givenNameContributor = contributors[i].querySelector(".given-names").textContent;
+        }
+        if(contributors[i].querySelector(".surname") !== null) {
+            surNameContributor = contributors[i].querySelector(".surname").textContent;
+        }
+        contributorsCollection.push(givenNameContributor + " " + surNameContributor);
     }
 
-    // create title page elements and fill with content
+    // create titlePage elements:
     let titlePage = document.createElement("div");
     titlePage.className = "page-header";
 
     let titleElement = document.createElement("h1");
     titleElement.className = "page-title";
-    titleElement.innerHTML = (title) ? title.textContent : "[Kein Titel]";
-
+   
     let subtitleElement = document.createElement("h1");
     subtitleElement.className = "page-subtitle";
-    subtitleElement.innerHTML = (subtitle) ? subtitle.textContent : "";
 
     let authorsElement = document.createElement("h1");
     authorsElement.className = "page-authors";
-    authorsElement.innerHTML = (authorsCollection.length) ? authorsCollection.join(", ") : "[Keine Autoren]";
 
     let contributorsElement = document.createElement("p");
     contributorsElement.className = "page-contributors";
-    contributorsElement.innerHTML = (contributorsCollection.length) ? contributorsCollection.join(", ") : "";
+
+    // fill titlePage elements with content:
+    titleElement.innerHTML = (title) ? title.textContent : "[Kein Titel]";
+    subtitleElement.innerHTML = (subtitle) ? subtitle.textContent : "";
+    authorsElement.innerHTML = (authorsCollection.length) ? authorsCollection.join(", ") : "[Keine Autoren]";
+    let lang = document.documentElement.lang;
+    if(contributorsCollection.length && document.documentElement.lang) {
+        contributorsElement.innerHTML = contributorsPrepositions[lang] + " " + contributorsCollection.join(", ");
+    }
 
     // append elements to titlePage:
-    titlePage.append(authorsElement);
     titlePage.append(titleElement);
     titlePage.append(subtitleElement);
+    titlePage.append(authorsElement);
     titlePage.append(contributorsElement);
 
     return (titlePage);
+}
+
+function createDoiElement() {
+    let documentId = getDocumentStateProperty("documentId");
+    let doi = (documentId) ? documentId : "no-doi-assigned";
+    let doiElement = document.createElement("div");
+    doiElement.id = "doi-link";
+    let doiAnchor = document.createElement("a");
+    doiAnchor.id = "doi-anchor";
+    doiAnchor.target = "_blank";
+    doiAnchor.href = doi;
+    doiAnchor.textContent = doi;
+    doiElement.appendChild(doiAnchor);
+    return (doiElement);
 }
 
 function getAbstractSection(contentBody) {
 
     let abstractSection = document.createElement("div");
     abstractSection.id = "abstracts-section";
-
-    let abstracts = contentBody.querySelectorAll(".abstract, .trans-abstract,.kwd-group");
+    
+    let abstracts = contentBody.querySelectorAll(".abstract, .trans-abstract");
     if(abstracts.length) {
         abstracts.forEach(function(abstract) {
+            let lang;
+            let abstractTitle;
+            let abstractText;
             if(abstract) {
-                abstractSection.appendChild(abstract);
+                lang = abstract.getAttribute("lang");
+                abstractTitle = abstract.querySelector(".title");
+                abstractText = abstract.querySelector(".abstract-text");
+                if(abstractText !== null && abstractTitle !== null) {
+                    abstractTitle.setAttribute("lang", lang);
+                    abstractText.setAttribute("lang", lang);
+                    abstractSection.appendChild(abstractTitle);
+                    abstractSection.appendChild(abstractText);
+                }
             }
         });
     }
     return(abstractSection);
 }
 
-function createToCByHeadlines(contentBody) {
+function createContentPanels(contentBody) {
 
-    let headlines = contentBody.querySelectorAll(".title");
+    // extract supplement links (objects and locations):
+    let supplementLinksCollection = extractSupplementLinks();
+     
+    // create panel figures:
+    let figureSection = contentBody.querySelectorAll(".figure-section")[0];
+    if (figureSection) {
+        let panel = createPanel("figures", false, figureSection);
+        additionalResourcesWrapper.appendChild(panel);
+        navigationPanelsDocument.push("figures");
+    }
+
+    // create panel footnotes:
+    let footnoteSection = contentBody.querySelectorAll(".footnotes-section")[0];
+    if(footnoteSection) {
+        let bibRefs = footnoteSection.querySelectorAll("a.bib-ref");
+        addTitleOfResourcesToBibRefTitle(bibRefs);
+
+        let panel = createPanel("notes", false, footnoteSection);
+        additionalResourcesWrapper.appendChild(panel);
+        navigationPanelsDocument.push("notes");
+    }
+
+    // create panel references:
+    let referenceSection = contentBody.querySelectorAll(".reference-section")[0]
+    if(referenceSection) {
+        let panel = createPanel("references", false, referenceSection);
+        additionalResourcesWrapper.appendChild(panel);
+        navigationPanelsDocument.push("references");
+    }
+
+    // create panel locations:
+    if(supplementLinksCollection["locations"].length) {
+        let panel = createPanel("locations", "Locations", false);
+        fetchExternalData(supplementLinksCollection["locations"]);
+        additionalResourcesWrapper.appendChild(panel);
+        navigationPanelsDocument.push("locations");
+    }
+
+    // create panel objects:       
+    if(supplementLinksCollection["objects"].length) {
+        let panel = createPanel("objects", "Objects", false);
+        fetchExternalData(supplementLinksCollection["objects"]);
+        additionalResourcesWrapper.appendChild(panel);
+        navigationPanelsDocument.push("objects");
+    }
+
+    // create panel information:
+    let information = true;
+    if(information) {
+        const informationSection = document.createElement("div");
+        informationSection.id = "information-section"; 
+        let infos = document.createElement("table");
+        infos.id = "infos";
+       
+        let panel = createPanel("information", "Information", infos);
+        additionalResourcesWrapper.appendChild(panel);
+        navigationPanelsDocument.push("information");
+    }
+}
+
+function enhanceDocumentInfosTable() {
+
+    let paragraphs = document.querySelectorAll(".content-paragraph");
+    let sections = document.querySelectorAll("section");
+    let figures = document.querySelectorAll("figure");
+    let notes = document.querySelectorAll(".footnote");
+    let references = document.querySelectorAll(".reference");
+    let data = document.querySelectorAll(".data-element");
+    let locations = document.querySelectorAll(".location");
+
+    let infos = document.querySelector("#infos");
+    let tableData =
+    "<tr><td>Paragraphs:</td><td>" + paragraphs.length + "</td></tr>" +
+    "<tr><td>Sections:</td><td>" + sections.length + "</td></tr>" +
+    "<tr><td>Figures:</td><td>" + figures.length + "</td></tr>" +
+    "<tr><td>Notes:</td><td>" + notes.length + "</td></tr>" +
+    "<tr><td>References:</td><td>" + references.length + "</td></tr>" +
+    "<tr><td>Objects:</td><td>" + data.length + "</td></tr>" +
+    "<tr><td>Locations:</td><td>"+ locations.length + "</td></tr>";
+    infos.innerHTML = tableData;
+}
+
+function addTitleOfResourcesToBibRefTitle(bibRefs) {
+  
+    bibRefs.forEach(function(bibRef){
+        let refTarget;
+        let target;
+        if(bibRef.href !== null && bibRef.href) {
+            refTarget = bibRef.getAttribute("href");
+            target = document.querySelector(refTarget);
+            let bibTitle;
+            if(target !== null) {
+                bibTitle = target.querySelector("p");
+                if(bibTitle !== null && bibTitle.textContent) {
+                    bibTitle = bibTitle.textContent.trim();
+                    bibTitle = bibTitle.replace(/[\n\r]+|[\s]{2,}/g, ' ');
+                } else ( bibTitle = "No title found");
+                bibRef.title = bibTitle;
+            }
+        }
+    });
+}
+
+function createPanel(panelName, defaultTitle = false, content = false) {
+
+    // create panel element:
+    let panel = document.createElement("div");
+    panel.classList.add("panel", "resource-view", "hidden");
+    panel.id = panelName;
+  
+    // add panel conent
+    if(content) {panel.appendChild(content);}
+
+    // add panel title:
+    if(panelName !== "contents") {
+        let title = panel.querySelector(".title");
+        if(title === null) {
+            title = document.createElement("h3");
+            title.textContent = (defaultTitle) ? defaultTitle : "[No title]";
+            title.classList.add("title", "panel-title");
+            panel.insertAdjacentElement("afterbegin", title);
+        } else {title.classList.add("panel-title");}
+    }
+    return(panel);
+}
+
+function addPanelNavigationToNavHeader(navigationPanelsDocument) {
+   
+    if(navigationPanelsDocument.length > 0) {
+        let contextToggles = document.createElement("nav");
+        contextToggles.classList.add("context-toggles");
+        let uList = document.createElement("ul");
+
+        navigationPanelsDocument.forEach((panelName) => { 
+            let li = document.createElement("li");
+            let a = document.createElement("a");
+            a.classList.add("panel-anchors");
+            a.id = "a-" + panelName;
+            a.innerHTML = navIcons[panelName];
+            a.href = "#" + panelName;
+            a.setAttribute("onclick", "showSelectedPanel('" + panelName + "')");
+
+            li.appendChild(a);
+            uList.appendChild(li);
+        });
+        contextToggles.appendChild(uList);
+        navHeader.appendChild(contextToggles);
+    }
+}
+
+function createToCByHeadlines() {
+
+    let headlines = document.querySelectorAll(".title");
     let tocList = document.createElement("ul");
-    tocList.classList.add("toc-list");
+    tocList.id = "toc-list";
 
     if (headlines && headlines.length > 0) {
         for (let i = 0; i < headlines.length; ++i) {
-            // define headline level by classList:
-            let level;
-            if(/.main-title/.test(headlines[i].classList)) {
-                level = 1;
-            }
-            if(/.section-title/.test(headlines[i].classList)) {
-                level = 2;
-            }
-            if(/.subsection-title/.test(headlines[i].classList)) {
-                level = 3;
-            }
+            // get level in hierarchy:
+            let level = headlines[i].getAttribute("level");
+            let levelClass = "level-" + level; 
 
             // create tocList items and anchors:
             let tocListItem = document.createElement("li");
-            tocListItem.classList.add("heading-ref", "level-" + level);
+            tocListItem.classList.add("heading-ref", levelClass);
             let tocEntry = document.createElement("a");
             tocEntry.classList.add("heading-ref-a");
 
@@ -288,7 +414,7 @@ function createToCByHeadlines(contentBody) {
             // append content and children
             tocEntry.innerHTML = headlines[i].innerHTML;
             tocListItem.appendChild(tocEntry);
-            tocList.appendChild(tocListItem);
+            tocList.appendChild(tocListItem);    
         }
     }
     return(tocList);
@@ -304,10 +430,14 @@ function showSelectedPanel(selectedPanel) {
     panelAnchors.forEach((panelAnchor) => {
         let panelName = panelAnchor.id.slice(2); 
         let panel = document.querySelector("#" + panelName);
-        if(selectedPanel && panel !== null) {
+        if(selectedPanel !== undefined && panel !== null) {
             if(panelName === selectedPanel) {
                 panelAnchor.classList.add("active");
                 panel.classList.replace("hidden", "active");
+                if(selectedPanel === "locations") {
+                    // initMaps during panel-display:
+                    setTimeout(initMaps, 500);
+                }
             }
             else {
                 panelAnchor.classList.remove("active");
@@ -315,6 +445,38 @@ function showSelectedPanel(selectedPanel) {
             }
         };
     });
+}
+
+function showPanelOfAnchorTarget() {
+
+    let targetRef;
+    let panelName;
+    let anchors = document.querySelectorAll(
+        "a.fig-ref,a.bib-ref,a.fn-ref,a[id^='data-ref-']");
+    if(anchors !== undefined && anchors.length) {
+        anchors.forEach((anchor) => {
+            anchor.addEventListener("click", event => {
+                targetRef = anchor.getAttribute("href");
+                if(/#f-/.test(targetRef)) {
+                    panelName = "figures";
+                }
+                if(/#fn-/.test(targetRef)) {
+                    panelName = "notes";
+                }
+                if(/#ref-/.test(targetRef)) {
+                     panelName = "references";
+                }
+                if(/#target-locations/.test(targetRef)) {
+                    panelName = "locations";
+                }
+                if(/#target-objects/.test(targetRef)) {
+                    panelName = "objects";
+                }
+                
+                showSelectedPanel(panelName);
+            });
+        });
+    }
 }
 
 function focusTargetsOnHoverReferences() {
@@ -327,30 +489,32 @@ function focusTargetsOnHoverReferences() {
         references.forEach(reference => {
             // get target reference:
             let targetRefId = reference.target.getAttribute("href");
-            if (reference.intersectionRatio > 0) { 
-                // query target:         
-                let target = document.querySelector(targetRefId);
-                // handle target:
-                if(target !== null) {
-                    target.classList.toggle('active');
-                    target.classList.toggle('fade-in');
-                    target.scrollIntoView({
-                        behavior: "auto",
-                        block: "center"
-                    });
-
-                    // avoid scrolling underneath the nav-header:
-                    let scrolledY = window.scrollY;
-                    if(scrolledY) {window.scroll(0, window.scrollY - "6vh");}
-                }
+            // query target:         
+            let target = document.querySelector(targetRefId);
+            // reference comes into viewport (at bottom)
+            if (reference.isIntersecting) { 
+                 // handle target:
+                 if(target !== null) {
+                     target.classList.toggle('active');
+                     target.scrollIntoView({
+                         behavior: "auto",
+                         block: "center"
+                     });
+                 }
             } 
+            // element leaves the viewport (at top)
+            else {
+                if(target !== null) {
+                    target.classList.remove('active');
+                }
+            }
         }, options);
     });
 
     // track all referencing elements:
     document.querySelectorAll(".title, a.fig-ref,a.bib-ref,a.fn-ref,a[id^='data-ref-']")
         .forEach((element) => {
-        observer.observe(element);
+            observer.observe(element);
     });
 }
 
@@ -360,13 +524,14 @@ function extractSupplementLinks() {
     let supplementLinksCollection = {
         "locations": [],
         "objects": []
-    };      
+    };
+    let targetPrefix;      
 
     // query anchors:
     let anchors = document.querySelectorAll(
         // exclude weblinks
-        "a.ext-ref:not([data-specific-use = 'weblink'])");   
-
+        "a.ext-ref:not([data-specific-use = 'weblink'])"); 
+        
     // parse anchors:
     for (let i = 0; i < anchors.length; ++i) {
         // exclude empty and internal links
@@ -380,6 +545,7 @@ function extractSupplementLinks() {
             // parse url:
             let url = new URL(anchors[i].href);
             let apiRefUrl = getApiRefUrl(url);
+            
             if(apiRefUrl) {
                 // define url properties
                 let urlProperties = {
@@ -387,18 +553,23 @@ function extractSupplementLinks() {
                     'apiUrl': apiRefUrl.apiUrl,
                     'apiSource': apiRefUrl.apiSource,
                     'refAnchorId': refAnchorId,
+                    "refText": anchors[i].textContent
                 };
 
                 // filter links by apiSource:
                 if(/gazetteer/.test(apiRefUrl.apiSource)) {
+                    targetPrefix = "locations";
                     supplementLinksCollection["locations"].push(urlProperties);
                 }
-                else {
+                if(/arachne/.test(apiRefUrl.apiSource)) {
+                    targetPrefix = "objects";
                     supplementLinksCollection["objects"].push(urlProperties);
-                }   
+                }
+                /* Zenon-Links? 
+                ----------------*/
             }
-            // set #target-id as href-attribute to anchor: 
-            anchors[i].href = "#target-" + refAnchorId;
+            // set #target-prefix-id as href-attribute to anchor: 
+            anchors[i].href = "#target-" + targetPrefix + "-" + refAnchorId;
         }
     }
     return(supplementLinksCollection);
@@ -407,6 +578,8 @@ function extractSupplementLinks() {
 function getApiRefUrl(url) {
 
     let apiRefUrl = {};
+    if(url.protocol !== "https") {url.protocol = "https";}
+
     switch (true) {
         case (/arachne.dainst.org/.test(url.hostname)):
             apiRefUrl.apiUrl = url.origin + "/data" + url.pathname;
@@ -419,20 +592,22 @@ function getApiRefUrl(url) {
                 apiRefUrl.apiSource = "gazetteer";
             }
             break;
+        /*
         case (/field.idai.world\/document/.test(url.hostname)):
             apiRefUrl.apiUrl = "Folgt";
             apiRefUrl.apiSource = "field";
             break;
+        */
     }
     return(apiRefUrl);
 }
 
 async function fetchExternalData(supplementsLinks) {
 
-    let handleError = function(error) {
+    let handleError = function() {
         return new Response(JSON.stringify({
             code: 400,
-            message: error
+            message: "fetch-error"
         }));
     };
 
@@ -445,9 +620,16 @@ async function fetchExternalData(supplementsLinks) {
             }
         }).catch(handleError);
 
-        if (response.status === 200) {
-            let result = await response.json();
-            supplementsLinks[i]["result"] = result;
+        let result;
+        if(response.status === 200) {
+            result = await response.json();
+
+            if(result["code"] !== 400) {
+                supplementsLinks[i]["result"] = result;
+            }
+            else {
+                supplementsLinks[i]["result"] = false;
+            }
         }
         else {
             supplementsLinks[i]["result"] = false;
@@ -460,137 +642,211 @@ async function fetchExternalData(supplementsLinks) {
 function renderExternalData(supplementsLinks) {
 
     let result;
-    let source;
-    let refAnchorId;
     let values = {};
 
+    // process each supplement link:
     for (let i = 0; i < supplementsLinks.length; ++i) {
+        values["refText"] = supplementsLinks[i]["refText"];
+        values["refAnchorId"] = supplementsLinks[i]["refAnchorId"];
+        values["apiUrl"] = supplementsLinks[i]["apiUrl"];
+ 
+        // check result:
         result = supplementsLinks[i]["result"];
-        refAnchorId = supplementsLinks[i]["refAnchorId"];
-        source = supplementsLinks[i]["apiSource"];
+        values["hasResult"] = (result) ? true : false;
 
-        if(result) {      
-            values["available"] = true;
-            values["refAnchorId"] = refAnchorId;
+        // parse results:
+        switch (true) {
+            case (/gazetteer/.test(supplementsLinks[i]["apiSource"])):
+                values["parsed"] = parseGazetteerData(result);
+                displayGazetteerData(values);
+                break;
 
-            switch (true) {
-                case (/gazetteer/.test(source)):
-                    values["parsed"] = parseGazetteerData(result);
-                    displayGazetteerData(values);
-                    break;
-
-                case (/arachne/.test(source)):
-                    values["parsed"] = parseArachneData(result);
-                    displayArachneData(values);
-                    break;
-            }
+            case (/arachne/.test(supplementsLinks[i]["apiSource"])):
+                values["parsed"] = parseArachneData(result);
+                displayArachneData(values);
+                break;
         }
     }
-}
-
-function parseGazetteerData(data) {
-    return {
-        "provenance": data.provenance,
-        "location": data.prefLocation,
-        "prefName": data.prefName,
-        "gazId": data.gazId,
-        "url": data["@id"]
-    };
+    enhanceDocumentInfosTable();
 }
 
 function parseArachneData(data) {
     return {
-        "title": data.title,
-        "subtitle": data.subtitle,
-        "images": data.images
+        "title": (data.title !== undefined) ? data.title : false,
+        "subtitle": (data.subtitle !== undefined) ? data.subtitle : false,
+        "images": ( data.images !== undefined) ? data.images : false,
+        "url": (data["@id"] !== undefined) ? data["@id"] : false
     };
 }
 
-function displayGazetteerData(values) {
+function parseGazetteerData(data) {
+    return {
+        "provenance": (data.provenance !== undefined) ? data.provenance: false,
+        "location": (data.prefLocation !== undefined) ? data.prefLocation: false,
+        "prefName": (data.prefName !== undefined) ? data.prefName: false,
+        "gazId":  (data.gazId !== undefined) ? data.gazId: false,
+        "url": (data["@id"] !== undefined) ? data["@id"] : false
+    };
+}
 
-    let additionalDataElement = document.createElement("div");
-    additionalDataElement.classList.add("additional-elements");
-    document.querySelector('#locations').append(additionalDataElement);
+function createExternalObjectElement() {
 
-    let prefName = document.createElement("p");
-    prefName.classList.add("object-name");
+    let externalObject = document.createElement("details");
+    externalObject.classList.add("external-object");
 
-    let map = document.createElement("div");
-    map.style.height = "300px";
-    map.style.background = "gray";
+    let objectName = document.createElement("summary");
+    objectName.classList.add("object-name");
 
+    let objectData = document.createElement("div");
+    objectData.classList.add("object-data");
+    
+    let objectVisualization = document.createElement("div");
+    objectVisualization.classList.add("object-visualization");
+    
     let dataSourceInfo = document.createElement("div");
     dataSourceInfo.classList.add("data-source-info");
-    dataSourceInfo.innerText = "Data source: ";
+
     let sourceLink = document.createElement("a");
     sourceLink.classList.add("data-source-link");
     sourceLink.target = "_blank";
     dataSourceInfo.appendChild(sourceLink);
-  
-    if(values["parsed"]) {
-        let data = values["parsed"];
-        if(data.prefName.title !== undefined) {
-            prefName.innerText = data.prefName.title;
-        }
-        if(values["refAnchorId"]) {
-            map.id = "target-" + values["refAnchorId"];
-        }
-        if(data.url) {
-            sourceLink.innerText = data.url,
-            sourceLink.href = data.url;
-        }
-    } 
- 
-    // append elements to #locations
-    additionalDataElement.appendChild(prefName);
-    additionalDataElement.appendChild(map);
-    additionalDataElement.appendChild(dataSourceInfo);
-    document.querySelector('#locations').appendChild(additionalDataElement);
 
-    // init each map (appended to #locations-panel before):
-    if(values["parsed"] && values["refAnchorId"]) {
-        if(values["parsed"].location && values["parsed"].location.coordinates.length) {
-            let coords = values["parsed"].location.coordinates;
-            let mapId = "target-" + values["refAnchorId"];
-            initMap(mapId, coords);
-        }
-    }
+    externalObject.appendChild(objectName);
+    externalObject.appendChild(objectData);
+    externalObject.appendChild(dataSourceInfo);
+    externalObject.appendChild(objectVisualization);
+
+    return(externalObject);
+
 }
 
 function displayArachneData(values) {
 
-    let supplementElement = document.createElement("details");
-    supplementElement.classList.add("supplement-element");
+    let externalObject = createExternalObjectElement(".external-object");
+    let objectName = externalObject.querySelector(".object-name");
+    let objectData = externalObject.querySelector(".object-data");
+    let objectVisualization = externalObject.querySelector(".object-visualization");
+    let dataSourceLink = externalObject.querySelector(".data-source-link");
 
-    let supplementTitle = document.createElement("summary");
-    let supplementImage = document.createElement("img");
-    supplementImage.classList.add("supplement-image");
-    supplementImage.loading = "lazy";
-
-    if(values["parsed"]) {
+    if(values["hasResult"]) {
         let data = values["parsed"];
 
+        console.log(data);
+  
+        if(values.refText) {
+            objectName.innerText = values.refText;
+        }
         if(data.title) {
-            supplementTitle.innerText = data.title;
-            supplementElement.appendChild(supplementTitle);
+            objectData.innerText = data.title;
+            if(data.subtitle) {
+                objectData.innerText += ", " + data.subtitle;
+            }
         }
+        if(data.url) {
+            dataSourceLink.innerText = data.url;
+            dataSourceLink.href = data.url;
+        }
+        if(values["refAnchorId"]) {
+            objectVisualization.id = "target-objects-" + values["refAnchorId"];
+        }
+
+        // create object-image
+        let objectImage = document.createElement("img");
+        objectImage.classList.add("object-image");
+        objectImage.loading = "lazy";
+        objectImage.setAttribute("data-zoomable", true);
+
         if (data.images && data.images.length) {
-            supplementImage.src = "https://arachne.dainst.org/data/image/" + data.images[0].imageId;
-            supplementElement.appendChild(supplementImage);
+            objectImage.src = "https://arachne.dainst.org/data/image/" + data.images[0].imageId;
         }
-        if (values.subtitle) {
-          
+        else {
+            objectVisualization.innerText = "[No images available]";
         }
+        objectVisualization.appendChild(objectImage);
     }
     else {
-        supplementTitle.innerText = "Data could not be fetched. Checkout source-link!";
-        supplementElement.appendChild(supplementTitle);
+        objectName.classList.add("warning-text");
+        objectData.classList.add("warning-box");
+        objectName.innerText = "'" + values.refText + "' could not be fetched!";
+        objectData.innerText = "Checkout url of xlink:href: " + values["apiUrl"];
     }
 
-    document.querySelector('#supplement-section').append(supplementElement);
+    // append elements to #objects:
+    document.querySelector('#objects').append(externalObject);
 }
 
-function initMap(mapId, coordinates) {
+function displayGazetteerData(values) {
+
+    let externalObject = createExternalObjectElement(".external-object");
+    let objectName = externalObject.querySelector(".object-name");
+    let objectData = externalObject.querySelector(".object-data");
+    let objectVisualization = externalObject.querySelector(".object-visualization");
+    let dataSourceLink = externalObject.querySelector(".data-source-link"); 
+
+    // enrich elements with parsed data values:
+    console.log( values["refText"], values["parsed"]);
+
+    /* TO FIX:
+    Why Musalla Mezarlığı (values) has values["parsed"] from Attalos-Haus? */
+
+    if(values["hasResult"]) {
+        let data = values["parsed"];
+
+        if(values.refText) {
+            objectName.innerText = values.refText;
+        }
+        if(data.prefName.title !== undefined) {
+            objectData.innerText = data.prefName.title;
+        }
+        if(data.url) {
+            dataSourceLink.innerText = data.url;
+            dataSourceLink.href = data.url;
+        }
+        if(values["refAnchorId"]) {
+            objectVisualization.id = "target-locations-" + values["refAnchorId"];
+        }
+
+        // create map:
+        let map = document.createElement("div");
+        map.id = "map-" + values["refAnchorId"];
+        map.classList.add("map");
+        if(values["parsed"].location && values["parsed"].location.coordinates.length) {
+            coords = values["parsed"].location.coordinates;
+            map.setAttribute("longitude" , coords[0]);
+            map.setAttribute("latitude" , coords[1]);
+        }
+        objectVisualization.appendChild(map);
+    }
+    else {
+        objectName.classList.add("warning-text");
+        objectData.classList.add("warning-box");
+        objectName.innerText = "'" + values.refText + "' could not be fetched!";
+        objectData.innerText = "Checkout url of xlink:href: " + values["apiUrl"];
+    }
+
+    // append elements to #locations
+    document.querySelector('#locations').appendChild(externalObject);
+}
+
+function initMaps() {
+
+    let maps = document.querySelectorAll(".map");
+    maps.forEach(map => {
+        let coords = [];
+        if(map.getAttribute("longitude") !== null && 
+        map.getAttribute("latitude") !== null) {
+            coords.push(map.getAttribute("longitude"));
+            coords.push(map.getAttribute("latitude"));
+        }
+        // no coordinates available
+        else {
+          coords = false;
+        }
+        createMap(map.id, coords);
+    });
+}
+
+function createMap(mapId, coordinates) {
 
     // set tile layers:
     let mapLayer = L.tileLayer.wms("https://tile.openstreetmap.de/{z}/{x}/{y}.png", {
@@ -598,24 +854,32 @@ function initMap(mapId, coordinates) {
         format: "image/jpeg",
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     });
-    // define locations:
-    let location = {lat: coordinates[1], lng: coordinates[0]};
-    
-    // instantiate map:
-    map = L.map(document.querySelector("#" + mapId), {
-        zoom: 8,
-        doubleClickZoom: false,
-        dragging: false,
-        zoomSnap: false,
-        trackResize: false,
-        touchZoom: false,
-        scrollWheelZoom: false,
-        center: location,
-    });
 
-    mapLayer.addTo(map);             // show mapLayer by default
-    L.control.scale().addTo(map);    // show dynamic scale (Maßstab)
-    L.marker(location).addTo(map);   // add a marker to location
+    // define map parameter:
+    let location = (coordinates) ? {lat: coordinates[1], lng: coordinates[0]} : [0,0];
+    let zoom = (coordinates) ? 8 : 1;
+
+    // instantiate map:
+    if(!document.querySelector("#" + mapId + " > .leaflet-pane")) {
+        map = L.map(document.querySelector("#" + mapId), {
+            zoom: zoom,
+            doubleClickZoom: false,
+            dragging: false,
+            zoomSnap: false,
+            trackResize: false,
+            touchZoom: false,
+            scrollWheelZoom: false,
+            center: location,
+        });
+        mapLayer.addTo(map);             // show mapLayer by default
+        L.control.scale().addTo(map);    // show dynamic scale (Maßstab)
+      
+        // add location marker:
+        let marker = L.marker(location).addTo(map);
+        if(!coordinates) {
+            marker.bindPopup("No coordinates available.").openPopup();
+        }
+    }
 }
 
 
