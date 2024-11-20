@@ -107,7 +107,7 @@
          </custom-meta-group>
       </journal-meta>
       <article-meta>
-         <article-id pub-id-type="doi">10.34780/cf6e-prcf</article-id>
+         <article-id pub-id-type="doi">https://doi.org/10.34780/cf6e-prcf</article-id>
          <title-group>
             <article-title>Das neue maschinenlesbare Zeitschriftenmodell des Deutschen Archäologischen Instituts </article-title>
             <subtitle>Ein Werkstattbericht </subtitle>
@@ -489,93 +489,93 @@
                <named-content content-type="paragraph-counter">66</named-content>Wichtiger sind aber die Veränderungen, die die Community herbeiführen muss: Zum einen müssen zeitnah noch jene Standards vereinbart und jene spezifischen Werkzeuge entwickelt werden, die für eine effiziente semi-automatisierte Vorbereitung und Publikation der Dokumente in der Prozesskette noch fehlen. Zum anderen  müssen vor allem die archäologisch arbeitenden Disziplinen beginnen, bei der Vorbereitung ihrer Ergebnispublikationen einen formatkritischeren Blick auf die Inhalte zu werfen, damit vorrangig die Eigenschaften der zu veröffentlichenden Inhalte die Wahl der Medien und Anwendungen für die Publikation bestimmen. Nur unter dieser Voraussetzung wird es mittelfristig möglich sein, Komponenten, die andernorts bereits erfolgreich im Einsatz sind  bzw. die sich im Stadium des Entstehens befinden, in die eigene Produktionsstrecke zu integrieren.</p>
             <p id="p-67">
                <named-content content-type="paragraph-counter">67</named-content>Die vom DAI entwickelten und zur Nachnutzung zur Verfügung gestellten Komponenten können zwar bis zu einem gewissen Grad einen Beitrag dazu leisten, dass auch andere Institutionen vergleichbare Modelle einführen. Entscheidend wird jedoch sein, dass sich die Fachcommunity in Zukunft noch intensiver über Standards im Hinblick auf Digitalisierungsprozesse im Publikationsbereich austauscht, damit das Repertoire an Best Practice-Lösungen, das auf die Bedarfe anderer Wissenschaftsbereiche zugeschnitten ist, für die spezifischen Anforderungen der archäologisch arbeitenden Disziplinen und deren Nachbarwissenschaften ergänzend erweitert werden kann.</p>
-            <sec id="images-container">
-               <title>Abbildungen</title>
-               <fig id="poster-image" fig-type="poster-image">
-                  <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_content_picture.jpg"/>
-               </fig>
-               <fig id="f-1" fig-type="content-image">
-                  <label>Abb. 1</label>
-                  <caption>
-                     <p>Darstellung der Viewer-Ausgabe des Archäologischen Anzeigers</p>
-                  </caption>
-                  <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_1.jpg"/>
-                  <attrib>Design: Tanja Lemke-Mahdavi</attrib>
-               </fig>
-               <fig id="f-2" fig-type="content-image">
-                  <label>Abb. 2</label>
-                  <caption>
-                     <p>Beispiel für einen referenzierten Datendatensatz aus dem Normdatensystem für Ortsnamen und deren geografische Koordinaten iDAI.gazetteer, dessen Vorschau unter »Extra Features« angezeigt wird</p>
-                  </caption>
-                  <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_2.jpg"/>
-                  <attrib>Screenshot: Peter Baumeister</attrib>
-               </fig>
-               <fig id="f-3" fig-type="content-image">
-                  <label>Abb. 3</label>
-                  <caption>
-                     <p>Beispiel für einen Datensatz, der ergänzend zu einem Artikel in einem strukturierten Konvolut in iDAI.objects/Arachne veröffentlicht wurde und dessen Vorschau unter »Supplements« in der Viewer-Version des Artikels angezeigt wird</p>
-                  </caption>
-                  <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_3.jpg"/>
-                  <attrib>Screenshot: Peter Baumeister</attrib>
-               </fig>
-               <fig id="f-4" fig-type="content-image">
-                  <label>Abb. 4</label>
-                  <caption>
-                     <p>Beispiel für einen verlinkten bibliographischen Datensatz in iDAI.bibliography</p>
-                  </caption>
-                  <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_4.jpg"/>
-                  <attrib>Screenshot: Peter Baumeister</attrib>
-               </fig>
-               <fig id="f-5" fig-type="content-image">
-                  <label>Abb. 5</label>
-                  <caption>
-                     <p>Auszug aus dem Tagging-Wortschatz, eingeblendet die korrespondierenden Absatz- und Zeichenformate der Satzdatei</p>
-                  </caption>
-                  <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_5.jpg"/>
-                  <attrib>Screenshot: Peter Baumeister</attrib>
-               </fig>
-               <fig id="f-6" fig-type="content-image">
-                  <label>Abb. 6</label>
-                  <caption>
-                     <p>Ausschnitt aus dem Prüfprotokoll des ersten Preflight-Tests der XSLT-Konvertierungsstrecke</p>
-                  </caption>
-                  <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_6.jpg"/>
-                  <attrib>Screenshot: Peter Baumeister</attrib>
-               </fig>
-               <fig id="f-7" fig-type="content-image">
-                  <label>Abb. 7</label>
-                  <caption>
-                     <p>Der iDAI.bibliography-assistant zum semi-automatisierten Anreichern bibliographischer Normdaten aus iDAI.bibliography/Zenon</p>
-                  </caption>
-                  <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_7.jpg"/>
-                  <attrib>Screenshot: Peter Baumeister</attrib>
-               </fig>
-               <fig id="f-8" fig-type="content-image">
-                  <label>Abb. 8</label>
-                  <caption>
-                     <p>Automatisiert ausgezeichnete .html-Version und Übernahme der korrekten Formatvorlagen in MS Word</p>
-                  </caption>
-                  <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_8.jpg"/>
-                  <attrib>Screenshot: Peter Baumeister</attrib>
-               </fig>
-               <fig id="f-9" fig-type="content-image">
-                  <label>Abb. 9</label>
-                  <caption>
-                     <p>Der Digital Publishing Award in der Kategorie Prozess/Technologie für das Konzept der in Journal-Artikel eingebundenen Forschungsdaten</p>
-                  </caption>
-                  <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_9.jpg"/>
-                  <attrib>Screenshot: Peter Baumeister</attrib>
-               </fig>
-               <fig id="f-10" fig-type="content-image">
-                  <label>Abb. 10</label>
-                  <caption>
-                     <p>Zeitschriften des DAI, die das neue Modell bereits übernommen haben</p>
-                  </caption>
-                  <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_10.jpg"/>
-                  <attrib>Screenshot: Peter Baumeister</attrib>
-               </fig>
-            </sec>
          </sec>
+      </sec>
+       <sec id="images-container">
+         <title>Abbildungen</title>
+         <fig id="poster-image" fig-type="poster-image">
+            <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_content_picture.jpg"/>
+         </fig>
+         <fig id="f-1" fig-type="content-image">
+            <label>Abb. 1</label>
+            <caption>
+               <p>Darstellung der Viewer-Ausgabe des Archäologischen Anzeigers</p>
+            </caption>
+            <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_1.jpg"/>
+            <attrib>Design: Tanja Lemke-Mahdavi</attrib>
+         </fig>
+         <fig id="f-2" fig-type="content-image">
+            <label>Abb. 2</label>
+            <caption>
+               <p>Beispiel für einen referenzierten Datendatensatz aus dem Normdatensystem für Ortsnamen und deren geografische Koordinaten iDAI.gazetteer, dessen Vorschau unter »Extra Features« angezeigt wird</p>
+            </caption>
+            <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_2.jpg"/>
+            <attrib>Screenshot: Peter Baumeister</attrib>
+         </fig>
+         <fig id="f-3" fig-type="content-image">
+            <label>Abb. 3</label>
+            <caption>
+               <p>Beispiel für einen Datensatz, der ergänzend zu einem Artikel in einem strukturierten Konvolut in iDAI.objects/Arachne veröffentlicht wurde und dessen Vorschau unter »Supplements« in der Viewer-Version des Artikels angezeigt wird</p>
+            </caption>
+            <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_3.jpg"/>
+            <attrib>Screenshot: Peter Baumeister</attrib>
+         </fig>
+         <fig id="f-4" fig-type="content-image">
+            <label>Abb. 4</label>
+            <caption>
+               <p>Beispiel für einen verlinkten bibliographischen Datensatz in iDAI.bibliography</p>
+            </caption>
+            <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_4.jpg"/>
+            <attrib>Screenshot: Peter Baumeister</attrib>
+         </fig>
+         <fig id="f-5" fig-type="content-image">
+            <label>Abb. 5</label>
+            <caption>
+               <p>Auszug aus dem Tagging-Wortschatz, eingeblendet die korrespondierenden Absatz- und Zeichenformate der Satzdatei</p>
+            </caption>
+            <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_5.jpg"/>
+            <attrib>Screenshot: Peter Baumeister</attrib>
+         </fig>
+         <fig id="f-6" fig-type="content-image">
+            <label>Abb. 6</label>
+            <caption>
+               <p>Ausschnitt aus dem Prüfprotokoll des ersten Preflight-Tests der XSLT-Konvertierungsstrecke</p>
+            </caption>
+            <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_6.jpg"/>
+            <attrib>Screenshot: Peter Baumeister</attrib>
+         </fig>
+         <fig id="f-7" fig-type="content-image">
+            <label>Abb. 7</label>
+            <caption>
+               <p>Der iDAI.bibliography-assistant zum semi-automatisierten Anreichern bibliographischer Normdaten aus iDAI.bibliography/Zenon</p>
+            </caption>
+            <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_7.jpg"/>
+            <attrib>Screenshot: Peter Baumeister</attrib>
+         </fig>
+         <fig id="f-8" fig-type="content-image">
+            <label>Abb. 8</label>
+            <caption>
+               <p>Automatisiert ausgezeichnete .html-Version und Übernahme der korrekten Formatvorlagen in MS Word</p>
+            </caption>
+            <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_8.jpg"/>
+            <attrib>Screenshot: Peter Baumeister</attrib>
+         </fig>
+         <fig id="f-9" fig-type="content-image">
+            <label>Abb. 9</label>
+            <caption>
+               <p>Der Digital Publishing Award in der Kategorie Prozess/Technologie für das Konzept der in Journal-Artikel eingebundenen Forschungsdaten</p>
+            </caption>
+            <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_9.jpg"/>
+            <attrib>Screenshot: Peter Baumeister</attrib>
+         </fig>
+         <fig id="f-10" fig-type="content-image">
+            <label>Abb. 10</label>
+            <caption>
+               <p>Zeitschriften des DAI, die das neue Modell bereits übernommen haben</p>
+            </caption>
+            <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_10.jpg"/>
+            <attrib>Screenshot: Peter Baumeister</attrib>
+         </fig>
       </sec>
    </body>
    <back>
