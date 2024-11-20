@@ -214,6 +214,7 @@ p {
     -ms-hyphens: auto;
     word-wrap: break-word;
     overflow-wrap: break-word;
+    word-spacing: -0.05em;
     widows: 3;
     orphans: 3;
 }
