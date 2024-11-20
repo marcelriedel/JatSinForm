@@ -1,15 +1,10 @@
-/* style presets */
 :root {
     --nav-header-height: 6vh;
     --content-background: white; /*  #2b2929; */
-    --panel-background: #dfe5e8;
+    --panel-background: #f9f9f9;
     --text-color: #000000;
-    --light-font-family: "Noto Serif Lt", "Noto Sans Egyptian Hieroglyphs", 
-    "Noto Sans Arabic Light", "Noto Sans Devanagari Light", "Noto Sans Anatolian Hieroglyphs", 
-    "Noto Sans CJK TC", "Noto Sans CJK SC", serif;
-    --medium-font-family: "Noto Sans Med", "Noto Sans Egyptian Hieroglyphs", 
-    "Noto Sans Arabic Light", "Noto Sans Devanagari Light", "Noto Sans Anatolian Hieroglyphs", 
-    "Noto Sans CJK TC", "Noto Sans CJK SC", sans-serif;"
+    --primary-font-family: "Noto Serif", serif;
+    --secondary-font-family: "Noto Sans", sans-serif;"
 }
 
 * {
@@ -19,18 +14,9 @@
     margin: 0;
 }
 
-.active {
-    display: block;
-}
-
-.hidden {
-    display: none;
-}
-
-
-/* -- MAIN STYLES ---*/
 html {
    overflow:hidden; 
+   scroll-behavior: smooth;
 }
 
 body {
@@ -52,44 +38,43 @@ body {
     clear: both;
 }
 
+#main-wrapper {
+    margin-left: 3vw;
+}
+
 #text-content-wrapper {
+    font-family: var(--primary-font-family);
     background: var(--content-background);
-    padding: 2vh 2vw 10vh 5vw;
+    padding: 3vh 3vw;
     overflow-y: scroll;
     height: 100vh;
 }
 
+.content-body {
+    border-bottom: 1px solid lightgray;
+}
+
 #additional-resources-wrapper {
+    font-family: var(--secondary-font-family);
     background: var(--panel-background);
-    /* box-shadow: 5px 0px 7px 2px; */
     padding-bottom: 10vh;
     overflow-y: scroll;
     height: 100vh;
 }
 
-/*
 #nav-header {
-    position:fixed;
-    top:0;
-    z-index:100;
-    background: var(--journal-color);
-    width: 100%;
-    height: var(--nav-header-height);
-}
-
-*/
-#nav-header {
-    height: 100%; /* Full-height: remove this if you want "auto" height */
-    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-    z-index: 1; /* Stay on top */
-    top: 0; /* Stay at the top */
+    font-family: var(--secondary-font-family);
+    height: 100%;
+    position: fixed; 
+    z-index: 1; 
+    top: 0;
     left: 0;
     background-color: var(--journal-color);
-    overflow-x: hidden; /* Disable horizontal scroll */
+    overflow-x: hidden; 
 }
 
 nav.context-toggles {
-    padding: 2vh 0;
+    padding: 0;
     text-align: left;
 }
 
@@ -102,30 +87,35 @@ nav.context-toggles li {
     display: inline-block;
 }
 
+i.fa {
+    display: inline-block;
+    font-size: 1.5rem;
+    padding: 0.5vw;
+}
+
 .panel-anchors {
     font-weight: 500;
     text-transform: uppercase;
     color: white;
-    padding: 0.6vw 0.5vw;
-    font-size: 1em;
+    padding: 1vw 0.5vh;
+    font-size: 1rem;
+    color:white;
 }
 
 .panel-anchors:hover {
+    display: block;
     cursor: pointer;
-    background: var(--panel-background);
+    background: var(--content-background);
     color:var(--journal-color);
-    font-weight:600;
 }
 
 .panel-anchors.active {
-    background: var(--panel-background);
+    background: var(--content-background);
     color:var(--journal-color);
-    font-weight:600;
 }
 
 .panel {
-    font-family: var(--medium-font-family);
-    margin-top: var(--nav-header-height);
+    font-family: var(--secondary-font-family);
 }
 
 footer {
@@ -138,34 +128,45 @@ footer {
   text-align: center;
 }
 
+/* Headlines 
+-------------------*/
+
 .title {
     color: var(--journal-color);
-    font-family: var(--medium-font-family);
     font-weight: 500;
 }
 
 .main-title {
-    font-size: 1.5em;
+    font-size: 1.5rem;
     padding: 1.5vh 0;
 }
 
 .section-title {
-    font-size: 1.25em;
+    font-size: 1.25rem;
     padding: 2.5vh 0;
 }
 
 .subsection-title {
-    font-size: 1em;
+    font-size: 1rem;
     padding: 2vh 0;
 }
 
+.panel-title {
+    font-family: var(--primary-font-family);
+    font-size: 1.5rem;
+    padding: 1vw 0;
+}
+
+/* text block elements */
+
 p[id] {
     color: var(--text-color);
-    font-family: var(--light-font-family);
-    font-size: 1em;
-    line-height: 1.5;
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.6;
     margin-bottom: 1vw;
     text-align: justify;
+    word-spacing: -0.05rem;
     word-wrap: break-word;
     overflow-wrap: break-word;
     hyphens: auto;
@@ -175,30 +176,54 @@ p[id] {
 
 li {
     color:#c4c2c2 !important;
-    font-family: var(--light-font-family);
-    font-size:0.9em;
+    font-family: var(--primary-font-family);
+    font-size:0.9rem;
     line-height: 1.5;
 }
 
-/* anchors */
+/* anchors 
+------------------*/
 
 a {
     font-weight: 300;
     text-decoration: none;
-    padding: 0.1vw;
+}
+
+div#doi-link {
+    background: url(https://upload.wikimedia.org/wikipedia/commons/1/11/DOI_logo.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    border-bottom: 1px solid lightgray;
+}
+
+a#doi-anchor {
+    margin-top: 1vh;
+    padding-left: 2vw;
+    color: black;
+    display: block;
+    font-size: 0.9rem;
 }
 
 a.fn-ref {
     color: var(--journal-color);
-    padding: 0.25vw;
+    padding: 0 0.25vw;
 }
 
 a.fig-ref {
-    color:#cd5ca9;
+    color:var(--text-color);
     font-weight:600;
 }
 
+a.bib-ref {
+    cursor: help;
+    background: #f4f4f4;
+    border: 1px dotted var(--journal-color);
+    color: black;
+    padding: 0 0.5%;
+}
+
 a.ext-ref {
+    color: var(--journal-color);
     text-decoration: underline;
 }
 
@@ -212,7 +237,7 @@ a.data-source-link {
 
 table {
     display: grid;
-    font-size: 0.9em;
+    font-size: 0.9rem;
     border: 1px solid #ffffff3b;
     line-height: 1.4;
 }
@@ -232,36 +257,14 @@ td {
     line-break: normal;
 }
 
-details {
-    padding-top: 2vh;
-    color: #211f1f;
-}
-
-summary {
-    font-size: 1em;
-    padding: 1vh;
-}
-
-.topbar-logo-img {
-    width:inherit;
-}
-
-img {
-    width: 100%;
-}
-
-/* inline-graphics */
-
-img.inline-graphic {
-    display: inline-block;
-    width: auto;
-    max-width: 100%;
-}
-
 /* Table of contents (ToC)
 --------------------------- */
 
-ul.toc-list {
+#contents:target {
+    display:block;
+}
+
+ul#toc-list {
     padding: 0;
     margin-top:4vh;
     margin-bottom:5vh;
@@ -269,12 +272,11 @@ ul.toc-list {
 }
 
 .heading-ref {
-    font-family: "Noto Sans ExtLt";
     color: black !important;
     cursor: pointer;
     display: block;
     font-weight: 200;
-    font-size: 1em;
+    font-size: 0.9rem;
 }
 
 .heading-ref-a {
@@ -283,24 +285,26 @@ ul.toc-list {
 }
 
 .heading-ref-a.active {
-    background: white;
+    border-top: 1px solid  var(--journal-color);
+    border-bottom: 1px solid  var(--journal-color);
+    background:white;
     display: inline;
 }
 
 .heading-ref.level-1 {
-    font-size: 1em;
+    font-size: 0.9rem;
     margin: 0.5vh 0;
     font-weight: 600;
 }
 
 .heading-ref.level-2 {
-    font-size: 0.9em;
+    font-size: 0.85rem;
     margin-left: 1.5vw;
     font-weight: 300;
 }
 
 .heading-ref.level-3 {
-    font-size: 0.75em;
+    font-size: 0.8rem;
     margin-left: 3vw;
     font-weight: 300;
 }
@@ -317,87 +321,93 @@ ul.toc-list {
 
 .paragraph-counter {
     color:#b4afa7;
-    font-family:"Noto Sans Light", sans-serif;
     font-size:14px;
     font-style:normal;
     font-weight:300;
     margin-right: 3vw;
 }
 
-/* cover section */
+/* cover section 
+--------------------*/
 .page-header {
-    padding: 4vh 0;
     border-bottom: 1px solid lightgray;
-    margin-bottom: 3vh;
-}
-
-a.doi-ref {
-    color: #929292;
-    text-decoration: underline;
-    display: block;
-    padding-bottom: 3vh;
+    padding: 4vh 0;
+    margin: 2vh 0;
 }
 
 .page-title {
-    font-family: "Noto Serif Lt";
     color: var(--journal-color);
-    font-size: 2.5em;
+    font-size: 2.5rem;
     line-height: 1.2;
     font-weight: 300;
     margin-bottom: 3vh;
-    margin-top: 4vh;
 }
 
 .page-subtitle {
-    font-family: "Noto Serif Lt";
     color: var(--journal-color);
     margin: 0;
-    font-size: 2em;
+    font-size: 1.75rem;
     font-weight: 300;
 }
 
 .page-authors {
-    font-family: "Noto Serif Lt";
     color: #929292;
     font-weight: 200;
     text-transform: uppercase;
-    font-size: 1em;
+    font-size: 1rem;
+    margin-top: 4vh;
 }
 
-/* supplements */
-
-.supplement-image {
-    padding: 1vh 0;
+.page-contributors {
+    color: #929292;
+    font-weight: 200;
+    font-size: 1rem;
+    margin-top: 1vh;
 }
 
-/* footnotes */
+/* (foot)notes section 
+------------------------*/
+#notes:target {
+    display:block;
+}
+
+#notes {
+    font-family: var(--secondary-font-family);
+    margin-left: 2vw;
+    margin-right: 2vw;
+}
 
 div.footnote {
     margin: 1vw 0;
-}
-
-div.footnote > p {
-    display:inline;
-    padding:1vw;
-    font-size: 14px;
     line-height:1;
 }
 
-div.footnote > .label {
-    font-family: var(--light-font-family);
-    font-weight: 600;
+div.footnote > p {
+    font-size: 0.8rem;
+    display:inline;
+    padding:1vw;
+    color: #7e7e7e;
 }
 
-/* references */
+div.footnote > .label {
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* references 
+-----------------*/
+#references:target {
+    display:block;
+}
 
 #references {
-    margin-right: 2vw;
-    margin-left: 2vw;
+    font-family: var(--secondary-font-family);
+    margin-right: 1vw;
+    margin-left: 1vw;
 }
 
 div.reference {
-    font-size: 1em;
-    line-height: 1.2;
+    font-size: 1rem;
     margin: 1vw 0;
     display: flex;
     flex-direction: row;
@@ -406,25 +416,39 @@ div.reference {
 }
 
 div.reference > p {
+    font-size: 0.9rem;
+    line-height: 1.2;
+    color: #7e7e7e;
     display: inline;
+    text-align: left;
     width: 75%;
-    padding-left: 5%;
-    line-height: 1.25;
-    text-align:left;
 }
 
 div.reference > .label {
-    font-family: var(--light-font-family);
+    font-size: 0.9rem;
+    color: #7e7e7e;
     font-weight: 300;
     width: 25%;
 }
 
-/* figure section */
+/* figure section 
+-------------------*/
+
+#figures:target {
+    display:block;
+}
+
+#figures {
+    font-family: var(--secondary-font-family);
+    margin-right: 1vw;
+    margin-left: 1vw;
+}
+
 div.figure-section > figure {
     display:flex;
     flex-direction: column;
     font-size: 0.8em !important;;
-    margin-bottom: 5vh;
+    margin-bottom: 4vh;
     background:white;
 }
 
@@ -432,59 +456,175 @@ div.figure-section > figure.active {
     scroll-margin-top: var(--nav-header-height);
 }
 
+
 figure > img {
+    width: 100%;
     order:1;
 }
 
 figure > span.label {
-    margin: 0 0.5vw;
+    margin: 0;
     order: 2;
 }
 
 figure > figCaption {
-    margin: 0 0.5vw;
+    margin: 0;
     order: 3;
 }
 
 figCaption > p {
     display:inline;
+    color: #7e7e7e !important;
 }
 
 figure > .attribution {
-    margin: 0 0.5vw;
+    color: #7e7e7e;
+    margin: 0;
     order: 4;
 }
 
-/* (foot)notes section */
-#notes {
-    margin-left: 2vw;
-    margin-right: 2vw;
+#fullpage {
+    display: none;
+    position: absolute;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-size: contain;
+    background-repeat: no-repeat no-repeat;
+    background-position: center center;
+    background-color: black;
 }
 
-/* imprint section */
-#metadata {
-    margin-left: 2vw;
-    margin-right: 2vw;
+.topbar-logo-img {
+    width:inherit;
 }
 
+img.inline-graphic {
+    display: inline-block;
+    width: auto;
+    max-width: 100%;
+}
 
-/* external data elements */
-.additional-elements {
-    font-size: 0.8em !important;;
-    margin-bottom: 5vh;
+/* information-section 
+------------------------*/
+#information:target {
+    display:block;
+}
+
+#information {
+    font-family: var(--secondary-font-family);
+    margin-right: 1vw;
+    margin-left: 1vw;
+}
+
+#infos {
+    padding: 1vw;
+    background: #ffffff;
+    border: 1px solid #e1c5c5;
+}
+
+/* locations 
+----------------*/
+#locations:target {
+    display: block;
+}
+
+#locations {
+    font-family: var(--secondary-font-family);
+    margin-right: 1vw;
+    margin-left: 1vw;
+}
+
+.map {
+    height: 300px;
+}
+
+#objects:target {
+    display:block;
+} 
+
+/* objects
+--------------*/
+
+#objects {
+    font-family: var(--secondary-font-family);
+    margin-right: 1vw;
+    margin-left: 1vw;
+}
+
+#objects:target {
+    display: block;
+}
+
+.external-object {
+    font-size: 0.8rem !important;
+    border-bottom:1px solid #e4e4e4;
     background:white;
+    margin-right: -1vw;
+    margin-left: -1vw;
 }
 
 .data-source-info {
-    padding: 0 0.5vw;
+    padding: 0 1vw;
 }
 
 .object-name {
-    padding: 0 0.5vw;
+    padding: 1vh 1vw;
+    font-size: 0.9rem;
+}
+
+.object-visualization {
+    font-style: italic;
+    margin-top: 1vh;
+    padding: 0 1vw;
+}
+
+.object-image {
+    padding: 1vh 0;
+    width: 100%;
+}
+
+.object-data {
+    padding: 0 1vw;
 }
 
 
-/* application related properties */
+/* application related properties 
+----------------------------------*/
+
+details {
+    padding-top: 2vh;
+    color: #211f1f;
+}
+
+summary {
+    font-size: 1rem;
+    padding: 1vh;
+    list-style: none;
+}
+
+summary:hover { 
+    cursor:pointer;
+}
+
+summary::-webkit-details-marker {
+    display: none; 
+}
+
+details summary::before { 
+    color: var(--journal-color);
+    content: "\2B9E";
+    padding-right:0.5vw;
+}
+
+details[open] summary::before {
+    color: var(--journal-color);
+    content:"\2B9F ";
+    padding-right:0.5vw;
+}
+
 .fade-in {
     animation: fadeIn 3s;
     -webkit-animation: fadeIn 3s;
@@ -492,24 +632,39 @@ figure > .attribution {
     -o-animation: fadeIn 3s;
 }
 
+.active {
+    display: block;
+}
+
+.hidden {
+    display: none;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+.visible {
+    visibility: visible;
+}
+
 .warning-box {
-    border: 5px dotted yellow;
+    border: 5px dotted yellow !important;
 }
 
 .warning-text {
-    color:red;
-    background: lightgray;
+    background: #ffb6b6 !important;
 }
 
-/* -- Scrollbar ---*/
-
+/* -- Scrollbar 
+---------------------*/
 ::-webkit-scrollbar {
     background: #ffffff;
     width:1vw;
 }
 
 ::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    -webkit-box-shadow: inset 0 0 1px rgba(0,0,0,0.3);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -544,18 +699,11 @@ figure > .attribution {
 /* FONTS 
 -----------------------*/
 @font-face {
-    font-family: "Noto Serif Lt";
-    src: url(/assets/fonts/NotoSerif-Light.woff2) format("woff2"),
-    	url(/assets/fonts/NotoSerif-Light.woff) format("woff");
-    font-weight: 300;
-    font-style: normal; 
-}
-
-@font-face {
-    font-family: "Noto Serif Med";
-    src: url(/assets/fonts/NotoSerif-Medium.woff2) format("woff2"),
-    	url(/assets/fonts/NotoSerif-Medium.woff) format("woff");
-    font-weight: 500;
+    font-family: "Noto Serif";
+    src: 
+    url(/assets/fonts/NotoSerif-Light.woff2) format("woff2"),
+    url(/assets/fonts/NotoSerif-Light.woff) format("woff");
+    color: blue;
     font-style: normal; 
 }
 
@@ -567,90 +715,17 @@ figure > .attribution {
     font-style: normal; 
 }
 
-@font-face {
-    font-family: "Noto Sans Lt";
-    src: url(/assets/fonts/NotoSans-Light.woff2) format("woff2"),
-    	url(/assets/fonts/NotoSans-Light.woff) format("woff");
-    font-weight: 300;
-    font-style: normal; 
-}
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {}
 
-@font-face {
-    font-family: "Noto Sans Med";
-    src: url(/assets/fonts/NotoSans-Medium.woff2) format("woff2"),
-    	url(/assets/fonts/NotoSans-Medium.woff) format("woff");
-    font-weight: 500;
-    font-style: normal; 
-}
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {}
 
-@font-face {
-    font-family: "Noto Sans SemBd";
-    src: url(/assets/fonts/NotoSans-SemiBold.woff2) format("woff2"),
-    	url(/assets/fonts/NotoSans-SemiBold.woff) format("woff");
-    font-weight: 600;
-    font-style: normal; 
-}
+/* Large devices (desktops, old screens, 992px and up) */
+@media (min-width: 992px) {}
 
-@font-face {
-    font-family: "Noto Sans ExtLt";
-    src: url(/assets/fonts/NotoSans-ExtraLight.woff2) format("woff2"),
-    	url(/assets/fonts/NotoSans-ExtraLight.woff) format("woff");
-    font-weight: 200;
-    font-style: normal; 
-}
+/* X-Large devices (desktop, modern screens, 1200px and up) */
+@media (min-width: 1200px) {}
 
-@font-face {
-    font-family: "Noto Sans Anatolian Hieroglyphs";
-    src: url(/assets/fonts/NotoSansAnatolianHieroglyphs-Regular.ttf) format("ttf");
-    font-weight: normal;
-    font-style: normal; 
-}
-
-@font-face {
-    font-family: "Noto Sans Egyptian Hieroglyph";
-    src: url(/assets/fonts/NotoSansEgyptianHieroglyphs-Regular.ttf) format("ttf");
-    font-weight: normal;
-    font-style: normal; 
-}
-
-@font-face {
-    font-family: "Noto Sans Arabic Light";
-    src: url(/assets/fonts/NotoSansArabic-Light.ttf) format("ttf");
-    font-weight: normal;
-    font-style: normal; 
-}
-
-@font-face {
-    font-family: "Noto Sans Devanagari Light";
-    src: url(/assets/fonts/NotoSansDevanagari-Light.ttf) format("ttf");
-    font-weight: normal;
-    font-style: normal; 
-}
-
-@font-face {
-    font-family: "Noto Sans CJK SC";
-    src: url(/assets/fonts/NotoSansCJKsc-Light.otf) format("otf");
-    font-weight: normal;
-    font-style: normal; 
-}
-
-@font-face {
-    font-family: "Noto Sans CJK TC";
-    src: url(/assets/fonts/NotoSansCJKtc-Light.otf) format("otf");
-    font-weight: normal;
-    font-style: normal; 
-}
-
-@font-face {
-    font-family: "Noto Sans Coptic";
-    src: url(/assets/fonts/NotoSansCoptic-Regular.ttf) format("ttf");
-    font-weight: normal;
-    font-style: normal; 
-}
-
-@font-face {
-    font-family: "Noto Sans Lydian";
-    src: url(/assets/fonts/NotoSansLydian-Regular.ttf) format("ttf");
-    font-weight: normal;
-    font-style: normal; 
-}
+/* XX-Large devices (desktop, larger screens, 1600px and up) */
+@media (min-width: 1600px) {}
