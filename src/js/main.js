@@ -63,10 +63,6 @@ const mediumZoomScript = document.createElement('script');
 mediumZoomScript.type = 'text/javascript';
 mediumZoomScript.src = "https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js";
 
-const zoomistScript = document.createElement('script');
-zoomistScript.type = 'text/javascript';
-zoomistScript.src = "https://cdn.jsdelivr.net/npm/zoomist@2/zoomist.umd.js";
-
 // font awesome 4 icons:
 const fontAwesomeLink = document.createElement('link');
 fontAwesomeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css';
@@ -249,6 +245,7 @@ document.addEventListener('keyup', function (e) {
             pageContents[i].style.display = "flex";
         }
     }
+
     // press t(op) to push figure on topOfPage:
     if (e.key === figureToTop) {
         if (document.querySelector(".active") !== null) {
@@ -290,6 +287,21 @@ document.addEventListener('keyup', function (e) {
         localStorage.setItem("sizeClassSetGlobal", sizeClassSetGlobal);
         window.location.reload();
     }
+    /*
+    if (e.key == "z") {
+        if (document.querySelector(".active") !== null) {
+            let figure = document.querySelector(".active").parentElement;
+            let figureId = figure.id;
+            let figureMap = JSON.parse(localStorage.getItem("figure-map"));
+            figureMap[figureId]["typesettingClass"] = "overmargin";
+            figureMap[figureId]["style"] = false;
+            localStorage.setItem("figure-map", JSON.stringify(figureMap));
+            setTimeout(function () {
+                window.location.reload();
+            }, 2000);
+        };
+    }
+    */
 });
 
 /** -------------------------------------
@@ -417,7 +429,6 @@ async function processXmlDocument(xmlDoc) {
     document.head.appendChild(leafletCssLink);
     document.head.appendChild(leaflet);
     document.head.appendChild(mediumZoomScript); 
-    document.head.appendChild(zoomistScript);
     document.head.appendChild(fontAwesomeLink);
 }
 
@@ -441,16 +452,18 @@ async function preflightXmlRequest(xmlDoc) {
         let element = tagConversionMap[key];
         if(element.hasOwnProperty("obligatory")) {
             if(element.obligatory) {
-                isObligatory.push(key)
+                isObligatory.push(key);
             }
         }
     });
+ 
     // check availability of critical xml elements:
     for (let i = 0; i < isObligatory.length; i++) {
         let element = xmlDoc.querySelector(isObligatory[i]);
         // is not available
         if(element === null) {
             errorText = "<" + isObligatory[i] + ">-element missing";
+            console.log(errorText);
             errorConsole.append(errorText);
             return(errorConsole);
         }
@@ -547,7 +560,7 @@ function convertXMLToHtmlBody(xmlDoc) {
     }
 
     // assign generated element-id if missing:
-    let textContentElements = xmlBody.querySelectorAll("p,.title,li,table,pre,code");
+    let textContentElements = xmlBody.querySelectorAll("p,.title,ul,ol,li,table,pre,code");
     for (let i = 0; i < textContentElements.length; i++) {
         // use loop id to define element-id (can´t be random-generated)
         if(!textContentElements[i].id) {
@@ -649,8 +662,10 @@ function convertElementsByTagConversionMap(xmlBody, tagConversionMap) {
                     }
                     newElement.setAttribute(attributeKey, attributeValue);
                 }
-                // transfer content and replace xml-element:
+                // transfer content
                 newElement.innerHTML = xmlElements[i].innerHTML;
+
+                // replace xml-element:
                 xmlElements[i].replaceWith(newElement);
             }
         }
@@ -1006,7 +1021,7 @@ function controlInteractJs() {
 
                     Object.assign(event.target.style, {
                         width: `${event.rect.width}px`,
-                        height: `${event.rect.height}px`,
+                        // height: `${event.rect.height}px`,
                         transform: `translate(${x}px, ${y}px)`
                     });
 
@@ -1229,7 +1244,8 @@ function downloadHTMLDocument() {
         "  <link href='https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap' rel='stylesheet'></link>" +
         "  <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' type='text/css' rel='stylesheet'></link>" +
         "  <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js'></script>" +
-        " <style>" + viewerStyles + "</style>" +
+        "  <script type='text/javascript' src='https://publications.test.dainst.org/journals/public/journals/1/document-interactive.js'></script>" +
+        "  <style>" + viewerStyles + "</style>" +
         "</head>" +
         documentBody +
     "</html>";
@@ -1264,4 +1280,4 @@ function base64convert(file) {
       console.log(e.target.result)
     }
     reader.readAsDataURL(file)
-  }
+}
