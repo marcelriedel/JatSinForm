@@ -49,17 +49,16 @@ body {
     overflow-y: scroll;
     height: 100vh;
 }
-
-.content-body {
-    border-bottom: 1px solid lightgray;
-}
-
 #additional-resources-wrapper {
     font-family: var(--secondary-font-family);
     background: var(--panel-background);
     padding-bottom: 10vh;
     overflow-y: scroll;
     height: 100vh;
+}
+
+.content-body {
+    border-bottom: 1px solid lightgray;
 }
 
 #nav-header {
@@ -219,7 +218,7 @@ a.bib-ref {
     background: #f4f4f4;
     border: 1px dotted var(--journal-color);
     color: black;
-    padding: 0 0.5%;
+    padding: 0.2rem;
 }
 
 a.ext-ref {
@@ -447,7 +446,7 @@ div.reference > .label {
 div.figure-section > figure {
     display:flex;
     flex-direction: column;
-    font-size: 0.8em !important;;
+    font-size: 0.9rem !important;;
     margin-bottom: 4vh;
     background:white;
 }

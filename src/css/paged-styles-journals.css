@@ -16,7 +16,7 @@
     --line-height-cap: 1.37; /* 10pt to 7.3pt */
     --li-font-size: 9.3pt;
     --imgMarginBottom: 2.5mm;
-    --floatFigureMarginToText: 10mm;
+    --floatFigureMarginToText: 7.5mm;
     --floatFigureMarginBottom: 7.5mm;
     --floatFigureOffsetToMarginArea: -40mm;
     --figureMarginBottomDefault: 7.5mm;
@@ -97,8 +97,9 @@
     /* margin-top: 150%;   */
     margin-left: 30mm;
     margin-right: 30mm;
-    background: var(--background-url);
-    background-repeat: no-repeat;
+    background: var(--background-url) var(--journal-color);
+    background-size:contain;
+    background-repeat: repeat;
 
     @bottom-right {
         content: "";
@@ -533,7 +534,7 @@ span.footnote {
     font-family: var(--long-text-font-family);
     font-size: var(--footnote-font-size);
     font-weight: 300; /* light */
-    line-height: 1.25; /* 8.75pt to 7pt */
+    line-height: 1.2; /* 8.75pt to 7pt */
     float: footnote;
 }
 
@@ -889,7 +890,7 @@ styles for classified images
     float: right;
     clear: both;
     margin-right: var(--floatFigureOffsetToMarginArea) !important;
-    margin-left: var( --floatFigureMarginToText) !important;
+    margin-left: var(--floatFigureMarginToText) !important;
     margin-bottom: var(--floatFigureMarginBottom) !important;
     margin-top: 5mm !important;
 }
@@ -898,7 +899,7 @@ styles for classified images
     float: left;
     clear: both;
     margin-left: var(--floatFigureOffsetToMarginArea) !important;
-    margin-right: var( --floatFigureMarginToText) !important;
+    margin-right: var(--floatFigureMarginToText) !important;
     margin-bottom: var(--floatFigureMarginBottom) !important;
     margin-top: 5mm !important;
 }
@@ -907,7 +908,7 @@ styles for classified images
     float: right;
     clear: both;
     margin-right: var(--floatFigureOffsetToMarginArea) !important;
-    margin-left: var( --floatFigureMarginToText) !important;
+    margin-left: var(--floatFigureMarginToText) !important;
     margin-bottom: var(--floatFigureMarginBottom) !important;
     margin-top: 5mm !important;
 }
