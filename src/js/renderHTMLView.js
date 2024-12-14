@@ -84,20 +84,6 @@ const navigationPanelsDocument = [];
             img.onerror = function(){this.style.display='none';};
             img.setAttribute("loading", "lazy");
             img.setAttribute("data-zoomable", true);
-
-            /*
-            let zoomistContainer = document.createElement("div");
-            zoomistContainer.classList.add("zoomist-container");
-            let zoomistWrapper = document.createElement("div");
-            zoomistWrapper.classList.add("zoomist-wrapper");
-            let zoomistImage = document.createElement("div");
-            zoomistImage.classList.add("zoomist-image");
-            zoomistWrapper.appendChild(zoomistImage);
-            zoomistContainer.appendChild(zoomistWrapper);
-            img.parentElement.appendChild(zoomistContainer);
-            zoomistImage.appendChild(img);
-            */
-
         });
 
         // add styles and fade-in
@@ -112,10 +98,6 @@ const navigationPanelsDocument = [];
         enhanceDocumentInfosTable();
         // default tab:
         showSelectedPanel("contents");
-
-        /* can i query the image itself ?*/
-        let zoomistElement = document.querySelector('.medium-zoom-overlay');
-        new Zoomist(zoomistElement);
     }
 });
 
@@ -251,7 +233,6 @@ function createContentPanels(contentBody) {
     if(footnoteSection) {
         let bibRefs = footnoteSection.querySelectorAll("a.bib-ref");
         addTitleOfResourcesToBibRefTitle(bibRefs);
-
         let panel = createPanel("notes", false, footnoteSection);
         additionalResourcesWrapper.appendChild(panel);
         navigationPanelsDocument.push("notes");
@@ -276,6 +257,12 @@ function createContentPanels(contentBody) {
     // create panel objects:       
     if(supplementLinksCollection["objects"].length) {
         let panel = createPanel("objects", "Objects", false);
+        // add progress-bar:
+        let fetchProgressBar = document.createElement("div");
+        fetchProgressBar.id = "fetchProgressBar";
+        fetchProgressBar.classList.add("warning-box");
+        panel.appendChild(fetchProgressBar);
+        // fetch data:
         fetchExternalData(supplementLinksCollection["objects"]);
         additionalResourcesWrapper.appendChild(panel);
         navigationPanelsDocument.push("objects");
@@ -305,34 +292,51 @@ function enhanceDocumentInfosTable() {
     let data = document.querySelectorAll(".data-element");
     let locations = document.querySelectorAll(".location");
 
+    let paragraphAllChars = 0;
+    paragraphs.forEach(function(paragraph) {
+        paragraphAllChars += paragraph.innerText.trim().length;
+    });
+
+    let footnoteAllChars = 0;
+    notes.forEach(function(note) {
+        footnoteAllChars += note.innerText.trim().length;
+    });
+
     let infos = document.querySelector("#infos");
     let tableData =
-    "<tr><td>Paragraphs:</td><td>" + paragraphs.length + "</td></tr>" +
-    "<tr><td>Sections:</td><td>" + sections.length + "</td></tr>" +
-    "<tr><td>Figures:</td><td>" + figures.length + "</td></tr>" +
-    "<tr><td>Notes:</td><td>" + notes.length + "</td></tr>" +
-    "<tr><td>References:</td><td>" + references.length + "</td></tr>" +
-    "<tr><td>Objects:</td><td>" + data.length + "</td></tr>" +
-    "<tr><td>Locations:</td><td>"+ locations.length + "</td></tr>";
+        "<tr><td>Paragraphs:</td><td>" + paragraphs.length + "</td></tr>" +
+        "<tr><td>- Zeichen (mit Leerzeichen)</td><td>" + paragraphAllChars + "</td></tr>" +
+        "<tr><td>Sections:</td><td>" + sections.length + "</td></tr>" +
+        "<tr><td>Figures:</td><td>" + figures.length + "</td></tr>" +
+        "<tr><td>Notes:</td><td>" + notes.length + "</td></tr>" +
+        "<tr><td>- Zeichen (mit Leerzeichen)</td><td>" + footnoteAllChars + "</td></tr>" +
+        "<tr><td>Bibliographical References:</td><td>" + references.length + "</td></tr>" +
+        "<tr><td>External Objects:</td><td>" + data.length + "</td></tr>" +
+        "<tr><td>External Locations:</td><td>"+ locations.length + "</td></tr>";
     infos.innerHTML = tableData;
 }
 
 function addTitleOfResourcesToBibRefTitle(bibRefs) {
   
-    bibRefs.forEach(function(bibRef){
+    bibRefs.forEach(function(bibRef) {
         let refTarget;
         let target;
         if(bibRef.href !== null && bibRef.href) {
             refTarget = bibRef.getAttribute("href");
-            target = document.querySelector(refTarget);
-            let bibTitle;
-            if(target !== null) {
-                bibTitle = target.querySelector("p");
-                if(bibTitle !== null && bibTitle.textContent) {
-                    bibTitle = bibTitle.textContent.trim();
-                    bibTitle = bibTitle.replace(/[\n\r]+|[\s]{2,}/g, ' ');
-                } else ( bibTitle = "No title found");
-                bibRef.title = bibTitle;
+            if(!refTarget.includes(' ')) {
+                target = document.querySelector(refTarget);
+                let bibTitle;
+                if(target !== null) {
+                    bibTitle = target.querySelector("p");
+                    if(bibTitle !== null && bibTitle.textContent) {
+                        bibTitle = bibTitle.textContent.trim();
+                        bibTitle = bibTitle.replace(/[\n\r]+|[\s]{2,}/g, ' ');
+                    } else ( bibTitle = "No title found");
+                    bibRef.title = bibTitle;
+                }
+            }
+            else {
+                console.warn("'" + refTarget + "' is not a valid selector");
             }
         }
     });
@@ -487,10 +491,15 @@ function focusTargetsOnHoverReferences() {
 
     const observer = new IntersectionObserver(references => {
         references.forEach(reference => {
+
             // get target reference:
             let targetRefId = reference.target.getAttribute("href");
-            // query target:         
-            let target = document.querySelector(targetRefId);
+            // query target:
+            let target;
+            if(!targetRefId.includes(' ')) {        
+                 target = document.querySelector(targetRefId);
+            } else target = null;
+
             // reference comes into viewport (at bottom)
             if (reference.isIntersecting) { 
                  // handle target:
@@ -565,6 +574,10 @@ function extractSupplementLinks() {
                     targetPrefix = "objects";
                     supplementLinksCollection["objects"].push(urlProperties);
                 }
+                if(/field/.test(apiRefUrl.apiSource)) {
+                    targetPrefix = "objects";
+                    supplementLinksCollection["objects"].push(urlProperties);
+                }
                 /* Zenon-Links? 
                 ----------------*/
             }
@@ -580,24 +593,26 @@ function getApiRefUrl(url) {
     let apiRefUrl = {};
     if(url.protocol !== "https") {url.protocol = "https";}
 
+    let placeId;
     switch (true) {
         case (/arachne.dainst.org/.test(url.hostname)):
             apiRefUrl.apiUrl = url.origin + "/data" + url.pathname;
             apiRefUrl.apiSource = "arachne";
             break;
         case (/gazetteer.dainst.org/.test(url.hostname)):
-            let placeId = url.pathname.split("/")[2];
+            placeId = url.pathname.split("/")[2];
             if(placeId !== undefined) {
                 apiRefUrl.apiUrl = "https://gazetteer.dainst.org/doc/" + placeId;
                 apiRefUrl.apiSource = "gazetteer";
             }
             break;
-        /*
-        case (/field.idai.world\/document/.test(url.hostname)):
-            apiRefUrl.apiUrl = "Folgt";
-            apiRefUrl.apiSource = "field";
+        case (/field.idai.world/.test(url.hostname)):
+            placeId = url.pathname.split("/")[3];;
+            if(placeId !== undefined) {
+                apiRefUrl.apiUrl = "https://field.idai.world/api/documents/" + placeId;
+                apiRefUrl.apiSource = "field";
+            }
             break;
-        */
     }
     return(apiRefUrl);
 }
@@ -623,18 +638,20 @@ async function fetchExternalData(supplementsLinks) {
         let result;
         if(response.status === 200) {
             result = await response.json();
-
-            if(result["code"] !== 400) {
-                supplementsLinks[i]["result"] = result;
-            }
-            else {
+            // check results:
+            if(result["code"] === 400 || result["code"] === 300) {
                 supplementsLinks[i]["result"] = false;
             }
+            else {
+                supplementsLinks[i]["result"] = result;
+            }
+            // show progress state:
+            let progressState = "Fetching data from: " + apiRefUrl;
+            document.querySelector("#fetchProgressBar").innerText = progressState;
         }
-        else {
-            supplementsLinks[i]["result"] = false;
-        }
+        else {supplementsLinks[i]["result"] = false;}
     }
+
     // render external data:
     renderExternalData(supplementsLinks);
 }
@@ -646,9 +663,10 @@ function renderExternalData(supplementsLinks) {
 
     // process each supplement link:
     for (let i = 0; i < supplementsLinks.length; ++i) {
-        values["refText"] = supplementsLinks[i]["refText"];
+        values["refText"] = supplementsLinks[i]["refText"].trim();
         values["refAnchorId"] = supplementsLinks[i]["refAnchorId"];
         values["apiUrl"] = supplementsLinks[i]["apiUrl"];
+        values["url"] = supplementsLinks[i]["url"];
  
         // check result:
         result = supplementsLinks[i]["result"];
@@ -660,10 +678,13 @@ function renderExternalData(supplementsLinks) {
                 values["parsed"] = parseGazetteerData(result);
                 displayGazetteerData(values);
                 break;
-
             case (/arachne/.test(supplementsLinks[i]["apiSource"])):
                 values["parsed"] = parseArachneData(result);
                 displayArachneData(values);
+                break;
+            case (/field/.test(supplementsLinks[i]["apiSource"])):
+                values["parsed"] = parseFieldData(result);
+                displayFieldData(values);
                 break;
         }
     }
@@ -671,6 +692,7 @@ function renderExternalData(supplementsLinks) {
 }
 
 function parseArachneData(data) {
+
     return {
         "title": (data.title !== undefined) ? data.title : false,
         "subtitle": (data.subtitle !== undefined) ? data.subtitle : false,
@@ -678,6 +700,43 @@ function parseArachneData(data) {
         "url": (data["@id"] !== undefined) ? data["@id"] : false
     };
 }
+
+function parseFieldData(data) {
+
+    // hide fetchProgressBar:
+    let fetchProgressBar = document.querySelector("#fetchProgressBar");
+    fetchProgressBar.style.display = "none";
+
+    let imageSource = false;
+    let shortDescription = (data.resource.shortDescription !== undefined) ? data.resource.shortDescription : false;
+    let group = data.resource.groups.find(group => group.fields.map(field => field.name).includes('isDepictedIn'));
+    let targets = group ? group.fields.find(field => field.name === 'isDepictedIn').targets : false;
+
+    let categoryName;
+    let primaryImageId;
+    let imageApiUrl;
+    let imageSpecs;
+
+    if(targets) {
+        // extract first image of resource
+        categoryName = targets[0].resource.category.name;
+        if(categoryName == "Photo" || categoryName == "Drawing") {
+            primaryImageId = targets[0].resource.id;
+            imageApiUrl = "https://field.idai.world/api/images/" + data.project + "/" + primaryImageId + ".jp2";
+            imageSpecs = "/x/full/!500,500/0/default.jpg"; // watch out: https://iiif.io/api/image/2.0/
+            imageSource = imageApiUrl + imageSpecs;
+        }
+          // parse descriptionObject (has language key)
+        if(shortDescription[Object.keys(shortDescription)[0]] !== undefined) {
+            shortDescription = shortDescription[Object.keys(shortDescription)[0]];
+        }
+    }
+    return {
+        "project": data.project,
+        "shortDescription": shortDescription,
+        "imageSource": imageSource
+    };
+};
 
 function parseGazetteerData(data) {
     return {
@@ -775,6 +834,55 @@ function displayArachneData(values) {
     document.querySelector('#objects').append(externalObject);
 }
 
+function displayFieldData(values) {
+
+    let externalObject = createExternalObjectElement(".external-object");
+    let objectName = externalObject.querySelector(".object-name");
+    let objectData = externalObject.querySelector(".object-data");
+    let objectVisualization = externalObject.querySelector(".object-visualization");
+    let dataSourceLink = externalObject.querySelector(".data-source-link");
+
+    if(values["hasResult"]) {
+        let data = values["parsed"];
+        if(values.refText) {
+            objectName.innerText = values.refText;
+        }
+        if(data.shortDescription) {
+            objectData.innerText = data.shortDescription;
+        }
+        if(values["url"]) {
+            dataSourceLink.innerText = values["url"];
+            dataSourceLink.href = values["url"];
+        }
+        if(values["refAnchorId"]) {
+            objectVisualization.id = "target-objects-" + values["refAnchorId"];
+        }
+
+        // create object-image
+        let objectImage = document.createElement("img");
+        objectImage.classList.add("object-image");
+        objectImage.loading = "lazy";
+        objectImage.setAttribute("data-zoomable", true);
+
+        if (data.imageSource) {
+            objectImage.src = data.imageSource;
+        }
+        else {
+            objectVisualization.innerText = "[No images available]";
+        }
+        objectVisualization.appendChild(objectImage);
+    }
+    else {
+        objectName.classList.add("warning-text");
+        objectData.classList.add("warning-box");
+        objectName.innerText = "'" + values.refText + "' could not be fetched!";
+        objectData.innerText = "Checkout url of xlink:href: " + values["apiUrl"];
+    }
+
+    // append elements to #objects:
+    document.querySelector('#objects').append(externalObject);
+}
+
 function displayGazetteerData(values) {
 
     let externalObject = createExternalObjectElement(".external-object");
@@ -784,7 +892,7 @@ function displayGazetteerData(values) {
     let dataSourceLink = externalObject.querySelector(".data-source-link"); 
 
     // enrich elements with parsed data values:
-    console.log( values["refText"], values["parsed"]);
+    // console.log( values["refText"], values["parsed"]);
 
     /* TO FIX:
     Why Musalla Mezarlığı (values) has values["parsed"] from Attalos-Haus? */
@@ -810,10 +918,15 @@ function displayGazetteerData(values) {
         let map = document.createElement("div");
         map.id = "map-" + values["refAnchorId"];
         map.classList.add("map");
-        if(values["parsed"].location && values["parsed"].location.coordinates.length) {
-            coords = values["parsed"].location.coordinates;
-            map.setAttribute("longitude" , coords[0]);
-            map.setAttribute("latitude" , coords[1]);
+
+        // assign coordinates:
+        if(values["parsed"].location) {
+            if(values["parsed"].location.coordinates) {
+                coords = values["parsed"].location.coordinates;
+                map.setAttribute("longitude" , coords[0]);
+                map.setAttribute("latitude" , coords[1]);
+            }
+            else {console.log("place has shape.coordinates only", values["parsed"])}
         }
         objectVisualization.appendChild(map);
     }
