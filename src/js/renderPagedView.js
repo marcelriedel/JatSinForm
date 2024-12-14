@@ -67,17 +67,17 @@ function controlPagedJsHandler() {
         renderNode(sourceNode, renderNode, Layout) {
 
             if (sourceNode && sourceNode.nodeType == Node.ELEMENT_NODE) {
-
                 // get textContentMap and parsedContent:
                 let textContentMap = JSON.parse(localStorage.getItem("text-content-map"));
+                delete textContentMap["documentId"];  // skip documentId:
                 let parsedContent = Layout.hooks.afterParsed.context.source.firstChild;
-
+             
                 // handle layout of text-content-elements:
-                if (textContentMap[sourceNode.id] && !textContentMap[sourceNode.id]["isSet"]) {
+                if (textContentMap[sourceNode.id] !== undefined && !textContentMap[sourceNode.id]["isSet"]) {
                     // define nodeParams (e.g. position on page, figure references):
                     let nodeParams = defineSourceNodeParameter(sourceNode, renderNode, parsedContent);
 
-                    // exclude figures for defined paragraphs (first text page)
+                    // exclude figures for defined paragraphs (first text page):
                     if(nodeParams["contexts"]["pageId"] === firstTextPageId ) {
                         if(nodeParams["currentFigure"]) {
                             pushFigRefToNextNode(sourceNode.id, nodeParams["currentFigure"].id);
@@ -90,6 +90,7 @@ function controlPagedJsHandler() {
                     else {
                         processFigureEnhancing(nodeParams);
                     }
+
                     // handle over rest of figRefs which exceeds the limit maxNumFigures
                     let maxNumFigures = 2; // limit of figures, each one single node can handle
                     if(nodeParams["figRefs"]) {
@@ -97,6 +98,7 @@ function controlPagedJsHandler() {
                             pushFigRefToNextNode(sourceNode.id, nodeParams["figRefs"][i]);
                         }
                     }
+
                     // set isSet flag in text-content-map:
                     updateTextContentMap(sourceNode.id, "isSet", true);
 
@@ -164,8 +166,6 @@ function controlPagedJsHandler() {
                 let element = footnoteSpans[i];
                 element.innerHTML = URLifyString(element.innerText);
             }
-            // recreateAnchorsInFootnoteSpans(pageElement, page);
-
             // check urls:
             checkQualityOfUrls();
 
@@ -178,7 +178,7 @@ function controlPagedJsHandler() {
          *  pages → array that contains all page nodes
          */
         afterRendered(pages) {
-            if (pages) {
+            if(pages) {
                 updateStorageEventListener("Ready");
                 let documentId = getDocumentStateProperty("documentId");
                 let url = documentId;
@@ -363,8 +363,8 @@ function createAbstractSection(content, selector) {
         let kwdGroup = content.querySelectorAll(".kwd-group");
         if(kwdGroup.length) {
             for (let i = 0; i < kwdGroup.length; i++) {
-                let keywordsLang = kwdGroup[i].getAttribute("xml:lang");
-                let abstractLang = abstract.getAttribute("xml:lang");
+                let keywordsLang = kwdGroup[i].getAttribute("lang");
+                let abstractLang = abstract.getAttribute("lang");
                 // if keywords correspond to abstractLang
                 if(keywordsLang === abstractLang) {
                     kwHeadline = kwdGroup[i].querySelector(".title");
@@ -1062,7 +1062,7 @@ function createTextContentMap(parsedContent, previousMap) {
 
     // get content-body and define text-content-selector
     let contentBody = parsedContent.querySelector(".content-body");
-    let selector = "p,table,ul,ol,li,pre,code,.title";
+    let selector = "p,ul,ol,li,table,pre,code,.title";
 
     // select text-content elements:;
     if(contentBody.querySelectorAll(selector) !== null) {
@@ -1087,6 +1087,7 @@ function createTextContentMap(parsedContent, previousMap) {
                     }
                 }
             }
+       
             // count amout of figures and text elements within section
             let parent = element.parentElement;
             if (parent && parent.tagName === "SECTION") {
@@ -1144,30 +1145,6 @@ function updateTextContentMap(currentNodeId, property, value) {
     }
     // save updated figure map:
     localStorage.setItem("text-content-map", JSON.stringify(textContentMap));
-}
-
-/**
- * get properties of next element in textContentMap
- * @param {JSON} textContentMap textContentMap (with figRefs, position and other params) will be saved in local storage
- * @param {string} currentNodeId id of regular text-node (e.g. paragraphs) 
- * @returns {JSON, boolean=false} JSON-properties of next element or boolean=false;
- */
-function getNextElementInTextContentMap(textContentMap, currentNodeId) {
-
-    // find position of current node:
-    let currentNodePosition = textContentMap[currentNodeId]["position"];
-    let nextNodeId = Object.keys(textContentMap)
-        .find(key => textContentMap[key]["position"] === currentNodePosition + 1);
- 
-    // get next element:
-    let nextElement;
-    if(textContentMap[nextNodeId] !== undefined) {
-        nextElement = textContentMap[nextNodeId];
-    }
-    else {
-        nextElement = false;
-    }
-    return (nextElement);
 }
 
 /**
@@ -1240,7 +1217,6 @@ function getNextFigRefs(currentNodeId) {
     let textContentMap = JSON.parse(localStorage.getItem("text-content-map"));
     let figureMap = JSON.parse(localStorage.getItem("figure-map"));
     let currentNodePosition = textContentMap[currentNodeId]["position"];
-    delete textContentMap["documentId"];  // skip documentId:
 
     // find next figure references in all textElement within rangeNextFigRefs:
     let nextFigRefs = [];
@@ -1318,13 +1294,19 @@ function sortNextFigRefsByFigurePosition(nextFigRefs) {
 function pushFigRefToNextNode(currentNodeId, figureId) {
 
     if(currentNodeId !== undefined && figureId !== undefined) {
+        
+        // get textContentMap
         let textContentMap = JSON.parse(localStorage.getItem("text-content-map"));
-        let nextNode = getNextElementInTextContentMap(textContentMap, currentNodeId);
+
+        // get nextNodeId by position of current node:
+        let currentNodePosition = textContentMap[currentNodeId]["position"];
+        let nextNodeId = Object.keys(textContentMap)
+        .find(key => textContentMap[key]["position"] === currentNodePosition + 1);
 
         // push figRef to next node
-        if (nextNode && nextNode["figRefs"]) {
-            if(!nextNode["figRefs"].includes(figureId)) {
-                nextNode["figRefs"].push(figureId);
+        if (textContentMap[nextNodeId] !== undefined) {
+            if(!textContentMap[nextNodeId]["figRefs"].includes(figureId)) {
+                textContentMap[nextNodeId]["figRefs"].push(figureId);
             }
         }
         // save updated figure map:
@@ -1712,6 +1694,7 @@ function processFigureEnhancing(nodeParams) {
     let keys = classes["beforeCurrent"] + "#" + classes["current"]  + "#" + classes["next"];
     let figConstellations = JSON.parse(localStorage.getItem("fig-constellations"))[0];
     let set = figConstellations[keys];
+
     if(set && set !== undefined) {
         // set final layout specs of figures:
         if(currentFigure) setLayoutSpecsOfFigure(currentFigure, set["currentFigure"][1]);
@@ -2009,8 +1992,8 @@ function figuresFitInCurrentPageFrame(set, nodeParams) {
         }     
     }
     // check setting of current figure only:
-    if(set["currentFigure"][0] && !set["nextFigure"][0]) {
-        if((remainingSpace > clientHeightCurrentFigure)) {
+    else if(set["currentFigure"][0]) {
+        if(remainingSpace > clientHeightCurrentFigure) {
             fitsCurrentFigure = true;
             fitsNextFigure = false;
         }
@@ -2019,7 +2002,11 @@ function figuresFitInCurrentPageFrame(set, nodeParams) {
             fitsNextFigure = false;
         }
     }
-
+    else {
+        fitsCurrentFigure = false;
+        fitsNextFigure = false;
+    }
+ 
     // exclude pages which have n-Figures already:
     if(contexts["isPageFigureMax"]) {
         fitsCurrentFigure = false;
@@ -2284,12 +2271,12 @@ TEST New Functions
 function insertPseudoNodeAtEndOfSections(nodeParams, parsedContent) {
 
     /* usage in renderNode:
-            /* create pseudo nodes in case of overcrowding of figure references:
+        // create pseudo nodes in case of overcrowding of figure references:
             let nextParagraph = getNextElementInTextContentMap(textContentMap, sourceNode.id);
             if(!nextParagraph && nodeParams["numFigRefs"] > 0) {
                 insertPseudoNodeAtEndOfSections(nodeParams, parsedContent);
                 nodeParams["figRefs"] = false;
-            }
+        }
     */
                         
     let pseudoNode = document.createElement("p");
