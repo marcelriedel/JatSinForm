@@ -1,6 +1,7 @@
 [{
   "AA": {
-    "journal-main-color": "#E2510C",
+    "journalId": "AA",
+    "journalMainColor": "#E2510C",
     "figureTypesettingClass": {
       "small-landscape": "float-w-col-6",
       "medium-landscape": "overmargin",
@@ -24,7 +25,8 @@
     }
   },
   "JoGA": {
-    "journal-main-color": "#515249",
+    "journalId": "JoGA",
+    "journalMainColor": "#515249",
     "figureTypesettingClass": {
       "small-landscape": "float-w-col-6",
       "medium-landscape": "overmargin",
@@ -48,7 +50,7 @@
     }
   },
   "e-DAI-F": {
-    "journal-main-color": "#164194",
+    "journalMainColor": "#164194",
     "figCaptionsAtPageBottom": true,
     "figureTypesettingClass": {
       "small-landscape": "regular",
@@ -71,7 +73,8 @@
     }
   },
   "FdAI": {
-    "journal-main-color": "#557ebb",
+    "journalId": "FdAI",
+    "journalMainColor": "#557ebb",
     "figureTypesettingClass": {
       "small-landscape": "float-w-col-6",
       "medium-landscape": "regular",
@@ -95,7 +98,8 @@
     }
   },
   "MM": {
-    "journal-main-color": "#0092d0",
+    "journalId": "MM",
+    "journalMainColor": "#0092d0",
     "figureTypesettingClass": {
       "small-landscape": "float-w-col-6",
       "medium-landscape": "overmargin",
@@ -119,7 +123,8 @@
     }
   },
   "RM": {
-    "journal-main-color": "#002E54",
+    "journalId": "RM",
+    "journalMainColor": "#002E54",
     "figureTypesettingClass": {
       "small-landscape": "float-w-col-6",
       "medium-landscape": "overmargin",
@@ -143,7 +148,8 @@
     }
   },
   "PhDAI": {
-    "journal-main-color": "#50bcbd",
+    "journalId": "PhDAI",
+    "journalMainColor": "#50bcbd",
     "figureTypesettingClass": {
       "small-landscape": "float-w-col-6",
       "medium-landscape": "overmargin",
@@ -167,7 +173,8 @@
     }
   },
   "JdI": {
-    "journal-main-color": "#004b87",
+    "journalId": "JdI",
+    "journalMainColor": "#004b87",
     "figureTypesettingClass": {
       "small-landscape": "float-w-col-6",
       "medium-landscape": "overmargin",
@@ -191,7 +198,8 @@
     }
   },
   "IM": {
-    "journal-main-color": "#6c1d45",
+    "journalId": "IM",
+    "journalMainColor": "#6c1d45",
     "figureTypesettingClass": {
       "small-landscape": "float-w-col-6",
       "medium-landscape": "overmargin",
@@ -215,7 +223,8 @@
     }
   },
   "MDAIK": {
-    "journal-main-color": "rgb(182, 0, 75)",
+    "journalId": "MDAIK",
+    "journalMainColor": "rgb(182, 0, 75)",
     "figureTypesettingClass": {
       "small-landscape": "float-w-col-6",
       "medium-landscape": "overmargin",
@@ -239,10 +248,12 @@
     }
   },
   "ReiseF": {
-    "journal-main-color": "#002E54"
+    "journalId": "ReiseF",
+    "journalMainColor": "#002E54"
   },
   "GGeschichte": {
-    "journal-main-color": "rgb(151, 139, 139)",
+    "journalId": "GGeschichte",
+    "journalMainColor": "rgb(151, 139, 139)",
     "figureTypesettingClass": {
       "small-landscape": "float-w-col-6",
       "medium-landscape": "overmargin",

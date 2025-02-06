@@ -130,6 +130,7 @@
         "ref": {
             "tagName": "div",
             "className": "reference",
+            "setAttribute": "translate",
             "obligatory": false
         },
         "fn": {

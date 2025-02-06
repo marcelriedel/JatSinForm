@@ -59,7 +59,7 @@
 
 @media screen, pagedjs-ignore {
     body {
-        background: url(/../assets/idaiworld-banner.png);
+        background: url(/../assets/graphics/idaiworld-banner.png);
     }
 
     .pagedjs_pages {
@@ -157,7 +157,7 @@ body {
     font-family: 'Noto Serif Medium';
 }
 
-.content-body {
+#content-body {
     column-count: 2;
     column-gap: 10mm;
     column-fill: auto;

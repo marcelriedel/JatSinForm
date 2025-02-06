@@ -1,10 +1,11 @@
 :root {
-    --nav-header-height: 6vh;
     --content-background: white; /*  #2b2929; */
-    --panel-background: #f9f9f9;
-    --text-color: #000000;
-    --primary-font-family: "Noto Serif", serif;
-    --secondary-font-family: "Noto Sans", sans-serif;"
+    --content-text-color: #000000;
+    --panel-background: #918A82;
+    --panel-text-color: #e7e7e7;
+    --panel-text-font-size: 0.9rem;
+    --primary-font-family: "Noto Serif Light", serif;
+    --secondary-font-family: "Noto Sans Light";
 }
 
 * {
@@ -25,7 +26,7 @@ body {
 
 .column {
     float: left;
-    width: 50%;
+    resize:horizontal;
 }
 
 .column>* {
@@ -39,17 +40,23 @@ body {
 }
 
 #main-wrapper {
-    margin-left: 3vw;
+    height: 100vh;
+    display:flex;
+    background: var(--background-url) #ffffff;
+    background-blend-mode: luminosity;
+    background-size:65%;
 }
 
 #text-content-wrapper {
+    width: 60%;
     font-family: var(--primary-font-family);
-    background: var(--content-background);
-    padding: 3vh 3vw;
+    background: linear-gradient(0.20turn, #f9f9f9ba, #ffffff, #ffffffc9, #ffffff66, #ffffff00);
     overflow-y: scroll;
     height: 100vh;
 }
-#additional-resources-wrapper {
+
+#panel-wrapper {
+    width: 40%;
     font-family: var(--secondary-font-family);
     background: var(--panel-background);
     padding-bottom: 10vh;
@@ -57,48 +64,50 @@ body {
     height: 100vh;
 }
 
-.content-body {
-    border-bottom: 1px solid lightgray;
+#content-body {
+    padding: 1% 4% 4% 4%;
+    background: url(/assets/graphics/absurdity-1920x1080.png);
+    border-top-right-radius: 25px;
+    border-top-left-radius: 25px;
 }
 
 #nav-header {
+    background-color: var(--journal-color);
     font-family: var(--secondary-font-family);
     height: 100%;
-    position: fixed; 
+    min-width: 3%;
     z-index: 1; 
     top: 0;
     left: 0;
-    background-color: var(--journal-color);
-    overflow-x: hidden; 
+    overflow-x: hidden;
+    opacity: 0.95;
 }
 
-nav.context-toggles {
+nav.panel-navigation {
     padding: 0;
     text-align: left;
 }
 
-nav.context-toggles ul {
+nav.panel-navigation ul {
     padding: 2vh 0;
     writing-mode: tb;
 }
 
-nav.context-toggles li {
+nav.panel-navigation li {
     display: inline-block;
 }
 
-i.fa {
+span.fa {
     display: inline-block;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     padding: 0.5vw;
 }
 
 .panel-anchors {
     font-weight: 500;
-    text-transform: uppercase;
-    color: white;
-    padding: 1vw 0.5vh;
+    color: rgb(255 255 255);
+    padding: 1vh 0.5vw;
     font-size: 1rem;
-    color:white;
 }
 
 .panel-anchors:hover {
@@ -117,6 +126,10 @@ i.fa {
     font-family: var(--secondary-font-family);
 }
 
+.iDAI-icon {
+    width:2.25rem;
+}
+
 footer {
   position: fixed;
   left: 0;
@@ -127,8 +140,42 @@ footer {
   text-align: center;
 }
 
-/* Headlines 
--------------------*/
+/* Sections and Headlines
+---------------------------*/
+
+section {
+    background: #ffffff73;
+    box-shadow: 2px 1px 20px 20px #ffffff8f;
+}
+
+section:first-of-type {
+    border-top:none !important;
+ }
+
+ section[level="1"] {
+    border-top: 1px solid #f2f0f0;
+    padding-top: 2%;
+    margin-top: 2%;
+ }
+
+ section[level="1"] > .title:first-of-type {
+    padding-top: 0;
+ }
+
+ section[level="2"] {
+    column-span: all;
+    border-top: 1px solid #f2f0f0;
+    padding-top: 2%;
+    margin-top: 2%;
+ }
+
+ section[level="2"] > .title:first-of-type {
+    padding-top: 0;
+ }
+
+ section[level="3"] {
+    column-span:all;
+ }
 
 .title {
     color: var(--journal-color);
@@ -137,33 +184,42 @@ footer {
 
 .main-title {
     font-size: 1.5rem;
-    padding: 1.5vh 0;
+    break-after: avoid;
+    column-span: all;
+    margin-bottom: 2%;
 }
 
 .section-title {
     font-size: 1.25rem;
-    padding: 2.5vh 0;
+    padding-top: 2%;
+    break-after: avoid;
+    column-span: all;
+    margin-bottom: 1%;
 }
 
 .subsection-title {
     font-size: 1rem;
-    padding: 2vh 0;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    break-after: avoid;
 }
 
 .panel-title {
-    font-family: var(--primary-font-family);
+    color: white;
+    font-family: var(--secondary-font-family);
     font-size: 1.5rem;
-    padding: 1vw 0;
+    margin: 1vh 0 2vh 0;
 }
 
-/* text block elements */
+/* paragraph elements 
+-------------------------*/
 
 p[id] {
-    color: var(--text-color);
+    color: var(--content-text-color);
     font-size: 1rem;
     font-weight: 300;
-    line-height: 1.6;
-    margin-bottom: 1vw;
+    line-height: 1.75;
+    margin-bottom: 2%;
     text-align: justify;
     word-spacing: -0.05rem;
     word-wrap: break-word;
@@ -173,11 +229,52 @@ p[id] {
     -ms-hyphens: auto;
 }
 
+p.highlight {
+    border-top:1px solid var(--journal-color);
+    border-bottom:1px solid var(--journal-color);
+}
+
+p.catalog-number {
+    color: var(--journal-color);
+    column-span: all;
+    border-top: 1px solid #f2f0f0;
+    margin-top: 2%;
+    font-size: 1.1rem;
+}
+
+.paragraph-counter {
+    font-size: 1rem;
+    margin-right: 2vw;
+    color:#b4afa7;
+    font-style:normal;
+    font-weight:300;
+}
+
+/* list elements 
+--------------------*/
+
+ul {
+    margin-bottom:2%;
+}
+
 li {
     color:#c4c2c2 !important;
     font-family: var(--primary-font-family);
-    font-size:0.9rem;
+    font-size:1rem;
     line-height: 1.5;
+    list-style-type: square;
+}
+
+.internal-index-box > li {
+    list-style-type: none;
+}
+
+li::marker {
+    color: var(--content-text-color);
+}
+
+.italic {
+    font-style: italic;
 }
 
 /* anchors 
@@ -188,79 +285,172 @@ a {
     text-decoration: none;
 }
 
-div#doi-link {
-    background: url(https://upload.wikimedia.org/wikipedia/commons/1/11/DOI_logo.svg);
-    background-repeat: no-repeat;
-    background-size: contain;
-    border-bottom: 1px solid lightgray;
+#doi-link {
+    padding: 3% 0 0 4%;
 }
 
 a#doi-anchor {
-    margin-top: 1vh;
-    padding-left: 2vw;
-    color: black;
-    display: block;
-    font-size: 0.9rem;
+    font-size: 1rem;
+    color: var(--journal-color);
 }
 
 a.fn-ref {
+    vertical-align: super;
+    font-size: 0.8rem;
     color: var(--journal-color);
-    padding: 0 0.25vw;
 }
 
 a.fig-ref {
-    color:var(--text-color);
-    font-weight:600;
+    color:var(--journal-color);
 }
 
 a.bib-ref {
     cursor: help;
-    background: #f4f4f4;
-    border: 1px dotted var(--journal-color);
-    color: black;
-    padding: 0.2rem;
+    color: rgb(21, 92, 162);
+    border-top: 1px dotted #bdbdb4;
+    border-bottom: 1px dotted #bdbdb4;
 }
 
 a.ext-ref {
-    color: var(--journal-color);
+    color: rgb(21, 92, 162);
     text-decoration: underline;
 }
 
 a.data-source-link {
-    color:#211f1f;
+    color:rgb(21, 92, 162);
     text-decoration: underline;
+}
+
+a.index-ref {
+    padding-right:1%;
+    color:white;
+}
+
+a.index-ref > i {
+    font-style: normal;
+    color: #ffffff;
 }
 
 /* Table elements 
 ---------------------*/
 
 table {
+    column-span: all;
     display: grid;
     font-size: 0.9rem;
-    border: 1px solid #ffffff3b;
-    line-height: 1.4;
+    line-height: 1.2;
+    margin: 2% 0;
+    justify-content: start;
 }
 
 tr {
     display: grid;
     grid-template-columns: repeat(auto-fit,minmax(10px,1fr));
     position: relative;
+    border-bottom: 1px solid #e7e5e5;
 }
 
 td {
-    color: black;
-    border-right: 1px solid #ffffff3b;
+    color: #000000;
     padding: 6px 12px;
     overflow: hidden;
     outline: none;
     line-break: normal;
+    border-right: 1px solid #e6e6e6;
 }
+
+td > p {
+    line-height: 1.75;
+    margin: 0 !important;
+}
+
+/* cover section 
+--------------------*/
+.page-header {
+    padding: 2% 4%;
+    margin: 2% 0 1% 0;
+    max-width: 80%;
+}
+
+.page-title {
+    color: var(--journal-color);
+    font-size: 3rem;
+    line-height: 1.2;
+    font-weight: 300;
+    margin-bottom: 1vh;
+    text-shadow: -1px -1px 10px #fdfdfd8c;
+}
+
+.page-subtitle {
+    color: var(--journal-color);
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 300;
+}
+
+.page-authors {
+    color: black;
+    font-weight: 300;
+    font-size: 1rem;
+    margin-top: 2vh;
+}
+
+.page-contributors {
+    color: #000000;
+    font-weight: 300;
+    font-size: 0.9rem;
+    margin-top: 1vh;
+    font-style: italic;
+}
+
+#abstracts-section {
+    margin: 4% 0 0 0;
+}
+
+.abstract-box {
+    display: none;
+    background: #ffffffcc;
+    padding: 2%;
+    margin-top: 1%;
+    border-radius: 25px;
+}
+
+.abstract-button {
+    font-style: var(--secondary-font-family);
+    font-size: 0.9rem;
+    padding: 0.25rem 0.5rem;
+    margin-right: 0.25rem;
+    color: #ffffff;
+    border: none;
+    background: var(--journal-color);
+    border-radius: 0.25rem;
+}
+
+.abstract-button:hover {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.abstract-button.active {
+    text-decoration: none;
+    display:inline;
+}
+
+.abstract-text {
+    font-style:italic;
+    padding-bottom: 2%;
+}
+
 
 /* Table of contents (ToC)
 --------------------------- */
 
 #contents:target {
     display:block;
+}
+
+#contents {
+    font-family: var(--secondary-font-family);
 }
 
 ul#toc-list {
@@ -271,7 +461,6 @@ ul#toc-list {
 }
 
 .heading-ref {
-    color: black !important;
     cursor: pointer;
     display: block;
     font-weight: 200;
@@ -280,24 +469,24 @@ ul#toc-list {
 
 .heading-ref-a {
     color: black;
-    font-weight:300;
+    font-weight: 300;
 }
 
 .heading-ref-a.active {
-    border-top: 1px solid  var(--journal-color);
-    border-bottom: 1px solid  var(--journal-color);
-    background:white;
+    color:white !important;
+    border-top: 1px solid var(--journal-color);
+    border-bottom: 1px solid var(--journal-color);
     display: inline;
 }
 
 .heading-ref.level-1 {
-    font-size: 0.9rem;
+    font-size: 1rem;
     margin: 0.5vh 0;
     font-weight: 600;
 }
 
 .heading-ref.level-2 {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     margin-left: 1.5vw;
     font-weight: 300;
 }
@@ -318,51 +507,6 @@ ul#toc-list {
     height: auto;
 }
 
-.paragraph-counter {
-    color:#b4afa7;
-    font-size:14px;
-    font-style:normal;
-    font-weight:300;
-    margin-right: 3vw;
-}
-
-/* cover section 
---------------------*/
-.page-header {
-    border-bottom: 1px solid lightgray;
-    padding: 4vh 0;
-    margin: 2vh 0;
-}
-
-.page-title {
-    color: var(--journal-color);
-    font-size: 2.5rem;
-    line-height: 1.2;
-    font-weight: 300;
-    margin-bottom: 3vh;
-}
-
-.page-subtitle {
-    color: var(--journal-color);
-    margin: 0;
-    font-size: 1.75rem;
-    font-weight: 300;
-}
-
-.page-authors {
-    color: #929292;
-    font-weight: 200;
-    text-transform: uppercase;
-    font-size: 1rem;
-    margin-top: 4vh;
-}
-
-.page-contributors {
-    color: #929292;
-    font-weight: 200;
-    font-size: 1rem;
-    margin-top: 1vh;
-}
 
 /* (foot)notes section 
 ------------------------*/
@@ -377,20 +521,37 @@ ul#toc-list {
 }
 
 div.footnote {
-    margin: 1vw 0;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
     line-height:1;
+    margin: 2% 0;
+}
+
+div.footnote.highlight {
+    border-top:1px solid var(--journal-color);
+    border-bottom:1px solid var(--journal-color);
 }
 
 div.footnote > p {
-    font-size: 0.8rem;
-    display:inline;
-    padding:1vw;
-    color: #7e7e7e;
+    color: var(--panel-text-color);
+    font-size: var(--panel-text-font-size);
+    display: inline;
+    line-height: 1.6;
+    padding: 0;
+    margin:0;
+}
+
+div.footnote > p > a.bib-ref {
+    color: var(--panel-text-color) !important;
+    font-size: var(--panel-text-font-size);
 }
 
 div.footnote > .label {
-    font-size: 0.8rem;
+    color: black;
+    font-size: var(--panel-text-font-size);
     font-weight: 500;
+    padding-right:2%;
 }
 
 /* references 
@@ -401,33 +562,66 @@ div.footnote > .label {
 
 #references {
     font-family: var(--secondary-font-family);
-    margin-right: 1vw;
-    margin-left: 1vw;
+    margin-right: 2vw;
+    margin-left: 2vw;
 }
 
 div.reference {
     font-size: 1rem;
     margin: 1vw 0;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
 }
 
+div.reference.highlight {
+    border-top:1px solid var(--journal-color);
+    border-bottom:1px solid var(--journal-color);
+}
+
 div.reference > p {
     font-size: 0.9rem;
-    line-height: 1.2;
-    color: #7e7e7e;
+    line-height: 1.6;
+    margin: 0;
     display: inline;
     text-align: left;
-    width: 75%;
+    color: var(--panel-text-color);
+    hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
 }
 
 div.reference > .label {
+    color: black;
     font-size: 0.9rem;
-    color: #7e7e7e;
-    font-weight: 300;
-    width: 25%;
+    font-weight: 500;
+}
+
+a.zenon-link {
+    display: block;
+    width: fit-content;
+    font-size: 0.75rem;
+    margin-top: 1vh;
+    padding: 0 0.25rem;
+    background: #bdbdb4;
+    color: black;
+}
+
+a.internal-index-anchor {
+    cursor: pointer;
+    display: block;
+    width: fit-content;
+    font-size: 0.75rem;
+    margin-top: 1vh;
+    padding: 0 0.25rem;
+    background: #bdbdb4;
+    color: black;
+}
+
+a.internal-index-anchor::before {
+    content: "\2B9E";
+    padding-right:0.5vw;
 }
 
 /* figure section 
@@ -446,39 +640,65 @@ div.reference > .label {
 div.figure-section > figure {
     display:flex;
     flex-direction: column;
-    font-size: 0.9rem !important;;
     margin-bottom: 4vh;
-    background:white;
 }
 
-div.figure-section > figure.active {
-    scroll-margin-top: var(--nav-header-height);
+figure.highlight {
+    animation: fadeIn 2s;
 }
-
 
 figure > img {
     width: 100%;
-    order:1;
+    order: 1;
+    border-radius:20px;
+    box-shadow: 1px 1px 0px #807a7a;
+    padding: 0.25%;
+    background: white;
 }
 
-figure > span.label {
-    margin: 0;
-    order: 2;
+#poster-image > img {
+    border-radius:0;
+    border-bottom-left-radius: 20px;
+    padding: 0;
 }
 
 figure > figCaption {
-    margin: 0;
-    order: 3;
+    margin: 1%;
+    order: 2;
+    font-size: 0.9rem !important;
 }
 
-figCaption > p {
-    display:inline;
-    color: #7e7e7e !important;
+figcaption > span.label {
+    color: black;
+    margin: 0;
+    padding-right: 1%;
+    font-size: 0.9rem !important;
 }
 
-figure > .attribution {
-    color: #7e7e7e;
+figcaption > span.label::after {
+    content: ":"
+}
+
+figcaption > p {
+    color: var(--panel-text-color) !important;
+    display: inline;
+    font-size: 0.9rem !important;
     margin: 0;
+    line-height: 1.5 !important;
+}
+
+figcaption > .attribution {
+    color: var(--panel-text-color);
+    margin: 0;
+    font-style: italic;
+    font-size: 0.9rem !important;
+}
+
+figure > a.internal-index-anchor {
+    order: 3 !important;
+}
+
+figure > .internal-index-box {
     order: 4;
 }
 
@@ -506,23 +726,44 @@ img.inline-graphic {
     max-width: 100%;
 }
 
-/* information-section 
+/* index-section 
 ------------------------*/
-#information:target {
+#index:target {
     display:block;
 }
 
-#information {
+#index {
     font-family: var(--secondary-font-family);
+}
+
+#index > .panel-title {
     margin-right: 1vw;
     margin-left: 1vw;
 }
 
-#infos {
-    padding: 1vw;
-    background: #ffffff;
-    border: 1px solid #e1c5c5;
+#index-section > .table-title {
+    padding: 0 3%;
+    color: white;
 }
+
+.index-table {
+    padding: 1vw;
+    border:none;
+    display: grid;
+    font-size: 0.9rem;
+    line-height: 1.2;
+    margin: 2% 0;
+    justify-content:normal;
+}
+
+.index-table > tbody > tr {
+    border:none;
+}
+
+.index-table > tbody > tr > td {
+    border: none;
+}
+
 
 /* locations 
 ----------------*/
@@ -544,23 +785,39 @@ img.inline-graphic {
     display:block;
 } 
 
-/* objects
---------------*/
+/* field objects
+-----------------*/
 
-#objects {
+#field {
     font-family: var(--secondary-font-family);
     margin-right: 1vw;
     margin-left: 1vw;
 }
 
-#objects:target {
+#field:target {
     display: block;
 }
 
+/* arachne objects
+-----------------*/
+
+#arachne {
+    font-family: var(--secondary-font-family);
+    margin-right: 1vw;
+    margin-left: 1vw;
+}
+
+#arachne:target {
+    display: block;
+}
+
+/* external objects
+------------------*/
+
 .external-object {
-    font-size: 0.8rem !important;
-    border-bottom:1px solid #e4e4e4;
-    background:white;
+    font-size: var(--panel-text-font-size) !important;
+    border-bottom:1px solid #cbcbcb;
+    background:#bdbdb454;
     margin-right: -1vw;
     margin-left: -1vw;
 }
@@ -576,26 +833,49 @@ img.inline-graphic {
 
 .object-visualization {
     font-style: italic;
-    margin-top: 1vh;
+    margin: 1vh 0;
     padding: 0 1vw;
 }
 
 .object-image {
+    border-radius:20px;
     padding: 1vh 0;
     width: 100%;
 }
 
 .object-data {
+    color:var(--panel-text-color);
     padding: 0 1vw;
 }
 
+/* internal-index-box
+-----------------------*/
+
+.internal-index-box {
+    padding: 1%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: clip;
+    width: 95%;
+}
+
+.text-quote-span {
+    color: #3e3d3d;
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+.text-quote-span > .paragraph-counter {
+    font-size: 0.9rem;
+    margin-right: 1%
+}
 
 /* application related properties 
 ----------------------------------*/
 
 details {
     padding-top: 2vh;
-    color: #211f1f;
+    color: black;
 }
 
 summary {
@@ -625,10 +905,10 @@ details[open] summary::before {
 }
 
 .fade-in {
-    animation: fadeIn 3s;
-    -webkit-animation: fadeIn 3s;
-    -moz-animation: fadeIn 3s;
-    -o-animation: fadeIn 3s;
+    animation: fadeIn 5s;
+    -webkit-animation: fadeIn 5s;
+    -moz-animation: fadeIn 5s;
+    -o-animation: fadeIn 5s;
 }
 
 .active {
@@ -648,7 +928,7 @@ details[open] summary::before {
 }
 
 .warning-box {
-    border: 5px dotted yellow !important;
+    border: 2px dashed yellow !important;
 }
 
 .warning-text {
@@ -658,7 +938,7 @@ details[open] summary::before {
 /* -- Scrollbar 
 ---------------------*/
 ::-webkit-scrollbar {
-    background: #ffffff;
+    background: rgb(189, 189, 180);
     width:1vw;
 }
 
@@ -698,33 +978,64 @@ details[open] summary::before {
 /* FONTS 
 -----------------------*/
 @font-face {
-    font-family: "Noto Serif";
+    font-family: "Noto Serif Light";
     src: 
     url(/assets/fonts/NotoSerif-Light.woff2) format("woff2"),
     url(/assets/fonts/NotoSerif-Light.woff) format("woff");
-    color: blue;
+    font-weight: 300;
     font-style: normal; 
 }
 
 @font-face {
-    font-family: "Noto Sans";
-    src: url(/assets/fonts/NotoSans-Regular.woff2) format("woff2"),
-    	url(/assets/fonts/NotoSans-Regular.woff) format("woff");
-    font-weight: normal;
+    font-family: "Noto Sans Light";
+    src: url(/assets/fonts/NotoSans-Light.woff2) format("woff2"),
+    	url(/assets/fonts/NotoSans-Light.woff) format("woff");
+    font-weight: 300;
     font-style: normal; 
 }
 
+/* MEDIA QUERIES
+------------------*/
+
 /* Small devices (landscape phones, 576px and up) */
-@media (min-width: 576px) {}
+@media (min-width: 300px) and (max-width: 750px) {
+    #text-content-wrapper {
+        width: 100%;
+    }
+    
+    #panel-wrapper {
+        width: 100%;
+        display:none;
+    }
+}
 
 /* Medium devices (tablets, 768px and up) */
-@media (min-width: 768px) {}
+@media (min-width: 750px) and (max-width: 900px){
+    #text-content-wrapper {
+        width: 60%;
+    }
+    #panel-wrapper {
+        width: 40%;
+        display:block
+    }
+}
 
 /* Large devices (desktops, old screens, 992px and up) */
-@media (min-width: 992px) {}
-
+@media (min-width: 992px) {
+  
+}
 /* X-Large devices (desktop, modern screens, 1200px and up) */
-@media (min-width: 1200px) {}
+@media (min-width: 1200px) {
+
+}
 
 /* XX-Large devices (desktop, larger screens, 1600px and up) */
-@media (min-width: 1600px) {}
+@media (min-width: 1600px) {
+    section {
+        column-count: 2;
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+        column-fill:balance;
+        column-gap: 3%;
+    }
+}

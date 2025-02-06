@@ -145,9 +145,12 @@ function controlPagedJsHandler() {
 
             // render figCaptions at the bottom area of each page:
             let journalConfig = JSON.parse(localStorage.getItem("journal-config"));
+            
+            /*
             if (journalConfig["figCaptionsAtPageBottom"]) {
                 renderFigCaptionsAtpageBottomArea(pageElement);
             }
+            */
 
             // push figure element on top of page:
             pushFigureElementOnTopOfPage(pageElement, 
@@ -290,7 +293,8 @@ function createPDFArticle(content) {
     // append all sections to article:
     article.appendChild(coverPage);
     article.appendChild(titlePage);
-    article.innerHTML += content.querySelector(".content-body").outerHTML;
+    article.innerHTML += content.querySelector
+        ("#content-body").outerHTML;
     article.appendChild(referenceList);
     article.append(noteSection);
     article.appendChild(meta);
@@ -431,6 +435,7 @@ function createTitlePage(content) {
     // get title information:
     let title = content.querySelector(".article-title");
     let subtitle = content.querySelector(".subtitle");
+    let lang = document.documentElement.lang;
 
     // get article contributors (e.g. authors):
     let authors = [];
@@ -481,8 +486,7 @@ function createTitlePage(content) {
     authorsElement.innerHTML = (authorsCollection.length) ? authorsCollection.join(", ") : "[Keine Autoren]";
     let contributorsElement = document.createElement("p");
     contributorsElement.className = "page-contributors";
-    let lang = document.documentElement.lang;
-    if(contributorsCollection.length) {
+    if(contributorsCollection.length && lang !== undefined) {
         contributorsElement.innerHTML = contributorsPrepositions[lang] + " " + contributorsCollection.join(", ");
     }
 
@@ -1061,7 +1065,7 @@ function createTextContentMap(parsedContent, previousMap) {
     textContentMap["documentId"] = documentId;
 
     // get content-body and define text-content-selector
-    let contentBody = parsedContent.querySelector(".content-body");
+    let contentBody = parsedContent.querySelector("#content-body");
     let selector = "p,ul,ol,li,table,pre,code,.title";
 
     // select text-content elements:;
@@ -2248,9 +2252,13 @@ function renderFigCaptionsAtpageBottomArea(pageElement) {
                 .cloneNode(true);
             figNumber.classList.add("fig-number-bottomArea");
             let figCaption = figures[i].querySelector("figCaption");
-            figCaption.querySelector(".img-label").remove();
-            let captionText = figCaption.querySelector(".caption-text");
-
+            
+            let captionText;
+            if(figCaption !== null) {
+                figCaption.querySelector(".img-label").remove();
+                captionText = figCaption.querySelector(".caption-text");
+            }
+ 
             let footnoteCaption = document.createElement("p");
             footnoteCaption.classList.add("footnote-caption");
             captionText.prepend(figNumber);

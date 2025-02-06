@@ -189,7 +189,7 @@ body {
     text-rendering: optimizeLegibility;
 }
 
-.content-body {
+#content-body {
      /* test columns layout
      column-count: 2;
      -webkit-column-count: 2;

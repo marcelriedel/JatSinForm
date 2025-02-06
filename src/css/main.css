@@ -154,7 +154,7 @@ input[type='file'] {
     background: #2b2929;
 }
 
-#additional-resources-wrapper {
+#panel-wrapper {
     padding: 2vw;
     overflow-y: scroll;
     height: 100vh;

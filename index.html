@@ -14,15 +14,16 @@
          const xmlFolder = "xml-documents" // path to xml
          const pagesFlexDirection = "row"; // "row" or "column"
          const firstTextPageId = "page-2";
-         const rangeNextFigRefs = 20;
-         const maxAbstractLength = 2500;
-         const maxFootnoteLength = 2000;
+         const rangeNextFigRefs = 10;
          const allFiguresOnTop = true;
          const rangeOverSection = true;
-         const checkUrlPersistence = true;
+         const maxAbstractLength = 2500;
+         const maxFootnoteLength = 2000;
+         const checkUrlPersistence = false;
          const setEndnotes = false;
          const createToC = false;
-         const addClassesAsElementTitle = true;
+         const addDocumentIndex = true;
+         const addClassesAsElementTitle = false;
 
          // define titles of meta-section:
          const titlesOfAppendices = {
@@ -84,21 +85,11 @@
             "es": "con contribuciones del"
          };
 
-         const navIcons = {
-            "contents": "<i class='fa fa fa-list'</i>",
-            "figures": "<i class='fa fa-image'></li>",
-            "notes": "<i class='fa fa-list-ol'</i>",
-            "references": "<i class='fa fa-book'</i>",
-            "locations": "<i class='fa fa-map'</i>",
-            "objects": "<i class='fa fa-database'</i>",
-            "information": "<i class='fa fa-info'</i>"
-         }
-
          // keyboard control keys:
          const reload = "r";
          const hardReset = "q";
-         const renderPagedView = "p";
-         const renderHTMLView = "v";
+         const showPagedView = "p";
+         const showHTMLView = "v";
          const setupFigConstellations = "*";
          const highlightFigReferences = "f";
          const highlightContextInfo = "h";
