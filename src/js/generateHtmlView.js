@@ -195,7 +195,7 @@ function createDoiElement() {
     // create elements:
     let doiElement = document.createElement("div");
     doiElement.id = "doi-link";
-    doiElement.textContent = "Metadata: ";
+    doiElement.textContent = "Source: ";
     let doiAnchor = document.createElement("a");
     doiAnchor.id = "doi-anchor";
     doiAnchor.target = "_blank";
@@ -278,8 +278,29 @@ function createContentPanels(contentBody) {
     // create panel footnotes:
     let footnoteSection = contentBody.querySelectorAll(".footnotes-section")[0];
     if(footnoteSection) {
+        console.log(footnoteSection);
+        let footnotes = footnoteSection.querySelectorAll(".footnote");
+        footnotes.forEach(footnote => {
+            let label = footnote.querySelector(".label");
+            if(footnote.id !== undefined) {
+                let hrefSelector = "[href='#" + footnote.id + "']"; 
+                let textToFnAnchor = document.querySelector(".fn-ref" + hrefSelector);
+                console.log(textToFnAnchor);
+                if(textToFnAnchor !== null) {
+                    let parent = textToFnAnchor.parentElement;
+                    let fnToTextAnchor = document.createElement("a");
+                    fnToTextAnchor.classList.add("index-ref");
+                    fnToTextAnchor.textContent = label.textContent;
+                    fnToTextAnchor.href = "#" + parent.id;
+                    label.textContent = "";
+                    label.appendChild(fnToTextAnchor);
+                }
+            }
+        });
+
         let bibRefs = footnoteSection.querySelectorAll("a.bib-ref");
         titleOfResourcesAsToolTip(bibRefs);
+     
         let panel = createPanel("notes", false, footnoteSection);
         panelWrapper.appendChild(panel);
         navigationPanelsDocument.push("notes");
