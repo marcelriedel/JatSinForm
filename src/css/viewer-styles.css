@@ -174,7 +174,7 @@ section:first-of-type {
  }
 
  section[level="3"] {
-    column-span:all;
+    columns: 1;
  }
 
 .title {
@@ -312,7 +312,7 @@ a.bib-ref {
 }
 
 a.ext-ref {
-    color: rgb(155 205 255);
+    color: rgb(23 94 139);
     text-decoration: underline;
 }
 
@@ -437,8 +437,8 @@ td > p {
 }
 
 .abstract-text {
-    font-style:italic;
     padding-bottom: 2%;
+    font-size: 0.9rem !important;
 }
 
 
@@ -465,6 +465,7 @@ ul#toc-list {
     display: block;
     font-weight: 200;
     font-size: 0.9rem;
+    padding:0.25vh 0;
 }
 
 .heading-ref-a {
@@ -933,6 +934,10 @@ details[open] summary::before {
 
 .warning-text {
     background: #ffb6b6 !important;
+}
+
+*:lang(ar) {
+    direction: rtl;
 }
 
 /* -- Scrollbar 

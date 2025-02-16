@@ -88,6 +88,11 @@
             "className": "italic",
             "obligatory": false
         },
+        "sup": {
+            "tagName": "sup",
+            "className": false,
+            "obligatory": false
+        },
         "ext-link": {
             "tagName": "a",
             "className": "ext-ref",

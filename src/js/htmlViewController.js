@@ -1,24 +1,66 @@
-
 /** --------------------------------------
  * document state event listener:
  * @type {EventListenerObject}
  --------------------------------------*/
  document.addEventListener("readystatechange", (event) => {
 
+    if (event.target.readyState === "interactive") {
+
+	    // leafletCssLink:
+        let leafletCssLink = document.createElement('link');
+        leafletCssLink.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+        leafletCssLink.type = 'text/css';
+        leafletCssLink.rel = 'stylesheet';
+        document.head.appendChild(leafletCssLink);
+
+        // leaflet
+        let leaflet = document.createElement('script');
+        leaflet.type = 'text/javascript';
+        leaflet.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+        document.head.appendChild(leaflet);
+		
+		// highlightJS-script:
+		let highlightJsScript = document.createElement('script');
+		highlightJsScript.type = 'text/javascript';
+		highlightJsScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js';
+		document.head.appendChild(highlightJsScript);
+
+		// highlightJS-CSS:
+		let highlightJsCSSLink = document.createElement('link');
+		highlightJsCSSLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css';
+		highlightJsCSSLink.type = 'text/css';
+		highlightJsCSSLink.rel = 'stylesheet';
+		document.head.appendChild(highlightJsCSSLink);
+
+		// font awesome 4 icons:
+		let fontAwesomeCSSLink = document.createElement('link');
+		fontAwesomeCSSLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css';
+		fontAwesomeCSSLink.type = 'text/css';
+		fontAwesomeCSSLink.rel = 'stylesheet';
+		document.head.appendChild(fontAwesomeCSSLink);
+
+        // add background image:
+        let posterImage = document.querySelector("#poster-image > img");
+        let mainWrapper = document.querySelector("#main-wrapper");
+        let backgroundStyles = "background: url(" + posterImage.src + ") #ffffff; " +
+        "background-blend-mode: luminosity; background-size:65%;"
+        mainWrapper.style = backgroundStyles;
+    }
+
     if (event.target.readyState === "complete") {
         focusTocTargetsOnHoverSection();
-        showSelectedPanel("references");
+        showSelectedPanel("contents");
         setTimeout(() => {
             highlightAnchorTargets();
-
-            // test fancy background transistions
+        
+            // background-image moving effect:
             document.querySelector("#abstract-navigation").addEventListener("mouseover", event => {
-                document.querySelector("#main-wrapper").style = "background-size:80%;transition: all 5s;";
+                document.querySelector("#main-wrapper").style.backgroundSize = "80%";
+                document.querySelector("#main-wrapper").style.transition = "all 5s";
             });
         }, 500);
     }
 });
-
 
 function showSelectedPanel(selectedPanel) {
 
@@ -35,11 +77,12 @@ function showSelectedPanel(selectedPanel) {
                 if(selectedPanel === "locations") {
                     setTimeout(initMaps, 500);
                 }
-                // init zoom of medium-zoom-lib:
+                /* init zoom of medium-zoom-lib:
                 mediumZoom('[data-zoomable]', {
                     background: 'rgb(255 255 255 / 0%);',
                     scrollOffset: 0,
                 })
+                */
             }
             else {
                 panelAnchor.classList.remove("active");

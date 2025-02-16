@@ -497,10 +497,10 @@ function createIndexOfInternalReferences(elementSelector, referenceSelector) {
                         labelAnchor.classList.add("index-ref");
                         labelAnchor.href = "#" + entry.id;
                         labelAnchor.innerHTML = "<i>&#9741;</i>";
+                        
+                        // add clipped text passage from entry:
                         let textQuote = document.createElement("span");
                         textQuote.classList.add("text-quote-span");
-    
-                        // add text passage from entry:
                         textQuote.innerHTML = entry.innerHTML;
               
                         listElement.appendChild(labelAnchor);
@@ -668,14 +668,19 @@ function reorderFigureElements(figureSection) {
             let label = figure.querySelector(".label");
             let figCaption = figure.querySelector("figcaption");
             let attribution = figure.querySelector(".attribution");
+            let img = figure.querySelector("img");
 
             if(figCaption !== null) {
+                if(img !== null && figCaption.querySelector("p[id]") !== null) {
+                    let altText = figCaption.querySelector("p[id]").textContent;
+                    img.alt = altText;
+                }
                 if(label !== null) {
                     figCaption.insertAdjacentElement("afterbegin", label);
                 }
                 if(attribution !== null) {
-
-                }  figCaption.insertAdjacentElement("beforeend", attribution);
+                    figCaption.insertAdjacentElement("beforeend", attribution);
+                }  
             }
         });
     }

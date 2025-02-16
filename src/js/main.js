@@ -31,10 +31,11 @@ setupScript.src = 'src/js/setup.js';
 const fallbackScript = function fallback() {
     document.addEventListener("readystatechange", (event) => {
         if (event.target.readyState === "interactive") {
-            let errorConsole = document.createElement("div");
+            const errorConsole = document.createElement("div");
             errorConsole.style = "padding:0.25rem 1.5rem;font-size:0.9rem;background:#fff5d2;"
             errorConsole.innerHTML = "There was a problem loading an external script from the internet." +
-            "The document is readable entirely but might have reduced functionalities!";
+                  "The document is readable entirely but might have reduced functionalities!" +
+				  "Please visit the source address by following the given doi-link;"
             window.document.body.prepend(errorConsole);
         }
     });
@@ -54,6 +55,11 @@ const interactJsScript = document.createElement('script');
 interactJsScript.type = 'text/javascript';
 interactJsScript.src = 'https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js' // "src/js/interact.min.js";
 
+// qrcodejs-script:
+const qrcodejs = document.createElement('script');
+qrcodejs.type = 'text/javascript';
+qrcodejs.src = "https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"; // "src/js/qrcode.min.js"
+
 // highlightJS-script:
 const highlightJsScript = document.createElement('script');
 highlightJsScript.type = 'text/javascript';
@@ -65,10 +71,16 @@ highlightJsCSSLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/1
 highlightJsCSSLink.type = 'text/css';
 highlightJsCSSLink.rel = 'stylesheet';
 
-// qrcodejs-script:
-const qrcodejs = document.createElement('script');
-qrcodejs.type = 'text/javascript';
-qrcodejs.src = "https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"; // "src/js/qrcode.min.js"
+// medium-zoom-Script: https://github.com/francoischalifour/medium-zoom
+const mediumZoomScript = document.createElement('script');
+mediumZoomScript.type = 'text/javascript';
+mediumZoomScript.src = "https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js";
+
+// font awesome 4 icons:
+const fontAwesomeLink = document.createElement('link');
+fontAwesomeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css';
+fontAwesomeLink.type = 'text/css';
+fontAwesomeLink.rel = 'stylesheet';
 
 // leaflet
 const leaflet = document.createElement('script');
@@ -80,17 +92,6 @@ const leafletCssLink = document.createElement('link');
 leafletCssLink.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
 leafletCssLink.type = 'text/css';
 leafletCssLink.rel = 'stylesheet';
-
-// medium-zoom-Script: https://github.com/francoischalifour/medium-zoom
-const mediumZoomScript = document.createElement('script');
-mediumZoomScript.type = 'text/javascript';
-mediumZoomScript.src = "https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js";
-
-// font awesome 4 icons:
-const fontAwesomeLink = document.createElement('link');
-fontAwesomeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css';
-fontAwesomeLink.type = 'text/css';
-fontAwesomeLink.rel = 'stylesheet';
 
 /** -------------------------------------
  * prepare application constants:
@@ -213,13 +214,13 @@ document.addEventListener("readystatechange", (event) => {
 
         // add third-party libraries
         document.head.appendChild(interactJsScript);
+        document.head.appendChild(qrcodejs);
         document.head.appendChild(highlightJsCSSLink);
         document.head.appendChild(highlightJsScript);
-        document.head.appendChild(qrcodejs);
+        document.head.appendChild(fontAwesomeLink);
+        document.head.appendChild(mediumZoomScript);
         document.head.appendChild(leafletCssLink);
         document.head.appendChild(leaflet);
-        document.head.appendChild(mediumZoomScript); 
-        document.head.appendChild(fontAwesomeLink);
     }
 
     if (event.target.readyState === "complete") {
@@ -261,6 +262,7 @@ function initProgressBar(processStage) {
 
     progressBar.style.fontFamily = "UI-MONOSPACE";
     progressBar.style.fontSize = "0.9em";
+    progressBar.style.padding = "1%";
 
     if (processStage === "Ready") {
         progressBar.innerHTML = processStage + "!";
@@ -689,7 +691,7 @@ function convertElementsByTagConversionMap(xmlBody, tagConversionMap) {
                     }
                     // add translate="no" to reference elements ("Literaturverzeichnis"):
                     if(selector === "ref") {attributeValue = "no";}
-                    
+               
                     // set attribute to new element:
                     newElement.setAttribute(attributeKey, attributeValue);
                 }
@@ -788,7 +790,7 @@ async function preloadImage(image) {
         canvas.height = img.height;
         let ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0);
-        dataUrl = canvas.toDataURL("image/jpeg", 1.0);
+        dataUrl = canvas.toDataURL("image/jpeg", jpegCompression);
         image.src = dataUrl;
         updateStorageEventListener("Image preloading... " + image.parentElement.id);
     };
@@ -1319,33 +1321,47 @@ function downloadHTMLDocument() {
 
     let confirmDownload = confirm("Download this document as HTML-file?");
     if (confirmDownload) {
+
+        // get document properties:
         let documentRoot = document.querySelector(':root');
         let styles = getComputedStyle(documentRoot);
-        let journalColor = styles.getPropertyValue("--journal-color"); 
+        let journalColor = styles.getPropertyValue("--journal-color");
         let documentId = getDocumentStateProperty("documentId");
         let lang = localStorage.getItem("documentLang");
-        let viewerStyles = localStorage.getItem("viewer-styles");
-        let documentBody = document.body.outerHTML;
-        let htmlDocument = 
-        "<html lang = '" + lang + "'>" +
-            "<head>" +
-            " <meta name='--journal-color' content='" + journalColor + "'>" +
-            "  <link rel='preconnect' href='https://fonts.googleapis.com'>" +
-            "  <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>" +
-            "  <link href='https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap' rel='stylesheet'>" +
-            "  <link href='https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap' rel='stylesheet'></link>" +
-            "  <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' type='text/css' rel='stylesheet'></link>" +
-            "  <script>" + fallbackScript + "</script>" +
-            "  <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js'></script>" +
-            "  <script type='text/javascript' onerror='this.onerror=null;fallback();' src='/src/js/htmlViewController.js'></script>" +
-            "  <style>" + viewerStyles + "</style>" +
-            "</head>" +
-            documentBody +
-        "</html>";
-    
+     
+        // create HTML document:
+        let htmlDoc = document.implementation.createHTMLDocument("documentId");
+        htmlDoc.documentElement.lang = lang;
+        htmlDoc.documentElement.style.setProperty('--journal-color', journalColor);
+        
+        // define document-head
+        htmlDoc.head.innerHTML =  
+        " <meta name='title' content='a title'>" +
+        "  <script>" + fallbackScript + "</script>" +
+        "  <script type='text/javascript' onerror='this.onerror=null;fallback();' src='src/js/htmlViewController.js'></script>" +
+        "  <link type='text/css' rel='stylesheet' onerror='this.onerror=null;fallback()' href='src/css/viewer-styles.css'>";
+        
+        // add main-wrapper to document-body
+        let mainWrapper = document.querySelector("#main-wrapper");
+        htmlDoc.body.innerHTML = mainWrapper.outerHTML;
+        htmlDoc.body.classList.add("fade-in");
+
+        /*   "  <link rel='preconnect' href='https://fonts.googleapis.com'>" +
+        "  <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>" +
+        "  <link href='https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap' rel='stylesheet'>" +
+        "  <link href='https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap' rel='stylesheet'></link>" +
+        "  <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' type='text/css' rel='stylesheet'></link>" +
+        "  <link href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css' type='text/css' rel='stylesheet'></link>" +
+        "  <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js'></script>" +
+        "  <script type='text/javascript' src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'></script>" +
+
+        */
+
+        // define file name for download:
         let filename = documentId + ".html";
-        download(htmlDocument, "text/html", filename);
-        console.log(htmlDocument);
+        download(htmlDoc.documentElement.outerHTML, "text/html", filename);
+
+        console.log(htmlDoc.documentElement);
     };
 }
 
