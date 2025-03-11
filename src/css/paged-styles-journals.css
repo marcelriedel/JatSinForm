@@ -477,7 +477,7 @@ table td:first-child { border-left: none; }
 
 /* page-header:
  ----------------*/
-.page-header {
+#page-header {
     break-before: page;
     break-after: avoid;
     margin-bottom: 20mm;
