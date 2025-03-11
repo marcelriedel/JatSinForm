@@ -1,44 +1,52 @@
-/** --------------------------------------
+/** -------------
+* CONSTANTS
+----------------*/
+const mediaSmallScreen = "screen and (max-width: 924px)";
+
+/** ----------------------------
+ * media query event listener
+* @type {EventListenerObject}
+--------------------------------*/
+const mediaQuerySmallScreen = window.matchMedia(mediaSmallScreen);
+mediaQuerySmallScreen.addEventListener('change', event => {
+
+    if (event.matches) {
+        document.querySelector('.nav-text-content-wrapper').style = "display: inline-block !important;";
+        showSelectedPanel("text-content-wrapper");
+    } 
+    else {
+        // take what is selected or showSelectedPanel("contents");
+        if(!document.querySelectorAll(".panel.active").length) {
+            showSelectedPanel("contents");
+        }
+        document.querySelector('.nav-text-content-wrapper').style = "none !important;";
+        document.querySelector("#text-content-wrapper").style = "height: 100vh";
+        document.querySelector("#panel-wrapper").style = "height: 100vh";
+    }
+
+    /*
+    let mainText =  document.querySelector("#text-content-wrapper");
+    let panelWrapper =  document.querySelector("#panel-wrapper");
+    if(mediaQuerySmallScreen.matches) {
+        if(selectedPanel == "text-content-wrapper") {
+            mainText.style = "height:100vh;";
+            panelWrapper.style = "height:0;";
+        }
+        else {
+            mainText.style = "height:0;";
+            panelWrapper.style = "height:100vh;";
+        }
+    }
+    */
+})
+
+/** ---------------------------------
  * document state event listener:
  * @type {EventListenerObject}
- --------------------------------------*/
+ ------------------------------------*/
  document.addEventListener("readystatechange", (event) => {
 
     if (event.target.readyState === "interactive") {
-
-	    // leafletCssLink:
-        let leafletCssLink = document.createElement('link');
-        leafletCssLink.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
-        leafletCssLink.type = 'text/css';
-        leafletCssLink.rel = 'stylesheet';
-        document.head.appendChild(leafletCssLink);
-
-        // leaflet
-        let leaflet = document.createElement('script');
-        leaflet.type = 'text/javascript';
-        leaflet.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
-        document.head.appendChild(leaflet);
-		
-		// highlightJS-script:
-		let highlightJsScript = document.createElement('script');
-		highlightJsScript.type = 'text/javascript';
-		highlightJsScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js';
-		document.head.appendChild(highlightJsScript);
-
-		// highlightJS-CSS:
-		let highlightJsCSSLink = document.createElement('link');
-		highlightJsCSSLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css';
-		highlightJsCSSLink.type = 'text/css';
-		highlightJsCSSLink.rel = 'stylesheet';
-		document.head.appendChild(highlightJsCSSLink);
-
-		// font awesome 4 icons:
-		let fontAwesomeCSSLink = document.createElement('link');
-		fontAwesomeCSSLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css';
-		fontAwesomeCSSLink.type = 'text/css';
-		fontAwesomeCSSLink.rel = 'stylesheet';
-		document.head.appendChild(fontAwesomeCSSLink);
-
         // add background image:
         let posterImage = document.querySelector("#poster-image > img");
         let mainWrapper = document.querySelector("#main-wrapper");
@@ -62,6 +70,14 @@
     }
 });
 
+/** ------------
+ FUNCTIONS
+ --------------*/
+ /**
+ * show selected panel (navigation)
+ * @param {String} selectedPanel: panelName, e.g. "figures"
+ * @returns {void} triggers functions and manages css-classes in DOM
+ */
 function showSelectedPanel(selectedPanel) {
 
     let panelAnchors = document.querySelectorAll(".panel-anchors");
@@ -70,23 +86,27 @@ function showSelectedPanel(selectedPanel) {
         let panel = document.querySelector("#" + panelName);
 
         if(selectedPanel && panel !== null) {
-            if(panelName === selectedPanel) {
+            if(selectedPanel === "text-content-wrapper") {
+                /** how to handle the added text-content-wrapper panelAnchor? */
+            }
+            else if(panelName === selectedPanel) {
+                // highlight anchor in nav.panel
                 panelAnchor.classList.add("active");
                 panel.classList.replace("hidden", "active");
+          
                 // initMaps during panel-display:
                 if(selectedPanel === "locations") {
                     setTimeout(initMaps, 500);
                 }
-                /* init zoom of medium-zoom-lib:
+                // init zoom of medium-zoom-lib:
                 mediumZoom('[data-zoomable]', {
                     background: 'rgb(255 255 255 / 0%);',
                     scrollOffset: 0,
                 })
-                */
             }
             else {
-                panelAnchor.classList.remove("active");
                 panel.classList.replace("active", "hidden");
+                panelAnchor.classList.remove("active");
             }
         };
     });
@@ -245,7 +265,7 @@ function highlightAnchorTargets() {
                 targetRef = anchor.getAttribute("href");
                 targetPanel= definePanelNameByTargetId(targetRef);
                 showSelectedPanel(targetPanel);
-        
+               
                 // query target:
                 let target;
                 if(targetRef !== null && !targetRef.includes(' ')) {        
@@ -276,23 +296,29 @@ function highlightAnchorTargets() {
 function definePanelNameByTargetId(targetRef) {
 
     let panelName;
-    if(/#f-/.test(targetRef)) {
-        panelName = "figures";
-    }
-    if(/#fn-/.test(targetRef)) {
-        panelName = "notes";
-    }
-    if(/#ref-/.test(targetRef)) {
-         panelName = "references";
-    }
-    if(/#target-gazetteer/.test(targetRef)) {
-        panelName = "locations";
-    }
-    if(/#target-arachne/.test(targetRef)) {
-        panelName = "arachne";
-    }
-    if(/#target-field/.test(targetRef)) {
-        panelName = "field";
+
+    switch (true) {
+        case (/#f-/.test(targetRef)):
+            panelName = "figures";
+            break;
+        case (/#fn-/.test(targetRef)):
+            panelName = "notes";
+            break;
+        case (/#ref-/.test(targetRef)):
+            panelName = "references";
+            break;
+        case (/#target-gazetteer/.test(targetRef)):
+            panelName = "references";
+            break;
+        case (/#target-arachne/.test(targetRef)):
+            panelName = "references";
+            break;
+        case (/#target-field/.test(targetRef)):
+            panelName = "references";
+            break;
+        default:
+            panelName = "text-content-wrapper";
+            break;
     }
     return(panelName);
 }

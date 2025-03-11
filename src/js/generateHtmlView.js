@@ -1,6 +1,6 @@
-/** ------------------------
-* CONSTANTS
-----------------------------*/
+/** --------------------------
+* DEFINE DOM ELEMENT CONSTANTS
+------------------------------*/
 const mainWrapper = document.createElement("div");
 mainWrapper.id = "main-wrapper";
 
@@ -16,16 +16,6 @@ const navHeader = document.createElement("div");
 navHeader.id = "nav-header";
 
 const navigationPanelsDocument = [];
-const navIcons = {
-    "contents": "<span class='fa fa fa-list'></span>",
-    "figures": "<span class='fa fa-image'></span>",
-    "notes": "<span class='fa fa-list-ol'></span>",
-    "references": "<span class='fa fa-book'></span>",
-    "locations": "<span class='fa fa-map'></span>",
-    "arachne": "<span class='fa fa-database'></span>", // img class='iDAI-icon' src='https://arachne.dainst.org/img/arachnelogo.png'
-    "field": "<span class='fa fa-database'></span>", // <img class='iDAI-icon' src='https://field.idai.world/favicon.ico
-    "index": "<span class='fa fa-info'></span>"
-}
 
 /** --------------------------------------
  * window document state event listener:
@@ -38,6 +28,7 @@ const navIcons = {
 
         // get content-body:
         let contentBody = document.querySelector("#content-body");
+        navigationPanelsDocument.push("text-content-wrapper");
 
         // create additional document elements:
         let doiElement = createDoiElement();
@@ -78,7 +69,7 @@ const navIcons = {
         textContentWrapper.append(doiElement);
         textContentWrapper.append(titleHeader);
         textContentWrapper.append(contentBody);
-      
+
         // add wrapper to document-body:
         mainWrapper.appendChild(navHeader);
         mainWrapper.appendChild(textContentWrapper);
@@ -94,18 +85,17 @@ const navIcons = {
             scaleImage(img);
         });
 
-        // fade-in:
-        document.body.classList.add("fade-in");
-
         // init additional js-functions:
         createDocumentIndex(numSupplements);
         checkQualityOfUrls();
         showSelectedPanel("contents");
         createIndexOfInternalReferences("figure", "fig-ref");
         createIndexOfInternalReferences(".reference", "bib-ref");
+
+        // fade-in:
+        document.body.classList.add("fade-in");
     }
 });
-
 
 /** -----------------------------
 * Generate HTML view of document
@@ -154,7 +144,7 @@ function createTitleHeader(contentBody) {
 
     // create titleHeader elements:
     let titleHeader = document.createElement("div");
-    titleHeader.className = "page-header";
+    titleHeader.id = "page-header";
     let titleElement = document.createElement("h1");
     titleElement.className = "page-title";
     let subtitleElement = document.createElement("h1");
@@ -278,25 +268,9 @@ function createContentPanels(contentBody) {
     // create panel footnotes:
     let footnoteSection = contentBody.querySelectorAll(".footnotes-section")[0];
     if(footnoteSection) {
-        console.log(footnoteSection);
+
         let footnotes = footnoteSection.querySelectorAll(".footnote");
-        footnotes.forEach(footnote => {
-            let label = footnote.querySelector(".label");
-            if(footnote.id !== undefined) {
-                let hrefSelector = "[href='#" + footnote.id + "']"; 
-                let textToFnAnchor = document.querySelector(".fn-ref" + hrefSelector);
-                console.log(textToFnAnchor);
-                if(textToFnAnchor !== null) {
-                    let parent = textToFnAnchor.parentElement;
-                    let fnToTextAnchor = document.createElement("a");
-                    fnToTextAnchor.classList.add("index-ref");
-                    fnToTextAnchor.textContent = label.textContent;
-                    fnToTextAnchor.href = "#" + parent.id;
-                    label.textContent = "";
-                    label.appendChild(fnToTextAnchor);
-                }
-            }
-        });
+        addFootnoteToTextAnchor(footnotes);
 
         let bibRefs = footnoteSection.querySelectorAll("a.bib-ref");
         titleOfResourcesAsToolTip(bibRefs);
@@ -344,6 +318,32 @@ function createZenonLink(zenonReference) {
     }
     else {zenonLink = false;}
     return(zenonLink);
+}
+
+/**
+ * add anchor linking between fn-label and footnote-link in main text
+ * @param {HTMLCollection} footnotes: footnote-elements from footnote-section
+ * @returns {void} nToTextAnchor will appended to fn-label
+ */
+
+function addFootnoteToTextAnchor(footnotes) {
+          
+    footnotes.forEach(footnote => {
+        let label = footnote.querySelector(".label");
+        if(footnote.id !== undefined) {
+            let hrefSelector = "[href='#" + footnote.id + "']"; 
+            let textToFnAnchor = document.querySelector(".fn-ref" + hrefSelector);
+            if(textToFnAnchor !== null) {
+                let parent = textToFnAnchor.parentElement;
+                let fnToTextAnchor = document.createElement("a");
+                fnToTextAnchor.classList.add("index-ref");
+                fnToTextAnchor.textContent = label.textContent;
+                fnToTextAnchor.href = "#" + parent.id;
+                label.textContent = "";
+                label.appendChild(fnToTextAnchor);
+            }
+        }
+    });
 }
 
 /**
@@ -470,25 +470,37 @@ function createDocumentIndex(numSupplements) {
     indexSection.appendChild(indexTable);
 }
 
+/**
+ * create index of internal references, e.g. bib-refs, fig-refs
+ * @param {String} elementSelector: css selector of target element listed in panel area
+ *  (e.g. ".reference")
+ * @param {String} referenceSelector: css selector of referencing anchors in text area
+ *  (e.g. ".bib-ref")
+ * @returns {void} results will appended to each target element as internalIndexAnchor and
+ * internalIndexBox
+ */
 
 function createIndexOfInternalReferences(elementSelector, referenceSelector) {
-        
+       
+    // get element and referenceIndex by given selectors
     let elements = document.querySelectorAll(elementSelector);
-    let elementsRefIndex = getReferenceIndex(elements, referenceSelector); 
+    let elementsRefIndex = getReferenceIndex(elements, referenceSelector);
 
-    // add anchor to highlight relating text passage:
+    // process each target element:
     elements.forEach(function(element) {
         if(element.id !== null && element.id !== "poster-image") {
             let refIndex = elementsRefIndex[element.id];
         
-            let internalIndexAnchor = document.createElement("a");
-            internalIndexAnchor.classList.add("internal-index-anchor");
-            internalIndexAnchor.textContent = "Found in text (" + refIndex.totalNumber + ")";
-    
-            let internalIndexBox = document.createElement("div");
+            // create details element for displaying results:
+            let internalIndexBox = document.createElement("details");
             internalIndexBox.classList.add("internal-index-box");
-            internalIndexBox.setAttribute("hidden",true);
+           
+            // create summary as button title:
+            let internalIndexSummary = document.createElement("summary");
+            internalIndexSummary.classList.add("internal-index-summary");
+            internalIndexSummary.textContent = "Found in text (" + refIndex.totalNumber + ")";          
      
+            // parse and list positive results in form of quotes:
             if(refIndex.totalNumber !== 0) {
                 if(refIndex.refLinks.length) {
                     refIndex.quotes.forEach(entry => {
@@ -500,39 +512,56 @@ function createIndexOfInternalReferences(elementSelector, referenceSelector) {
                         
                         // add clipped text passage from entry:
                         let textQuote = document.createElement("span");
-                        textQuote.classList.add("text-quote-span");
+                        textQuote.classList.add("text-quote");
                         textQuote.innerHTML = entry.innerHTML;
               
                         listElement.appendChild(labelAnchor);
                         listElement.appendChild(textQuote);
                         internalIndexBox.appendChild(listElement);
                     });
-                    internalIndexAnchor.setAttribute("onclick", "openInternalIndexBox(event);");
                 }
+            // highlight negative results (to be avoided by editorial policy)
             } else {
-                internalIndexAnchor.classList.add("warning-box");
+                internalIndexSummary.classList.add("warning-box");
             }
-            element.appendChild(internalIndexAnchor);
+            // append results to target element:
+            internalIndexBox.appendChild(internalIndexSummary); 
             element.appendChild(internalIndexBox);
         }
-       
     });   
 }
 
-// get elements of relating passages:
-function getReferenceIndex(elements, typeSelector) {
+/**
+ * get reference index for given target elements (e.g. .references, figures)
+ * @param {HTMLCollection} elements: target element listed in panel area
+ *  (e.g. ".reference")
+ * @param {String} referenceSelector: css selector of referencing anchors in text area
+ *  (e.g. ".bib-ref")
+ * @returns {JSON} referenceIndex with totalNumber, refLinks and quotes
+ */
+function getReferenceIndex(elements, referenceSelector) {
 
     let referenceIndex = {};
     
     elements.forEach(function(element) {
+        // exclude elements with missing ids and poster-image
         if(element.id !== null && element.id !== "poster-image") {
             let refLinks = [];
             let quotes = [];
 
-            // find all references of given type, e.g. fig-ref:
-            let refSelector = "a." + typeSelector + "[href='#" + element.id + "']";
+            // define selector for reference anchor for given type, e.g. fig-ref:
+            let refSelector = "a." + referenceSelector + "[href='#" + element.id + "']";
+            
+            // query referenceElements:
             let referenceElements = document.querySelectorAll(refSelector);
+
+            // filter out elements in text-quote-span (containing copies of the original elements):
+            referenceElements = Array.from(referenceElements)
+                .filter(el => !el.parentElement.classList.contains("text-quote"))
+
+            // process referenceElements:
             if(referenceElements.length) {
+                // get links and quotes from closest parent:
                 referenceElements.forEach(refElement => {
                     let closestParentIds = [];
                     let closestParentElement = refElement.closest("*[id]");
@@ -543,12 +572,13 @@ function getReferenceIndex(elements, typeSelector) {
                     quotes.push(refElement.parentElement);
                 });
             }
-    
+            // collect all values as reference stats:
             let referenceStats = {
                 "totalNumber": referenceElements.length,
                 "refLinks": refLinks,
                 "quotes": quotes,
             };
+            // add reference stats of each element:
             referenceIndex[element.id] = referenceStats;
         }
     });
@@ -587,6 +617,7 @@ function titleOfResourcesAsToolTip(bibRefs) {
         }
     });
 }
+
 /**
  * create table of Contents (ToC) by headlines
  * @param {HTMLElement} contentBody: div-container with article text and metadata 
@@ -645,6 +676,7 @@ function createPanelNavigation(navigationPanelsDocument) {
     if(navigationPanelsDocument.length > 0) {
         navigationPanelsDocument.forEach((panelName) => { 
             let li = document.createElement("li");
+            li.classList.add("nav-" + panelName);
             let a = document.createElement("a");
             a.classList.add("panel-anchors");
             a.id = "a-" + panelName;
@@ -660,6 +692,12 @@ function createPanelNavigation(navigationPanelsDocument) {
     navHeader.appendChild(panelNavigation);
 }
 
+/**
+ * reorder elements within <figure>-container, e.g. altText, label and attribution
+ * @param {HTMLElement} figureSection: div with figures
+ * @returns {HTMLElement} figureSection with reordered figure elements
+ */
+
 function reorderFigureElements(figureSection) {
 
     let figures = figureSection.querySelectorAll("figure");
@@ -672,6 +710,8 @@ function reorderFigureElements(figureSection) {
 
             if(figCaption !== null) {
                 if(img !== null && figCaption.querySelector("p[id]") !== null) {
+                    /* use figCaption due to the absence of dedicated alternative texts,
+                    that are helpfully describing the image motif (=> "Barrierefreiheit") */
                     let altText = figCaption.querySelector("p[id]").textContent;
                     img.alt = altText;
                 }
