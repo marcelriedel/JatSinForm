@@ -472,7 +472,7 @@ function createTitlePage(content) {
 
     // create title page elements and fill with content:
     let titlePage = document.createElement("div");
-    titlePage.className = "page-header";
+    titlePage.id = "page-header";
     let titleElement = document.createElement("h1");
     titleElement.className = "page-title";
     titleElement.innerHTML = (title) ? title.textContent : "[Kein Titel]";
@@ -2228,84 +2228,8 @@ function pushFigureElementOnTopOfPage(pageElement, selector) {
     }
 }
 
-/* ---------
-Deprecated
------------*/
 
-/* function has been implemented for certain journal (e-fb), 
-but probably deprecated in the near future*/ 
-function renderFigCaptionsAtpageBottomArea(pageElement) {
-
-    let pageContent = pageElement.querySelector(".pagedjs_page_content");
-    let figures = pageContent.querySelectorAll("figure");
-    let lastIndex = figures.length - 1;
-
-    if(figures) {
-        let figCaptionArea = document.createElement("div");
-        figCaptionArea.classList.add("figCaption-area");
-
-        for (let i = 0; i < figures.length; i++) {
-            // all figures on top of page:
-            figures[i].classList.toggle("onTopOfPage");
-
-            let figNumber = figures[i].querySelector(".fig-number")
-                .cloneNode(true);
-            figNumber.classList.add("fig-number-bottomArea");
-            let figCaption = figures[i].querySelector("figCaption");
-            
-            let captionText;
-            if(figCaption !== null) {
-                figCaption.querySelector(".img-label").remove();
-                captionText = figCaption.querySelector(".caption-text");
-            }
- 
-            let footnoteCaption = document.createElement("p");
-            footnoteCaption.classList.add("footnote-caption");
-            captionText.prepend(figNumber);
-            footnoteCaption.append(captionText);
-
-            figCaptionArea.appendChild(footnoteCaption);
-            let lastFigCaption = figures[lastIndex].querySelector("figCaption");
-            lastFigCaption.parentElement.appendChild(figCaptionArea);
-        }
-    }
-}
-
-/* --------------
-TEST New Functions
-----------------*/
-
-/*---TEST ---*/
-function insertPseudoNodeAtEndOfSections(nodeParams, parsedContent) {
-
-    /* usage in renderNode:
-        // create pseudo nodes in case of overcrowding of figure references:
-            let nextParagraph = getNextElementInTextContentMap(textContentMap, sourceNode.id);
-            if(!nextParagraph && nodeParams["numFigRefs"] > 0) {
-                insertPseudoNodeAtEndOfSections(nodeParams, parsedContent);
-                nodeParams["figRefs"] = false;
-        }
-    */
-                        
-    let pseudoNode = document.createElement("p");
-    pseudoNode.id = "pseudo-" + nodeParams["sourceNode"].id;
-    nodeParams["renderNode"].insertAdjacentElement("afterend", pseudoNode);
-
-    let figureMap = JSON.parse(localStorage.getItem("figure-map"));
-    let figRefs = nodeParams["figRefs"].reverse();
-    for (let i = 0; i < figRefs.length; i++) {
-        let figRef = figRefs[i];
-        if(!figureMap[figRef]["inserted"]) {
-            let figure = getNextFigureElement(figRef, parsedContent);
-            if(figure) {
-                setLayoutSpecsOfFigure(figure);
-                pseudoNode.insertAdjacentElement("afterend", figure);
-            }
-        }
-    }
-}
-
-/*--TEST--*/
+// Test:
 function ignoreHyphenationByPagedJs(ignore, pageElement, page, breakToken) {
 
     if (ignore && pageElement.querySelector('.pagedjs_hyphen')) {
@@ -2329,13 +2253,3 @@ function ignoreHyphenationByPagedJs(ignore, pageElement, page, breakToken) {
         return n[n.length - 1];
     }
 }
-
-/*--TEST--*/
-function adjustLayoutOfHeadlines(headline, content) {
-
-    if(headline) {
-        console.log(headline);
-    }
-}
-
-
