@@ -65,7 +65,7 @@ body {
 }
 
 #content-body {
-    padding: 1% 4% 4% 4%;
+    padding: 4%;
     background: url(/assets/graphics/absurdity-1920x1080.png);
     border-top-right-radius: 25px;
     border-top-left-radius: 25px;
@@ -79,7 +79,6 @@ body {
     z-index: 1; 
     top: 0;
     left: 0;
-    overflow-x: hidden;
     opacity: 0.95;
 }
 
@@ -95,6 +94,10 @@ nav.panel-navigation ul {
 
 nav.panel-navigation li {
     display: inline-block;
+}
+
+li.nav-text-content-wrapper {
+    display: none !important;
 }
 
 span.fa {
@@ -245,9 +248,17 @@ p.catalog-number {
 .paragraph-counter {
     font-size: 1rem;
     margin-right: 2vw;
-    color:#b4afa7;
+    color: #a3acb5;
     font-style:normal;
     font-weight:300;
+}
+
+.paragraph-counter::before {
+    content: "[";
+}
+
+.paragraph-counter::after {
+    content: "]";;
 }
 
 /* list elements 
@@ -286,7 +297,7 @@ a {
 }
 
 #doi-link {
-    padding: 3% 0 0 4%;
+    padding: 4% 0 0 4%;
 }
 
 a#doi-anchor {
@@ -314,6 +325,7 @@ a.bib-ref {
 a.ext-ref {
     color: rgb(23 94 139);
     text-decoration: underline;
+    word-break: break-all;
 }
 
 a.data-source-link {
@@ -366,7 +378,7 @@ td > p {
 
 /* cover section 
 --------------------*/
-.page-header {
+#page-header {
     padding: 2% 4%;
     margin: 2% 0 1% 0;
     max-width: 80%;
@@ -439,6 +451,7 @@ td > p {
 .abstract-text {
     padding-bottom: 2%;
     font-size: 0.9rem !important;
+    font-style: italic;
 }
 
 
@@ -474,10 +487,13 @@ ul#toc-list {
 }
 
 .heading-ref-a.active {
-    color:white !important;
+    color: white !important;
     border-top: 1px solid var(--journal-color);
     border-bottom: 1px solid var(--journal-color);
     display: inline;
+    background: var(--journal-color);
+    border-radius: 10px;
+    padding: 0 1%;
 }
 
 .heading-ref.level-1 {
@@ -569,7 +585,7 @@ div.footnote > .label {
 
 div.reference {
     font-size: 1rem;
-    margin: 1vw 0;
+    margin: 4% 0;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -600,29 +616,19 @@ div.reference > .label {
 }
 
 a.zenon-link {
-    display: block;
-    width: fit-content;
-    font-size: 0.75rem;
-    margin-top: 1vh;
-    padding: 0 0.25rem;
-    background: #bdbdb4;
-    color: black;
-}
-
-a.internal-index-anchor {
     cursor: pointer;
     display: block;
     width: fit-content;
     font-size: 0.75rem;
-    margin-top: 1vh;
-    padding: 0 0.25rem;
+    margin-top: 1%;
+    padding: 1%;
+    border-radius: 10px;
     background: #bdbdb4;
     color: black;
 }
-
-a.internal-index-anchor::before {
-    content: "\2B9E";
-    padding-right:0.5vw;
+a.zenon-link::before {
+    content: "\260D";
+    padding-right: 0.5vw;
 }
 
 /* figure section 
@@ -634,14 +640,14 @@ a.internal-index-anchor::before {
 
 #figures {
     font-family: var(--secondary-font-family);
-    margin-right: 1vw;
-    margin-left: 1vw;
+    margin-right: 3%;
+    margin-left: 3%;
 }
 
 div.figure-section > figure {
     display:flex;
     flex-direction: column;
-    margin-bottom: 4vh;
+    margin-bottom: 4%;
 }
 
 figure.highlight {
@@ -664,7 +670,7 @@ figure > img {
 }
 
 figure > figCaption {
-    margin: 1%;
+    margin: 2% 1%;
     order: 2;
     font-size: 0.9rem !important;
 }
@@ -819,8 +825,8 @@ img.inline-graphic {
     font-size: var(--panel-text-font-size) !important;
     border-bottom:1px solid #cbcbcb;
     background:#bdbdb454;
-    margin-right: -1vw;
-    margin-left: -1vw;
+    margin-right: -2.5%;
+    margin-left: -2.5%;
 }
 
 .data-source-info {
@@ -828,7 +834,7 @@ img.inline-graphic {
 }
 
 .object-name {
-    padding: 1vh 1vw;
+    padding: 2%;
     font-size: 0.9rem;
 }
 
@@ -853,20 +859,32 @@ img.inline-graphic {
 -----------------------*/
 
 .internal-index-box {
-    padding: 1%;
+    padding-top: 1%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: clip;
     width: 95%;
 }
 
-.text-quote-span {
+.internal-index-summary {
+    cursor: pointer;
+    display: block;
+    width: fit-content;
+    font-size: 0.75rem;
+    margin-top: 1%;
+    padding: 1%;
+    border-radius: 10px;
+    background: #bdbdb4;
+    color: black;
+}
+
+.text-quote {
     color: #3e3d3d;
     font-size: 0.9rem;
     font-style: italic;
 }
 
-.text-quote-span > .paragraph-counter {
+.text-quote > .paragraph-counter {
     font-size: 0.9rem;
     margin-right: 1%
 }
@@ -896,12 +914,17 @@ summary::-webkit-details-marker {
 details summary::before { 
     color: var(--journal-color);
     content: "\2B9E";
-    padding-right:0.5vw;
+    padding-right: 0.5vw;;
 }
 
 details[open] summary::before {
     color: var(--journal-color);
     content:"\2B9F ";
+    padding-right:0.5vw;
+}
+
+.internal-index-anchor::before {
+    content: "\2B9E";
     padding-right:0.5vw;
 }
 
@@ -1002,35 +1025,110 @@ details[open] summary::before {
 /* MEDIA QUERIES
 ------------------*/
 
-/* Small devices (landscape phones, 576px and up) */
-@media (min-width: 300px) and (max-width: 750px) {
+/* Small devices (smart phones and tables, 576px and up) */
+@media (min-width: 100px) and (max-width: 924px) {
     #text-content-wrapper {
         width: 100%;
     }
     
     #panel-wrapper {
         width: 100%;
-        display:none;
     }
-}
 
-/* Medium devices (tablets, 768px and up) */
-@media (min-width: 750px) and (max-width: 900px){
-    #text-content-wrapper {
-        width: 60%;
+    .panel {
+        padding: 2vh 2vw;
     }
+
+    #page-header {
+        max-width: 100%;
+    }
+
+    #main-wrapper {
+        background:none;
+        flex-direction: column;
+    }
+
     #panel-wrapper {
-        width: 40%;
-        display:block
+        padding-bottom: 0;
+    }
+
+    #nav-header {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+    
+    nav.panel-navigation {
+        padding: 0;
+        text-align: left;
+    }
+    
+    nav.panel-navigation ul {
+        padding: 0 4%;
+        margin: 0;
+        writing-mode: initial;
+    }
+    
+    span.fa {
+        padding: 1vh 2vw;
+    }
+
+    .page-title {
+        font-size: 2rem;
+    }
+
+    .page-subtitle {
+        font-size: 1.5rem;
+    }
+
+    p[id] {
+        font-size: 0.9rem;
+        font-weight: 300;
+        line-height: 1.75;
+        margin-bottom: 2%;
+        text-align: left;
+        word-spacing: 0;
+        hyphens: none;
+    }
+
+    .paragraph-counter {
+        font-size: 0.9rem;
+    }
+
+    ::-webkit-scrollbar {
+        display: none;
     }
 }
 
-/* Large devices (desktops, old screens, 992px and up) */
-@media (min-width: 992px) {
-  
+/* Medium devices (desktops, old screens, 925px and up) */
+@media (min-width: 925px) and (max-width: 1200px) {
+    #page-header {
+        max-width: 100%;
+    }
+
+    #panel-wrapper {
+        width: 50%;
+    }
+
 }
 /* X-Large devices (desktop, modern screens, 1200px and up) */
-@media (min-width: 1200px) {
+@media (min-width: 1200px) and (max-width: 1600px) {
+
+    #content-body {
+        padding: 5%;
+    }
+
+    #page-header {
+        padding: 2% 5%;
+    }
+
+    .page-title {
+        font-size: 2.25rem;
+    }
+
+    .page-subtitle {
+        font-size: 1.75rem;
+    }
 
 }
 
@@ -1041,6 +1139,6 @@ details[open] summary::before {
         -webkit-column-count: 2;
         -moz-column-count: 2;
         column-fill:balance;
-        column-gap: 3%;
+        column-gap: 4%;
     }
 }
