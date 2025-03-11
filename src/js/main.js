@@ -1,105 +1,87 @@
-/** -----------main.js ------------ 
- * @type {Script}
- * @author: Marcel Riedel
- ----------------------------------*/
-
-/** -------------------------------------- 
- * internal script libraries:
- * @type {HTMLScriptElement}
- --------------------------------------*/
-// generatePagedView
-const generatePagedViewScript = document.createElement('script');
-generatePagedViewScript.type = 'text/javascript';
-generatePagedViewScript.src = 'src/js/generatePagedView.js';
-
-// generateHtmlView
-const generateHtmlViewScript = document.createElement('script');
-generateHtmlViewScript.type = 'text/javascript';
-generateHtmlViewScript.src = 'src/js/generateHtmlView.js';
-
-// htmlViewController
-const htmlViewControllerScript = document.createElement('script');
-htmlViewControllerScript.type = 'text/javascript';
-htmlViewControllerScript.src = 'src/js/htmlViewController.js';
-
-// setup-script
-const setupScript = document.createElement('script');
-setupScript.type = 'text/javascript';
-setupScript.src = 'src/js/setup.js';
-
-// fallback-script (for HTML exports);
-const fallbackScript = function fallback() {
-    document.addEventListener("readystatechange", (event) => {
-        if (event.target.readyState === "interactive") {
-            const errorConsole = document.createElement("div");
-            errorConsole.style = "padding:0.25rem 1.5rem;font-size:0.9rem;background:#fff5d2;"
-            errorConsole.innerHTML = "There was a problem loading an external script from the internet." +
-                  "The document is readable entirely but might have reduced functionalities!" +
-				  "Please visit the source address by following the given doi-link;"
-            window.document.body.prepend(errorConsole);
-        }
-    });
- }
-
 /** -------------------------------------
- * external script libraries:
- * @type {HTMLScriptElement}
+ * script libraries 
+ * @type {Constants}
 ---------------------------------------*/
-// pagedJs-script
-const pagedJsScript = document.createElement('script');
-pagedJsScript.type = 'text/javascript';
-pagedJsScript.src = "src/js/pagedjs.js";  // src/js/pagedjs.js
-
-// interactJs-script
-const interactJsScript = document.createElement('script');
-interactJsScript.type = 'text/javascript';
-interactJsScript.src = 'https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js' // "src/js/interact.min.js";
-
-// qrcodejs-script:
-const qrcodejs = document.createElement('script');
-qrcodejs.type = 'text/javascript';
-qrcodejs.src = "https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"; // "src/js/qrcode.min.js"
-
-// highlightJS-script:
-const highlightJsScript = document.createElement('script');
-highlightJsScript.type = 'text/javascript';
-highlightJsScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js';
-
-// highlightJS-CSS:
-const highlightJsCSSLink = document.createElement('link');
-highlightJsCSSLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css';
-highlightJsCSSLink.type = 'text/css';
-highlightJsCSSLink.rel = 'stylesheet';
-
-// medium-zoom-Script: https://github.com/francoischalifour/medium-zoom
-const mediumZoomScript = document.createElement('script');
-mediumZoomScript.type = 'text/javascript';
-mediumZoomScript.src = "https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js";
-
-// font awesome 4 icons:
-const fontAwesomeLink = document.createElement('link');
-fontAwesomeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css';
-fontAwesomeLink.type = 'text/css';
-fontAwesomeLink.rel = 'stylesheet';
-
-// leaflet
-const leaflet = document.createElement('script');
-leaflet.type = 'text/javascript';
-leaflet.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
-
-// leafletCssLink:
-const leafletCssLink = document.createElement('link');
-leafletCssLink.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
-leafletCssLink.type = 'text/css';
-leafletCssLink.rel = 'stylesheet';
+const scriptLibrary = {
+    "generatePagedView": {
+        "type": "text/javascript",
+        "src-remote": "src/js/generatePagedView.js",
+        "src-local": "src/js/generatePagedView.js"
+    },
+    "generateHtmlView": {
+        "type": "text/javascript",
+        "src-remote": "src/js/generateHtmlView.js",
+        "src-local": "src/js/generateHtmlView.js"
+    },
+    "htmlViewController": {
+        "type": "text/javascript",
+        "src-remote": "src/js/htmlViewController.js",
+        "src-local": "src/js/htmlViewController.js"
+    },
+    "figConstellationSetup": {
+        "type": "text/javascript",
+        "src-remote": "src/js/setup.js",
+        "src-local": "src/js/setup.js"
+    },
+    "pagedJs": {
+        "type": "text/javascript",
+        "src-remote": "src/js/pagedjs.js",
+        "src-local": "src/js/pagedjs.js"
+    },
+    "interactJs": {
+        "type": "text/javascript",
+        "src-remote": "https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js",
+        "src-local": "https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"
+    },
+    "qrCodeJs": {
+        "type": "text/javascript",
+        "src-remote": "https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js",
+        "src-local": "https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"
+    },
+    "highlightJs": {
+        "type": "text/javascript",
+        "src-remote": "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js",
+        "src-local": "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js",
+    },
+    "highlightJsCss": {
+        "type": "text/css",
+        "src-remote": "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css",
+        "src-local": "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css",
+    },
+    "mediumZoom": {
+        "type": "text/javascript",
+        "src-remote": "https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js",
+        "src-local": "https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js"
+    },
+    "leaflet": {
+        "type": "text/javascript",
+        "src-remote": "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js",
+        "src-local": "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    },
+    "leafletCss": {
+        "type": "text/css",
+        "src-remote": "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css",
+        "src-local": "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    },
+    "fontAwesome": {
+        "type": "text/css",
+        "src-remote": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css",
+        "src-local": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    }
+} 
 
 /** -------------------------------------
- * prepare application constants:
+ * main script constants:
  * @type {Constants}
 ---------------------------------------*/
 const defaultJournal = "AA";
 const urlRegex = /doi|handle|urn|ark:|orcid|ror|dainst|idai.world|wikipedia/g;
 const specificUseRegex = "zenon|extrafeatures|supplements";
+
+/** -------------------------------------
+ * constant window.document elements:
+ * @type {Constants}
+---------------------------------------*/
 const progressBar = document.createElement("div");
 progressBar.id = "progressBar";
 
@@ -115,6 +97,16 @@ errorConsole.innerHTML = "<h3>Critical error found:</h3>";
 document.addEventListener("readystatechange", (event) => {
 
     if (event.target.readyState === "interactive") {
+
+        // add third-party libraries and stylesheets:
+        addScriptToDocumentHead("interactJs");
+        addScriptToDocumentHead("qrCodeJs");
+        addScriptToDocumentHead("highlightJs");
+        addScriptToDocumentHead("highlightJsCss");
+        addScriptToDocumentHead("mediumZoom");
+        addScriptToDocumentHead("leaflet");
+        addScriptToDocumentHead("leafletCss");
+        addScriptToDocumentHead("fontAwesome");
  
         // request tagConversionMap, journals.json and figureConstellations:
         requestSourceFile("configs/tagConversionMap.json", "tag-conversion-map");
@@ -123,59 +115,19 @@ document.addEventListener("readystatechange", (event) => {
         requestSourceFile("configs/toggleFigureClasses.json", "toggle-figure-classes");
         requestSourceFile("src/css/viewer-styles.css", "viewer-styles");
 
-        // checkout xml-path
-        if (document.querySelector('meta[name="--xml-file"]') === null) {
-            errorConsole.innerHTML = "No xml-file given! " + 
-            "Checkout index.html: meta[name=\"--xml-file\"]";
-            document.body.append(errorConsole);
-            throw new Error();
-        }
+        // request xml-string from file or local-storage:
+        let xmlString = requestXml();
 
-        // request source xml:
-        let xml = false;
-        let xmlFile = false;
-        let xmlPath = false;
-
-        // request jats.xml:
-        if(!xmlFromEditor) {
-            xmlFile = document.querySelector('meta[name="--xml-file"]').content;
-            xmlPath = xmlFolder + "/" + xmlFile;
-            if(/.xml/.test(xmlPath)) {
-                requestSourceFile(xmlPath, "local-xml-file");
-                xml = localStorage.getItem("local-xml-file");
-            } else {
-                errorConsole.innerHTML = "Path to xml-file is invalid: ['" + 
-                xmlPath + "']. Checkout index.html: meta[name=\"--xml-file\"]";
-                document.body.append(errorConsole);
-                throw new Error();
-            }
-        }
-        else {
-            xml = localStorage.getItem("editor-xml");
-        }
-
-        // check xml request:
-        if(!xml || xml === null) {
-            errorConsole.innerHTML = "ERROR: Could not load xml!";
-            document.body.append(errorConsole);
-            throw new Error();
-        }
-
-        // replace nested <sec>-elements with <section>-tag before:
-        xml = xml.replaceAll("<sec", "<section")
-            .replaceAll("</sec>", "</section>");
-        xml = transformSelfClosingTags(xml);  // transform self-closing tags
-        
-        // create XML-document:
+        // create XML-document from xml string:
         let parser = new DOMParser();
-        let xmlDoc = parser.parseFromString(xml, "text/xml");
+        let xmlDoc = parser.parseFromString(xmlString, "text/xml");
 
-        // process xml with pre-validation:
+        // process xml-document with pre-validation:
         updateStorageEventListener("Process XML document...");
         processXmlDocument(xmlDoc);  // awaiting preflightXmlRequest();
         updateStorageEventListener("Ready");
 
-        // get journalId:
+        // get journalId from xml-doc:
         let journalId = xmlDoc.querySelector("journal-id").textContent;
 
         // switch between pdf and viewer-format:
@@ -187,40 +139,31 @@ document.addEventListener("readystatechange", (event) => {
             if (localStorage.getItem("imageClassThreshold") === undefined) {
                 localStorage.setItem("imageClassThreshold", imageClassThresholdDefault);
             }
-            // add styles:
+            // get view (and journal) specific styles:
             let styleSheetLink = getStyleSheetLink(journalId, "pagedView");
             document.head.appendChild(styleSheetLink);
 
             // add render scripts:
-            document.head.appendChild(generatePagedViewScript);
-            document.head.appendChild(pagedJsScript);
+            addScriptToDocumentHead("generatePagedView");
+            addScriptToDocumentHead("pagedJs");
+
         }
         else if(localStorage.getItem("renderAs") === "Viewer") {
             let documentRoot = document.querySelector(':root');
             localStorage.setItem("documentRoot", documentRoot);
             localStorage.setItem("documentBody", document.body.outerHTML);
 
-            // add styles:
+            // get view (and journal) specific styles:
             let styleSheetLink = getStyleSheetLink(journalId, "htmlView");
             document.head.appendChild(styleSheetLink);
 
             // add render scripts:
-            document.head.appendChild(generateHtmlViewScript);
-            document.head.appendChild(htmlViewControllerScript);
+            addScriptToDocumentHead("generateHtmlView");
+            addScriptToDocumentHead("htmlViewController");
         }
         else {
-            document.head.appendChild(setupScript);
+            addScriptToDocumentHead("figConstellationSetup");
         }
-
-        // add third-party libraries
-        document.head.appendChild(interactJsScript);
-        document.head.appendChild(qrcodejs);
-        document.head.appendChild(highlightJsCSSLink);
-        document.head.appendChild(highlightJsScript);
-        document.head.appendChild(fontAwesomeLink);
-        document.head.appendChild(mediumZoomScript);
-        document.head.appendChild(leafletCssLink);
-        document.head.appendChild(leaflet);
     }
 
     if (event.target.readyState === "complete") {
@@ -605,7 +548,7 @@ function convertXMLToHtmlBody(xmlDoc) {
     htmlContentBody.id = "content-body";
     htmlContentBody.innerHTML = xmlBody.innerHTML;
 
-    return (htmlContentBody);
+    return(htmlContentBody);
 }
 
 function transformSelfClosingTags(xml) {
@@ -946,6 +889,72 @@ function requestSourceFile(path, type) {
     request.send();
 }
 
+function requestXml() {
+    // request source xml:
+    let xml = false;
+    let xmlFile = false;
+    let xmlPath = false;
+
+    // checkout xml-path
+    if (document.querySelector('meta[name="--xml-file"]') === null) {
+        errorConsole.innerHTML = "No xml-file given! " + 
+        "Checkout index.html: meta[name=\"--xml-file\"]";
+        document.body.append(errorConsole);
+        throw new Error();
+    }
+
+    // request jats.xml:
+    if(!xmlFromEditor) {
+        xmlFile = document.querySelector('meta[name="--xml-file"]').content;
+        xmlPath = xmlFolder + "/" + xmlFile;
+        if(/.xml/.test(xmlPath)) {
+            requestSourceFile(xmlPath, "local-xml-file");
+            xml = localStorage.getItem("local-xml-file");
+        } else {
+            errorConsole.innerHTML = "Path to xml-file is invalid: ['" + 
+            xmlPath + "']. Checkout index.html: meta[name=\"--xml-file\"]";
+            document.body.append(errorConsole);
+            throw new Error();
+        }
+    }
+    else {
+        xml = localStorage.getItem("editor-xml");
+    }
+
+    // check xml request:
+    if(!xml || xml === null) {
+        errorConsole.innerHTML = "ERROR: Could not load xml!";
+        document.body.append(errorConsole);
+        throw new Error();
+    }
+
+    // replace nested <sec>-elements with <section>-tag before:
+    xml = xml.replaceAll("<sec", "<section")
+        .replaceAll("</sec>", "</section>");
+    xml = transformSelfClosingTags(xml);  // transform self-closing tags
+
+    return(xml);
+}
+
+function addScriptToDocumentHead(scriptName) {
+
+    let type = scriptLibrary[scriptName]["type"];
+    
+    if(type === "text/javascript") {
+        let script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = scriptLibrary[scriptName]["src-local"];
+        document.head.appendChild(script);
+    }
+    else {
+        let cssLink = document.createElement('link');
+        cssLink.type = 'text/css';
+        cssLink.rel = 'stylesheet';
+        cssLink.href = scriptLibrary[scriptName]["src-local"];
+        document.head.appendChild(cssLink);
+    }
+}
+
 function getDocumentStateProperty(propertyKey) {
 
     let property;
@@ -959,7 +968,6 @@ function getDocumentStateProperty(propertyKey) {
     }
     return (property);
 }
-
 
 function getStyleSheetLink(journalId, view) {
 
@@ -1333,6 +1341,20 @@ function downloadHTMLDocument() {
         let htmlDoc = document.implementation.createHTMLDocument("documentId");
         htmlDoc.documentElement.lang = lang;
         htmlDoc.documentElement.style.setProperty('--journal-color', journalColor);
+
+        // fallback-script (for HTML exports);
+        const fallbackScript = function fallback() {
+            document.addEventListener("readystatechange", (event) => {
+                if (event.target.readyState === "interactive") {
+                    const errorConsole = document.createElement("div");
+                    errorConsole.style = "padding:0.25rem 1.5rem;font-size:0.9rem;background:#fff5d2;"
+                    errorConsole.innerHTML = "There was a problem loading an external script from the internet." +
+                        "The document is readable entirely but might have reduced functionalities!" +
+                        "Please visit the source address by following the given doi-link;"
+                    window.document.body.prepend(errorConsole);
+                }
+            });
+        }
         
         // define document-head
         htmlDoc.head.innerHTML =  
