@@ -69,13 +69,13 @@ body {
     background: url(/assets/graphics/absurdity-1920x1080.png);
     border-top-right-radius: 25px;
     border-top-left-radius: 25px;
+    box-shadow: -1px 5px 14px 0px #756f6f;
 }
 
 #nav-header {
     background-color: var(--journal-color);
     font-family: var(--secondary-font-family);
     height: 100%;
-    min-width: 3%;
     z-index: 1; 
     top: 0;
     left: 0;
@@ -94,10 +94,6 @@ nav.panel-navigation ul {
 
 nav.panel-navigation li {
     display: inline-block;
-}
-
-li.nav-text-content-wrapper {
-    display: none !important;
 }
 
 span.fa {
@@ -233,8 +229,8 @@ p[id] {
 }
 
 p.highlight {
-    border-top:1px solid var(--journal-color);
-    border-bottom:1px solid var(--journal-color);
+    border-top:1px dotted var(--journal-color);
+    border-bottom:1px dotted var(--journal-color);
 }
 
 p.catalog-number {
@@ -259,6 +255,16 @@ p.catalog-number {
 
 .paragraph-counter::after {
     content: "]";;
+}
+
+/* boxed-text: 
+--------------------*/
+.boxed-text {
+    background: #f6f6c2;
+    font-size: 0.9rem;
+    padding: 2%;
+    border: 1px solid gray;
+    margin: 1% 0;
 }
 
 /* list elements 
@@ -318,7 +324,6 @@ a.fig-ref {
 a.bib-ref {
     cursor: help;
     color: rgb(21, 92, 162);
-    border-top: 1px dotted #bdbdb4;
     border-bottom: 1px dotted #bdbdb4;
 }
 
@@ -546,8 +551,8 @@ div.footnote {
 }
 
 div.footnote.highlight {
-    border-top:1px solid var(--journal-color);
-    border-bottom:1px solid var(--journal-color);
+    border-top:1px dotted var(--journal-color);
+    border-bottom:1px dotted var(--journal-color);
 }
 
 div.footnote > p {
@@ -593,8 +598,8 @@ div.reference {
 }
 
 div.reference.highlight {
-    border-top:1px solid var(--journal-color);
-    border-bottom:1px solid var(--journal-color);
+    border-top:1px dotted var(--journal-color);
+    border-bottom:1px dotted var(--journal-color);
 }
 
 div.reference > p {
@@ -1033,6 +1038,7 @@ details[open] summary::before {
     
     #panel-wrapper {
         width: 100%;
+        box-shadow: 4px 1px 14px 0px #000000;
     }
 
     .panel {
@@ -1041,6 +1047,7 @@ details[open] summary::before {
 
     #page-header {
         max-width: 100%;
+        text-align: center;
     }
 
     #main-wrapper {
@@ -1073,6 +1080,14 @@ details[open] summary::before {
         padding: 1vh 2vw;
     }
 
+    #doi-link {
+        font-size: 0.9rem;
+    }
+
+    a#doi-anchor {
+        font-size: 0.9rem;
+    }
+
     .page-title {
         font-size: 2rem;
     }
@@ -1084,9 +1099,8 @@ details[open] summary::before {
     p[id] {
         font-size: 0.9rem;
         font-weight: 300;
-        line-height: 1.75;
+        line-height: 1.9;
         margin-bottom: 2%;
-        text-align: left;
         word-spacing: 0;
         hyphens: none;
     }

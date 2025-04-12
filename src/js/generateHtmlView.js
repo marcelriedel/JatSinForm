@@ -1,5 +1,5 @@
 /** --------------------------
-* DEFINE DOM ELEMENT CONSTANTS
+* Create main DOM-elements
 ------------------------------*/
 const mainWrapper = document.createElement("div");
 mainWrapper.id = "main-wrapper";
@@ -25,10 +25,9 @@ const navigationPanelsDocument = [];
  document.addEventListener("readystatechange", (event) => {
 
     if (event.target.readyState === "complete") {
-
+        
         // get content-body:
         let contentBody = document.querySelector("#content-body");
-        navigationPanelsDocument.push("text-content-wrapper");
 
         // create additional document elements:
         let doiElement = createDoiElement();
@@ -631,7 +630,6 @@ function createToCByHeadlines(contentBody) {
 
     if (headlines !== null && headlines.length > 0) {
         for (let i = 0; i < headlines.length; ++i) {
-
             // get level in hierarchy:
             let level = headlines[i].getAttribute("level");
             let levelClass = "level-" + level; 

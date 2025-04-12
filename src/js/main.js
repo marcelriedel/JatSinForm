@@ -25,7 +25,7 @@ const scriptLibrary = {
     },
     "pagedJs": {
         "type": "text/javascript",
-        "src-remote": "src/js/pagedjs.js",
+        "src-remote": "https://unpkg.com/pagedjs/dist/paged.polyfill.js",
         "src-local": "src/js/pagedjs.js"
     },
     "interactJs": {
@@ -66,7 +66,7 @@ const scriptLibrary = {
     "fontAwesome": {
         "type": "text/css",
         "src-remote": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css",
-        "src-local": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+        "src-local": "src/css/font-awesome-min.css"
     }
 } 
 
@@ -338,21 +338,16 @@ document.addEventListener('keyup', function (e) {
         localStorage.setItem("sizeClassSetGlobal", sizeClassSetGlobal);
         window.location.reload();
     }
-    /*
     if (e.key == "z") {
         if (document.querySelector(".active") !== null) {
             let figure = document.querySelector(".active").parentElement;
-            let figureId = figure.id;
+            setLayoutSpecsOfFigure(figure, "overmargin", true);
             let figureMap = JSON.parse(localStorage.getItem("figure-map"));
-            figureMap[figureId]["typesettingClass"] = "overmargin";
-            figureMap[figureId]["style"] = false;
+            figureMap[figure.id]["typesettingClass"] = "overmargin";
+            figureMap[figure.id]["style"] = false;
             localStorage.setItem("figure-map", JSON.stringify(figureMap));
-            setTimeout(function () {
-                window.location.reload();
-            }, 2000);
         };
     }
-    */
 });
 
 /** -------------------------------------
@@ -541,7 +536,7 @@ function convertXMLToHtmlBody(xmlDoc) {
             textContentElements[i].id = genId;
         }
     }
-    addHeadlineClassesBySectionHierarchy(xmlBody, ".title");
+    createHeadlinesBySectionHierarchy(xmlBody, ".title");
 
     // wrap xmlBody as htmlContentBody
     let htmlContentBody = document.createElement('div');
@@ -651,14 +646,14 @@ function convertElementsByTagConversionMap(xmlBody, tagConversionMap) {
     }
 }
 
-/* classify headline hierarchy:
-----------------------------------
+/** 
+ * classify headline hierarchy:
  * add headline classes by hierarchy of section-elements
  * @param {HTMLElement} content document-fragment made from original DOM
  * @param {selector} selector css-class-selector for headlines, e.g. ".title"
- * @returns {void}
+ * @returns {void} headline elements are created within the DOM
  */
-function addHeadlineClassesBySectionHierarchy(content, selector) {
+function createHeadlinesBySectionHierarchy(content, selector) {
 
     // check position in section hierarchy
     let headlines = content.querySelectorAll(selector);
@@ -671,77 +666,91 @@ function addHeadlineClassesBySectionHierarchy(content, selector) {
         }
         while (parent !== null && parent.tagName !== "body");
 
-        // add level as attribute to sections and headlines:
-        headlines[i].setAttribute("level", level);
+        // add level as attribute to sections:
         if(/section/.test(headlines[i].parentElement.tagName)) {
             headlines[i].parentElement.setAttribute("level", level);
         }
-        // assign headline classes by level:
+
+        // define headline-elements and classes by level:
+        let elementName;
+        let className;
         switch (true) {
             case (level === 1):
-                headlines[i].classList.add("main-title");
+                elementName = "h1";
+                className = "main-title";
                 break;
             case (level === 2):
-                headlines[i].classList.add("section-title");
+                elementName = "h2";
+                className = "section-title";
                 break;
             case (level > 2):
-                headlines[i].classList.add("subsection-title");
+                elementName = "h3";
+                className = "subsection-title";
                 break;
             default:
-                headlines[i].classList.add("main-title");
+                elementName = "h1";
+                className = "main-title";
         }
+        // create html headline elements based on definitions:
+        let headline = document.createElement(elementName);
+        headline.setAttribute("level", level);
+        headline.classList.add("title");
+        headline.classList.add(className);
+        headline.textContent = headlines[i].textContent;
+        headlines[i].replaceWith(headline);
     }
 }
 
-/* preload and classify images
------------------------------------*/
+/* --------------------------------
+Funtions related to image files
+----------------------------------*/
+
+ /**
+ * process images files
+ * @param {boolean} documentReloaded: src-xml reloaded (hard reset)
+ * @returns {void} converts and classifies img in DOM
+ */
 function processImageFiles(documentReloaded) {
-    
-    let images = document.querySelectorAll("img"); 
-    images.forEach((image) => {
-        let img = new Image();
-        img.onload = function () {
+
+    // query srcImages from document:
+    let srcImages = document.querySelectorAll("img"); 
+
+    // process images
+    srcImages.forEach((srcImage) => {
+        let newImg = new Image();
+        newImg.onload = function () {
+            // create base64 image initially:
             if(!documentReloaded) {
-                preloadImage(image);
+                // draw canvas image
+                let canvas = document.createElement("canvas");
+                let ctx = canvas.getContext("2d");
+                canvas.width = newImg.width;
+                canvas.height = newImg.height;
+                ctx.drawImage(newImg, 0, 0);
+
+                // define dataUrl (data:image/jpeg;base64, ...):
+                let dataUrl = canvas.toDataURL("image/jpeg", jpegCompression); 
+                srcImage.src = dataUrl;
+                // feedback process state:
+                updateStorageEventListener("Image preloading... " + srcImage.parentElement.id);
             }
-            if(image.className === "inline-graphic") {
-                img.className = image.className;
-                // classify inline-graphic?
-                image.setAttribute("data-img-width", img.naturalWidth);
-                image.setAttribute("data-img-height", img.naturalHeight);
-            }
-            else {
-                classifyImage(img);
-                let figure = image.parentElement;
-                image.classList = img.classList;
-                figure.classList = img.classList;
-                figure.setAttribute("data-img-width", img.naturalWidth);
-                figure.setAttribute("data-img-height", img.naturalHeight);
-            }
+
+            // classify each image
+            classifyImage(newImg);
+
+            // transfer classes and attributes to figure element:
+            let figure = srcImage.parentElement;
+            srcImage.classList = newImg.classList;
+            figure.classList = newImg.classList;
+            figure.setAttribute("data-img-width", newImg.naturalWidth);
+            figure.setAttribute("data-img-height", newImg.naturalHeight);
         };
-        img.src = image.src;
+        newImg.onerror = function () {
+            srcImage.alt = "Could not convert image: " + newImg.src;
+            newImg.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+        };
+        newImg.src = srcImage.src;
     });
-}
-
-async function preloadImage(image) {
-
-    let dataUrl;
-    let img = new Image();
-    img.onload = function () {
-        let canvas = document.createElement("canvas");
-        canvas.width = img.width;
-        canvas.height = img.height;
-        let ctx = canvas.getContext("2d");
-        ctx.drawImage(img, 0, 0);
-        dataUrl = canvas.toDataURL("image/jpeg", jpegCompression);
-        image.src = dataUrl;
-        updateStorageEventListener("Image preloading... " + image.parentElement.id);
-    };
-    img.onerror = function () {
-        image.alt = "Could not convert image: " + img.src;
-        img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
-    };
-    img.src = image.src;
 }
 
 function classifyImage(image) {
@@ -944,6 +953,9 @@ function addScriptToDocumentHead(scriptName) {
         let script = document.createElement('script');
         script.type = 'text/javascript';
         script.src = scriptLibrary[scriptName]["src-local"];
+        if(scriptName === "htmlViewController") {
+            script.defer = true;
+        }
         document.head.appendChild(script);
     }
     else {
@@ -1343,26 +1355,29 @@ function downloadHTMLDocument() {
         htmlDoc.documentElement.style.setProperty('--journal-color', journalColor);
 
         // fallback-script (for HTML exports);
-        const fallbackScript = function fallback() {
+        const fallbackScript = function fallback(noJs) {
             document.addEventListener("readystatechange", (event) => {
-                if (event.target.readyState === "interactive") {
-                    const errorConsole = document.createElement("div");
-                    errorConsole.style = "padding:0.25rem 1.5rem;font-size:0.9rem;background:#fff5d2;"
-                    errorConsole.innerHTML = "There was a problem loading an external script from the internet." +
-                        "The document is readable entirely but might have reduced functionalities!" +
-                        "Please visit the source address by following the given doi-link;"
-                    window.document.body.prepend(errorConsole);
-                }
+               if (event.target.readyState === "interactive") {
+                  if(noJs) {
+                     const errorConsole = document.createElement("div");
+                     errorConsole.style = "margin-bottom: 1%;font-size:0.9rem;background:#fff8cd;padding: 1% 0;position:sticky;top:0;"
+                     errorConsole.innerHTML = "Oops, there was a problem loading external scripts from the internet." +
+                     " The document is entirely readable but might have reduced functionalities." +
+                     " Please visit the source address by following the given link!"
+                     window.document.body.prepend(errorConsole);
+                  }
+               }
             });
-        }
-        
+         }
+
         // define document-head
-        htmlDoc.head.innerHTML =  
+        htmlDoc.head.innerHTML = 
         " <meta name='title' content='a title'>" +
+        " <meta name='description' content='cite by...'>" +
         "  <script>" + fallbackScript + "</script>" +
-        "  <script type='text/javascript' onerror='this.onerror=null;fallback();' src='src/js/htmlViewController.js'></script>" +
-        "  <link type='text/css' rel='stylesheet' onerror='this.onerror=null;fallback()' href='src/css/viewer-styles.css'>";
-        
+        "  <script type='text/javascript' onerror='this.onerror=null;fallback(true);' src='src/js/htmlViewController.js'></script>" +
+        "  <link type='text/css' rel='stylesheet' onerror='this.onerror=null;fallback(false)' href='src/css/viewer-styles.css'>";
+
         // add main-wrapper to document-body
         let mainWrapper = document.querySelector("#main-wrapper");
         htmlDoc.body.innerHTML = mainWrapper.outerHTML;

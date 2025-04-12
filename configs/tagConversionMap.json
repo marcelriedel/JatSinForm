@@ -127,8 +127,13 @@
             "className": "table-wrap",
             "obligatory": false
         },
+        "boxed-text": {
+            "tagName": "div",
+            "className": "boxed-text",
+            "obligatory": false
+        },
         "title": {
-            "tagName": "h3",
+            "tagName": "title",
             "className": "title",
             "obligatory": false
         },

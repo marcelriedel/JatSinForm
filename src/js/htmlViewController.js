@@ -1,45 +1,3 @@
-/** -------------
-* CONSTANTS
-----------------*/
-const mediaSmallScreen = "screen and (max-width: 924px)";
-
-/** ----------------------------
- * media query event listener
-* @type {EventListenerObject}
---------------------------------*/
-const mediaQuerySmallScreen = window.matchMedia(mediaSmallScreen);
-mediaQuerySmallScreen.addEventListener('change', event => {
-
-    if (event.matches) {
-        document.querySelector('.nav-text-content-wrapper').style = "display: inline-block !important;";
-        showSelectedPanel("text-content-wrapper");
-    } 
-    else {
-        // take what is selected or showSelectedPanel("contents");
-        if(!document.querySelectorAll(".panel.active").length) {
-            showSelectedPanel("contents");
-        }
-        document.querySelector('.nav-text-content-wrapper').style = "none !important;";
-        document.querySelector("#text-content-wrapper").style = "height: 100vh";
-        document.querySelector("#panel-wrapper").style = "height: 100vh";
-    }
-
-    /*
-    let mainText =  document.querySelector("#text-content-wrapper");
-    let panelWrapper =  document.querySelector("#panel-wrapper");
-    if(mediaQuerySmallScreen.matches) {
-        if(selectedPanel == "text-content-wrapper") {
-            mainText.style = "height:100vh;";
-            panelWrapper.style = "height:0;";
-        }
-        else {
-            mainText.style = "height:0;";
-            panelWrapper.style = "height:100vh;";
-        }
-    }
-    */
-})
-
 /** ---------------------------------
  * document state event listener:
  * @type {EventListenerObject}
@@ -47,6 +5,25 @@ mediaQuerySmallScreen.addEventListener('change', event => {
  document.addEventListener("readystatechange", (event) => {
 
     if (event.target.readyState === "interactive") {
+        // remove fallback-styles:
+        let fallbackStyles = document.querySelector("#fallback-styles");
+        if(fallbackStyles !== null) {fallbackStyles.remove();}
+
+        /// Test 
+        let script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = "https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js";
+        document.head.appendChild(script);
+    
+       /* add third-party libraries and stylesheets:
+        addScriptToDocumentHead("highlightJs");
+        addScriptToDocumentHead("highlightJsCss");
+        addScriptToDocumentHead("mediumZoom");
+        addScriptToDocumentHead("leaflet");
+        addScriptToDocumentHead("leafletCss");
+        addScriptToDocumentHead("fontAwesome");
+        */
+
         // add background image:
         let posterImage = document.querySelector("#poster-image > img");
         let mainWrapper = document.querySelector("#main-wrapper");
@@ -60,8 +37,7 @@ mediaQuerySmallScreen.addEventListener('change', event => {
         showSelectedPanel("contents");
         setTimeout(() => {
             highlightAnchorTargets();
-        
-            // background-image moving effect:
+            // add background-image moving effect:
             document.querySelector("#abstract-navigation").addEventListener("mouseover", event => {
                 document.querySelector("#main-wrapper").style.backgroundSize = "80%";
                 document.querySelector("#main-wrapper").style.transition = "all 5s";
@@ -84,12 +60,9 @@ function showSelectedPanel(selectedPanel) {
     panelAnchors.forEach((panelAnchor) => {
         let panelName = panelAnchor.id.slice(2); 
         let panel = document.querySelector("#" + panelName);
-
+  
         if(selectedPanel && panel !== null) {
-            if(selectedPanel === "text-content-wrapper") {
-                /** how to handle the added text-content-wrapper panelAnchor? */
-            }
-            else if(panelName === selectedPanel) {
+            if(panelName === selectedPanel) {
                 // highlight anchor in nav.panel
                 panelAnchor.classList.add("active");
                 panel.classList.replace("hidden", "active");
@@ -112,6 +85,12 @@ function showSelectedPanel(selectedPanel) {
     });
 }
 
+ /**
+ * open abstract box (navigation)
+ * @param {JSON} event: onclick event object 
+ * @returns {void} changes display of related elements in DOM by assigning
+ * classes and css-style-properties
+ */
 function openAbstractBox(event) {
 
     // define ids, states and selected box:
@@ -136,22 +115,10 @@ function openAbstractBox(event) {
     else {selectedBox.style.display = "none";}
 }
 
-function openInternalIndexBox(event) {
-
-    let parent = event.target.parentElement;
-    if(parent !== undefined && parent !== null) {
-        let internalIndexBox = parent.querySelector(".internal-index-box");
-        if(internalIndexBox !== null) {
-            if(internalIndexBox.hidden) {
-                internalIndexBox.hidden = false;
-            }
-            else {
-                internalIndexBox.hidden = true;
-            }
-        } 
-    }
-}
-
+ /**
+ * init(ialize) map containers (.maps) for leaflet
+ * @returns {void} handles over mapId and coords to createMap()
+ */
 function initMaps() {
 
     let maps = document.querySelectorAll(".map");
@@ -170,6 +137,12 @@ function initMaps() {
     });
 }
 
+ /**
+ * create leaflet maps
+ * @param {String} mapId: ids of map elements (divs with class 'map')
+ * @param {Array} coordinates: array wit long and lat values
+ * @returns {void} instantiates leaflet maps (e.g. mapLayers and marker)
+ */
 function createMap(mapId, coordinates) {
 
     // set tile layers:
@@ -209,7 +182,6 @@ function createMap(mapId, coordinates) {
 function focusTocTargetsOnHoverSection() {
 
     const options = {threshold: 1,};
-
     const observer = new IntersectionObserver(sections => {
         sections.forEach(section => {
 
@@ -265,7 +237,7 @@ function highlightAnchorTargets() {
                 targetRef = anchor.getAttribute("href");
                 targetPanel= definePanelNameByTargetId(targetRef);
                 showSelectedPanel(targetPanel);
-               
+
                 // query target:
                 let target;
                 if(targetRef !== null && !targetRef.includes(' ')) {        
@@ -296,7 +268,6 @@ function highlightAnchorTargets() {
 function definePanelNameByTargetId(targetRef) {
 
     let panelName;
-
     switch (true) {
         case (/#f-/.test(targetRef)):
             panelName = "figures";
@@ -308,16 +279,16 @@ function definePanelNameByTargetId(targetRef) {
             panelName = "references";
             break;
         case (/#target-gazetteer/.test(targetRef)):
-            panelName = "references";
+            panelName = "locations";
             break;
         case (/#target-arachne/.test(targetRef)):
-            panelName = "references";
+            panelName = "arachne";
             break;
         case (/#target-field/.test(targetRef)):
-            panelName = "references";
+            panelName = "field";
             break;
         default:
-            panelName = "text-content-wrapper";
+            panelName = "contents";
             break;
     }
     return(panelName);

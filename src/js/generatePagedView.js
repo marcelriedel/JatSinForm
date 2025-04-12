@@ -77,8 +77,10 @@ function controlPagedJsHandler() {
                     // define nodeParams (e.g. position on page, figure references):
                     let nodeParams = defineSourceNodeParameter(sourceNode, renderNode, parsedContent);
 
+                    console.log(nodeParams);
+
                     // exclude figures for defined paragraphs (first text page):
-                    if(nodeParams["contexts"]["pageId"] === firstTextPageId ) {
+                    if(nodeParams["contexts"]["pageId"] == firstTextPageId) {
                         if(nodeParams["currentFigure"]) {
                             pushFigRefToNextNode(sourceNode.id, nodeParams["currentFigure"].id);
                         }
@@ -90,7 +92,7 @@ function controlPagedJsHandler() {
                     else {
                         processFigureEnhancing(nodeParams);
                     }
-
+            
                     // handle over rest of figRefs which exceeds the limit maxNumFigures
                     let maxNumFigures = 2; // limit of figures, each one single node can handle
                     if(nodeParams["figRefs"]) {
@@ -295,10 +297,10 @@ function createPDFArticle(content) {
     article.appendChild(titlePage);
     article.innerHTML += content.querySelector
         ("#content-body").outerHTML;
+    article.append(figureSection);
     article.appendChild(referenceList);
     article.append(noteSection);
     article.appendChild(meta);
-    article.append(figureSection);
 
     // remove or hide redundant elements:
     if(article.querySelector(".front") != null) {
@@ -1064,13 +1066,15 @@ function createTextContentMap(parsedContent, previousMap) {
     let documentId = parsedContent.querySelector("article").id;
     textContentMap["documentId"] = documentId;
 
-    // get content-body and define text-content-selector
+    // get content-body
     let contentBody = parsedContent.querySelector("#content-body");
-    let selector = "p,ul,ol,li,table,pre,code,.title";
+
+    // elements defined as text-elements:
+    let textElementsSelector = "p,ul,ol,table,pre,code";
 
     // select text-content elements:;
-    if(contentBody.querySelectorAll(selector) !== null) {
-        let textElements = contentBody.querySelectorAll(selector);        
+    if(contentBody.querySelectorAll(textElementsSelector) !== null) {
+        let textElements = contentBody.querySelectorAll(textElementsSelector);        
         // process each text element
         for (let i = 0; i < textElements.length; i++) {
              // add text-content class to text element
@@ -1707,6 +1711,8 @@ function processFigureEnhancing(nodeParams) {
         // check if figures fit in current page frame (remaining space)
         let fits = figuresFitInCurrentPageFrame(set, nodeParams);
 
+        console.log(nodeParams);
+
         // execute instructions:
         if(fits["currentFigure"] && fits["nextFigure"]) {
             addTemporaryMarginToFloatingFigure(nextFigure, contexts);
@@ -1993,7 +1999,7 @@ function figuresFitInCurrentPageFrame(set, nodeParams) {
         else {
             fitsCurrentFigure = false;
             fitsNextFigure = false;
-        }     
+        }    
     }
     // check setting of current figure only:
     else if(set["currentFigure"][0]) {
@@ -2021,6 +2027,7 @@ function figuresFitInCurrentPageFrame(set, nodeParams) {
         fitsCurrentFigure = false;
         fitsNextFigure = false;
     }
+ 
     // return results as object:
     return fits = {
         "currentFigure": fitsCurrentFigure,

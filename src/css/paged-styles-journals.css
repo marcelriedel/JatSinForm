@@ -108,6 +108,7 @@
         content: "";
     }
 }
+
 @media screen, pagedjs-ignore {
     body {
         background: url(/../assets/graphics/idaiworld-banner.png);
@@ -480,7 +481,7 @@ table td:first-child { border-left: none; }
 #page-header {
     break-before: page;
     break-after: avoid;
-    margin-bottom: 20mm;
+    margin-bottom: 30mm;
     margin-right: -35mm;
     margin-left: 40mm;
 }

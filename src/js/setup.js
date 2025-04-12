@@ -81,7 +81,7 @@ for (let i = 0; i < constellationKeys.length; i++) {
         nextFigureSet = "[true, false]";
     }
 
-    /* adjust width-type of floats */
+    // adjust width-type of floats 
     if(/float-w-col-2/.test(splits[indexFigBefore])
     && /float/.test(splits[indexCurrentFig])) {
         currentFigureSet = "[false, \"float-w-col-2\"]" + ",";
