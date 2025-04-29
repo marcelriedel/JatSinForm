@@ -112,7 +112,7 @@
 
 @media screen, pagedjs-ignore {
     body {
-        background: url(/../assets/graphics/idaiworld-banner.png);
+        background: url(assets/graphics/idaiworld-banner.png);
     }
 
     .pagedjs_pages {
@@ -699,7 +699,7 @@ span.footnote {
 .orcid-icon {
     padding-right: 4mm;
     margin-left: 1mm;
-    background: url(/../assets/graphics/ORCID.png);
+    background: url(assets/graphics/ORCID.png);
     background-size: contain;
     background-repeat: no-repeat;
     text-decoration: none;
@@ -708,7 +708,7 @@ span.footnote {
 .ror-icon {
     padding-right: 6mm;
     margin-left: 1mm;
-    background: url(/../assets/graphics/ROR.png);
+    background: url(assets/graphics/ROR.png);
     background-size: contain;
     background-repeat: no-repeat;
     text-decoration: none;
@@ -1120,16 +1120,16 @@ ul.toc-list {
 @font-face {
     font-family: "Noto Serif Light";
     src: 
-    url(/assets/fonts/NotoSerif-Light.woff2) format("woff2"),
-    url(/assets/fonts/NotoSerif-Light.woff) format("woff");
+    url(assets/fonts/NotoSerif-Light.woff2) format("woff2"),
+    url(assets/fonts/NotoSerif-Light.woff) format("woff");
     font-weight: 300;
     font-style: normal; 
 }
 
 @font-face {
     font-family: "Noto Sans Light";
-    src: url(/assets/fonts/NotoSans-Light.woff2) format("woff2"),
-    	url(/assets/fonts/NotoSans-Light.woff) format("woff");
+    src: url(assets/fonts/NotoSans-Light.woff2) format("woff2"),
+    	url(assets/fonts/NotoSans-Light.woff) format("woff");
     font-weight: 300;
     font-style: normal; 
 }

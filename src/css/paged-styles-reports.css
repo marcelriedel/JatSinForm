@@ -59,7 +59,7 @@
 
 @media screen, pagedjs-ignore {
     body {
-        background: url(/../assets/graphics/idaiworld-banner.png);
+        background: url(assets/graphics/idaiworld-banner.png);
     }
 
     .pagedjs_pages {

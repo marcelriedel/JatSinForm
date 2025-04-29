@@ -1011,16 +1011,16 @@ details[open] summary::before {
 @font-face {
     font-family: "Noto Serif Light";
     src: 
-    url(/assets/fonts/NotoSerif-Light.woff2) format("woff2"),
-    url(/assets/fonts/NotoSerif-Light.woff) format("woff");
+    url(assets/fonts/NotoSerif-Light.woff2) format("woff2"),
+    url(assets/fonts/NotoSerif-Light.woff) format("woff");
     font-weight: 300;
     font-style: normal; 
 }
 
 @font-face {
     font-family: "Noto Sans Light";
-    src: url(/assets/fonts/NotoSans-Light.woff2) format("woff2"),
-    	url(/assets/fonts/NotoSans-Light.woff) format("woff");
+    src: url(assets/fonts/NotoSans-Light.woff2) format("woff2"),
+    	url(assets/fonts/NotoSans-Light.woff) format("woff");
     font-weight: 300;
     font-style: normal; 
 }
