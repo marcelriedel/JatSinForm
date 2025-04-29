@@ -1,17 +1,25 @@
 <!DOCTYPE html>
 <html lang="de">
    <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
       <title>JatSinForm</title>
+      <script src="src/js/app.js" type="text/javascript"></script>
+      <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta name="--xml-file" content="FdAI-2022_Baumeister.xml">
-      <script src="src/js/main.js" types\="application/javascript"></script>
+      <meta name="--from-xml" content="true">
+      <meta name="--xml-file" content="FdAI-2022_Baumeister.xml"> 
    </head>
    <body>
       <script>
          // xml-document related constants:
          const xmlFromEditor = false; // load editor-xml from localStorage
          const xmlFolder = "xml-documents" // path to xml
+
+         // all views related:
+         const jpegCompression = 0.5; // 1 = without compression
+         const checkUrlPersistence = false;
+         const addDocumentIndex = true;
+
+         // pdf view related:
          const pagesFlexDirection = "row"; // "row" or "column"
          const firstTextPageId = "page-2";
          const rangeNextFigRefs = 10;
@@ -19,10 +27,9 @@
          const rangeOverSection = true;
          const maxAbstractLength = 2500;
          const maxFootnoteLength = 2000;
-         const checkUrlPersistence = false;
+         const maxCaptionLength = 1000;
          const setEndnotes = false;
          const createToC = false;
-         const addDocumentIndex = true;
          const addClassesAsElementTitle = false;
 
          // define titles of meta-section:
@@ -84,17 +91,6 @@
             "sp": "con contribuciones del",
             "es": "con contribuciones del"
          };
-
-         // keyboard control keys:
-         const reload = "r";
-         const hardReset = "q";
-         const showPagedView = "p";
-         const showHTMLView = "v";
-         const setupFigConstellations = "*";
-         const highlightFigReferences = "f";
-         const highlightContextInfo = "h";
-         const displayOverflows = "o";
-         const figureToTop = "t";   // while figure:hover (.active)
       </script>
    </body>
 </html>
