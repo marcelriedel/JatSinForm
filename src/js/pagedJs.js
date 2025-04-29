@@ -685,6 +685,7 @@
 	}
 
 	function nodeAfter(node, limiter) {
+		if(node == undefined) return;
 		if (limiter && node === limiter) {
 			return;
 		}
@@ -1297,6 +1298,7 @@
 	 *  2) null if no such node exists.
 	 */
 	function nextSignificantNode(sib) {
+		if(sib === undefined) return null;
 		while ((sib = sib.nextSibling)) {
 			if (!isIgnorable(sib)) return sib;
 		}
@@ -31086,7 +31088,6 @@
 				let currentNote = notes[i];
 				let bounds = currentNote.getBoundingClientRect();
 				let left = bounds.left;
-
 				if (left < right) {
 					// Add call for the note
 					this.moveFootnote(currentNote, node.closest(".pagedjs_area"), true);
@@ -31095,7 +31096,6 @@
 		}
 
 		moveFootnote(node, pageArea, needsNoteCall) {
-			// let pageArea = node.closest(".pagedjs_area");
 			let noteArea = pageArea.querySelector(".pagedjs_footnote_area");
 			let noteContent = noteArea.querySelector(".pagedjs_footnote_content");
 			let noteInnerContent = noteContent.querySelector(".pagedjs_footnote_inner_content");
@@ -31225,6 +31225,10 @@
 					"--pagedjs-footnotes-height",
 					`${height + noteContentMargins + noteContentBorders}px`
 				);
+
+				//!!!! test restriction of fn-height:!!!
+				// pageArea.style.setProperty("--pagedjs-footnotes-height", "100px");
+			
 			} else {
 				// set height to just before note call
 				pageArea.style.setProperty(
