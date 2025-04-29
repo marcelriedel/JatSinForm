@@ -1,0 +1,55 @@
+{
+  "application": {
+    "showPagedView": 
+      ["p", "show paged view"],
+    "showHTMLView": 
+      ["v", "show web view"],
+    "showEditorView": 
+      ["e", "show editor view, not implemented"],
+    "setupFigConstellations": 
+      ["ß", "create figConstellation.json"],
+    "reload": 
+      ["r", "reload page"],
+    "hardReset": 
+      ["q", "reload page (with style refresh)"],
+    "highlightFigReferences": 
+      ["f", "highlight all fig references"],
+    "highlightContextInfo": 
+      ["h", "highlight context information"],
+    "displayOverflows": 
+      ["o", "display overflows in paged view"],
+    "downloadDocumentFiles": 
+      ["d", "download document configs or HTML Document"],
+    "setAllFigsToTiny": 
+      ["t", "tiny", "set size class of all figures to tiny"],
+    "setAllFigsToSmall": 
+      ["s", "small", "set size class of all figures to small"],
+    "setAllFigsToMedium": 
+      ["m", "medium", "set size class of all figures to medium"],
+    "setAllFigsToLarge": 
+      ["l", "large", "set size class of all figures to large"]
+  },
+  "figure": {
+    "toTop":
+      ["u", false, "place figure on top of page"],
+    "switchCaption":
+      ["c", {
+        "regular": "regular-bottom",
+        "regular-bottom": "regular",
+        "overmargin": "overmargin-bottom",
+        "overmargin-bottom": "overmargin"
+      }, "switch position of fig-caption"],
+    "toOvermargin":
+      ["1", "overmargin", "set figure class to overmargin"],
+    "toRegular":
+      ["2", "regular", "set figure class to regular"],
+    "toInset":
+      ["3", "inset", "set figure class to inset"],
+    "toFloatWCol6":
+      ["4", "float-w-col-6", "set figure class to float-w-col-6"],
+    "toFloatWCol4":
+      ["5", "float-w-col-4", "set figure class to float-w-col-4"],
+    "toFloatWCol2":
+      ["6", "float-w-col-2", "set figure class to float-w-col-2"]
+  }
+}

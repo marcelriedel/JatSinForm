@@ -37,11 +37,6 @@
             "className": "poster-image",
             "obligatory": false
         },
-        "fig": {
-            "tagName": "figure",
-            "className": false,
-            "obligatory": false
-        },
         "named-content": {
             "tagName": "span",
             "className": "paragraph-counter",
@@ -133,7 +128,7 @@
             "obligatory": false
         },
         "title": {
-            "tagName": "title",
+            "tagName": "div",
             "className": "title",
             "obligatory": false
         },

@@ -3,6 +3,9 @@
     "journalId": "AA",
     "journalMainColor": "#E2510C",
     "figureTypesettingClass": {
+      "tiny-landscape": "float-w-col-2",
+      "tiny-square": "float-w-col-2",
+      "tiny-portrait": "float-w-col-2",
       "small-landscape": "float-w-col-6",
       "medium-landscape": "overmargin",
       "large-landscape": "overmargin",
@@ -28,6 +31,9 @@
     "journalId": "JoGA",
     "journalMainColor": "#515249",
     "figureTypesettingClass": {
+      "tiny-landscape": "float-w-col-2",
+      "tiny-square": "float-w-col-2",
+      "tiny-portrait": "float-w-col-2",
       "small-landscape": "float-w-col-6",
       "medium-landscape": "overmargin",
       "large-landscape": "overmargin",
@@ -50,9 +56,13 @@
     }
   },
   "e-DAI-F": {
+    "journalId": "e-DAI-F",
     "journalMainColor": "#164194",
     "figCaptionsAtPageBottom": true,
     "figureTypesettingClass": {
+      "tiny-landscape": "float-w-col-2",
+      "tiny-square": "float-w-col-2",
+      "tiny-portrait": "float-w-col-2",
       "small-landscape": "regular",
       "medium-landscape": "regular",
       "large-landscape": "regular",
@@ -75,7 +85,11 @@
   "FdAI": {
     "journalId": "FdAI",
     "journalMainColor": "#557ebb",
+    "figCaptionsAtPageBottom": false,
     "figureTypesettingClass": {
+      "tiny-landscape": "float-w-col-2",
+      "tiny-square": "float-w-col-2",
+      "tiny-portrait": "float-w-col-2",
       "small-landscape": "float-w-col-6",
       "medium-landscape": "regular",
       "large-landscape": "overmargin",
@@ -101,6 +115,9 @@
     "journalId": "MM",
     "journalMainColor": "#0092d0",
     "figureTypesettingClass": {
+      "tiny-landscape": "float-w-col-2",
+      "tiny-square": "float-w-col-2",
+      "tiny-portrait": "float-w-col-2",
       "small-landscape": "float-w-col-6",
       "medium-landscape": "overmargin",
       "large-landscape": "overmargin",
@@ -126,6 +143,9 @@
     "journalId": "RM",
     "journalMainColor": "#002E54",
     "figureTypesettingClass": {
+      "tiny-landscape": "float-w-col-2",
+      "tiny-square": "float-w-col-2",
+      "tiny-portrait": "float-w-col-2",
       "small-landscape": "float-w-col-6",
       "medium-landscape": "overmargin",
       "large-landscape": "overmargin",
@@ -151,6 +171,9 @@
     "journalId": "PhDAI",
     "journalMainColor": "#50bcbd",
     "figureTypesettingClass": {
+      "tiny-landscape": "float-w-col-2",
+      "tiny-square": "float-w-col-2",
+      "tiny-portrait": "float-w-col-2",
       "small-landscape": "float-w-col-6",
       "medium-landscape": "overmargin",
       "large-landscape": "overmargin",
@@ -176,6 +199,9 @@
     "journalId": "JdI",
     "journalMainColor": "#004b87",
     "figureTypesettingClass": {
+      "tiny-landscape": "float-w-col-2",
+      "tiny-square": "float-w-col-2",
+      "tiny-portrait": "float-w-col-2",
       "small-landscape": "float-w-col-6",
       "medium-landscape": "overmargin",
       "large-landscape": "overmargin",
@@ -201,6 +227,9 @@
     "journalId": "IM",
     "journalMainColor": "#6c1d45",
     "figureTypesettingClass": {
+      "tiny-landscape": "float-w-col-2",
+      "tiny-square": "float-w-col-2",
+      "tiny-portrait": "float-w-col-2",
       "small-landscape": "float-w-col-6",
       "medium-landscape": "overmargin",
       "large-landscape": "overmargin",
@@ -226,6 +255,9 @@
     "journalId": "MDAIK",
     "journalMainColor": "rgb(182, 0, 75)",
     "figureTypesettingClass": {
+      "tiny-landscape": "float-w-col-2",
+      "tiny-square": "float-w-col-2",
+      "tiny-portrait": "float-w-col-2",
       "small-landscape": "float-w-col-6",
       "medium-landscape": "overmargin",
       "large-landscape": "overmargin",
@@ -251,6 +283,9 @@
     "journalId": "ZOrA",
     "journalMainColor": "#7c8f7e",
     "figureTypesettingClass": {
+      "tiny-landscape": "float-w-col-2",
+      "tiny-square": "float-w-col-2",
+      "tiny-portrait": "float-w-col-2",
       "small-landscape": "float-w-col-6",
       "medium-landscape": "overmargin",
       "large-landscape": "overmargin",
@@ -280,6 +315,9 @@
     "journalId": "GGeschichte",
     "journalMainColor": "rgb(151, 139, 139)",
     "figureTypesettingClass": {
+      "tiny-landscape": "float-w-col-2",
+      "tiny-square": "float-w-col-2",
+      "tiny-portrait": "float-w-col-2",
       "small-landscape": "float-w-col-6",
       "medium-landscape": "overmargin",
       "large-landscape": "overmargin",
