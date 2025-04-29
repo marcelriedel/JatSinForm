@@ -82,9 +82,10 @@ errorConsole.id = "error";
 const faviconLink = document.createElement("link");
 faviconLink.type = 'image/png';
 faviconLink.rel = 'icon';
-faviconLink.href = "/assets/graphics/greif.png";
+faviconLink.href = "/src/css/assets/graphics/greif.png";
 
-/** --------------------------------------
+/** -------------------
+ * -------------------
  * Document state event listener:
  * @type {document}
  * @type {EventListenerObject}
