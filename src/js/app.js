@@ -1,18 +1,5 @@
 /** -------------------------------------
- * TO-DO to reach v.0.9
- * 
- * - finish main.js (including src-code-doc)
- * - deploy jatsInform for download on github
- * - deploy jatsInform at publications.dainst.de
- * - handle title-elements on page bottom
- * - handling of large scale portrait images
- * - optimize calculations of image placement
- * - IM_72_Chameroy.xml xml-bug with caption
- * - check browser support
----------------------------------------*/
-
-/** -------------------------------------
- * Main script constants:
+ * Application script constants:
  * @type {Constants}
 ---------------------------------------*/
 const scriptLibrary = {
@@ -92,6 +79,11 @@ const errorConsole = document.createElement("div");
 errorConsole.innerHTML = "<h3>Critical error found:</h3>";
 errorConsole.id = "error";
 
+const faviconLink = document.createElement("link");
+faviconLink.type = 'image/png';
+faviconLink.rel = 'icon';
+faviconLink.href = "/assets/graphics/greif.png";
+
 /** --------------------------------------
  * Document state event listener:
  * @type {document}
@@ -100,6 +92,9 @@ errorConsole.id = "error";
 document.addEventListener("readystatechange", (event) => {
 
     if (event.target.readyState === "interactive") {
+
+        // add favicon link
+        document.head.appendChild(faviconLink);
 
         // add third-party libraries and stylesheets:
         addScriptToDocumentHead("qrCodeJs");
