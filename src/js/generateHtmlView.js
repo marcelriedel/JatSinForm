@@ -1,21 +1,26 @@
-/** --------------------------
-* Create main DOM-elements
-------------------------------*/
+/** -----------------------------------
+* Create main DOM-elements as constants
+----------------------------------------*/
+// initialize navigationPanels array:
+const navigationPanelsDocument = [];
+
+// navigation element to switch between each panel
+const navHeader = document.createElement("div");
+navHeader.id = "nav-header";
+
+// wrapper for textContent and panelWrapper
 const mainWrapper = document.createElement("div");
 mainWrapper.id = "main-wrapper";
 
+// wrapper containing the text-content (main-text)
 const textContentWrapper = document.createElement("div");
 textContentWrapper.id = "text-content-wrapper";
 textContentWrapper.classList.add("column");
 
+// wrapper containing all panels (figures, referenceList)
 const panelWrapper = document.createElement("div");
 panelWrapper.id = "panel-wrapper";
 panelWrapper.classList.add("column");
-
-const navHeader = document.createElement("div");
-navHeader.id = "nav-header";
-
-const navigationPanelsDocument = [];
 
 /** --------------------------------------
  * window document state event listener:
@@ -44,8 +49,11 @@ const navigationPanelsDocument = [];
             panelContents.appendChild(posterImage);
         }
       
-        // extract supplement links:
-        let supplementsLinks = extractSupplementsLinks();
+        // extract supplement links from anchors:
+        let anchors = document.querySelectorAll( // exclude weblinks and zenon-links
+            "a.ext-ref:not([data-specific-use='weblink']):not([data-specific-use='zenon']"
+        ); 
+        let supplementsLinks = extractSupplementsLinks(anchors);
         let numSupplements = countSupplementLinks(supplementsLinks);
         
         // create content and supplementary panels:
@@ -80,7 +88,6 @@ const navigationPanelsDocument = [];
         document.querySelectorAll('img:not(.iDAI-icon)').forEach(function(img) {
             img.onerror = function(){this.style.display='none';};
             img.setAttribute("loading", "lazy");
-            img.setAttribute("data-zoomable", true);
             scaleImage(img);
         });
 
@@ -744,15 +751,15 @@ function appendFetchStateBarToPanel(panel, dataSourceId) {
     panel.appendChild(fetchStateBar); 
 }
 
-function extractSupplementsLinks() {
+/**
+ * extract supplement links (inlcuding location data)
+ * @param {NodeList} anchors specified as supplement links
+ * @returns {array} supplementsLinks: array enriched with urlProperties
+ */
+function extractSupplementsLinks(anchors) {
 
     let supplementsLinks = [];
     let selfHost= window.location.host;
-        
-    // query anchors:
-    let anchors = document.querySelectorAll( // exclude weblinks and zenon-links
-        "a.ext-ref:not([data-specific-use='weblink']):not([data-specific-use='zenon']"
-    ); 
         
     // parse anchors:
     let targetPrefix; 
@@ -797,6 +804,12 @@ function extractSupplementsLinks() {
     return(supplementsLinks);
 }
 
+/**
+ * count supplement links (for document index)
+ * @param {array} supplementsLinks: array enriched with urlProperties
+ * @returns {array} numSupplements: array with amount of links, sorted
+ * by source system (e.g. gazetter, arachne)
+ */
 function countSupplementLinks(supplementsLinks) {
 
     // init object:
@@ -821,6 +834,11 @@ function countSupplementLinks(supplementsLinks) {
     return(numSupplements);
 }
 
+/**
+ * get url of supplement link referencing to data api
+ * @param {object} url-interface object from given anchor-href
+ * @returns {json} apiRefUrl: json with url properties
+ */
 function getApiRefUrl(url) {
 
     let apiRefUrl = {};
@@ -854,6 +872,12 @@ function getApiRefUrl(url) {
     return(apiRefUrl);
 }
 
+/**
+ * (async) fetch external (supplement) data
+ * @param {array} supplementsLinks: array enriched with urlProperties
+ * @returns {void} stores the fetched results in supplementLinks and 
+ * handles it over to renderExternalData()
+ */
 async function fetchExternalData(supplementsLinks) {
 
     let handleError = function() {
@@ -894,6 +918,13 @@ async function fetchExternalData(supplementsLinks) {
     renderExternalData(supplementsLinks);
 }
 
+/**
+ * render fetched results of external (supplement) data
+ * @param {array} supplementsLinks: array enriched with urlProperties and 
+ * fetched results
+ * @returns {void} the results are handled over to function for parsing
+ * and display
+ */
 function renderExternalData(supplementsLinks) {
 
     let result;
@@ -928,17 +959,12 @@ function renderExternalData(supplementsLinks) {
     }
 }
 
-function parseArachneData(data) {
-
-    return {
-        "type": (data.type !== undefined) ? data.type : false,
-        "title": (data.title !== undefined) ? data.title : false,
-        "subtitle": (data.subtitle !== undefined) ? data.subtitle : false,
-        "images": ( data.images !== undefined) ? data.images : false,
-        "url": (data["@id"] !== undefined) ? data["@id"] : false
-    };
-}
-
+/**
+ * parse data from iDAI.gazetteer (location data)
+ * @param {array} data: results fetched from apiSource
+ * @returns {json} json storing the parsed result (e.g. prefName,
+ * location data)
+ */
 function parseGazetteerData(data) {
 
     return {
@@ -950,6 +976,29 @@ function parseGazetteerData(data) {
     };
 }
 
+/**
+ * parse supplementary data from iDAI.objects (arachne)
+ * @param {array} data: results fetched from apiSource
+ * @returns {json} json storing the parsed result (e.g. title,
+ * images)
+ */
+function parseArachneData(data) {
+
+    return {
+        "type": (data.type !== undefined) ? data.type : false,
+        "title": (data.title !== undefined) ? data.title : false,
+        "subtitle": (data.subtitle !== undefined) ? data.subtitle : false,
+        "images": ( data.images !== undefined) ? data.images : false,
+        "url": (data["@id"] !== undefined) ? data["@id"] : false
+    };
+}
+
+/**
+ * parse supplementary data from iDAI.field
+ * @param {array} data: results fetched from apiSource
+ * @returns {json} json storing the parsed result (e.g. description,
+ * imageSource)
+ */
 function parseFieldData(data) {
 
     // parse descriptionObject (has language key)
@@ -979,6 +1028,74 @@ function parseFieldData(data) {
     };
 }
 
+/**
+ * display of parsed location data from iDAI.gazetteer
+ * @param {array} values: parsed (gazetteer) data
+ * @returns {void} elements containing data are added
+ * to the document as externalObject (html elements)
+ */
+function displayGazetteerData(values) {
+
+    let externalObject = createExternalObjectElement("gazetteer");
+    let objectName = externalObject.querySelector(".object-name");
+    let objectData = externalObject.querySelector(".object-data");
+    let objectVisualization = externalObject.querySelector(".object-visualization");
+    let dataSourceLink = externalObject.querySelector(".data-source-link"); 
+
+    // enrich elements with parsed data values:
+    if(values["hasResult"]) {
+        let data = values["parsed"];
+
+        if(values.refText) {
+            objectName.innerText = values.refText;
+        }
+        if(data.prefName.title !== undefined) {
+            objectData.innerText = data.prefName.title;
+        }
+        if(data.url) {
+            dataSourceLink.innerText = data.url;
+            dataSourceLink.href = data.url;
+        }
+        if(values["refAnchorId"]) {
+            objectVisualization.id = "target-gazetteer-" + values["refAnchorId"];
+        }
+
+        // create map:
+        let map = document.createElement("div");
+        map.id = "map-" + values["refAnchorId"];
+        map.classList.add("map");
+
+        // assign coordinates:
+        if(values["parsed"].location) {
+            if(values["parsed"].location.coordinates) {
+                coords = values["parsed"].location.coordinates;
+                map.setAttribute("longitude" , coords[0]);
+                map.setAttribute("latitude" , coords[1]);
+            }
+            else {
+                console.warn("Notice for editors: " + 
+                "place has shape-coordinates only", values["parsed"])
+            }
+        }
+        objectVisualization.appendChild(map);
+    }
+    else {
+        objectName.classList.add("warning-text");
+        objectData.classList.add("warning-box");
+        objectName.innerText = "'" + values.refText + "' could not be fetched!";
+        objectData.innerText = "Checkout url of xlink:href: " + values["apiUrl"];
+    }
+
+    // append elements to #locations
+    document.querySelector('#locations').appendChild(externalObject);
+}
+
+/**
+ * display of parsed supplementary data from iDAI.objects (arachne)
+ * @param {array} values: parsed (arachne) data
+ * @returns {void} elements containing data are added
+ * to the document as externalObject (html elements)
+ */
 function displayArachneData(values) {
 
     let externalObject = createExternalObjectElement("arachne");
@@ -1033,6 +1150,12 @@ function displayArachneData(values) {
     document.querySelector('#arachne').append(externalObject);
 }
 
+/**
+ * display of parsed supplementary data from iDAI.field
+ * @param {array} values: parsed (field) data
+ * @returns {void} elements containing data are added
+ * to the document as externalObject (html elements)
+ */
 function displayFieldData(values) {
 
     let externalObject = createExternalObjectElement("field");
@@ -1076,82 +1199,41 @@ function displayFieldData(values) {
     document.querySelector('#field').append(externalObject);
 }
 
-function displayGazetteerData(values) {
-
-    let externalObject = createExternalObjectElement("gazetteer");
-    let objectName = externalObject.querySelector(".object-name");
-    let objectData = externalObject.querySelector(".object-data");
-    let objectVisualization = externalObject.querySelector(".object-visualization");
-    let dataSourceLink = externalObject.querySelector(".data-source-link"); 
-
-    // enrich elements with parsed data values:
-    if(values["hasResult"]) {
-        let data = values["parsed"];
-
-        if(values.refText) {
-            objectName.innerText = values.refText;
-        }
-        if(data.prefName.title !== undefined) {
-            objectData.innerText = data.prefName.title;
-        }
-        if(data.url) {
-            dataSourceLink.innerText = data.url;
-            dataSourceLink.href = data.url;
-        }
-        if(values["refAnchorId"]) {
-            objectVisualization.id = "target-gazetteer-" + values["refAnchorId"];
-        }
-
-        // create map:
-        let map = document.createElement("div");
-        map.id = "map-" + values["refAnchorId"];
-        map.classList.add("map");
-
-        // assign coordinates:
-        if(values["parsed"].location) {
-            if(values["parsed"].location.coordinates) {
-                coords = values["parsed"].location.coordinates;
-                map.setAttribute("longitude" , coords[0]);
-                map.setAttribute("latitude" , coords[1]);
-            }
-            else {console.log("place has shape.coordinates only", values["parsed"])}
-        }
-        objectVisualization.appendChild(map);
-    }
-    else {
-        objectName.classList.add("warning-text");
-        objectData.classList.add("warning-box");
-        objectName.innerText = "'" + values.refText + "' could not be fetched!";
-        objectData.innerText = "Checkout url of xlink:href: " + values["apiUrl"];
-    }
-
-    // append elements to #locations
-    document.querySelector('#locations').appendChild(externalObject);
-}
-
+/**
+ * create elements for external data (supplements)
+ * @param {String} source: short name of the source system, 
+ * e.g. field, arachne, used as className for each externalObject
+ * @returns {HTMLElement} externalObject, <details>-element with
+ * multiple childs (e.g. object-visualization)
+ */
 function createExternalObjectElement(source) {
 
+    // details-element for html-native open/close option
     let externalObject = document.createElement("details");
     externalObject.classList.add("external-object");
     externalObject.classList.add(source);
 
+    // summary to display the (data) object name
     let objectName = document.createElement("summary");
     objectName.classList.add("object-name");
 
+    // wrapper div to add specific object data
     let objectData = document.createElement("div");
     objectData.classList.add("object-data");
     
+    // wrapper div to add images and other other visualizations
     let objectVisualization = document.createElement("div");
     objectVisualization.classList.add("object-visualization");
     
+    // wrapper div to add data source url
     let dataSourceInfo = document.createElement("div");
     dataSourceInfo.classList.add("data-source-info");
-
     let sourceLink = document.createElement("a");
     sourceLink.classList.add("data-source-link");
     sourceLink.target = "_blank";
     dataSourceInfo.appendChild(sourceLink);
 
+    // add all childs
     externalObject.appendChild(objectName);
     externalObject.appendChild(objectData);
     externalObject.appendChild(dataSourceInfo);
@@ -1159,9 +1241,18 @@ function createExternalObjectElement(source) {
 
     // remove fetchStateBar:
     document.querySelector("#fetch-state-" + source).style.display = "none";
+
     return(externalObject);
 }
 
+/**
+ * async: read external image data and create img-element
+ * @param {String} url: image url of the source system
+ * @param {HTMLElement} objectVisualization: div as child of
+ * externalObjectElement
+ * @returns {void} reads image data as dataUrl (base64-format) 
+ * and appends it to the objectVisualization container
+ */
 async function createExternalObjectImage(url, objectVisualization) {
 
     let objectImage = document.createElement("img");

@@ -1,3 +1,39 @@
+/** -------------------------------------
+ * html view script libraries 
+ * @type {Constants}
+---------------------------------------*/
+const htmlViewScriptLibrary = {
+    "highlightJs": {
+        "type": "text/javascript",
+        "src-remote": "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js",
+        "src-local": "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js",
+    },
+    "highlightJsCss": {
+        "type": "text/css",
+        "src-remote": "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css",
+        "src-local": "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css",
+    },
+    "mediumZoom": {
+        "type": "text/javascript",
+        "src-remote": "https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js",
+        "src-local": "https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js"
+    },
+    "leaflet": {
+        "type": "text/javascript",
+        "src-remote": "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js",
+        "src-local": "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    },
+    "leafletCss": {
+        "type": "text/css",
+        "src-remote": "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css",
+        "src-local": "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    },
+    "fontAwesome": {
+        "type": "text/css",
+        "src-remote": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css",
+        "src-local": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" // "src/css/font-awesome-min.css"
+    }
+} 
 /** ---------------------------------
  * document state event listener:
  * @type {EventListenerObject}
@@ -5,26 +41,27 @@
  document.addEventListener("readystatechange", (event) => {
 
     if (event.target.readyState === "interactive") {
+        
+        // document is single HTML downloaded or html view from xml
+        let isSingleHTMLFile;
+        if(document.querySelector('meta[name="--from-xml"]') === null) {
+            isSingleHTMLFile = true;
+        } else isSingleHTMLFile = false;
+
+        // add third-party libraries and stylesheets:
+        if(isSingleHTMLFile) {
+            addScriptToDocumentHead("highlightJs");
+            addScriptToDocumentHead("highlightJsCss");
+            addScriptToDocumentHead("leaflet");
+            addScriptToDocumentHead("leafletCss");
+            addScriptToDocumentHead("fontAwesome");
+        }
+     
         // remove fallback-styles:
         let fallbackStyles = document.querySelector("#fallback-styles");
         if(fallbackStyles !== null) {fallbackStyles.remove();}
 
-        /// Test 
-        let script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.src = "https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js";
-        document.head.appendChild(script);
-    
-       /* add third-party libraries and stylesheets:
-        addScriptToDocumentHead("highlightJs");
-        addScriptToDocumentHead("highlightJsCss");
-        addScriptToDocumentHead("mediumZoom");
-        addScriptToDocumentHead("leaflet");
-        addScriptToDocumentHead("leafletCss");
-        addScriptToDocumentHead("fontAwesome");
-        */
-
-        // add background image:
+        // add poster image as background image:
         let posterImage = document.querySelector("#poster-image > img");
         let mainWrapper = document.querySelector("#main-wrapper");
         let backgroundStyles = "background: url(" + posterImage.src + ") #ffffff; " +
@@ -36,11 +73,15 @@
         focusTocTargetsOnHoverSection();
         showSelectedPanel("contents");
         setTimeout(() => {
-            highlightAnchorTargets();
+            // highlight anchor targets:
+            let anchors = document.querySelectorAll(
+                "a.fig-ref,a.bib-ref,a.fn-ref,a.ext-ref,a.index-ref");
+            highlightAnchorTargets(anchors);
             // add background-image moving effect:
-            document.querySelector("#abstract-navigation").addEventListener("mouseover", event => {
-                document.querySelector("#main-wrapper").style.backgroundSize = "80%";
-                document.querySelector("#main-wrapper").style.transition = "all 5s";
+            document.querySelector("#abstract-navigation")
+                .addEventListener("mouseover", event => {
+                    document.querySelector("#main-wrapper").style.backgroundSize = "80%";
+                    document.querySelector("#main-wrapper").style.transition = "all 5s";
             });
         }, 500);
     }
@@ -69,13 +110,8 @@ function showSelectedPanel(selectedPanel) {
           
                 // initMaps during panel-display:
                 if(selectedPanel === "locations") {
-                    setTimeout(initMaps, 500);
+                    setTimeout(initMaps(".map"), 500);
                 }
-                // init zoom of medium-zoom-lib:
-                mediumZoom('[data-zoomable]', {
-                    background: 'rgb(255 255 255 / 0%);',
-                    scrollOffset: 0,
-                })
             }
             else {
                 panel.classList.replace("active", "hidden");
@@ -116,12 +152,13 @@ function openAbstractBox(event) {
 }
 
  /**
- * init(ialize) map containers (.maps) for leaflet
+ * init(ialize) map containers for leaflet
+ * @param {String} selector css-selector of map container(s)
  * @returns {void} handles over mapId and coords to createMap()
  */
-function initMaps() {
+function initMaps(selector) {
 
-    let maps = document.querySelectorAll(".map");
+    let maps = document.querySelectorAll(selector);
     maps.forEach(map => {
         let coords = [];
         if(map.getAttribute("longitude") !== null && 
@@ -179,6 +216,11 @@ function createMap(mapId, coordinates) {
     }
 }
 
+ /**
+ * focus toc-targets when hover over section
+ * @returns {void} classes of targeted toc elements will be changed
+ * if the come into viewport (detected by intersection observer)
+ */
 function focusTocTargetsOnHoverSection() {
 
     const options = {threshold: 1,};
@@ -224,20 +266,26 @@ function focusTocTargetsOnHoverSection() {
     });
 }
 
-function highlightAnchorTargets() {
-
+ /**
+ * highlight (internal) targets of anchors when clicked
+ * @param {NodeList} anchors: nodeList of internal anchors
+ * @returns {void} adds a click-event listener that displays
+ * the panels of the anchor-targets and highlights the anchor
+ * targets itself (by scrollIntoView and css-classes)
+ */
+function highlightAnchorTargets(anchors) {
     let targetRef;
-    let targetPanel;
+    let targetPanelName;
 
-    let anchors = document.querySelectorAll(
-        "a.fig-ref,a.bib-ref,a.fn-ref,a.ext-ref,a.index-ref");
     if(anchors !== undefined && anchors.length) {
         anchors.forEach((anchor) => {
+            // when clicked
             anchor.addEventListener("click", event => {
+                // define target
                 targetRef = anchor.getAttribute("href");
-                targetPanel= definePanelNameByTargetId(targetRef);
-                showSelectedPanel(targetPanel);
-
+                targetPanelName= definePanelNameByTargetId(targetRef);
+                // show panel first:
+                showSelectedPanel(targetPanelName);
                 // query target:
                 let target;
                 if(targetRef !== null && !targetRef.includes(' ')) {        
@@ -245,8 +293,8 @@ function highlightAnchorTargets() {
                 } else {target = null;}
 
                 if(target !== null) {
-                    // give panel change a bit of time:
-                    setTimeout(() => {
+                     // give panel a bit of time to change
+                    setTimeout(() => { 
                         target.classList.toggle('active');
                         target.classList.add('highlight');
                         target.scrollIntoView({
@@ -255,7 +303,6 @@ function highlightAnchorTargets() {
                         });
                     }, 500);
                 }
-        
                 // reset the color after a short delay
                 setTimeout(() => {
                     target.classList.remove("highlight");
@@ -265,26 +312,33 @@ function highlightAnchorTargets() {
     }
 }
 
-function definePanelNameByTargetId(targetRef) {
+ /**
+ * define panel name based on ids of href-targets
+ * @param {String} targetId: href-value of anchors pointing
+ * to internal targets (#targetId)
+ * @returns {String} panelName: name of the panel,
+ * default: "contents"
+ */
+function definePanelNameByTargetId(targetId) {
 
     let panelName;
     switch (true) {
-        case (/#f-/.test(targetRef)):
+        case (/#f-/.test(targetId)):
             panelName = "figures";
             break;
-        case (/#fn-/.test(targetRef)):
+        case (/#fn-/.test(targetId)):
             panelName = "notes";
             break;
-        case (/#ref-/.test(targetRef)):
+        case (/#ref-/.test(targetId)):
             panelName = "references";
             break;
-        case (/#target-gazetteer/.test(targetRef)):
+        case (/#target-gazetteer/.test(targetId)):
             panelName = "locations";
             break;
-        case (/#target-arachne/.test(targetRef)):
+        case (/#target-arachne/.test(targetId)):
             panelName = "arachne";
             break;
-        case (/#target-field/.test(targetRef)):
+        case (/#target-field/.test(targetId)):
             panelName = "field";
             break;
         default:
@@ -293,5 +347,40 @@ function definePanelNameByTargetId(targetRef) {
     }
     return(panelName);
 }
+
+ /**
+ * add <script>- or <link>-element to document head
+ * @param {String} scriptName: name of the script, 
+ * defined in htmlViewScriptLibrary (constant)
+ * @returns {void} appends script or link to document head
+ */
+function addScriptToDocumentHead(scriptName) {
+
+    let type;
+    if(htmlViewScriptLibrary[scriptName] !== undefined) {
+        type = htmlViewScriptLibrary[scriptName]["type"];
+    } else type = false;
+    
+    if(type === "text/javascript") {
+        let script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = htmlViewScriptLibrary[scriptName]["src-local"];
+        if(scriptName === "htmlViewController") {
+            script.defer = true;
+        }
+        document.head.appendChild(script);
+    }
+    else if(type === "text/css") {
+        let cssLink = document.createElement('link');
+        cssLink.type = 'text/css';
+        cssLink.rel = 'stylesheet';
+        cssLink.href = htmlViewScriptLibrary[scriptName]["src-local"];
+        document.head.appendChild(cssLink);
+    }
+    else {
+        console.warn("ScriptName [" + scriptName + "] not defined in scriptLibary")
+    }
+}
+
 
 
