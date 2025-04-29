@@ -1,5 +1,18 @@
 /** -------------------------------------
- * script libraries 
+ * TO-DO to reach v.0.9
+ * 
+ * - finish main.js (including src-code-doc)
+ * - deploy jatsInform for download on github
+ * - deploy jatsInform at publications.dainst.de
+ * - handle title-elements on page bottom
+ * - handling of large scale portrait images
+ * - optimize calculations of image placement
+ * - IM_72_Chameroy.xml xml-bug with caption
+ * - check browser support
+---------------------------------------*/
+
+/** -------------------------------------
+ * Main script constants:
  * @type {Constants}
 ---------------------------------------*/
 const scriptLibrary = {
@@ -20,18 +33,13 @@ const scriptLibrary = {
     },
     "figConstellationSetup": {
         "type": "text/javascript",
-        "src-remote": "src/js/setup.js",
-        "src-local": "src/js/setup.js"
+        "src-remote": "src/js/setupFigConstellations.js",
+        "src-local": "src/js/setupFigConstellations.js"
     },
     "pagedJs": {
         "type": "text/javascript",
         "src-remote": "https://unpkg.com/pagedjs/dist/paged.polyfill.js",
         "src-local": "src/js/pagedjs.js"
-    },
-    "interactJs": {
-        "type": "text/javascript",
-        "src-remote": "https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js",
-        "src-local": "https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"
     },
     "qrCodeJs": {
         "type": "text/javascript",
@@ -48,11 +56,6 @@ const scriptLibrary = {
         "src-remote": "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css",
         "src-local": "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css",
     },
-    "mediumZoom": {
-        "type": "text/javascript",
-        "src-remote": "https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js",
-        "src-local": "https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js"
-    },
     "leaflet": {
         "type": "text/javascript",
         "src-remote": "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js",
@@ -66,31 +69,31 @@ const scriptLibrary = {
     "fontAwesome": {
         "type": "text/css",
         "src-remote": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css",
-        "src-local": "src/css/font-awesome-min.css"
+        "src-local": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" // "src/css/font-awesome-min.css"
     }
 } 
-
-/** -------------------------------------
- * main script constants:
- * @type {Constants}
----------------------------------------*/
 const defaultJournal = "AA";
 const urlRegex = /doi|handle|urn|ark:|orcid|ror|dainst|idai.world|wikipedia/g;
 const specificUseRegex = "zenon|extrafeatures|supplements";
-
-/** -------------------------------------
- * constant window.document elements:
- * @type {Constants}
----------------------------------------*/
+const navIcons = {
+    "contents": "<span class='fa fa fa-list'></span>",
+    "figures": "<span class='fa fa-image'></span>",
+    "notes": "<span class='fa fa-list-ol'></span>",
+    "references": "<span class='fa fa-book'></span>",
+    "locations": "<span class='fa fa-map'></span>",
+    "arachne": "<span class='fa fa-database'></span>",
+    "field": "<span class='fa fa-database'></span>",
+    "index": "<span class='fa fa-info'></span>"
+}
 const progressBar = document.createElement("div");
 progressBar.id = "progressBar";
 
 const errorConsole = document.createElement("div");
-errorConsole.id = "error";
 errorConsole.innerHTML = "<h3>Critical error found:</h3>";
+errorConsole.id = "error";
 
 /** --------------------------------------
- * document state event listener:
+ * Document state event listener:
  * @type {document}
  * @type {EventListenerObject}
  --------------------------------------*/
@@ -99,21 +102,22 @@ document.addEventListener("readystatechange", (event) => {
     if (event.target.readyState === "interactive") {
 
         // add third-party libraries and stylesheets:
-        addScriptToDocumentHead("interactJs");
         addScriptToDocumentHead("qrCodeJs");
         addScriptToDocumentHead("highlightJs");
         addScriptToDocumentHead("highlightJsCss");
-        addScriptToDocumentHead("mediumZoom");
         addScriptToDocumentHead("leaflet");
         addScriptToDocumentHead("leafletCss");
         addScriptToDocumentHead("fontAwesome");
+
+        // get control-keys config
+        requestSourceFile("configs/controlKeyList.json", "control-key-list");
  
-        // request tagConversionMap, journals.json and figureConstellations:
+        // request configs and stylesheets:
         requestSourceFile("configs/tagConversionMap.json", "tag-conversion-map");
         requestSourceFile("configs/journals.json", "journals-config");
         requestSourceFile("configs/figConstellations.json", "fig-constellations");
-        requestSourceFile("configs/toggleFigureClasses.json", "toggle-figure-classes");
         requestSourceFile("src/css/viewer-styles.css", "viewer-styles");
+        requestSourceFile("src/css/viewer-fallback-styles.css", "viewer-fallback-styles");
 
         // request xml-string from file or local-storage:
         let xmlString = requestXml();
@@ -135,10 +139,6 @@ document.addEventListener("readystatechange", (event) => {
             // prevent auto start of pagedJs previewer:
             window.PagedConfig = { auto: false };
 
-            // set default imageSizeClass
-            if (localStorage.getItem("imageClassThreshold") === undefined) {
-                localStorage.setItem("imageClassThreshold", imageClassThresholdDefault);
-            }
             // get view (and journal) specific styles:
             let styleSheetLink = getStyleSheetLink(journalId, "pagedView");
             document.head.appendChild(styleSheetLink);
@@ -167,12 +167,10 @@ document.addEventListener("readystatechange", (event) => {
     }
 
     if (event.target.readyState === "complete") {
-
         // pagedJs preview
         if (localStorage.getItem("renderAs") === "PDF") {
             document.body.classList.add("fade-in");
             controlPagedJsHandler();
-            controlInteractJs();
             window.PagedPolyfill.preview();
             scrollToLastPosition();
             hljs.highlightAll();
@@ -191,7 +189,7 @@ document.addEventListener("readystatechange", (event) => {
 });
 
 /** -------------------------------------
- * handle processStage by storage listener:
+ * Handle processStage by storage listener:
  * @type {window}
  * @type {EventListenerObject}
  --------------------------------------*/
@@ -226,45 +224,50 @@ function updateStorageEventListener(processStage) {
 }
 
 /** -------------------------------------
- * document keyboard event listener:
+ * Document keyboard event listener:
  * @type {document}
  * @type {EventListenerObject}
  --------------------------------------*/
 document.addEventListener('keyup', function (e) {
 
-    // press e to switch to editorjs:
-    if (e.key === "e") {
-        let editorLocation = "/xml-generation/editorjs/editor.html"
-        window.location = location.origin + editorLocation;
-    }
+    // get control key list configuration:
+    let controlKeyList = JSON.parse(localStorage.getItem("control-key-list"));
+    let controlKeysApp = controlKeyList["application"];
+    let controlKeysFigure = controlKeyList["figure"];
+
     // press p to set "renderAs" to "PDF-Preview"
-    if (e.key === showPagedView) {
+    if (e.key === controlKeysApp["showPagedView"][0]) {
         localStorage.setItem("renderAs", "PDF");
         window.location.reload();
     }
     // press v to set "renderAs" to "HTML-View"
-    if (e.key === showHTMLView) {
+    if (e.key === controlKeysApp["showHTMLView"][0]) {
         localStorage.setItem("renderAs", "Viewer");
         window.location.reload();
     }
     // press * to set "renderAs" to "Setup"
-    if (e.key === setupFigConstellations) {
+    if (e.key === controlKeysApp["setupFigConstellations"][0]) {
         localStorage.setItem("renderAs", "Setup");
         window.location.reload();
     }
     // press r for reload
-    if (e.key === reload) {
+    if (e.key === controlKeysApp["reload"][0]) {
         window.location.reload();
     }
     // press q for hard reset (refresh maps)
-    if (e.key === hardReset) {
+    if (e.key === controlKeysApp["hardReset"][0]) {
         localStorage.removeItem('figure-map');
         localStorage.removeItem('text-content-map');
         localStorage.removeItem('documentState');
         window.location.reload();
     }
-    // press @ to download documentConfig
-    if (e.key === "@") {
+    // press e to switch to editorjs:
+    if (e.key === controlKeysApp["showEditorView"][0]) {
+        let editorLocation = "/xml-generation/editorjs/editor.html"
+        window.location = location.origin + editorLocation;
+    }
+    // press d to download documentConfigs or HTMLDocument
+    if (e.key === controlKeysApp["downloadDocumentFiles"][0]) {
         if(localStorage.getItem("renderAs") === "PDF") {
             downloadDocumentConfig();
         }
@@ -272,86 +275,99 @@ document.addEventListener('keyup', function (e) {
             downloadHTMLDocument();
         }
     }
-
     // press f to highlight figRefs:
-    if (e.key === highlightFigReferences) {
+    if (e.key === controlKeysApp["highlightFigReferences"][0]) {
         let highlightElements = document.querySelectorAll("a.fig-ref");
         for (let i = 0; i < highlightElements.length; i++) {
             highlightElements[i].style.background = "rgb(250 250 172)";
         }
     }
-
     // press h to highlight context information of elements:
-    if (e.key === highlightContextInfo) {
+    if (e.key === controlKeysApp["highlightContextInfo"][0]) {
         let highlightElements = document.querySelectorAll(".text-content,FIGURE");
         for (let i = 0; i < highlightElements.length; i++) {
             highlightElements[i].classList.add("display-data-attributes");
         }
     }
-
     // press o to see overflowing elements of pagedjs-page-content:
-    if (e.key === displayOverflows) {
+    if (e.key === controlKeysApp["displayOverflows"][0]) {
         let pageContents = document.querySelectorAll(".pagedjs_page_content");
         for (let i = 0; i < pageContents.length; i++) {
             pageContents[i].style.display = "flex";
         }
     }
-
-    // press t(op) to push figure on topOfPage:
-    if (e.key === figureToTop) {
-        if (document.querySelector(".active") !== null) {
-            let figure = document.querySelector(".active").parentElement;
-            let figureId = figure.id;
-            let figureMap = JSON.parse(localStorage.getItem("figure-map"));
-            figureMap[figureId]["style"] = false;
-            figureMap[figureId]["positionClass"] = "onTopOfPage";
-            localStorage.setItem("figure-map", JSON.stringify(figureMap));
-            setTimeout(function () {
-                window.location.reload();
-            }, 2000);
-        };
-    }
-
-    // press 2, 3, 4 or 6, 7, 8 to change "imageClassThreshold"
-    if (e.key >= 2 && e.key < 5 || e.key > 5 && e.key <= 9) {
-        let imageClassThreshold = e.key;
-        localStorage.setItem("imageClassThreshold", imageClassThreshold);
-        localStorage.removeItem("sizeClassSetGlobal");
-        window.location.reload();
-    }
-    // press 1, 5 or 9 to change set sizeClassGlobal:
-    if (e.key == 1 || e.key == 5 || e.key == 9) {
-        let sizeClassSetGlobal = false;
-        switch(true) {
-            case(e.key == 1):
-            sizeClassSetGlobal = "small";
-            break;
-
-            case(e.key == 5):
-            sizeClassSetGlobal = "medium";
-            break;
-
-            case(e.key == 9):
-            sizeClassSetGlobal = "large";
-            break;
-        }
+    // press s to change sizeClassGlobal to small
+    if (e.key === controlKeysApp["setAllFigsToTiny"][0]) {
+        let sizeClassSetGlobal = controlKeysApp["setAllFigsToTiny"][1]
         localStorage.setItem("sizeClassSetGlobal", sizeClassSetGlobal);
-        window.location.reload();
+        setTimeout(function () {window.location.reload();}, 2000);
     }
-    if (e.key == "z") {
-        if (document.querySelector(".active") !== null) {
-            let figure = document.querySelector(".active").parentElement;
-            setLayoutSpecsOfFigure(figure, "overmargin", true);
-            let figureMap = JSON.parse(localStorage.getItem("figure-map"));
-            figureMap[figure.id]["typesettingClass"] = "overmargin";
+    if (e.key === controlKeysApp["setAllFigsToSmall"][0]) {
+        let sizeClassSetGlobal = controlKeysApp["setAllFigsToSmall"][1]
+        localStorage.setItem("sizeClassSetGlobal", sizeClassSetGlobal);
+        setTimeout(function () {window.location.reload();}, 2000);
+    }
+    // press m to change sizeClassGlobal to medium
+    if (e.key === controlKeysApp["setAllFigsToMedium"][0]) {
+        let sizeClassSetGlobal = controlKeysApp["setAllFigsToMedium"][1]
+        localStorage.setItem("sizeClassSetGlobal", sizeClassSetGlobal);
+        setTimeout(function () {window.location.reload();}, 2000);
+    }
+    // press l to change sizeClassGlobal to large
+    if (e.key === controlKeysApp["setAllFigsToLarge"][0]) {
+        let sizeClassSetGlobal = controlKeysApp["setAllFigsToLarge"][1]
+        localStorage.setItem("sizeClassSetGlobal", sizeClassSetGlobal);
+        setTimeout(function () {window.location.reload();}, 2000);
+    }
+
+    // figure related:
+    if(document.querySelector(".active") !== null) {
+
+        let figureMap = JSON.parse(localStorage.getItem("figure-map"));
+        let figure = document.querySelector(".active").parentElement;
+        let typesettingClass = figure.classList[2];
+        let newClass;
+
+        if(e.key === controlKeysFigure["toOvermargin"][0]) {
+            newClass = controlKeysFigure["toOvermargin"][1];
+        }
+        if(e.key === controlKeysFigure["toRegular"][0]) {
+            newClass = controlKeysFigure["toRegular"][1];
+        }
+        if(e.key === controlKeysFigure["toInset"][0]) {
+            newClass = controlKeysFigure["toInset"][1];
+        }
+        if(e.key === controlKeysFigure["toFloatWCol6"][0]) {
+            newClass = controlKeysFigure["toFloatWCol6"][1];
+        }
+        if(e.key === controlKeysFigure["toFloatWCol4"][0]) {
+            newClass = controlKeysFigure["toFloatWCol4"][1];
+        }
+        if(e.key === controlKeysFigure["toFloatWCol2"][0]) {
+            newClass = controlKeysFigure["toFloatWCol2"][1];
+        }
+        if (e.key === controlKeysFigure["toTop"][0]) {
+            newClass = figure.classList[2];
+            figureMap[figure.id]["positionClass"] = "onTopOfPage";
+        }
+        if(e.key === controlKeysFigure["switchCaption"][0]) {
+            let toggleFigCaptionConfig = controlKeysFigure["switchCaption"][1]
+            if(/overmargin/.test(typesettingClass) || /regular/.test(typesettingClass)) {
+                newClass = toggleFigCaptionConfig[typesettingClass];
+            }
+        }
+        // set layout specs and save changes in figure-map
+        if(newClass !== undefined) {
+            setLayoutSpecsOfFigure(figure, newClass);
+            figureMap[figure.id]["typesettingClass"] = newClass;
             figureMap[figure.id]["style"] = false;
             localStorage.setItem("figure-map", JSON.stringify(figureMap));
-        };
+            setTimeout(function () {window.location.reload();}, 2000);
+        }
     }
 });
-
 /** -------------------------------------
- * process XML document and xml preflight-
+ * Process XML document and xml preflight-
  * checks asynchronously
  * @type {Script}
   --------------------------------------*/
@@ -403,6 +419,17 @@ async function processXmlDocument(xmlDoc) {
     // process image (files):
     updateStorageEventListener("Process image files...");
     processImageFiles(documentReloaded);
+
+    // validate image to paragraph ratio:
+    let paragraphs = document.querySelectorAll(".content-paragraph");
+    let figures = document.querySelectorAll("figure");
+    let ratio = (figures.length) ? paragraphs.length / figures.length : 0;
+    if(ratio && ratio < 1) {
+        console.warn("Notice for editors:\n" + 
+            "This article has more figures than paragraphs [" + 
+            figures.length + " to " + paragraphs.length + "].\n" +
+            "A figure-to-paragraph ratio of 1:1 is recommended!")
+    }
 
     // add style related properties to documentRoot:
     let documentRoot = document.querySelector(':root');
@@ -520,22 +547,8 @@ function convertXMLToHtmlBody(xmlDoc) {
             metaName.remove();
         }
     }
-
-    // assign generated element-id if missing:
-    let textContentElements = xmlBody.querySelectorAll("p,.title,ul,ol,li,table,pre,code");
-    for (let i = 0; i < textContentElements.length; i++) {
-        // use loop id to define missing element-ids
-        if(!textContentElements[i].id) {
-            let genId = "genId-" + i;
-            let parent = textContentElements[i].parentElement;
-            if(parent !== undefined) {
-                if(/footnote/.test(parent.className)) {
-                  genId = "fn-genId" + i;
-                }
-            }
-            textContentElements[i].id = genId;
-        }
-    }
+    let textContentElements = xmlBody.querySelectorAll("p,ul,ol,li,table,pre,code,.title");
+    generateGenericElementIdsIfMissing( textContentElements);
     createHeadlinesBySectionHierarchy(xmlBody, ".title");
 
     // wrap xmlBody as htmlContentBody
@@ -552,7 +565,8 @@ function transformSelfClosingTags(xml) {
     for (let i = 0; i < split.length - 1;i++) {
         let edsplit = split[i].split("<");
         let elementName = edsplit[edsplit.length - 1].split(" ")[0];
-        console.log("Notice: self-closing-tags found: ", elementName);
+        console.log("Notice for editors:\n" +
+            "self-closing-tags transformed: ", elementName);
         newXml += split[i] + "></" + elementName + ">";
     }
     return newXml + split[split.length-1];
@@ -560,18 +574,20 @@ function transformSelfClosingTags(xml) {
 
 function removeEmptyElements(xmlBody) {
 
-    // get empty elements excluding graphic and inline-graphic:
-    let emptyTags = xmlBody.querySelectorAll(
-        "*:empty:not(graphic,inline-graphic)");
-    
+    // get empty elements:
+    let emptyTags = xmlBody.querySelectorAll("*:empty:not(graphic,inline-graphic)");
+
+    // remove empty elements:
     for (let i = 0; i < emptyTags.length; i++) {
+        console.warn("Notice for editors:\n" +
+            "Empty elements has been removed!: ", emptyTags[i]);
         emptyTags[i].remove();
-        console.log("Notice: Empty elements has been removed!");
     }
 }
 
 function convertElementsByTagConversionMap(xmlBody, tagConversionMap) {
 
+    let elementsNotFound = [];
     // convert selectors as defined in tagConversionMap:
     for (let selector in tagConversionMap) {
         let mapTagName = tagConversionMap[selector]["tagName"];
@@ -635,20 +651,50 @@ function convertElementsByTagConversionMap(xmlBody, tagConversionMap) {
                 }
                 // transfer content
                 newElement.innerHTML = xmlElements[i].innerHTML;
-
+          
                 // replace xml-element:
                 xmlElements[i].replaceWith(newElement);
             }
         }
         else {
-            console.log("Notice: Tag/Element <" + selector + "> not found in XML.");
+            elementsNotFound.push(selector);
+        }
+    }
+    if(elementsNotFound.length) {
+        console.log("Notice for editors: Tag/Element not found in XML:\n" 
+         + elementsNotFound.join(","));
+    }
+}
+
+function generateGenericElementIdsIfMissing(textContentElements) {
+    
+    let genId;
+    for (let i = 0; i < textContentElements.length; i++) {
+        if(!textContentElements[i].id) {
+            let tagName = textContentElements[i].tagName;
+            // use tagName abbreviation and loop index to genId
+            if(/title/.test(textContentElements[i].className)) {
+                genId = "genId-t" + i;
+            }
+            else if(tagName !== undefined) {
+                genId = "genId-" + tagName.substring(0, 2) + i;
+            } 
+            else {
+                genId = "genId-" + i;
+            }
+            let parent = textContentElements[i].parentElement;
+            if(parent !== undefined) {
+                if(/footnote/.test(parent.className)) {
+                    genId = "fn-genId" + i;
+                }
+            }
+            textContentElements[i].id = genId;
         }
     }
 }
 
 /** 
- * classify headline hierarchy:
- * add headline classes by hierarchy of section-elements
+ * classify headline hierarchy: add headline classes by hierarchy of section-elements
  * @param {HTMLElement} content document-fragment made from original DOM
  * @param {selector} selector css-class-selector for headlines, e.g. ".title"
  * @returns {void} headline elements are created within the DOM
@@ -671,40 +717,50 @@ function createHeadlinesBySectionHierarchy(content, selector) {
             headlines[i].parentElement.setAttribute("level", level);
         }
 
-        // define headline-elements and classes by level:
-        let elementName;
-        let className;
-        switch (true) {
-            case (level === 1):
-                elementName = "h1";
-                className = "main-title";
-                break;
-            case (level === 2):
-                elementName = "h2";
-                className = "section-title";
-                break;
-            case (level > 2):
-                elementName = "h3";
-                className = "subsection-title";
-                break;
-            default:
-                elementName = "h1";
-                className = "main-title";
-        }
-        // create html headline elements based on definitions:
-        let headline = document.createElement(elementName);
+        // create html headline elements based on headlineProperties:
+        let headlineProperties = defineHeadlinePropertiesByHierarchyLevel(level);
+        let headline = document.createElement(headlineProperties.elementName);
+        headline.id = headlines[i].id;
+        headline.classList.add(headlineProperties.className);
         headline.setAttribute("level", level);
         headline.classList.add("title");
-        headline.classList.add(className);
-        headline.textContent = headlines[i].textContent;
+        headline.innerHTML = headlines[i].innerHTML;
         headlines[i].replaceWith(headline);
     }
+}
+/** 
+ * define headline properties by hierarchy level
+ * @param {int} level hierarchy level of title elements, e.g. 1
+ * @returns {json} headlineProperties (elementName, className)
+ */
+function defineHeadlinePropertiesByHierarchyLevel(level) {
+
+    let headlineProperties = {};
+    switch (true) {
+        case (level === 1):
+            headlineProperties.elementName = "h1";
+            headlineProperties.className = "main-title";
+            break;
+        case (level === 2):
+            headlineProperties.elementName = "h2";
+            headlineProperties.className = "section-title";
+            elementName = "h2";
+            className = "section-title";
+            break;
+        case (level > 2):
+            headlineProperties.elementName = "h3";
+            headlineProperties.className = "subsection-title";
+            break;
+        default:
+            headlineProperties.elementName = "h1";
+            headlineProperties.className = "main-title";
+    }
+    return(headlineProperties)
 }
 
 /* --------------------------------
 Funtions related to image files
 ----------------------------------*/
-
  /**
  * process images files
  * @param {boolean} documentReloaded: src-xml reloaded (hard reset)
@@ -729,10 +785,13 @@ function processImageFiles(documentReloaded) {
                 ctx.drawImage(newImg, 0, 0);
 
                 // define dataUrl (data:image/jpeg;base64, ...):
-                let dataUrl = canvas.toDataURL("image/jpeg", jpegCompression); 
+                let dataUrl = canvas.toDataURL("image/jpeg", 
+                    jpegCompression); // with compression
                 srcImage.src = dataUrl;
+
                 // feedback process state:
-                updateStorageEventListener("Image preloading... " + srcImage.parentElement.id);
+                updateStorageEventListener("Image preloading... "
+                    + srcImage.parentElement.id);
             }
 
             // classify each image
@@ -755,52 +814,20 @@ function processImageFiles(documentReloaded) {
 
 function classifyImage(image) {
 
-    let sizeClassSetGlobal = false;
-    if(localStorage.getItem("sizeClassSetGlobal") !== undefined) {
-        sizeClassSetGlobal = localStorage.getItem("sizeClassSetGlobal");
-    }
-
     let width = image.naturalWidth;
     let height = image.naturalHeight;
     let ratio = width / height;
-    let total_px = width * height;
-    let mega_px = Math.round(total_px) / 1000000;
 
-    let sizeClass;
-    if(sizeClassSetGlobal) {
-        sizeClass = sizeClassSetGlobal;
+    let sizeClassSetGlobal
+    if(localStorage.getItem("sizeClassSetGlobal") !== undefined) {
+        sizeClassSetGlobal = localStorage.getItem("sizeClassSetGlobal");
+    } else {
+        sizeClassSetGlobal = "medium";
     }
-    else {
-        sizeClass = (mega_px) ? defineClassByImageResolution(mega_px) : false;
-    }
+    image.classList.add(sizeClassSetGlobal);
+
     let ratioClass = (ratio) ? defineClassByImageRatio(ratio) : false;
-
-    image.classList.add(sizeClass);
     image.classList.add(ratioClass);
-}
-
-function defineClassByImageResolution(mega_px) {
-
-    let sizeClass;
-    const imageClassThresholdFactor = 5;
-    let imageClassThreshold = localStorage.getItem("imageClassThreshold");
-    imageClassThreshold = imageClassThreshold * imageClassThresholdFactor;
-
-    switch (true) {
-        case (mega_px > 30 / imageClassThreshold):
-            sizeClass = "large";
-            break;
-        case (mega_px <= 30 / imageClassThreshold && mega_px >= 15 / imageClassThreshold):
-            sizeClass = "medium";
-            break;
-        case (mega_px < 15 / imageClassThreshold):
-            sizeClass = "small";
-            break;
-        default:
-            sizeClass = false;
-            break;
-    }
-    return (sizeClass);
 }
 
 function defineClassByImageRatio(ratio) {
@@ -824,43 +851,6 @@ function defineClassByImageRatio(ratio) {
     return (ratioClass);
 }
 
-function toggleFigureClasses(figure, toggleCase) {
-
-    let typesettingClass = figure.classList[typesettingClassListKey];
-    let toggleFigureClassesMap = JSON.parse(localStorage.getItem("toggle-figure-classes"))[0];
-    let addClass;
-
-    // get addClass from toggleFigureClassesMap:
-    if(toggleCase === "figureClass") {
-        typesettingClass = /float/.test(typesettingClass) ? "float" : typesettingClass;
-        addClass = toggleFigureClassesMap["figureClass"][typesettingClass];
-    }
-    if(toggleCase === "figureColumnWidth") {
-        if(/float/.test(typesettingClass)) {
-            addClass = toggleFigureClassesMap["figureColumnWidth"][typesettingClass];
-        }
-    }
-    if(toggleCase === "figureCaption") {
-        if(/overmargin/.test(typesettingClass) || /regular/.test(typesettingClass)) {
-            addClass = toggleFigureClassesMap["figureCaption"][typesettingClass];
-        }
-    }
-    // save changes in figureMap:
-    let figureId = (figure.id) ? figure.id : figure.getAttribute("data-id");
-    let figureMap = JSON.parse(localStorage.getItem("figure-map"));
-    figureMap[figureId]["typesettingClass"] = addClass;
-    figureMap[figureId]["style"] = false;
-    localStorage.setItem("figure-map", JSON.stringify(figureMap));
-
-    // replace classes and reassign layout-specs:
-    setLayoutSpecsOfFigure(figure, addClass, true);
-
-    // reload document after changes:
-    setTimeout(function() {
-      window.location.reload();
-    }, 2000);
-}
-
 function scaleImage(img) {
 
     let natWidth = img.naturalWidth;
@@ -876,9 +866,192 @@ function scaleImage(img) {
     }
 }
 
-/* --------------------------------------
-Application or library related functions:
------------------------------------------*/
+function getPosterImageBackgroundUrl() {
+
+    let backgroundUrl = false;
+    let posterImage = document.querySelector("#poster-image");
+   
+    if (posterImage) {
+        if(posterImage.firstElementChild.src) {
+            backgroundUrl = "url(" + posterImage.firstElementChild.src + ")";
+        }
+    }
+    return (backgroundUrl);
+}
+
+/* -----------------------------------
+Content feature related functions
+--------------------------------------*/
+ /**
+ * check maximum length of innerText of given element:
+ * @param {HTMLElement} textElement given, e.g. abstract, footnote.
+ * @returns {void} textElement in DOM, eventually enriched with 
+ * warning class and notices
+ */
+ function checkMaxLengthOfInnerText(textElement, maxChars) {
+    if(textElement.innerText.length >= maxChars) {
+        textElement.classList.add("warning-box");
+        textElement.classList.add("display-data-attributes");
+        textElement.setAttribute('data-after', "!Max-Length: " 
+            + maxChars + " characters!");
+    }
+}
+
+function checkQualityOfUrls() {
+
+    if(checkUrlPersistence) {
+        // get all anchors with external reference
+        let anchors = document.querySelectorAll(
+            "a:not(.fig-ref,.fn-ref,.bib-ref,.footnote,.panel-anchors,.heading-ref-a)");
+        anchors.forEach(function (anchor) {
+            let specificUse = anchor.getAttribute("data-specific-use");
+            let href = anchor.href;
+             // check anchors without specific usage only: 
+            if(specificUse == null || (specificUse !== null 
+                && specificUse.search(specificUseRegex) == -1)) {
+                if(href.search(urlRegex) === -1) {
+                    anchor.classList.add("warning-text");
+                    anchor.title = "URL might not be persistent!";
+                }
+            }
+        });
+    }
+}
+
+/**
+ * Convert URLs in a string to anchor links
+ * @param {!string} string
+ * @returns {!string}
+ */
+function URLifyString(string){
+
+    const urls = string.match(/((((ftp|https?):\/\/)|(w{3}\.))[\-\w@:%_\+.~#?,&\/\/=]+)/g);
+    if (urls) {
+        urls.forEach(function (url) {
+            string = string.replace(url, '<a class ="ext-ref" target="_blank" href="' + url + '">' + url + "</a>");
+        });
+    }
+    return(string);
+}
+
+function generateQRCode(url) {
+
+    if (url) {
+        let qrcodeContainer = document.getElementById("qrcode");
+        new QRCode(qrcodeContainer, url);
+        document.getElementById("qrcode").style.display = "block";
+    };
+}
+
+/* ----------------------
+Download related function:
+-----------------------*/
+
+function downloadDocumentConfig() {
+
+    // define document json:
+    let documentId = getDocumentStateProperty("documentId");
+    let figureMap = localStorage.getItem("figure-map");
+    let textContentMap = localStorage.getItem("text-content-map");
+    let json = {
+        "documentId": documentId,
+        "figure-map": JSON.parse(figureMap),
+        "text-content-map": JSON.parse(textContentMap)
+    }
+    let filename = documentId + ".json";
+    download(JSON.stringify(json), "text/json", filename);
+}
+
+function downloadHTMLDocument() {
+
+    let confirmDownload = confirm("Download this document as HTML-file?");
+    if (confirmDownload) {
+
+        // get document properties:
+        let documentRoot = document.querySelector(':root');
+        let styles = getComputedStyle(documentRoot);
+        let journalColor = styles.getPropertyValue("--journal-color");
+        let documentId = getDocumentStateProperty("documentId");
+        let lang = localStorage.getItem("documentLang");
+     
+        // create HTML document:
+        let htmlDoc = document.implementation.createHTMLDocument("documentId");
+        htmlDoc.documentElement.lang = lang;
+        htmlDoc.documentElement.style.setProperty('--journal-color', journalColor);
+
+        // fallback-script (for HTML exports);
+        const fallbackScript = function fallback(noJs) {
+            document.addEventListener("readystatechange", (event) => {
+               if (event.target.readyState === "interactive") {
+                  if(noJs) {
+                     const errorConsole = document.createElement("div");
+                     errorConsole.id = "error-message";
+                     errorConsole.innerHTML = "Oops, there was a problem loading external scripts from the internet." +
+                     " The document is entirely readable but might have reduced functionalities." +
+                     " Please visit the source address by following the given link!"
+                     window.document.body.prepend(errorConsole);
+                      // remove linked css stylesheet as well:
+                    if(document.querySelector("link") !== null) {
+                        document.querySelector("link").remove();
+                    }
+                  }
+               }
+            });
+         }
+
+        // get fallbackStyles from stylesheet:
+        let fallbackStyles = false;
+        if(localStorage.getItem("viewer-fallback-styles") !== null) {
+            fallbackStyles = document.createElement("style");
+            fallbackStyles.id = "fallback-styles";
+            fallbackStyles.textContent = localStorage.getItem("viewer-fallback-styles");
+        }
+        // define document-head
+        htmlDoc.head.innerHTML = 
+        " <meta name='title' content='a title'>" +
+        " <meta name='description' content='cite by...'>" +
+        "  <script>" + fallbackScript + "</script>" +
+        "  <script type='text/javascript' onerror='this.onerror=null;fallback(true);' src='src/js/htmlViewController.js'></script>" +
+        "  <link type='text/css' rel='stylesheet' onerror='this.onerror=null;fallback(false)' href='src/css/viewer-styles.css'>";
+    
+        if(fallbackStyles) htmlDoc.head.appendChild(fallbackStyles);
+
+        // add main-wrapper to document-body
+        let mainWrapper = document.querySelector("#main-wrapper");
+        htmlDoc.body.innerHTML = mainWrapper.outerHTML;
+        htmlDoc.body.classList.add("fade-in");
+
+        // define file name for download:
+        let filename = documentId + ".html";
+        download(htmlDoc.documentElement.outerHTML, "text/html", filename);
+
+        console.log(htmlDoc.documentElement);
+    };
+}
+
+function download(content, type, filename) {
+
+     // create blob and download link:
+     const blob = new Blob([content], { type: type });
+     const link = document.createElement("a");
+     link.download = filename;
+     link.href = window.URL.createObjectURL(blob);
+     link.dataset.downloadurl = [type, link.download, link.href].join(":");
+ 
+     // proceed download by adding click event:
+     const evt = new MouseEvent("click", {
+         view: window,
+         bubbles: true,
+         cancelable: true,
+     });
+ 
+     link.dispatchEvent(evt);
+     link.remove();
+}
+
+/* -------------------------------
+Application related functions:
+----------------------------------*/
 function requestSourceFile(path, type) {
 
     let response;
@@ -940,14 +1113,25 @@ function requestXml() {
     // replace nested <sec>-elements with <section>-tag before:
     xml = xml.replaceAll("<sec", "<section")
         .replaceAll("</sec>", "</section>");
-    xml = transformSelfClosingTags(xml);  // transform self-closing tags
+
+    // transform self-closing tags
+    xml = transformSelfClosingTags(xml);  
 
     return(xml);
 }
+ /**
+ * add <script>- or <link>-element to document head
+ * @param {String} scriptName: name of the script, 
+ * defined in ScriptLibrary (constant)
+ * @returns {void} appends script or link to document head
+ */
 
 function addScriptToDocumentHead(scriptName) {
 
-    let type = scriptLibrary[scriptName]["type"];
+    let type;
+    if(scriptLibrary[scriptName] !== undefined) {
+        type = scriptLibrary[scriptName]["type"];
+    } else type = false;
     
     if(type === "text/javascript") {
         let script = document.createElement('script');
@@ -958,12 +1142,15 @@ function addScriptToDocumentHead(scriptName) {
         }
         document.head.appendChild(script);
     }
-    else {
+    else if(type === "text/css") {
         let cssLink = document.createElement('link');
         cssLink.type = 'text/css';
         cssLink.rel = 'stylesheet';
         cssLink.href = scriptLibrary[scriptName]["src-local"];
         document.head.appendChild(cssLink);
+    }
+    else {
+        console.warn("ScriptName [" + scriptName + "] not defined in scriptLibary")
     }
 }
 
@@ -1000,39 +1187,6 @@ function getStyleSheetLink(journalId, view) {
     styleSheetLink.href = 'src/css/' + stylesheet + '.css';
 
     return (styleSheetLink)
-}
-
-function getPosterImageBackgroundUrl() {
-
-    let backgroundUrl = false;
-    let posterImage = document.querySelector("#poster-image");
-   
-    if (posterImage) {
-        if(posterImage.firstElementChild.src) {
-            backgroundUrl = "url(" + posterImage.firstElementChild.src + ")";
-        }
-    }
-    return (backgroundUrl);
-}
-
-function getPropertyFromStylesheet(selector, attribute) {
-
-    let value;
-    [].some.call(document.styleSheets, function (sheet) {
-        return [].some.call(sheet.rules, function (rule) {
-            if (selector === rule.selectorText) {
-                return [].some.call(rule.style, function (style) {
-                    if (attribute === style) {
-                        value = rule.style.getPropertyValue(attribute);
-                        return true;
-                    }
-                    return false;
-                });
-            }
-            return false;
-        });
-    });
-    return value;
 }
 
 function getComputedStylesOfTextElements() {
@@ -1079,172 +1233,8 @@ function getTextWidth(text, font) {
     return(measures.width);
 }
 
-function checkQualityOfUrls() {
-
-    if(checkUrlPersistence) {
-        // get all anchors with external reference
-        let anchors = document.querySelectorAll(
-            "a:not(.fig-ref,.fn-ref,.bib-ref,.footnote,.panel-anchors,.heading-ref-a)");
-        anchors.forEach(function (anchor) {
-            let specificUse = anchor.getAttribute("data-specific-use");
-            let href = anchor.href;
-             // check anchors without specific usage only: 
-            if(specificUse == null || (specificUse !== null 
-                && specificUse.search(specificUseRegex) == -1)) {
-                if(href.search(urlRegex) === -1) {
-                    anchor.classList.add("warning-text");
-                    anchor.title = "URL might not be persistent!";
-                }
-            }
-        });
-    }
-}
-
-function makeElementsInteractive(pageElement) {
-
-    const interactElements = ".text-content,figure";
-    let pageContent = pageElement.querySelector(".pagedjs_page_content");
-    let elementsOfPage = pageContent.querySelectorAll(interactElements);
-
-    for (let i = 0; i < elementsOfPage.length; i++) {
-        let element = elementsOfPage[i];
-        if (element.matches("figure")) {
-            element.classList.add("resizable");
-            element.classList.add("tap-target");
-        }
-        if (/text-content/.test(element.className)) {
-            element.classList.add("tap-target");
-        }
-    }
-}
-
-function controlInteractJs() {
-
-    interact('.resizable')
-        .resizable({
-            edges: {top: true, left: true, bottom: true, right: true},
-            listeners: {
-                move: function (event) {
-                    let {x, y} = event.target.dataset;
-                    x = (parseFloat(x) || 0) + event.deltaRect.left;
-                    y = (parseFloat(y) || 0) + event.deltaRect.top;
-
-                    Object.assign(event.target.style, {
-                        width: `${event.rect.width}px`,
-                        // height: `${event.rect.height}px`,
-                        transform: `translate(${x}px, ${y}px)`
-                    });
-
-                    Object.assign(event.target.dataset, {x, y});
-
-                    // save styles in figure map:
-                    let figureMap = JSON.parse(localStorage.getItem("figure-map"));
-                    figureMap[event.target.id]["style"] = event.target.getAttribute('style');
-                    localStorage.setItem("figure-map", JSON.stringify(figureMap));
-
-                    // reload
-                    setTimeout(function(){
-                       window.location.reload();
-                    }, 5000);
-                }
-            },
-            modifiers: [
-                interact.modifiers.aspectRatio({
-                    ratio: "preserve"
-                }),
-            ],
-        });
-
-    interact('.tap-target')
-        /* Currently ".on('tap')" fires also in case of "double-tap", awaiting to be fixed:
-        https://github.com/taye/interact.js/issues/964 */
-        .on('tap', (event) => {
-            // fire tap-event (one click) when slowly clicked (dt=delay-time)
-            if(event.dt >= 80 && event.dt <= 500) {
-                if(event.currentTarget.tagName === "FIGURE") {
-                    toggleFigureClasses(event.currentTarget, "figureColumnWidth");
-                }
-                if(/text-content/.test(event.currentTarget.className)) {
-
-                    if(/styled-flag/.test(event.currentTarget.className)) {
-                        event.currentTarget.style = "";
-                        event.currentTarget.classList.remove("styled-flag");
-                        updateTextContentMap(event.currentTarget.id, "class", false);
-                        updateTextContentMap(event.currentTarget.id, "style", false);
-                    }
-                    else {
-                        event.currentTarget.style.marginTop = "5mm";
-                        event.currentTarget.style.letterSpacing = "0.25px";
-                        event.currentTarget.classList.add("styled-flag");
-                        updateTextContentMap(event.currentTarget.id, "class", "styled-flag");
-                        updateTextContentMap(event.currentTarget.id, "style", "margin-top:5mm;letter-spacing:0.25px;");
-                    }
-                }
-            }
-            // skip tap-event (one click) if double-tap fires:
-            else {
-                event.stopImmediatePropagation();
-            }
-            event.preventDefault();
-        })
-        .on('doubletap', function (event) {
-            if(event.double && event.dt < 500) {
-                if(event.currentTarget.tagName === "FIGURE") {
-                    toggleFigureClasses(event.currentTarget, "figureClass");
-                }
-            }
-            event.preventDefault();
-        })
-        .on('hold', function (event) {
-            if(event.currentTarget.tagName === "FIGURE") {
-                toggleFigureClasses(event.currentTarget, "figureCaption");
-            }
-            event.preventDefault();
-        })
-}
-
-function dragMoveListener(event) {
-    var target = event.target
-    // keep the dragged position in the data-x/data-y attributes
-    var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx
-    var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy
-
-    // translate the element
-    target.style.transform = 'translate(' + x + 'px, ' + y + 'px)'
-
-    // update the posiion attributes
-    target.setAttribute('data-x', x)
-    target.setAttribute('data-y', y)
-}
-/**
- * Convert URLs in a string to anchor links
- * @param {!string} string
- * @returns {!string}
- */
-function URLifyString(string){
-
-    const urls = string.match(/((((ftp|https?):\/\/)|(w{3}\.))[\-\w@:%_\+.~#?,&\/\/=]+)/g);
-    if (urls) {
-        urls.forEach(function (url) {
-            string = string.replace(url, '<a class ="ext-ref" target="_blank" href="' + url + '">' + url + "</a>");
-        });
-    }
-    return(string);
-}
-
-function generateQRCode(url) {
-
-    if (url) {
-        let qrcodeContainer = document.getElementById("qrcode");
-        new QRCode(qrcodeContainer, url);
-        document.getElementById("qrcode").style.display = "block";
-    };
-}
-
 /** Reload in place script: scroll to last window-position
  *  source: https://gitlab.coko.foundation/pagedjs/pagedjs-plugins/pagedjs-plugins/-/blob/main/public/plugins/reload-in-place.js
- *  @param
- *  @returns
  */
 function scrollToLastPosition() {
 
@@ -1316,108 +1306,4 @@ function debounce(func, wait, immediate) {
         timeout = setTimeout(later, wait);
         if (callNow) func.apply(context, args);
     };
-}
-
-/* ----------------------
-Download related function:
------------------------*/
-
-function downloadDocumentConfig() {
-
-    // define document json:
-    let documentId = getDocumentStateProperty("documentId");
-    let figureMap = localStorage.getItem("figure-map");
-    let textContentMap = localStorage.getItem("text-content-map");
-    let json = {
-        "documentId": documentId,
-        "figure-map": JSON.parse(figureMap),
-        "text-content-map": JSON.parse(textContentMap)
-    }
-    let filename = documentId + ".json";
-    download(JSON.stringify(json), "text/json", filename);
-}
-
-function downloadHTMLDocument() {
-
-    let confirmDownload = confirm("Download this document as HTML-file?");
-    if (confirmDownload) {
-
-        // get document properties:
-        let documentRoot = document.querySelector(':root');
-        let styles = getComputedStyle(documentRoot);
-        let journalColor = styles.getPropertyValue("--journal-color");
-        let documentId = getDocumentStateProperty("documentId");
-        let lang = localStorage.getItem("documentLang");
-     
-        // create HTML document:
-        let htmlDoc = document.implementation.createHTMLDocument("documentId");
-        htmlDoc.documentElement.lang = lang;
-        htmlDoc.documentElement.style.setProperty('--journal-color', journalColor);
-
-        // fallback-script (for HTML exports);
-        const fallbackScript = function fallback(noJs) {
-            document.addEventListener("readystatechange", (event) => {
-               if (event.target.readyState === "interactive") {
-                  if(noJs) {
-                     const errorConsole = document.createElement("div");
-                     errorConsole.style = "margin-bottom: 1%;font-size:0.9rem;background:#fff8cd;padding: 1% 0;position:sticky;top:0;"
-                     errorConsole.innerHTML = "Oops, there was a problem loading external scripts from the internet." +
-                     " The document is entirely readable but might have reduced functionalities." +
-                     " Please visit the source address by following the given link!"
-                     window.document.body.prepend(errorConsole);
-                  }
-               }
-            });
-         }
-
-        // define document-head
-        htmlDoc.head.innerHTML = 
-        " <meta name='title' content='a title'>" +
-        " <meta name='description' content='cite by...'>" +
-        "  <script>" + fallbackScript + "</script>" +
-        "  <script type='text/javascript' onerror='this.onerror=null;fallback(true);' src='src/js/htmlViewController.js'></script>" +
-        "  <link type='text/css' rel='stylesheet' onerror='this.onerror=null;fallback(false)' href='src/css/viewer-styles.css'>";
-
-        // add main-wrapper to document-body
-        let mainWrapper = document.querySelector("#main-wrapper");
-        htmlDoc.body.innerHTML = mainWrapper.outerHTML;
-        htmlDoc.body.classList.add("fade-in");
-
-        /*   "  <link rel='preconnect' href='https://fonts.googleapis.com'>" +
-        "  <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>" +
-        "  <link href='https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap' rel='stylesheet'>" +
-        "  <link href='https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap' rel='stylesheet'></link>" +
-        "  <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' type='text/css' rel='stylesheet'></link>" +
-        "  <link href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css' type='text/css' rel='stylesheet'></link>" +
-        "  <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js'></script>" +
-        "  <script type='text/javascript' src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'></script>" +
-
-        */
-
-        // define file name for download:
-        let filename = documentId + ".html";
-        download(htmlDoc.documentElement.outerHTML, "text/html", filename);
-
-        console.log(htmlDoc.documentElement);
-    };
-}
-
-function download(content, type, filename) {
-
-     // create blob and download link:
-     const blob = new Blob([content], { type: type });
-     const link = document.createElement("a");
-     link.download = filename;
-     link.href = window.URL.createObjectURL(blob);
-     link.dataset.downloadurl = [type, link.download, link.href].join(":");
- 
-     // proceed download by adding click event:
-     const evt = new MouseEvent("click", {
-         view: window,
-         bubbles: true,
-         cancelable: true,
-     });
- 
-     link.dispatchEvent(evt);
-     link.remove();
 }
