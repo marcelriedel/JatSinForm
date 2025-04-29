@@ -22,7 +22,6 @@
                   <given-names>Friederike</given-names>
                </name>
             </contrib>
-
             <contrib contrib-type="Editor">
                <name>
                   <surname>Riebschläger</surname>
@@ -36,11 +35,8 @@
                </name>
             </contrib>
          </contrib-group>
-
-
          <!-- ISSN/ISBN -->
          <issn publication-format="online">2748-8861</issn>
-
          <!-- Herausgeber -->
          <publisher>
             <publisher-name>Deutsches Archäologisches Institut</publisher-name>
@@ -184,7 +180,6 @@
             <title>Keywords</title>
             <kwd>Digital transformation</kwd>,            <kwd>Machine readability</kwd>,            <kwd>Research data management</kwd>,            <kwd>Text processing</kwd>,            <kwd>XML</kwd>
          </kwd-group>
-
          <custom-meta-group>
             <custom-meta>
                <meta-name>citation-guideline</meta-name>
@@ -320,8 +315,7 @@
                   <p>Export des Dokumentes aus InDesign von .indd nach .xhtml.</p>
                </list-item>
                <list-item>
-                  <p>Erster Preflight-Test: Geprüft werden Strukturierung sowie die einzelnen Elemente, anschließend generiert die Produktionsstrecke ein sehr ausführliches Prüfprotokoll in Form eines .html-Reports (<xref ref-type="fig" rid="f-6">Abb. 6</xref>)                     <xref ref-type="fn" rid="fn-21">[21]</xref>.
-                  </p>
+                  <p>Erster Preflight-Test: Geprüft werden Strukturierung sowie die einzelnen Elemente, anschließend generiert die Produktionsstrecke ein sehr ausführliches Prüfprotokoll in Form eines .html-Reports (<xref ref-type="fig" rid="f-6">Abb. 6</xref>) <xref ref-type="fn" rid="fn-21">[21]</xref>.</p>
                </list-item>
                <list-item>
                   <p>Es folgen drei Schritte, bei denen die Elemente schrittweise nach .xml (JATS) konvertiert werden.</p>
@@ -397,7 +391,7 @@
                <p id="p-42">
                   <named-content content-type="paragraph-counter">42</named-content>Schritt 2: Im .html-formatierten Text werden die einzelnen Bestandteile über einfaches Suchen/Ersetzen mit den Elementen ausgezeichnet, die gemäß dem oben geschilderten Tagging-Wortschatz notwendig sind. Dabei können nicht nur Zeichen- und Absatzformate automatisch festgelegt werden oder die notwendige Absatznummerierung durchgeführt werden. Vielmehr können hier mittels einfacher Wertelisten auch die aufwendigen Verlinkungen zu den Normdatensystemen erfolgen: So kann eine Tabelle, die vom iDAI.bibliography-assistant mit Zenon-IDs angereichert wurde (Autor/innen – Titel – Zenon-ID), als Werteliste dienen, auf Basis derer automatisch die Einträge der Literaturliste mit entsprechenden Links hinterlegt, aber vor allem die zahlreichen Autor-Jahr-Zitate in den Fußnoten getaggt werden. Dasselbe gilt auch für die Bildnachweise und Abbildungsunterschriften, deren Bestandteile ebenfalls jeweils separat ausgezeichnet werden müssen. Auch hier können sehr einfache Tabellen, die im .ods-Format vorbereitet und in .csv-Listen konvertiert werden, als Wertelisten dienen.</p>
                <p id="p-43">
-                  <named-content content-type="paragraph-counter">43</named-content>Die Syntax der Auszeichnungen ist so definiert, dass die Tags beim Öffnen von einer aktuellen Microsoft Word-Version als korrekte Formatvorlagen des Anzeiger-Modells interpretiert werden (<xref ref-type="fig" rid="f-8">Abb. 8</xref>).
+                  <named-content content-type="paragraph-counter">43</named-content>Die Syntax der Auszeichnungen ist so definiert, dass die Tags beim Öffnen von einer aktuellen Microsoft Word-Version als korrekte Formatvorlagen des Anzeigermodells interpretiert werden (<xref ref-type="fig" rid="f-8">Abb. 8</xref>).
                </p>
                <p id="p-44">
                   <named-content content-type="paragraph-counter">44</named-content>Schritt 3: Nach der Überarbeitung und automatischen Auszeichnung kann der Text in Word geöffnet und wie gewohnt redigiert und weiterverarbeitet werden. Da die Bestandteile bereits mit den korrekten Formatvorlagen ausgezeichnet sind (siehe oben), können die Texte nach Abschluss der fachwissenschaftlich-redaktionellen Bearbeitung in InDesign importiert werden, das die Formate automatisch mappt.</p>
@@ -491,7 +485,7 @@
                <named-content content-type="paragraph-counter">67</named-content>Die vom DAI entwickelten und zur Nachnutzung zur Verfügung gestellten Komponenten können zwar bis zu einem gewissen Grad einen Beitrag dazu leisten, dass auch andere Institutionen vergleichbare Modelle einführen. Entscheidend wird jedoch sein, dass sich die Fachcommunity in Zukunft noch intensiver über Standards im Hinblick auf Digitalisierungsprozesse im Publikationsbereich austauscht, damit das Repertoire an Best Practice-Lösungen, das auf die Bedarfe anderer Wissenschaftsbereiche zugeschnitten ist, für die spezifischen Anforderungen der archäologisch arbeitenden Disziplinen und deren Nachbarwissenschaften ergänzend erweitert werden kann.</p>
          </sec>
       </sec>
-       <sec id="images-container">
+      <sec id="images-container">
          <title>Abbildungen</title>
          <fig id="poster-image" fig-type="poster-image">
             <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_content_picture.jpg"/>
@@ -507,9 +501,11 @@
          <fig id="f-2" fig-type="content-image">
             <label>Abb. 2</label>
             <caption>
-               <p>Beispiel für einen referenzierten Datendatensatz aus dem Normdatensystem für Ortsnamen und deren geografische Koordinaten iDAI.gazetteer, dessen Vorschau unter »Extra Features« angezeigt wird</p>
+               <p>Beispiel für einen referenzierten Datendatensatz aus dem Normdatensystem für Ortsnamen und 
+               deren geografische Koordinaten iDAI.gazetteer, dessen Vorschau unter »Extra Features« angezeigt wird</p>
             </caption>
-            <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_2.jpg"/>
+            <graphic xmlns:xlink="http://www.w3.org/1999/xlink" 
+             xlink:href="FdAI-2022_Baumeister-web-resources/image/FdAI_2022_Baumeister_2.jpg"/>
             <attrib>Screenshot: Peter Baumeister</attrib>
          </fig>
          <fig id="f-3" fig-type="content-image">
@@ -617,7 +613,6 @@
          <ref id="ref-ChronopoulosMaierNovokhatko2020">
             <label>Chronopoulos – Maier – Novokhatko 2020</label>
             <mixed-citation>
-
                <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="zenon" xlink:href="https://zenon.dainst.org/Record/002030251&#xD;">
                St. Chronopoulos – F. K. Maier – A. Novokhatko (Hrsg.), Digitale Altertumswissenschaften. Thesen und Debatten zu Methoden und Anwendungen (Heidelberg 2020), https://doi.org/10.11588/propylaeum.563
                </ext-link>
@@ -645,8 +640,7 @@
          </ref>
          <ref id="ref-Funk2018">
             <label>Funk 2018</label>
-            <mixed-citation>
-            St. E. Funk, Elektronisches Publizieren von Digitalen Forschungsdaten am Beispiel des TextGrid Repositorys – Umsetzung von Digitalen Publikationsworkflows für die eHumanities (2018), http://dx.doi.org/10.20375/0000-000B-D269-2</mixed-citation>
+            <mixed-citation>St. E. Funk, Elektronisches Publizieren von Digitalen Forschungsdaten am Beispiel des TextGrid Repositorys – Umsetzung von Digitalen Publikationsworkflows für die eHumanities (2018), http://dx.doi.org/10.20375/0000-000B-D269-2</mixed-citation>
          </ref>
          <ref id="ref-Garnettetal2017">
             <label>Garnett et al. 2017</label>
@@ -751,8 +745,7 @@
          <fn id="fn-6">
             <label>6</label>
             <p>
-               Vgl. zur Bedeutung von traditionellen Publikationsformen in den Geisteswissenschaften etwa zuletzt das <xref ref-type="bibr" rid="ref-ProjektAuROA2022">Projekt AuROA 2022, 6</xref>;               <xref ref-type="bibr" rid="ref-DreherLangOberländer2020">Dreher – Lang – Oberländer 2020, 13</xref>; zu den Altertumswissenschaften: <xref ref-type="bibr" rid="ref-Hintze2020">Hintze 2020</xref>, bes. 197. 205. 206; siehe auch allgemein das DFG-Positionspapier »<ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://www.dfg.de/download/pdf/foerderung/programme/lis/pos_papier_elektron_publizieren_0504.pdf ">
-Elektronisches Publizieren</ext-link>« vom März 2005 (10.02.2022), 9, dessen Gültigkeit durch die eingangs genannten Publikationen weiterhin bestätigt wird.</p>
+               Vgl. zur Bedeutung von traditionellen Publikationsformen in den Geisteswissenschaften etwa zuletzt das <xref ref-type="bibr" rid="ref-ProjektAuROA2022">Projekt AuROA 2022, 6</xref>;               <xref ref-type="bibr" rid="ref-DreherLangOberländer2020">Dreher – Lang – Oberländer 2020, 13</xref>; zu den Altertumswissenschaften: <xref ref-type="bibr" rid="ref-Hintze2020">Hintze 2020</xref>, bes. 197. 205. 206; siehe auch allgemein das DFG-Positionspapier »<ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://www.dfg.de/download/pdf/foerderung/programme/lis/pos_papier_elektron_publizieren_0504.pdf ">Elektronisches Publizieren</ext-link>« vom März 2005 (10.02.2022), 9, dessen Gültigkeit durch die eingangs genannten Publikationen weiterhin bestätigt wird.</p>
          </fn>
          <fn id="fn-7">
             <label>7</label>
@@ -767,33 +760,26 @@ Elektronisches Publizieren</ext-link>« vom März 2005 (10.02.2022), 9, dessen G
          <fn id="fn-9">
             <label>9</label>
             <p>
-               Tanja Lemke-Mahdavi, <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="lm-kommunikation.de">
-LMK</ext-link> – Büro für Kommunikationsdesign, Berlin.</p>
+               Tanja Lemke-Mahdavi, <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="lm-kommunikation.de">LMK</ext-link> – Büro für Kommunikationsdesign, Berlin.</p>
          </fn>
          <fn id="fn-10">
             <label>10</label>
             <p>
-               <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" specific-use="weblink" xlink:href="dpc-consulting.org" ext-link-type="uri">
-Fabian Kern</ext-link>, digital publishing competence, München.</p>
+               <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" specific-use="weblink" xlink:href="dpc-consulting.org" ext-link-type="uri">Fabian Kern</ext-link>, digital publishing competence, München.</p>
          </fn>
          <fn id="fn-11">
             <label>11</label>
-            <p>Friedrich Stoller, Florian Bergmann, <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" specific-use="weblink" xlink:href="leanbakery.com" ext-link-type="uri">
-LEAN BAKERY</ext-link>, München.</p>
+            <p>Friedrich Stoller, Florian Bergmann, <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" specific-use="weblink" xlink:href="leanbakery.com" ext-link-type="uri">LEAN BAKERY</ext-link>, München.</p>
          </fn>
          <fn id="fn-12">
             <label>12</label>
             <p>
-
-
                <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://jats.nlm.nih.gov/index.html">https://jats.nlm.nih.gov/index.html</ext-link>
             (02.04.2022). Eine gute Übersicht zur Genese und zur Literatur bis 2016 findet sich bei <xref ref-type="bibr" rid="ref-CristianiSienra2016">Cristiani Sienra 2016</xref>, 101–107.</p>
          </fn>
          <fn id="fn-13">
             <label>13</label>
             <p>
-
-
                <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://lens.elifesciences.org">https://lens.elifesciences.org</ext-link>
                 (02.04.2022) bzw. 
                <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://GitHub.com/elifesciences/lens">https://GitHub.com/elifesciences/lens</ext-link>
@@ -823,8 +809,6 @@ LEAN BAKERY</ext-link>, München.</p>
          <fn id="fn-17">
             <label>17</label>
             <p>
-
-
                <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://github.com/dainst/dai-lens">https://github.com/dainst/dai-lens</ext-link>. Desiderate bleiben einstweilen die Implementierung für iDAI.geoserver, das iDAI.world-System für Geodaten (<ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://geoserver.dainst.org">https://geoserver.dainst.org</ext-link>), sowie eine Erweiterung der Bandbreite anzeigbarer Dateiformate (3D-Modelle, Filme usw.), wobei aber noch unklar ist, ob eine technische Umsetzung möglich ist.</p>
          </fn>
          <fn id="fn-18">
@@ -840,8 +824,6 @@ LEAN BAKERY</ext-link>, München.</p>
          <fn id="fn-20">
             <label>20</label>
             <p>
-
-
                <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://github.com/dainst/dai-jats-produktionsstrecke">https://github.com/dainst/dai-jats-produktionsstrecke</ext-link>. Entwickelt von Fabian Kern, digital publishing competence, München (<ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="dpc-consulting.org">DPC</ext-link>).
             </p>
          </fn>
@@ -873,10 +855,7 @@ LEAN BAKERY</ext-link>, München.</p>
          <fn id="fn-25">
             <label>25</label>
             <p>
-
-
-               <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://doi.org/10.5281/zenodo.7051409">https://doi.org/10.5281/zenodo.7051409</ext-link>
-.
+               <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://doi.org/10.5281/zenodo.7051409">https://doi.org/10.5281/zenodo.7051409</ext-link>.
             </p>
          </fn>
          <fn id="fn-26">
@@ -902,9 +881,7 @@ LEAN BAKERY</ext-link>, München.</p>
          </fn>
          <fn id="fn-30">
             <label>30</label>
-            <p>
-               Exemplarisch seien folgende Projekte genannt, die erst nach Abschluss des AA-Projektes gestartet wurden: Das vom BMBF geförtderte Projekt »Open Source Academic Publishing Suite« (                 <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://os-aps.de/">OS-APS</ext-link>
-), aber auch das Projekt »OPEN-ACCESS-Strukturierte-Kommunikation (OA-STRUKTKOMM)«, das »Werkzeuge und Strategien zur Beschleunigung der Transformation des wissenschaftlichen Publikationssystems hin zu Open Access« inkl. eines »automatisierten XML-first-Satzsystems zur Herstellung von OA-Monografien« entwickelt (<ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://doi.org/10.5281/zenodo.5526686">https://doi.org/10.5281/zenodo.5526686</ext-link>). Zum Projekt 
+            <p>Exemplarisch seien folgende Projekte genannt, die erst nach Abschluss des AA-Projektes gestartet wurden: Das vom BMBF geförtderte Projekt »Open Source Academic Publishing Suite« (                 <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://os-aps.de/">OS-APS</ext-link>), aber auch das Projekt »OPEN-ACCESS-Strukturierte-Kommunikation (OA-STRUKTKOMM)«, das »Werkzeuge und Strategien zur Beschleunigung der Transformation des wissenschaftlichen Publikationssystems hin zu Open Access« inkl. eines »automatisierten XML-first-Satzsystems zur Herstellung von OA-Monografien« entwickelt (<ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://doi.org/10.5281/zenodo.5526686">https://doi.org/10.5281/zenodo.5526686</ext-link>). Zum Projekt 
                <ext-link xmlns:xlink="http://www.w3.org/1999/xlink" ext-link-type="uri" specific-use="weblink" xlink:href="https://libero.pub">https://libero.pub</ext-link>
                 siehe unten Anm. 31.</p>
          </fn>
