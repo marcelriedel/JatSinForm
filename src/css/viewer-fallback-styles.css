@@ -1,0 +1,58 @@
+div#error-message {
+   position:sticky;
+   top:0;
+   font-size:0.9rem;
+   background:#fff8cd;
+   margin-bottom: 1%;
+   padding: 1%;
+}
+
+body {
+    font-size:1rem;
+    font-family: "Noto Sans";
+    margin: 0;
+ }
+
+ #main-wrapper {
+    margin: auto;
+    width: 90vw;
+ }
+
+ .panel-navigation {
+    display:none;
+ }
+
+ #abstract-navigation {
+    display:none;
+ }
+
+ .abstract-text {
+    font-style: italic;
+ }
+
+ p[id] {
+    text-align: justify;
+ }
+
+ .paragraph-counter {
+   padding-right:1%;
+ }
+
+ figure {
+    margin: 0;
+ }
+
+ div.footnote {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+ }
+ 
+ div.footnote > .label {
+    font-weight: 500;
+    padding-right:2%;
+ }
+
+.internal-index-summary {
+   display:none
+}
