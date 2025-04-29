@@ -5,6 +5,7 @@
     --color-paper: white;
     --long-text-color: black;
     --short-text-color: black;
+    --footnote-text-color:  black;
     --color-marginBox: transparent;
     --long-text-font-family: "Noto Serif";
     --headline-text-font-family: "Noto Sans";
@@ -93,7 +94,7 @@
 }
 
 /* cover page */
-@page :nth(1) {
+@page :first {
     /* margin-top: 150%;   */
     margin-left: 30mm;
     margin-right: 30mm;
@@ -190,16 +191,6 @@ body {
     text-rendering: optimizeLegibility;
 }
 
-#content-body {
-     /* test columns layout
-     column-count: 2;
-     -webkit-column-count: 2;
-     -moz-column-count: 2;
-     column-fill:balance;
-     column-gap: 4mm;
-     */
-}
-
 /* text blocks
 -----------------*/
 p {
@@ -291,7 +282,7 @@ h1, h2, h3, h4, h5, h6 {
 .main-title {
     font-size: 14pt;
     margin: 5mm 0 3mm 0;
-    line-height: 1.5; /* 21pt to 14pt */
+    line-height: 1.5; /* 21pt to 14pt */    
 }
 
 .main-title.first-element {
@@ -473,6 +464,7 @@ table td:first-child { border-left: none; }
     font-family: var(--short-text-font-family);
     color: #929292;
     margin: 0;
+    font-weight: 300;
     text-align: justify;
 }
 
@@ -534,6 +526,7 @@ table td:first-child { border-left: none; }
 span.footnote {
     font-family: var(--long-text-font-family);
     font-size: var(--footnote-font-size);
+    color: var(--footnote-text-color);
     font-weight: 300; /* light */
     line-height: 1.2; /* 8.75pt to 7pt */
     float: footnote;
@@ -652,7 +645,6 @@ span.footnote {
     font-size: var(--p-font-size);
     font-weight: 300;
     line-height: 1.5 /* 14pt to 9.3pt */;
-    color: #929292;
     margin: 0.5mm 0;
     text-align: left;
 }
@@ -662,7 +654,6 @@ span.footnote {
     font-size: var(--p-font-size);
     font-weight: 300;
     line-height: 1.5 /* 14pt to 9.3pt */;
-    color: #929292;
     margin: 0.5mm 0;
     text-align: left;
 }
@@ -1071,20 +1062,6 @@ ul.toc-list {
 
 /* application specific
  ------------------------*/
- .text-content:hover {
-    cursor: pointer;
-    border-top: 5mm dotted;
-    border-color:white;
-    letter-spacing:0.2px;
-    transition: border-top 2s;
-    letter-spacing: 0.25px;
-}
-
-.text-content.styled-flag:hover {
-    cursor: pointer;
-    border: none;
-}
-
 .display-data-attributes::after {
     font-size:8pt;
     border:1px dotted deeppink;

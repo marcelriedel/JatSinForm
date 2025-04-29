@@ -66,9 +66,7 @@ body {
 
 #content-body {
     padding: 4%;
-    background: url(/assets/graphics/absurdity-1920x1080.png);
-    border-top-right-radius: 25px;
-    border-top-left-radius: 25px;
+    background: var(--content-background);
     box-shadow: -1px 5px 14px 0px #756f6f;
 }
 
