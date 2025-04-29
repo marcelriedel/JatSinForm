@@ -26,7 +26,7 @@ const scriptLibrary = {
     "pagedJs": {
         "type": "text/javascript",
         "src-remote": "https://unpkg.com/pagedjs/dist/paged.polyfill.js",
-        "src-local": "src/js/pagedjs.js"
+        "src-local": "src/js/pagedJs.js"
     },
     "qrCodeJs": {
         "type": "text/javascript",
@@ -813,8 +813,8 @@ function classifyImage(image) {
     let height = image.naturalHeight;
     let ratio = width / height;
 
-    let sizeClassSetGlobal
-    if(localStorage.getItem("sizeClassSetGlobal") !== undefined) {
+    let sizeClassSetGlobal;
+    if(localStorage.getItem("sizeClassSetGlobal") !== null) {
         sizeClassSetGlobal = localStorage.getItem("sizeClassSetGlobal");
     } else {
         sizeClassSetGlobal = "medium";
