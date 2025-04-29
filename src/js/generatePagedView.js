@@ -1667,7 +1667,7 @@ function processFigureEnhancing(nodeParams) {
     let figConstellations = JSON.parse(localStorage.getItem("fig-constellations"))[0];
     let set = figConstellations[keys];
 
-    if(set && set !== undefined) {
+    if(set !== undefined && set) {
         // set final layout specs of figures:
         if(currentFigure) setLayoutSpecsOfFigure(currentFigure, set["currentFigure"][1]);
         if(nextFigure) setLayoutSpecsOfFigure(nextFigure, set["nextFigure"][1]);
