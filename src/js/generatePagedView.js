@@ -1988,14 +1988,6 @@ function figuresFitInCurrentPageFrame(set, nodeParams) {
         fitsCurrentFigure = false;
         fitsNextFigure = false;
     }
-
-    if(fitsCurrentFigure) {
-        if(currentFigure.id == "f-1") {
-            console.log(clientHeightCurrentFigure);
-            console.log(remainingSpace);
-            console.log("FN:", contexts["footnoteAreaHeight"]);
-        }
-    }
  
     // return results as object:
     return fits = {
