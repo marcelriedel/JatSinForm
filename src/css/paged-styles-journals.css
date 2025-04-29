@@ -7,9 +7,9 @@
     --short-text-color: black;
     --footnote-text-color:  black;
     --color-marginBox: transparent;
-    --long-text-font-family: "Noto Serif";
-    --headline-text-font-family: "Noto Sans";
-    --short-text-font-family: "Noto Sans";
+    --long-text-font-family: "Noto Serif Light";
+    --headline-text-font-family: "Noto Sans Light";
+    --short-text-font-family: "Noto Sans Light";
     --p-font-size: 9.3pt;
     --line-height-para: 1.5; /* default */
     --footnote-font-size: 7.3pt; 
@@ -1113,4 +1113,23 @@ ul.toc-list {
 @-ms-keyframes fadeIn {
     0% { opacity: 0; }
     100% { opacity: 1; }
+}
+
+/* FONTS 
+-----------------------*/
+@font-face {
+    font-family: "Noto Serif Light";
+    src: 
+    url(/assets/fonts/NotoSerif-Light.woff2) format("woff2"),
+    url(/assets/fonts/NotoSerif-Light.woff) format("woff");
+    font-weight: 300;
+    font-style: normal; 
+}
+
+@font-face {
+    font-family: "Noto Sans Light";
+    src: url(/assets/fonts/NotoSans-Light.woff2) format("woff2"),
+    	url(/assets/fonts/NotoSans-Light.woff) format("woff");
+    font-weight: 300;
+    font-style: normal; 
 }
