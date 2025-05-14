@@ -620,6 +620,7 @@ function convertElementsByTagConversionMap(xmlBody, tagConversionMap) {
                             newElement.setAttribute("data-specific-use", specificUseValue);
                         }
                         newElement.href = (refValue) ? (refValue).trim() : "";
+                        newElement.target = "_blank";
                     // internal id-links:
                     } else {
                         newElement.href = (refValue) ? "#" + (refValue).trim() : "";
@@ -924,7 +925,8 @@ function URLifyString(string){
     const urls = string.match(/((((ftp|https?):\/\/)|(w{3}\.))[\-\w@:%_\+.~#?,&\/\/=]+)/g);
     if (urls) {
         urls.forEach(function (url) {
-            string = string.replace(url, '<a class ="ext-ref" target="_blank" href="' + url + '">' + url + "</a>");
+            string = string.replace(url, 
+                '<a class ="ext-ref" target="_blank" href="' + url + '">' + url + "</a>");
         });
     }
     return(string);
