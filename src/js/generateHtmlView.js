@@ -222,16 +222,30 @@ function getAbstractSection(contentBody) {
     let abstracts = contentBody.querySelectorAll(".abstract, .trans-abstract");
     if(abstracts.length) {
         abstracts.forEach(function(abstract) {
-            // get elementes and attributes:
+            // get abstract lang and abstract title:
             let abstractLang = abstract.getAttribute("lang");
-            let abstractTitleElement = abstract.querySelector(".title");
-            let abstractTextElement = abstract.querySelector(".abstract-text");
+            let abstractTitleElement;
+            let abstractTitle;
+            if(abstract.querySelector(".title") !== null) {
+                abstractTitleElement = abstract.querySelector(".title");
+                abstractTitle = abstractTitleElement.textContent.trim();
+            } 
+            else {
+                abstractTitleElement = false;
+                abstractTitle = "No-abstract-title";
+            }
+
+            // get abstract text:
+            let abstractTextElement;
+            if(abstract.querySelector(".abstract-text") !== null) {
+                abstractTextElement = abstract.querySelector(".abstract-text");
+            } else {abstractTextElement = abstract.querySelector("p");}
+          
             // create abstract elements view:
-            if(abstractTextElement !== null && abstractTitleElement!== null) {
-                let abstractTitle = abstractTitleElement.textContent.trim();
+            if(abstractTextElement !== null) {
+              
                 if(abstractLang !== null) {
-                    // add lang:attribute to abstract elements:
-                    abstractTextElement.setAttribute("lang", abstractLang);
+                    // add lang:attribute to abstract text element:
                     abstractTextElement.setAttribute("lang", abstractLang);
 
                     // create abstract nav buttons:
@@ -251,6 +265,7 @@ function getAbstractSection(contentBody) {
             }
         });
         abstractSection.insertAdjacentElement("afterbegin", abstractNav);
+     
     }
     return(abstractSection);
 }
