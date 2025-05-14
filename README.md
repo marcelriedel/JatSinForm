@@ -8,7 +8,6 @@ The core functionalities of **JatSinForm** (=> renderAsPDF.js) are primarily bas
 
 Currently **JatSinForm** is tailored (article-design, css-styles, typesetting classes, assets) to the highly standardized journals published by the German Archaeological Institute. But, it might be - at least partly - adaptable to other journal (or book) designs.
 
-The html-views (=>renderAsViewer.js) are not fully implemented yet.
 The JATS-XML documents (of the German Archaeological Institute) are created by independant tool chains (e.g. [TagToolWizard](https://github.com/pBxr/TagTool_WiZArd) and/or InDesign-workflows).
 
 ## Prerequisites
@@ -22,47 +21,51 @@ The JATS-XML documents (of the German Archaeological Institute) are created by i
     - reference xml-file in meta-tag: 
         - `<meta name="--xml-file" content="example.xml">`
     - reference main.js in document head: 
-        - `<script src="src/js/main.js" type="application/javascript"></script>` 
+        - `<script src="src/js/app.js" type="application/javascript"></script>` 
     - open/serve/preview index.html in your prefered browser 
         - using your IDE as local webserver 
         - installing "Live Preview"-Extension recommended
 
-## Control views and editing functions in pagedJs-preview
-The keyboard-control keys can be defined in  **index.html**. 
+## Controls
 
-By default use:
+# 🖥️ Application Keyboard Shortcuts
 
-|Key | Action                       | const in index.html   |
-|----|------------------------------|-----------------------|
-| r  | reload                       |  reload|
-| q  | hardReset                    |  hardReset|
-| p  | render xml with pagedJs      |  renderAsPDF|
-| v  | render xml in a web-view     |  renderAsViewer|
-| f  | highlight figure references  | highlightFigReference |
-| h  | highlight page contexts info | highlightContextInfo|
-| o  | show page overflows (of text)| showOverflows |
-| t  | push figure to top of page (+ mouse over figure)  |figureToTop
-| *  | dev-only: setup figure constellations  | setupFigConstellations|
+| Key | Action |
+|-----|--------|
+| `p` | Show paged view |
+| `v` | Show web (HTML) view |
+| `e` | Show editor view *(not implemented)* |
+| `ß` | Create `figConstellation.json` *(dev-only)* |
+| `r` | Reload page |
+| `q` | Reload page *(with style refresh)* |
+| `f` | Highlight all figure references |
+| `h` | Highlight context information |
+| `o` | Display overflows in paged view |
+| `d` | Download document configs or HTML document |
 
-The mouse-click-events are defined as follows:
+## 📐 Set Figure Size (All Figures)
 
-- click (on figure) => switch width-class of floating figures
-- double-click (on figure) => switch typesetting-class of figure
-- on-hold-click (on figure) => switch display-mode of figCaption (bottom or regular)
+| Key | Size | Action |
+|-----|------|--------|
+| `t` | tiny | Set size class of all figures to tiny |
+| `s` | small | Set size class of all figures to small |
+| `m` | medium | Set size class of all figures to medium |
+| `l` | large | Set size class of all figures to large |
 
-## Libraries
-- pagedJs
-- interactJs
-- qrCodeJs
-- highlightJs
+---
 
-## Configurations
-/configs:
+# 🖼️ Figure Control Shortcuts
 
-- *figConstellations.json*
-- *journals.json*
-- *tagConversionMap.json*
-- *toggleFigureClasses.json*
+| Key | Class / Action | Description |
+|-----|----------------|-------------|
+| `u` | — | Place figure on top of page |
+| `c` | Toggle caption position | Switch between: `regular-bottom`, `regular`, `overmargin-bottom`, `overmargin` |
+| `1` | overmargin | Set figure class to `overmargin` |
+| `2` | regular | Set figure class to `regular` |
+| `3` | inset | Set figure class to `inset` |
+| `4` | float-w-col-6 | Set figure class to `float-w-col-6` |
+| `5` | float-w-col-4 | Set figure class to `float-w-col-4` |
+| `6` | float-w-col-2 | Set figure class to `float-w-col-2` |
 
 
 
