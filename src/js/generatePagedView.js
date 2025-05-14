@@ -74,13 +74,26 @@ function controlPagedJsHandler() {
                 if (textContentMap[sourceNode.id] !== undefined && !textContentMap[sourceNode.id]["isSet"]) {
                     // define nodeParams (e.g. position on page, figure references):
                     let nodeParams = defineSourceNodeParameter(sourceNode, renderNode, parsedContent);
-                    
+
+                    /* adjust regular headlines
+                    if(/title/.test(sourceNode.className)) {
+                        console.log(nodeParams);
+                        if(nodeParams["contexts"]["remainingSpace"] <= 100) {
+                            console.log(sourceNode);
+                            sourceNode.style.Color = "yellow";
+                            sourceNode.style.marginTop = 100 + "px";
+                            updateTextContentMap(sourceNode.id, "style", "marginTop:100px;");
+                        }
+                    }
+                    */
                     // exclude figures for defined paragraphs (first text page):
                     if(nodeParams["contexts"]["pageId"] == firstTextPageId) {
                         if(nodeParams["currentFigure"]) {
                             pushFigRefToNextNode(sourceNode.id, nodeParams["currentFigure"].id);
+                            console.log("push: ", nodeParams["currentFigure"].id)
                         }
                         if(nodeParams["nextFigure"]) {
+                            console.log("push: ", nodeParams["nextFigure"].id)
                             pushFigRefToNextNode(sourceNode.id, nodeParams["nextFigure"].id);
                         }
                     }
@@ -88,7 +101,7 @@ function controlPagedJsHandler() {
                     else {
                         processFigureEnhancing(nodeParams);
                     }
-            
+                    
                     // handle over rest of figRefs which exceeds the limit maxNumFigures
                     let maxNumFigures = 2; // limit of figures, each one single node can handle
                     if(nodeParams["figRefs"]) {
@@ -103,7 +116,7 @@ function controlPagedJsHandler() {
                 else if(/FIGURE/.test(sourceNode.tagName)) {
                     let contexts = definePageContextsOfSourceNode(sourceNode);
                     contexts = calculateNodeDistances(contexts, sourceNode);
-                    setPageContextsAsElementAttribute(contexts, sourceNode, renderNode)
+                    setPageContextsAsElementAttribute(contexts, sourceNode, renderNode);
                 }
                 else {
                     adjustLayoutOfAppendixTitles(sourceNode);
@@ -133,7 +146,7 @@ function controlPagedJsHandler() {
 
             // push figure element on top of page:
             pushFigureElementOnTopOfPage(pageElement, 
-                "p,.title,table,ol,ul,li,figure,figCaption,pre");
+                "p,.title,table,ol,ul,li,figure,figCaption,pre,.boxed-text");
 
             // set figCaptions as block element after page rendering:
             let pageContent = pageElement.querySelector(".pagedjs_page_content");
@@ -274,6 +287,7 @@ function createPagedArticle(content) {
     article.appendChild(titlePage);
     article.innerHTML += content.querySelector
         ("#content-body").outerHTML;
+ 
     article.appendChild(referenceList);
     article.append(noteSection);
     article.appendChild(meta);
@@ -555,7 +569,7 @@ function reformatFootnotes(content) {
 }
 
 /**
- * create referenceList or rather bibliography:
+ * create referenceList:
  * @param {DocumentFragment} content document-fragment made from original DOM
  * @returns {HTMLElement} referenceList as meta-section with author-year-label,
  * reference titles and external ref-links
@@ -568,22 +582,24 @@ function createReferenceList(content) {
     referenceList.id = "reference-list";
     referenceList.classList.add("meta-section");
 
-    // checkout ref-list title:
+    // checkout ref-list title
     let refListTitle;
-    if (referenceSection && referenceSection.querySelector(".title") !== null) {
-        refListTitle = referenceSection.querySelector(".title");
-        refListTitle.classList.add("main-title");
-    }
-    else {
-        refListTitle = document.createElement("h3");
-        let lang = document.documentElement.lang;
-        refListTitle.innerHTML = titlesOfAppendices["references"][lang];
-        refListTitle.classList.add("main-title");
-    }
-    referenceList.appendChild(refListTitle);
+    if(references.length) {
+        if (referenceSection && referenceSection.querySelector(".title") !== null) {
+            refListTitle = referenceSection.querySelector(".title");
+            refListTitle.classList.add("main-title");
+        }
+        else {
+            refListTitle = document.createElement("h3");
+            let lang = document.documentElement.lang;
+            refListTitle.innerHTML = titlesOfAppendices["references"][lang];
+            refListTitle.classList.add("main-title");
+        }
+        referenceList.appendChild(refListTitle);
+    } else {console.warn("Article has not any reference in <ref-list>!")}
 
     // recreate reference elements:
-    if(references) {
+    if(references.length) {
         for (let i = 0; i < references.length; i++) {
             let label = references[i].querySelector(".label");
             let mixedCitation = references[i].querySelector(".mixed-citation");
@@ -839,12 +855,6 @@ function createContributorsCard(contributor) {
             contribIdLink.target = "_blank";
             contribIdLink.href = contribId;
             contribIdLink.innerHTML = givenName + " " + surName;
-            // add orcid-icon:
-            if(/orcid/.test(contribId)) {
-                let orcidIcon = document.createElement("span");
-                orcidIcon.classList.add("orcid-icon");
-                contribIdLink.append(orcidIcon);
-            }
             name.append(contribIdLink);
         } else { name.innerHTML = givenName + " " + surName;}
         contributorsCard.append(name);
@@ -858,12 +868,6 @@ function createContributorsCard(contributor) {
             institutionIdLink.target = "_blank";
             institutionIdLink.href = institutionId
             institutionIdLink.innerHTML = contributor.querySelector(".institution").textContent;
-            // add ror-icon:
-            if(/ror/.test(institutionId)) {
-                let rorIcon = document.createElement("span");
-                rorIcon.classList.add("ror-icon");
-                institutionIdLink.append(rorIcon);
-            }
             institution.append(institutionIdLink);
         } else { institution.innerHTML = contributor.querySelector(".institution").textContent;}
         contributorsCard.append(institution);
@@ -992,12 +996,6 @@ function createImprintSection(content) {
             imprintSection.appendChild(customMeta);
         }
     }
-    // add credit to JatSinForm:
-    let selfReferenceNotice = document.createElement("p");
-    selfReferenceNotice.classList.add("self-reference");
-    selfReferenceNotice.innerHTML = "This PDF was created with " +
-    "<a href='https://github.com/dainst/JatSinForm' target='_blank'>JatSinForm</a>";
-    imprintSection.appendChild(selfReferenceNotice);
     return (imprintSection);
 }
 
@@ -1028,7 +1026,7 @@ function createTextContentMap(parsedContent, previousMap) {
     let contentBody = parsedContent.querySelector("#content-body");
 
     // elements defined as text-elements:
-    let textElementsSelector = "p,ul,ol,li,table,pre,code,.title";
+    let textElementsSelector = "p,ul,ol,li,table,pre,code,.boxed-text,.title";
 
     // select text-content elements:;
     if(contentBody.querySelectorAll(textElementsSelector) !== null) {
@@ -1179,6 +1177,8 @@ Handle figure reference management:
  */
 function getNextFigRefs(currentNodeId) {
 
+    const rangeNextFigRefs = 2;
+
     // get textContent and figure map:
     let textContentMap = JSON.parse(localStorage.getItem("text-content-map"));
     let figureMap = JSON.parse(localStorage.getItem("figure-map"));
@@ -1186,11 +1186,14 @@ function getNextFigRefs(currentNodeId) {
 
     // find next figure references in all textElement within rangeNextFigRefs:
     let nextFigRefs = [];
+    let nodeId;
+    let textElement;
     let i = 1;  // starting point (currentNode)
-    while (i < rangeNextFigRefs) {
-        let nodeId = Object.keys(textContentMap)[currentNodePosition + i];
-        let textElement = textContentMap[nodeId];
-        if(textElement && textElement.figRefs.length) {
+    while (i <= rangeNextFigRefs) {
+        console.log(currentNodeId);
+        nodeId = Object.keys(textContentMap)[currentNodePosition + i];
+        textElement = textContentMap[nodeId];
+        if(textElement && textElement.figRefs !== undefined && textElement.figRefs.length) {
             let figRef;   // check figRefs of each text element
             for (let i = 0; i < textElement.figRefs.length; ++i) {
                 figRef = textElement.figRefs[i];
@@ -1205,11 +1208,13 @@ function getNextFigRefs(currentNodeId) {
         }
         // if node is first of content section:
         if(textElement && !textContentMap[nodeId]["isFirstOfSection"]) {
-            ++i; // proceed (next paragraph)
+            // ++i; // proceed (next paragraph)
+            i = i + 1;
         }
         // if rangeOverSection is true (allowed):  
         else if(rangeOverSection) {
-            ++i; // proceed (next paragraph)
+            // ++i; // proceed (next paragraph)
+            i = i + 1;
         }
         // break up entire loop of figRef search:
         else {

@@ -258,11 +258,18 @@ p.catalog-number {
 /* boxed-text: 
 --------------------*/
 .boxed-text {
-    background: #f6f6c2;
-    font-size: 0.9rem;
-    padding: 2%;
-    border: 1px solid gray;
-    margin: 1% 0;
+    background: #eeeeee;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    padding: 2.5%;
+    border: 1px solid #ebe9e9;
+    margin: 3% 0;
+    text-align: justify;
+    border-radius: 15px;
+}
+
+.boxed-text > a.fn-ref {
+    font-size: 0.80rem;
 }
 
 /* list elements 
@@ -290,6 +297,10 @@ li::marker {
 
 .italic {
     font-style: italic;
+}
+
+.bold {
+    font-weight:600;
 }
 
 /* anchors 
@@ -329,6 +340,16 @@ a.ext-ref {
     color: rgb(23 94 139);
     text-decoration: underline;
     word-break: break-all;
+}
+
+a.box-ref {
+    word-break: keep-all;
+    color: var(--journal-color);
+}
+
+.title > a.box-ref {
+    text-decoration: none;
+    color: inherit;
 }
 
 a.data-source-link {
@@ -557,6 +578,7 @@ div.footnote > p {
     color: var(--panel-text-color);
     font-size: var(--panel-text-font-size);
     display: inline;
+    text-align: left;
     line-height: 1.6;
     padding: 0;
     margin:0;

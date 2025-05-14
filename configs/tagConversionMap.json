@@ -78,6 +78,11 @@
             "setAttribute": "language",
             "obligatory": false
         },
+        "bold": {
+            "tagName": "span",
+            "className": "bold",
+            "obligatory": false
+        },
         "italic": {
             "tagName": "span",
             "className": "italic",
@@ -109,6 +114,12 @@
         "xref[ref-type='bibr']": {
             "tagName": "a",
             "className": "bib-ref",
+            "refAttribute": "rid",
+            "obligatory": false
+        },
+        "xref[ref-type='boxed-text']": {
+            "tagName": "a",
+            "className": "box-ref",
             "refAttribute": "rid",
             "obligatory": false
         },

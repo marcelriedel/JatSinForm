@@ -71,18 +71,20 @@ const htmlViewScriptLibrary = {
 
     if (event.target.readyState === "complete") {
         focusTocTargetsOnHoverSection();
-        showSelectedPanel("contents");
+        showSelectedPanel("notes");
         setTimeout(() => {
             // highlight anchor targets:
             let anchors = document.querySelectorAll(
-                "a.fig-ref,a.bib-ref,a.fn-ref,a.ext-ref,a.index-ref");
+                "a.fig-ref,a.bib-ref,a.fn-ref,a.ext-ref,a.box-ref,a.index-ref");
             highlightAnchorTargets(anchors);
             // add background-image moving effect:
-            document.querySelector("#abstract-navigation")
-                .addEventListener("mouseover", event => {
-                    document.querySelector("#main-wrapper").style.backgroundSize = "80%";
-                    document.querySelector("#main-wrapper").style.transition = "all 5s";
-            });
+            if(document.querySelector("#abstract-navigation") !== null) {
+                document.querySelector("#abstract-navigation")
+                    .addEventListener("mouseover", event => {
+                        document.querySelector("#main-wrapper").style.backgroundSize = "80%";
+                        document.querySelector("#main-wrapper").style.transition = "all 5s";
+                });
+            }
         }, 500);
     }
 });

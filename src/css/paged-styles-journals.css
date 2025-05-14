@@ -10,7 +10,7 @@
     --long-text-font-family: "Noto Serif Light";
     --headline-text-font-family: "Noto Sans Light";
     --short-text-font-family: "Noto Sans Light";
-    --p-font-size: 9.3pt;
+    --p-font-size: 10.3pt; /* default: 9.3pt */
     --line-height-para: 1.5; /* default */
     --footnote-font-size: 7.3pt; 
     --caption-font-size: 7.3pt;
@@ -207,7 +207,6 @@ p {
     -ms-hyphens: auto;
     word-wrap: break-word;
     overflow-wrap: break-word;
-    word-spacing: -0.05em;
     widows: 3;
     orphans: 3;
 }
@@ -261,6 +260,10 @@ pre, code {
     white-space: pre-line;
 }
 
+.bold {
+    font-weight:600;
+}
+
 /* headlines:
 ----------------*/
 
@@ -300,7 +303,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .subsection-title {
-    color: var(--long-text-color);
+    color: var(--journal-color);
     font-size: var(--p-font-size);
     line-height: 1.5; /* 9.3pt to 14pt */
     margin: 5mm 0 2mm 0;
@@ -346,6 +349,7 @@ a.figure-reference {
 }
 
 a.fig-ref {
+    font-weight:600;
     text-decoration:none;
     word-break: keep-all;
 }
@@ -562,6 +566,31 @@ span.footnote {
     white-space:pre;
 }
 
+/* boxed-text and glossary: 
+--------------------------*/
+#glossary {
+    break-before: page;
+}
+
+.boxed-text {
+    font-family: var(--long-text-font-family);
+    font-weight: 300; /* light */
+    color: var(--long-text-color);
+    background: #eeeeee;
+    font-size: var(--p-font-size);
+    padding: 2.5%;
+    margin: 3% 0;
+    border: 1px solid #ebe9e9;
+    border-radius:10px;
+    text-align: justify;
+    page-break-inside: avoid;
+    clear:both;
+}
+
+.boxed-text.first-element {
+    margin-top:0;
+}
+
 /* endnotes-section
 ---------------------*/
 #endnotes-section {
@@ -689,29 +718,22 @@ span.footnote {
 
 .contributor-link {
     text-decoration: none;
-    word-break: keep-all;
+    word-break: normal;
+}
+
+.contributor-link:before {
+    content: "\260D";
+    padding-right: 1mm;
 }
 
 .institution-link {
     text-decoration: none;
+    word-break: normal;
 }
 
-.orcid-icon {
-    padding-right: 4mm;
-    margin-left: 1mm;
-    background: url(assets/graphics/ORCID.png);
-    background-size: contain;
-    background-repeat: no-repeat;
-    text-decoration: none;
-}
-
-.ror-icon {
-    padding-right: 6mm;
-    margin-left: 1mm;
-    background: url(assets/graphics/ROR.png);
-    background-size: contain;
-    background-repeat: no-repeat;
-    text-decoration: none;
+.institution-link:before {
+    content: "\260D";
+    padding-right: 1mm;
 }
 
 #qrcode {
@@ -719,7 +741,8 @@ span.footnote {
 }
 
 .metadata-doi-link {
-    font-size: 13.5pt;
+    font-family: var(--short-text-font-family);
+    font-size: 11pt;
     color: var(--journal-color);
 }
 
@@ -810,7 +833,7 @@ figure.first-element {
 }
 
 img {
-    /* height: 100%; */
+    border:1px solid #e9e9e9;
     width: 100%;
     margin-bottom: var(--imgMarginBottom);
 }
