@@ -71,7 +71,7 @@ const htmlViewScriptLibrary = {
 
     if (event.target.readyState === "complete") {
         focusTocTargetsOnHoverSection();
-        showSelectedPanel("notes");
+        showSelectedPanel("contents");
         setTimeout(() => {
             // highlight anchor targets:
             let anchors = document.querySelectorAll(
