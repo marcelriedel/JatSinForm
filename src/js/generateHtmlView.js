@@ -30,7 +30,7 @@ panelWrapper.classList.add("column");
  document.addEventListener("readystatechange", (event) => {
 
     if (event.target.readyState === "complete") {
-        
+
         // get content-body:
         let contentBody = document.querySelector("#content-body");
 
@@ -59,13 +59,33 @@ panelWrapper.classList.add("column");
         // create content and supplementary panels:
         createContentPanels(contentBody);
         createSupplementPanels(numSupplements);
-
         // fetch supplementary data from external sources:
         fetchExternalData(supplementsLinks);
 
+        // create meta-panel:
+        let panelMeta = createPanel("metadata", "Metadata", false);
+        panelWrapper.appendChild(panelMeta);
+        navigationPanelsDocument.push("metadata");
+      
+        // create imprint section:
+        let front = document.querySelector(".front");
+        let imprintSection;
+        if(front !== null) {
+            imprintSection = createImprintSection(front);
+            panelMeta.appendChild(imprintSection);
+        }
+
+        // create imprint section:
+        let metaSection = createMetaSection(front);
+        panelMeta.appendChild(metaSection);
+
         // remove <front> and <body>
-        contentBody.querySelector(".front").remove();
-        contentBody.querySelector(".back").remove();
+        if(contentBody.querySelector(".front")) {
+            contentBody.querySelector(".front").remove();
+        }
+        if(contentBody.querySelector(".back")) {
+            contentBody.querySelector(".back").remove();
+        }
 
         // create ToC-list and add to panel contents
         let tocList = createToCByHeadlines(contentBody);
@@ -91,8 +111,13 @@ panelWrapper.classList.add("column");
             scaleImage(img);
         });
 
+        // add document index:
+        if(addDocumentIndex) {
+            let indexSection = createDocumentStats(numSupplements)
+            panelMeta.appendChild(indexSection);
+        }
+
         // init additional js-functions:
-        createDocumentIndex(numSupplements);
         checkQualityOfUrls();
         showSelectedPanel("contents");
         createIndexOfInternalReferences("figure", "fig-ref");
@@ -102,6 +127,88 @@ panelWrapper.classList.add("column");
         document.body.classList.add("fade-in");
     }
 });
+
+/**
+ * create imprint section to display journal information related to imprint
+ * @param {DocumentFragment} front html-element with xml-front elements
+ * @returns {HTMLElement} imprintSection: enhanced with imprint information  
+ */
+function createImprintSection(front) {
+
+    // prepare imprint elements:
+    let imprintSection = document.createElement("div");
+    imprintSection.classList.add("imprint-section");
+    let imprintSectionTitle = document.createElement("h3");
+    imprintSectionTitle.classList.add("title", "panel-title", "section-title")
+    imprintSectionTitle.textContent = "Imprint";
+    imprintSection.appendChild(imprintSectionTitle);
+
+    // journal title:
+    let journalTitle;
+    let journalDOI;
+    if(front.querySelector(".journal-title") !== null) {
+        journalTitle = front.querySelector(".journal-title");
+        // add journal DOI:
+        if(front.querySelector(".journal-id[journal-id-type='doi']") !== null) {
+            journalDOI = front.querySelector(".journal-id[journal-id-type='doi']");
+            let journalDOILink = document.createElement("a");
+            journalDOILink.id = "journal-doi-link";
+            journalDOILink.href = journalDOI.innerText;
+            journalDOILink.textContent = journalTitle.textContent;
+            journalTitle.innerHTML = journalDOILink.outerHTML;
+        
+        } else {
+            journalTitle.innerHTML = journalTitle.innerText;
+        }
+        imprintSection.appendChild(journalTitle);
+    }
+
+    // publisher:
+    let publisher;
+    if(front.querySelector(".publisher") !== null) {
+        publisher = front.querySelector(".publisher");
+        imprintSection.appendChild(publisher);
+    }
+
+    return (imprintSection);
+}
+
+/**
+ * create meta section to display xml related metadata (xml-front) as details-
+ * element containing preformatted xml-code 
+ * @param {DocumentFragment} front html-element with xml-front elements
+ * @returns {HTMLElement} metaSection enhanced with meta information  
+ */
+function createMetaSection(front) {
+
+    // create elements:
+    let metaSection = document.createElement("div");
+    metaSection.id = "meta-section";
+    let metaSectionTitle = document.createElement("h3");
+    metaSectionTitle.classList.add("title", "panel-title", "section-title")
+    metaSectionTitle.textContent = "Document Metadata";
+    metaSection.appendChild(metaSectionTitle);
+
+    // add link to source:
+    if(front.querySelector(".article-id[pub-id-type='doi'") !== null) {
+        let sourceNotice = document.createElement("div");
+        sourceNotice.id = "source-notice";
+        sourceNotice.innerHTML = "Please follow the DOI-link to obtain further information relating to this article:"
+        
+        let doiElement = createDoiElement();
+        doiElement.id = "source-link-imprint";
+        sourceNotice.appendChild(doiElement);
+        metaSection.appendChild(sourceNotice);
+    }    
+
+    // append preformatted xml-code of <journal-meta> and <article-meta>:
+    let journalMetaCode = document.querySelector("#journal-meta-preformatted");
+    let articleMetaCode = document.querySelector("#article-meta-preformatted");
+    metaSection.appendChild(journalMetaCode);
+    metaSection.appendChild(articleMetaCode);
+
+    return(metaSection);
+}
 
 /** -----------------------------
 * Generate HTML view of document
@@ -187,11 +294,10 @@ function createDoiElement() {
     // get documentId (= DOI), saved in localStorage 
     let documentId = getDocumentStateProperty("documentId");
     let doi = (documentId) ? documentId : "no-doi-assigned";
-    
+
     // create elements:
     let doiElement = document.createElement("div");
     doiElement.id = "doi-link";
-    doiElement.textContent = "Source: ";
     let doiAnchor = document.createElement("a");
     doiAnchor.id = "doi-anchor";
     doiAnchor.target = "_blank";
@@ -327,7 +433,6 @@ function createContentPanels(contentBody) {
  * @param {HTMLElement} zenonReference: zenon-anchor extracted from reference
  * @returns {HTMLElement} zenonLink: new anchor element
  */
-
 function createZenonLink(zenonReference) {
     let zenonLink;
     if(zenonReference !== null) {
@@ -371,7 +476,7 @@ function addFootnoteToTextAnchor(footnotes) {
  * create supplement panels (iDAI.world-panels and information panel)
  * @param {object} numSupplements: amout of references to objects of 
  * supported iDAI.world systems 
- * @returns {void} panels will be appended to panelWrapper (constant)
+ * @returns {void} panels will appended to panelWrapper (constant)
  */
 function createSupplementPanels(numSupplements) {
   
@@ -398,15 +503,6 @@ function createSupplementPanels(numSupplements) {
         panelWrapper.appendChild(panel);
         navigationPanelsDocument.push("arachne");
     }
-
-    // create panel index:
-    if(addDocumentIndex) {
-        let indexSection = document.createElement("div");
-        indexSection.id = "index-section"; 
-        let panel = createPanel("index", "Document Index", indexSection);
-        panelWrapper.appendChild(panel);
-        navigationPanelsDocument.push("index");
-    }
 }
 
 /**
@@ -427,7 +523,7 @@ function createPanel(panelName, defaultTitle = false, content = false) {
     if(content) {panel.appendChild(content);}
 
     // add panel title:
-    if(panelName !== "contents") {
+    if(panelName !== "contents" && panelName !== "metadata") {
         let title = panel.querySelector(".title");
         if(title === null) {
             title = document.createElement("h3");
@@ -445,9 +541,17 @@ function createPanel(panelName, defaultTitle = false, content = false) {
  * count elements and display stats tables
  * @param {object} numSupplements: amout of references to objects of 
  * supported iDAI.world systems 
- * @returns {void} data will be appended to index-panel
+ * @returns {HTMLElement} indexSection enhanced with document statistics
  */
-function createDocumentIndex(numSupplements) {
+function createDocumentStats(numSupplements) {
+
+    // create section elements
+    let indexSection = document.createElement("div");
+    indexSection.id = "index-section";
+    let indexSectionTitle = document.createElement("h3");
+    indexSectionTitle.classList.add("title", "panel-title", "section-title")
+    indexSectionTitle.textContent = "Document Statistics";
+    indexSection.appendChild(indexSectionTitle);
 
     // get elements to be counted:
     let paragraphs = document.querySelectorAll(".content-paragraph");
@@ -468,6 +572,9 @@ function createDocumentIndex(numSupplements) {
         footnoteAllChars += note.innerText.trim().length;
     });
 
+    // count weblinks (exluding links in ref-list and supplementary References)
+    let otherWebReferences = document.querySelectorAll("a.ext-ref[data-specific-use='weblink']");
+
     // add result as table data to infos panel: 
     let indexTable = document.createElement("table");
     indexTable.classList.add("index-table");
@@ -483,12 +590,14 @@ function createDocumentIndex(numSupplements) {
         "<tr><td>Supplementary References:</td><td class='value'></td></tr>" +
         "<tr><td>- iDAI.gazetteer (Locations):</td><td class='value'>" + numSupplements["gazetteer"] + "</td></tr>" +
         "<tr><td>- iDAI.objects/arachne:</td><td class='value'>" + numSupplements["arachne"] + "</td></tr>" +
-        "<tr><td>- iDAI.field:</td><td class='value'>" + numSupplements["field"] + "</td></tr>";
+        "<tr><td>- iDAI.field:</td><td class='value'>" + numSupplements["field"] + "</td></tr>" +
+        "<tr><td>Other Web References:</td><td class='value'>" + otherWebReferences.length + "</td></tr>"
     indexTable.innerHTML = tableData;
 
     // append table to index section:
-    let indexSection = document.querySelector("#index-section");
     indexSection.appendChild(indexTable);
+
+    return(indexSection);
 }
 
 /**
@@ -609,7 +718,7 @@ function getReferenceIndex(elements, referenceSelector) {
 /**
  * add title of resources (references) as tool-tip of bib-refs
  * @param {NodeList} bibRefs: anchor, short reference
- * @returns {void} bibliographic titles will be added directly
+ * @returns {void} bibliographic titles will added directly
  */
 function titleOfResourcesAsToolTip(bibRefs) {
   
@@ -682,7 +791,7 @@ function createToCByHeadlines(contentBody) {
 /**
  * create panelNavigation (nav) for given panel-names
  * @param {Array} navigationPanelsDocument: given panel-names
- * @returns {void} panelNavigation will be appended to navHeader
+ * @returns {void} panelNavigation will appended to navHeader
  */
 
 function createPanelNavigation(navigationPanelsDocument) {
@@ -726,6 +835,7 @@ function reorderFigureElements(figureSection) {
             let label = figure.querySelector(".label");
             let figCaption = figure.querySelector("figcaption");
             let attribution = figure.querySelector(".attribution");
+            let license = figure.querySelector(".license");
             let img = figure.querySelector("img");
 
             if(figCaption !== null) {
@@ -740,6 +850,9 @@ function reorderFigureElements(figureSection) {
                 }
                 if(attribution !== null) {
                     figCaption.insertAdjacentElement("beforeend", attribution);
+                } 
+                if(license !== null) {
+                    figCaption.insertAdjacentElement("beforeend", license);
                 }  
             }
         });
@@ -755,7 +868,7 @@ function reorderFigureElements(figureSection) {
  * @param {HTMLElement} panel div with panel title and content
  * @param {String} dataSourceId name of dataSource, e.g. "arachne",
  * used as id-part for each fetchStateBar (div)
- * @returns {void} fetchStateBar will be appended to panel
+ * @returns {void} fetchStateBar will appended to panel
  */
 
 function appendFetchStateBarToPanel(panel, dataSourceId) {
