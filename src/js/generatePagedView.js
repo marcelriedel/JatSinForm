@@ -9,6 +9,7 @@ const virtualMarginBuffer = 1;
 const minDistanceFromNodeTop = 0;
 const maxPageContentHeight = 907;
 const pageFigureMax = 2;
+const noOrphanArea = 75;
 
 /** ------------------------------
  * control pagedJs-Handler (Hook), documentation: 
@@ -71,21 +72,10 @@ function controlPagedJsHandler() {
                 let parsedContent = Layout.hooks.afterParsed.context.source.firstChild;
 
                 // handle layout of text-content-elements:
-                if (textContentMap[sourceNode.id] !== undefined && !textContentMap[sourceNode.id]["isSet"]) {
+                if(textContentMap[sourceNode.id] !== undefined && !textContentMap[sourceNode.id]["isSet"]) {
                     // define nodeParams (e.g. position on page, figure references):
                     let nodeParams = defineSourceNodeParameter(sourceNode, renderNode, parsedContent);
-
-                    /* adjust regular headlines
-                    if(/title/.test(sourceNode.className)) {
-                        console.log(nodeParams);
-                        if(nodeParams["contexts"]["remainingSpace"] <= 100) {
-                            console.log(sourceNode);
-                            sourceNode.style.Color = "yellow";
-                            sourceNode.style.marginTop = 100 + "px";
-                            updateTextContentMap(sourceNode.id, "style", "marginTop:100px;");
-                        }
-                    }
-                    */
+                
                     // exclude figures for defined paragraphs (first text page):
                     if(nodeParams["contexts"]["pageId"] == firstTextPageId) {
                         if(nodeParams["currentFigure"]) {
@@ -100,8 +90,8 @@ function controlPagedJsHandler() {
                     // process figure enhancing:
                     else {
                         processFigureEnhancing(nodeParams);
-                    }
-                    
+                    }    
+
                     // handle over rest of figRefs which exceeds the limit maxNumFigures
                     let maxNumFigures = 2; // limit of figures, each one single node can handle
                     if(nodeParams["figRefs"]) {
@@ -118,6 +108,7 @@ function controlPagedJsHandler() {
                     contexts = calculateNodeDistances(contexts, sourceNode);
                     setPageContextsAsElementAttribute(contexts, sourceNode, renderNode);
                 }
+                // adjust layout of appendix titles:
                 else {
                     adjustLayoutOfAppendixTitles(sourceNode);
                 }
@@ -139,7 +130,7 @@ function controlPagedJsHandler() {
 
             // classify if elements are rendered on left or right page:
             classifyPageOfElements(pageElement, 
-                "figure,.fig-number,.meta-section,#endnotes-section");
+                "figure,.fig-number,.boxed-text,.meta-section,#endnotes-section");
 
             // classify position of elements on page:
             classifyElementPositionOnPage(pageElement,".text-content,figure");
@@ -163,6 +154,11 @@ function controlPagedJsHandler() {
             }
             // check urls:
             checkQualityOfUrls();
+
+            // test calculations of node distances (see console)
+            if(devMode) {
+                testCalculationsOfNodeDistances(pageElement);
+            }
         }
 
         /** Chunker: afterRendered
@@ -449,15 +445,15 @@ function createTitlePage(content) {
     let titlePage = document.createElement("div");
     titlePage.id = "page-header";
     let titleElement = document.createElement("h1");
-    titleElement.className = "page-title";
+    titleElement.classList.add("page-title", "text-content");
     titleElement.innerHTML = (title) ? title.textContent : "[Kein Titel]";
     let subtitleElement = document.createElement("h1");
-    subtitleElement.className = "page-subtitle";
+    subtitleElement.classList.add("page-subtitle", "text-content");
     subtitleElement.innerHTML = (subtitle) ? subtitle.textContent : "";
 
     // create contributors elements and fill with content:
     let authorsElement = document.createElement("h1");
-    authorsElement.className = "page-authors";
+    authorsElement.classList.add("page-authors", "text-content");
     authorsElement.innerHTML = (authorsCollection.length) ? authorsCollection.join(", ") : "[Keine Autoren]";
     let contributorsElement = document.createElement("p");
     contributorsElement.className = "page-contributors";
@@ -576,11 +572,15 @@ function reformatFootnotes(content) {
  */
 function createReferenceList(content) {
 
-    let referenceSection = content.querySelector(".reference-section");
-    let references = content.querySelectorAll(".reference");
     let referenceList = document.createElement("div");
     referenceList.id = "reference-list";
     referenceList.classList.add("meta-section");
+
+    let referenceSection = content.querySelector(".reference-section");
+    let references = []; // no ref-list
+    if(referenceSection !== null) {
+        references = content.querySelectorAll(".reference");
+    };
 
     // checkout ref-list title
     let refListTitle;
@@ -595,8 +595,13 @@ function createReferenceList(content) {
             refListTitle.innerHTML = titlesOfAppendices["references"][lang];
             refListTitle.classList.add("main-title");
         }
-        referenceList.appendChild(refListTitle);
-    } else {console.warn("Article has not any reference in <ref-list>!")}
+    } else {
+        refListTitle = document.createElement("h3");
+        let lang = document.documentElement.lang;
+        refListTitle.innerHTML = "[NO-REFERENCES]";
+        refListTitle.classList.add("main-title");
+    }
+    referenceList.appendChild(refListTitle)
 
     // recreate reference elements:
     if(references.length) {
@@ -743,6 +748,7 @@ function createSourceOfIllustrations(figureSection) {
            let labelCloned = label.cloneNode(true);
            let attribution = figures[i].querySelector(".attribution");
            attribution.insertAdjacentElement("afterbegin", labelCloned);
+
            let credits = document.createElement("div");
            credits.classList.add("credits");
            credits.append(attribution);
@@ -935,30 +941,32 @@ function createImprintSection(content) {
 
     // collect journal information:
     let journalTitle;
-    let publishingHistory;
+    let journalDOI;
+    let publisher;
+
     // journal title
     if(content.querySelector(".journal-title") !== null) {
         journalTitle = content.querySelector(".journal-title");
-        // publishing history:
-        if(content.querySelector(".publishing-history") !== null) {
-            publishingHistory = content.querySelector(".publishing-history > .meta-value");
-            journalTitle.innerHTML += " " + publishingHistory.innerText;
-            content.querySelector(".publishing-history").remove();
-            imprintSection.appendChild(journalTitle);
+        journalTitle.innerHTML =  journalTitle.innerText;
+        // add journal DOI:
+        let journalDOILink
+        if(content.querySelector(".journal-id[journal-id-type='doi']") !== null) {
+            journalDOI = content.querySelector(".journal-id[journal-id-type='doi']");
+            journalDOILink = document.createElement("a");
+            journalDOILink.id = "journal-doi-link";
+            journalDOILink.href = journalDOI.innerText;
+            journalDOILink.textContent = journalDOI.innerText;
+            journalTitle.appendChild(journalDOILink);
         }
+        imprintSection.appendChild(journalTitle);
     }
+
     // publisher:
     if(content.querySelector(".publisher") !== null) {
-        let publisher = content.querySelector(".publisher");
-        let role = document.createElement("p");
-        role.innerText = "Publisher:";
-        role.classList.add("role");
-        if(publisher.querySelector(".ext-ref") !== null) {
-            publisher.querySelector(".ext-ref").remove();
-        }
-        publisher.insertAdjacentElement("afterbegin", role);
+        publisher = content.querySelector(".publisher");
         imprintSection.appendChild(publisher);
     }
+
     // editors and advisory board members:
     let journalMeta = content.querySelector(".journal-meta");
     let editorsGroup = content.querySelector(".contrib-group[content-type='Editors']");
@@ -1026,7 +1034,7 @@ function createTextContentMap(parsedContent, previousMap) {
     let contentBody = parsedContent.querySelector("#content-body");
 
     // elements defined as text-elements:
-    let textElementsSelector = "p,ul,ol,li,table,pre,code,.boxed-text,.title";
+    let textElementsSelector = "p,li,table,pre,code,.boxed-text,.title";
 
     // select text-content elements:;
     if(contentBody.querySelectorAll(textElementsSelector) !== null) {
@@ -1190,7 +1198,6 @@ function getNextFigRefs(currentNodeId) {
     let textElement;
     let i = 1;  // starting point (currentNode)
     while (i <= rangeNextFigRefs) {
-        console.log(currentNodeId);
         nodeId = Object.keys(textContentMap)[currentNodePosition + i];
         textElement = textContentMap[nodeId];
         if(textElement && textElement.figRefs !== undefined && textElement.figRefs.length) {
@@ -1392,31 +1399,25 @@ function definePageContextsOfSourceNode(sourceNode, renderNode) {
     let elementSetBeforeTagName = (elementSetBefore) ? elementSetBefore.tagName : false;
   
     // get bounding client rectangles of pageContent:
-    let pageContentTop = pageContent.getBoundingClientRect().top;
+    let pageContentTop = Math.round(pageContent.getBoundingClientRect().top);
     let pageContentHeight = pageContent.offsetHeight;
     let pageContentWidth = pageContent.offsetWidth;
 
     // get height of footnoteArea:
     let footnoteArea = pageElement.querySelector(".pagedjs_footnote_area");
     let footnoteAreaHeight = footnoteArea.getBoundingClientRect().height;
+    footnoteAreaHeight = Math.round(footnoteAreaHeight);
  
     // get bounding client rectangle of nodes:
-    let nodeTop = sourceNode.getBoundingClientRect().top;
-    let nodeBottom = sourceNode.getBoundingClientRect().bottom;
+    let nodeTop = Math.round(sourceNode.getBoundingClientRect().top);
+    let nodeBottom = Math.round(sourceNode.getBoundingClientRect().bottom);
     let nodeMarginTop = parseInt(getComputedStyle(sourceNode).marginTop);
-    let paddingTop = parseInt(getComputedStyle(sourceNode).paddingTop);
-
+    let nodeMarginBottom = parseInt(getComputedStyle(sourceNode).marginBottom);
+   
     // pre-calculate distances of node to top of page:
-    let distanceFromNodeTop = Math.round(nodeTop - nodeMarginTop - paddingTop - pageContentTop);
-    let distanceFromNodeBottom = Math.round(nodeBottom - pageContentTop);
-    
-    // adjust distances of figure nodes:
-    if(/FIGURE/.test(sourceNode.tagName)) {
-        let figure = pageContent.querySelector("#" + sourceNode.id);
-        let clientSizes = calculateClientSizeOfFigure(figure, pageContentWidth);
-        let figureHeight = Math.round(clientSizes["clientHeightCalculated"]);
-        distanceFromNodeBottom = distanceFromNodeTop + figureHeight;
-    }
+    let distanceFromNodeTop = Math.round(nodeTop - pageContentTop + nodeMarginTop);
+    let distanceFromNodeBottom = Math.round(nodeBottom - pageContentTop + nodeMarginBottom);
+
     // check if page has reached maximum amount of figures:
     let isPageFigureMax;
     if(pageContent.querySelectorAll("FIGURE").length > pageFigureMax-1) {
@@ -1425,22 +1426,37 @@ function definePageContextsOfSourceNode(sourceNode, renderNode) {
     
     // detecting node splits:
     let nodeSplit = (distanceFromNodeBottom >= pageContentHeight) ? true : false;
-    if (nodeSplit && renderNode !== undefined) {renderNode.setAttribute("is-split-node", true);}
+    if (nodeSplit && renderNode !== undefined) {
+        sourceNode.setAttribute("is-split-node-parent", true);
+        renderNode.setAttribute("is-split-node", true);
+    };
 
+    // detecting nodes laid out on next page:
+    let nextPageNode = false;
+    if(!nodeSplit && distanceFromNodeTop == 0) {
+        nextPageNode = true;
+        // Why 37: must be the margin between two pages!
+        distanceFromNodeBottom = distanceFromNodeBottom  - 37;
+    }
+   
     // return values in pageContexts object:
     let pageContexts = {
         "pageId": pageId,
         "pageContent": pageContent,
         "pageContentHeight": pageContentHeight,
         "pageContentWidth": pageContentWidth,
+        "pageContentTop": pageContentTop,
         "footnoteAreaHeight": footnoteAreaHeight,
         "elementSetBefore": elementSetBefore,
         "elementSetBeforeTagName": elementSetBeforeTagName,
         "distanceFromNodeBottom": distanceFromNodeBottom,
+        "nodeMarginTop": nodeMarginTop,
+        "nodeMarginBottom": nodeMarginBottom,
         "distanceFromNodeTop": distanceFromNodeTop,
         "isPageFigureMax": isPageFigureMax,
         "nodeSplit": nodeSplit,
-        "renderNode": renderNode
+        "nextPageNode": nextPageNode,
+        "renderNode": {}
     };
     return pageContexts;
 }
@@ -1456,44 +1472,41 @@ function definePageContextsOfSourceNode(sourceNode, renderNode) {
 function calculateNodeDistances(contexts, sourceNode) {
 
     let elementSetBefore = contexts["elementSetBefore"];
-    let distanceFromNodeBottom = contexts["distanceFromNodeBottom"];
     let distanceFromNodeTop = contexts["distanceFromNodeTop"];
-    let currentNodeHeight = distanceFromNodeBottom - distanceFromNodeTop;
-    let pageContentHeight = contexts["pageContentHeight"];
-    
+    let distanceFromNodeBottom = contexts["distanceFromNodeBottom"];
+
     // define node types:
     let nodeTypes = defineNodeTypes(contexts, sourceNode, elementSetBefore);
-    
+
     // modulate distances of split nodes, partly rendered on next page:
     if(nodeTypes["sourceNodeType"] === "split-node") {
-        distanceFromNodeBottom = calculateDistanceFromBottomOfNodeSplit(sourceNode, elementSetBefore, contexts);
-        distanceFromNodeTop = minDistanceFromNodeTop; // const: renderNode starts always on top of page
-        pageContentHeight = maxPageContentHeight; // const: renderNode starts on fresh page with max with
+        contexts = calculateDistancesOfSplitNodes(contexts, sourceNode);
     }
-    // modulate distances based on elementBefore
-    else if(nodeTypes["elementBeforeType"]) {
-        let marginTop = parseInt(getComputedStyle(sourceNode).marginTop);
+    // calculate distances of figure nodes:
+    if (nodeTypes["sourceNodeType"] === "figure" || nodeTypes["sourceNodeType"] === "float") {
+        contexts = calculateDistancesOfFigureNodes(contexts, sourceNode);
+    }
+    // calculate distances of title nodes:
+    if(nodeTypes["sourceNodeType"] === "title") {
+        contexts = calculateDistancesOfTitleNodes(contexts, sourceNode);
+    }
+    // calculate distances of regular nodes:
+    if(nodeTypes["sourceNodeType"] === "regular-node") {
+        contexts = calculateDistancesOfRegularNodes(contexts, sourceNode);
+    }
+
+    // modulate distances when figure is elementBefore
+    if(nodeTypes["elementBeforeType"]) {  
+        let marginBottom = parseInt(getComputedStyle(sourceNode).marginBottom);
         let fromNodeBottomBefore = parseFloat(elementSetBefore.getAttribute("fromNodeBottom"));
-        if(nodeTypes["elementBeforeType"] === "split-node") { 
-            distanceFromNodeTop = fromNodeBottomBefore + marginTop; 
-            distanceFromNodeBottom = distanceFromNodeTop + currentNodeHeight + marginTop;
-        }
         if(nodeTypes["elementBeforeType"] === "figure") {
-            distanceFromNodeTop = fromNodeBottomBefore + marginTop; 
-            distanceFromNodeBottom = distanceFromNodeTop + currentNodeHeight + marginTop;
+            distanceFromNodeTop = fromNodeBottomBefore + marginBottom; 
+            distanceFromNodeBottom = distanceFromNodeTop + contexts["nodeHeight"] + marginBottom;
         }
-    }   
-
-    // calculate nodeHeight and remaining space:
-    let nodeHeight = distanceFromNodeBottom - distanceFromNodeTop; 
-    let remainingSpace = pageContentHeight - distanceFromNodeBottom;
-
-    // update values in contexts object:
-    contexts["distanceFromNodeTop"] = distanceFromNodeTop;
-    contexts["distanceFromNodeBottom"] = distanceFromNodeBottom;
-    contexts["nodeHeight"] = nodeHeight;
-    contexts["remainingSpace"] = remainingSpace;
+    } 
     return (contexts);
+
+  
 }
 
 /**
@@ -1509,14 +1522,25 @@ function defineNodeTypes(contexts, sourceNode, elementBefore) {
 
     // define sourceNodeTypes:
     let sourceNodeType;
-    if(/FIGURE/.test(sourceNode.tagName)) {
-        if (/float/.test(sourceNode.className)) {
-            sourceNodeType = "float";
-        } else sourceNodeType = "figure";
+    switch (true) {
+        case (/FIGURE/.test(sourceNode.tagName)):
+            if (/float/.test(sourceNode.className)) {
+                sourceNodeType = "float";
+            } else sourceNodeType = "figure";
+            break;
+        case (/title/.test(sourceNode.className)):
+            sourceNodeType = "headline";
+            if (/title-appendix/.test(sourceNode.className)) {
+                sourceNodeType = "title-appendix";
+            } else sourceNodeType = "title";
+            break;
+        case (contexts["nodeSplit"]):
+            sourceNodeType = "split-node";
+            break;
+        default:
+            sourceNodeType = "regular-node";
+            break;
     }
-    else if(/.title/.test(sourceNode.className)) {sourceNodeType = "headline";}
-    else if(contexts["nodeSplit"]) {sourceNodeType = "split-node";}
-    else sourceNodeType = "regular-node";
 
     // define elementBeforeType:
     let elementBeforeType;
@@ -1526,8 +1550,8 @@ function defineNodeTypes(contexts, sourceNode, elementBefore) {
                 elementBeforeType = "float";
             } else elementBeforeType = "figure";
         }
-        else if(/.title/.test(elementBefore.className)) {
-            elementBeforeType = "headline";
+        else if(/title/.test(elementBefore.className)) {
+            elementBeforeType = "title";
         }
         else if(elementBefore.getAttribute("is-split-node")) {
             elementBeforeType = "split-node";
@@ -1542,48 +1566,276 @@ function defineNodeTypes(contexts, sourceNode, elementBefore) {
     };
 }
 
+function calculateDistancesOfSplitNodes(contexts, sourceNode) {
+            
+    let elementSetBefore = contexts["elementSetBefore"];
+    let distanceFromNodeBottom = contexts["distanceFromNodeBottom"];
+    let distanceFromNodeTop = contexts["distanceFromNodeTop"];
+    let nodeMarginTop = contexts["nodeMarginTop"];
+    let nodeMarginBottom = contexts["nodeMarginBottom"];
+    let pageContentHeight = contexts["pageContentHeight"];
+    let footnoteAreaHeight = contexts["footnoteAreaHeight"];
+
+    // set attributes of sourceNode (split-parent):
+    let fromNodeBottomBefore = parseFloat(elementSetBefore.getAttribute("fromNodeBottom"));
+    distanceFromNodeTop = fromNodeBottomBefore + nodeMarginTop;
+    distanceFromNodeBottom = pageContentHeight - nodeMarginBottom;
+
+    let heightOfSplitParent = distanceFromNodeBottom - distanceFromNodeTop;
+    let nodeHeight = distanceFromNodeBottom - distanceFromNodeTop; 
+    let remainingSpace = pageContentHeight - distanceFromNodeBottom;
+
+    contexts["distanceFromNodeTop"] = distanceFromNodeTop;
+    contexts["distanceFromNodeBottom"] = distanceFromNodeBottom;
+    contexts["nodeHeight"] = nodeHeight;
+    contexts["remainingSpace"] = Math.round(remainingSpace);
+    contexts["footnoteAreaHeight"] = footnoteAreaHeight;
+
+    // set attributes of renderNode (split-child):
+    let calculatedHeight = calculateHeightOfSplitNode(sourceNode, contexts);
+
+    // get marginBottom of renderNode:
+    let marginBottom = parseInt(getComputedStyle(sourceNode).marginBottom); 
+
+    let heightOfRenderNode = calculatedHeight - heightOfSplitParent + nodeMarginBottom;
+    let fromNodeBottomRenderNode = heightOfRenderNode + marginBottom;
+    let remainingSpaceRenderNode = maxPageContentHeight - heightOfRenderNode;
+
+    // add renderNode values in contexts object:
+    contexts["renderNode"]["distanceFromNodeTop"] = minDistanceFromNodeTop;
+    contexts["renderNode"]["distanceFromNodeBottom"] = fromNodeBottomRenderNode;
+    contexts["renderNode"]["nodeHeight"] = heightOfRenderNode;
+    contexts["renderNode"]["remainingSpace"] = Math.round(remainingSpaceRenderNode);
+    contexts["renderNode"]["footnoteAreaHeight"] = 1;
+
+    return(contexts);
+}
+
+function calculateDistancesOfFigureNodes(contexts, sourceNode) {
+            
+    let distanceFromNodeBottom = contexts["distanceFromNodeBottom"];
+    let distanceFromNodeTop = contexts["distanceFromNodeTop"];
+    let pageContentHeight = contexts["pageContentHeight"];
+    let pageContentWidth = contexts["pageContentWidth"];
+ 
+    let clientSizes = calculateClientSizeOfFigure(sourceNode, pageContentWidth);
+    let figureHeight = Math.round(clientSizes["clientHeightCalculated"]);
+    distanceFromNodeBottom = distanceFromNodeTop + figureHeight;
+    let remainingSpace = pageContentHeight - distanceFromNodeBottom;
+
+    contexts["distanceFromNodeTop"] = distanceFromNodeTop;
+    contexts["distanceFromNodeBottom"] = distanceFromNodeBottom;
+    contexts["nodeHeight"] = figureHeight;
+    contexts["remainingSpace"] = Math.round(remainingSpace);
+
+    return(contexts);
+}
+
+function calculateDistancesOfRegularNodes(contexts) {
+
+    let distanceFromNodeBottom = contexts["distanceFromNodeBottom"];
+    let distanceFromNodeTop = contexts["distanceFromNodeTop"];
+    let pageContentHeight = contexts["pageContentHeight"];
+            
+    // calculate nodeHeight and remaining space:
+    let nodeHeight = distanceFromNodeBottom - distanceFromNodeTop; 
+    let remainingSpace = pageContentHeight - distanceFromNodeBottom;
+
+    // set remainingSpace to 0 if it has negative value;
+    remainingSpace = (remainingSpace < 0) ? 0 : remainingSpace;
+
+    // update sourceNode values in contexts object:
+    contexts["distanceFromNodeTop"] = distanceFromNodeTop;
+    contexts["distanceFromNodeBottom"] = distanceFromNodeBottom;
+    contexts["nodeHeight"] = nodeHeight;
+    contexts["remainingSpace"] = Math.round(remainingSpace);
+
+    // update renderNode values in contexts object:
+    contexts["renderNode"]["distanceFromNodeTop"] = distanceFromNodeTop;
+    contexts["renderNode"]["distanceFromNodeBottom"] = distanceFromNodeBottom;
+    contexts["renderNode"]["nodeHeight"] = nodeHeight;
+    contexts["renderNode"]["remainingSpace"] = Math.round(remainingSpace);
+    contexts["renderNode"]["footnoteAreaHeight"] = contexts["footnoteAreaHeight"];
+
+    return(contexts);
+}
+
+function calculateDistancesOfTitleNodes(contexts, sourceNode) {
+
+    let distanceFromNodeBottom = contexts["distanceFromNodeBottom"];
+    let distanceFromNodeTop = contexts["distanceFromNodeTop"];
+    let pageContentHeight = contexts["pageContentHeight"];
+
+    // calculate nodeHeight and remaining space:
+    let nodeHeight = distanceFromNodeBottom - distanceFromNodeTop; 
+    let remainingSpace = pageContentHeight - distanceFromNodeBottom;
+
+    // avoid orphans by adding remaining-space as margin-top (push to next page)
+    if (remainingSpace <= noOrphanArea && autoAvoidOrphans) {
+        let marginBottom = parseInt(getComputedStyle(sourceNode).marginBottom); 
+        sourceNode.style.marginTop = noOrphanArea * 1.5 + "px";
+        fromNodeBottomRenderNode = nodeHeight + marginBottom;
+        remainingSpaceRenderNode = maxPageContentHeight - nodeHeight;
+
+        // add renderNode values in contexts object:
+        contexts["renderNode"]["distanceFromNodeTop"] = minDistanceFromNodeTop;
+        contexts["renderNode"]["distanceFromNodeBottom"] = fromNodeBottomRenderNode;
+        contexts["renderNode"]["nodeHeight"] = nodeHeight;
+        contexts["renderNode"]["remainingSpace"] = Math.round(remainingSpaceRenderNode);
+        contexts["renderNode"]["footnoteAreaHeight"] = 1;
+    }
+
+    // update sourceNode values in contexts object:
+    contexts["distanceFromNodeTop"] = distanceFromNodeTop;
+    contexts["distanceFromNodeBottom"] = distanceFromNodeBottom;
+    contexts["nodeHeight"] = nodeHeight;
+    contexts["remainingSpace"] = Math.round(remainingSpace);
+
+    // update renderNode values in contexts object:
+    contexts["renderNode"]["distanceFromNodeTop"] = distanceFromNodeTop;
+    contexts["renderNode"]["distanceFromNodeBottom"] = distanceFromNodeBottom;
+    contexts["renderNode"]["nodeHeight"] = nodeHeight;
+    contexts["renderNode"]["remainingSpace"] = Math.round(remainingSpace);
+    contexts["renderNode"]["footnoteAreaHeight"] = contexts["footnoteAreaHeight"];
+ 
+    return(contexts);
+}
+
+
+function testCalculationsOfNodeDistances(pageElement) {
+    
+    let pageId = (pageElement !== null) ? pageElement.id : false;
+    let pageContent = pageElement.querySelector(".pagedjs_page_content");
+
+    let selector = ".text-content:not(.page-title,.page-subtitle,.page-authors),figure";
+    let elementsOfPage = pageContent.querySelectorAll(selector);
+    for (let i = 0; i < elementsOfPage.length; i++) {
+        let element = elementsOfPage[i]; 
+        let isSplitNode = element.getAttribute("is-split-node");
+        let isSplitNodeParent = element.getAttribute("is-split-node-parent");
+        let dataId = element.getAttribute("data-id");
+        let elementId = (isSplitNode) ? "split-child-" + dataId : element.id;
+        elementId = (isSplitNodeParent) ? "split-parent-" + elementId : elementId;
+
+        // get bounding client rectangles of pageContent:
+        let pageContentTop = pageContent.getBoundingClientRect().top;
+        let pageContentHeight = pageContent.offsetHeight;
+     
+        // get height of footnoteArea:
+        let footnoteArea = pageElement.querySelector(".pagedjs_footnote_area");
+        let footnoteAreaHeight = footnoteArea.getBoundingClientRect().height;
+        footnoteAreaHeight = Math.round(footnoteAreaHeight);
+
+        // get bounding client rectangle of nodes:
+        let nodeTop = element.getBoundingClientRect().top;
+        let nodeBottom = element.getBoundingClientRect().bottom;
+        let nodeMarginTop = parseInt(getComputedStyle(element).marginTop);
+        let nodeMarginBottom = parseInt(getComputedStyle(element).marginBottom);
+
+        // pre-calculate distances of node to top of page:
+        let fromNodeTop = Math.round(nodeTop - pageContentTop + nodeMarginTop);
+        let fromNodeBottom = Math.round(nodeBottom - pageContentTop + nodeMarginBottom);
+
+        // calculate nodeHeight and remaining space:
+        let nodeHeight = fromNodeBottom - fromNodeTop; 
+        let remainingSpace = pageContentHeight - fromNodeBottom;
+       
+        // define pageContexts calculated:
+        let fromNodeTopCalc = parseInt(element.getAttribute("fromNodeTop"));
+        let fromNodeBottomCalc = parseInt(element.getAttribute("fromNodeBottom"));
+        let nodeHeightCalc = parseInt(element.getAttribute("nodeHeight"));
+        let remainingSpaceCalc = parseInt(element.getAttribute("remainingSpace"));
+        let footnoteAreaHeightCalc = parseInt(element.getAttribute("footnoteAreaHeight"));
+
+        // adjust remainingSpace by repecting the footnote situation during rendering:
+        let footnoteAreaDiff = footnoteAreaHeight - footnoteAreaHeightCalc;
+        remainingSpace = remainingSpace + footnoteAreaDiff;
+        remainingSpace = (remainingSpace > 0) ? remainingSpace : 0;
+
+        // display:
+        let failColor = "color: red;"
+        let warnColor = "color: #ffc107;";
+        let passedColor = "color: green;";
+
+        // if(/FIGURE/.test(element.tagName)) {
+        
+            let pageIdLog = pageId + "----------------------";
+            let elementIdLog = "---" + elementId;
+            console.log(pageIdLog );
+            console.log(elementIdLog);
+    
+            let fromNodeTopLog = "------fromNodeTop => was: " + 
+                fromNodeTopCalc + ", is: " + fromNodeTop;
+            if(isNaN(fromNodeTopCalc)) {
+                console.log("%c" + fromNodeTopLog, failColor);
+            }
+            else if(Math.abs(fromNodeTop - fromNodeTopCalc) >= 10) {
+                console.log("%c" + fromNodeTopLog, warnColor);
+            } else {console.log("%c" + fromNodeTopLog, passedColor);}
+    
+            let fromNodeBottomLog = "------fromNodeBottom => was: " + 
+                fromNodeBottomCalc + ", is: " + fromNodeBottom;
+            if(isNaN(fromNodeBottomCalc)) {
+                console.log("%c" + fromNodeBottomLog, failColor);
+            }
+            else if(Math.abs(fromNodeBottom - fromNodeBottomCalc) >= 10) {
+                console.log("%c" + fromNodeBottomLog, warnColor);
+            } else {console.log("%c" + fromNodeBottomLog, passedColor);}
+    
+            let nodeHeightLog = "------nodeHeight => was: " + 
+                nodeHeightCalc + ", is: " + nodeHeight;
+            if(isNaN(nodeHeightCalc)) {
+                console.log("%c" + nodeHeightLog, failColor);
+            }
+            else if(Math.abs(nodeHeightCalc - nodeHeight) >= 10) {
+                console.log("%c" + nodeHeightLog,  warnColor);
+            } else {console.log("%c" + nodeHeightLog, passedColor);}
+
+            // compare remaining space and footnoteArea
+            let remainingSpaceLog = "------remainingSpace => was: " + 
+            remainingSpaceCalc + "; is: " + remainingSpace;
+            if(isNaN(remainingSpace)) {
+                console.log("%c" + remainingSpaceLog, failColor);
+            }
+            else if(Math.abs(remainingSpaceCalc - remainingSpace) >= 10) {
+                console.log("%c" + remainingSpaceLog, warnColor);
+            } else {console.log("%c" + remainingSpaceLog, passedColor);}
+    
+            let footnoteAreaHeightLog = "------footnoteAreaHeight => " + 
+            " at node: " + footnoteAreaHeightCalc + 
+            "; at page end: " + footnoteAreaHeight;
+            console.log(footnoteAreaHeightLog);
+
+            console.log("---Element", element);
+    
+        
+       // }
+    } 
+}
+
 /**
- * calculate distanceFromNodeBottom of sourceNode split [data-split-to]:
+ * calculate height of split node [data-split-to]:
  * @param {node} sourceNode original node from parsedContent currently rendered
- * @param {HTMLElement} elementSetBefore element set on page before node
- * @param {node} pageContent closest page-content-node (".pagedjs_page_content") of sourceNode
+  * @param {JSON} contexts parameter collection (e.g. pageId, elementSetBefore,
+ * distances etc), predefined before as pageContexts
  * @returns {Number} distance to page-top from node-bottom in px
  * 
  */ 
-function calculateDistanceFromBottomOfNodeSplit(sourceNode, elementSetBefore, contexts) {
+function calculateHeightOfSplitNode(sourceNode, contexts) {
 
     let pageContentWidth = contexts["pageContent"].offsetWidth;
-    let pageContentHeight = contexts["pageContent"].offsetHeight;
-    let distanceFromNodeBottom = 0;    
-    let remainingSpaceElementBefore;
 
-    // get remainingSpace of elementSetBefore
-    if(elementSetBefore && elementSetBefore !== undefined) {
-        remainingSpaceElementBefore = parseFloat(elementSetBefore.getAttribute("remainingSpace"));
+    // calculate text-width of sourceNode text:   
+    let textStyles = getComputedStylesOfTextElements(); // e.g. "9.3pt Noto Serif"
+    let font = textStyles["paraFontSizeDeclared"] + " " + textStyles["paraFont"];
+    let textWidth = getTextWidth(sourceNode.innerText, font);
+    let linesComplete = Math.ceil(textWidth / pageContentWidth); 
 
-        if(remainingSpaceElementBefore !== 0 && remainingSpaceElementBefore !== undefined) {
-            // calculate text-width of sourceNode text:   
-            let textStyles = getComputedStylesOfTextElements();
-            // notation of font, e.g. "9.3pt Noto Serif"
-            let font = textStyles["paraFontSizeDeclared"] + " " + textStyles["paraFont"]; 
-            let textWidth = getTextWidth(sourceNode.innerText, font);
-            let linesComplete = Math.ceil(textWidth / pageContentWidth); 
-            let heightParagraphLinePx = textStyles["heightParagraphLinePx"];
-
-            // calculate text-height by lineHeight:
-            let textHeight = linesComplete * Math.ceil(heightParagraphLinePx); 
-            if(textHeight > pageContentHeight) {
-                distanceFromNodeBottom = textHeight - pageContentHeight - remainingSpaceElementBefore;
-            }
-            else if(textHeight > remainingSpaceElementBefore) {
-                distanceFromNodeBottom = textHeight - remainingSpaceElementBefore;
-            }
-            else {
-                distanceFromNodeBottom = remainingSpaceElementBefore - textHeight;
-            }
-        }
-    }
-    return(distanceFromNodeBottom);
+    // calculate text-height by lineHeight:
+    let heightParagraphLinePx = textStyles["heightParagraphLinePx"];
+    let calculatedHeight = linesComplete * Math.ceil(heightParagraphLinePx);
+    
+    return(calculatedHeight);
 }
 
 /**
@@ -1597,26 +1849,41 @@ function calculateDistanceFromBottomOfNodeSplit(sourceNode, elementSetBefore, co
  */
 function setPageContextsAsElementAttribute(contexts, sourceNode, renderNode) {
 
-    // set attributes for key-contexts values:
-    sourceNode.setAttribute('fromNodeTop', contexts["distanceFromNodeTop"]);
-    renderNode.setAttribute('fromNodeTop', contexts["distanceFromNodeTop"]);
-    sourceNode.setAttribute('fromNodeBottom', contexts["distanceFromNodeBottom"]);
-    renderNode.setAttribute('fromNodeBottom', contexts["distanceFromNodeBottom"]);
-    renderNode.setAttribute('nodeHeight', contexts["nodeHeight"]);
-    sourceNode.setAttribute('nodeHeight', contexts["nodeHeight"]);
-    sourceNode.setAttribute('remainingSpace', contexts["remainingSpace"]);
-    renderNode.setAttribute('remainingSpace', contexts["remainingSpace"]);
+    // set contexts values as attributes of sourceNode:
+    if(sourceNode !== undefined) {
+        sourceNode.setAttribute('fromNodeTop', contexts["distanceFromNodeTop"]);
+        sourceNode.setAttribute('fromNodeBottom', contexts["distanceFromNodeBottom"]);
+        sourceNode.setAttribute('nodeHeight', contexts["nodeHeight"]);
+        sourceNode.setAttribute('remainingSpace', contexts["remainingSpace"]);
+        sourceNode.setAttribute('footnoteAreaHeight', contexts["footnoteAreaHeight"]);
+        sourceNode.setAttribute("pageContentTop", contexts["pageContentTop"]);
+    }
 
-    // concat all attributes values together:
+    // set contexts values as attributes of renderNode:
+    let contextRenderNode = contexts["renderNode"];
+    if(renderNode !== undefined) {
+        renderNode.setAttribute('fromNodeTop', contextRenderNode["distanceFromNodeTop"]);
+        renderNode.setAttribute('fromNodeBottom', contextRenderNode["distanceFromNodeBottom"]);
+        renderNode.setAttribute('nodeHeight', contextRenderNode["nodeHeight"]);
+        renderNode.setAttribute('remainingSpace', contextRenderNode["remainingSpace"]);
+        renderNode.setAttribute('footnoteAreaHeight', contextRenderNode["footnoteAreaHeight"]);
+        renderNode.setAttribute("pageContentTop", contexts["pageContentTop"]);
+    }
+
+ 
+
+    /* concat all attributes values together:
     let allAttributeValues = "fromNodeTop: " + contexts["distanceFromNodeTop"] + "px | " +
     "fromNodeBottom: " + contexts["distanceFromNodeBottom"] + "px | " +
     "nodeHeight: " + contexts["nodeHeight"] + "px | " +
     "remainingSpace: " + contexts["remainingSpace"] + "px | " +
+    "footnoteAreaHeight: " + contexts["footnoteAreaHeight"] + "px | " +
     "elementBefore: " + contexts["elementSetBeforeTagName"];
+    */
 
     // add all attributes as data-after-attribute:
-    sourceNode.setAttribute('data-after', allAttributeValues);
-    renderNode.setAttribute('data-after', allAttributeValues);
+    // sourceNode.setAttribute('data-after', allAttributeValues);
+    // renderNode.setAttribute('data-after', allAttributeValues);
 }
 
 /**
@@ -1628,14 +1895,16 @@ function setPageContextsAsElementAttribute(contexts, sourceNode, renderNode) {
 function adjustLayoutOfAppendixTitles(sourceNode) {
 
     if(/title-appendix/.test(sourceNode.className)) {
+
         // define page contexts of source node:
         let contexts = definePageContextsOfSourceNode(sourceNode);
         contexts = calculateNodeDistances(contexts, sourceNode);
 
         // add top-margins to title-appendixes and push them to next column
-        let bottomAreaNoTitleAppendixPx = contexts["pageContentHeight"]-100;
-        if(contexts["remainingSpace"] < bottomAreaNoTitleAppendixPx) {
-            sourceNode.style.marginTop = contexts["remainingSpace"] + 40 + "px";
+        // let bottomAreaNoTitleAppendixPx = contexts["pageContentHeight"]-100;
+        if(contexts["distanceFromNodeTop"] !== 0) {
+           // sourceNode.style.marginTop = contexts["remainingSpace"] + "px";
+           sourceNode.style.marginTop = contexts["pageContentHeight"] + "px";
         }        
     }
 }
@@ -1673,6 +1942,7 @@ function processFigureEnhancing(nodeParams) {
     let set = figConstellations[keys];
 
     if(set !== undefined && set) {
+
         // set final layout specs of figures:
         if(currentFigure) setLayoutSpecsOfFigure(currentFigure, set["currentFigure"][1]);
         if(nextFigure) setLayoutSpecsOfFigure(nextFigure, set["nextFigure"][1]);
@@ -1680,9 +1950,20 @@ function processFigureEnhancing(nodeParams) {
         // check if figures fit in current page frame (remaining space)
         let fits = figuresFitInCurrentPageFrame(set, nodeParams);
 
+        // forced: set all figures ignoring context calculation:
+        if(setAllFigures) {
+            if(currentFigure) {
+                fits["currentFigure"] = true;
+                setLayoutSpecsOfFigure(currentFigure, "inset");
+            }
+            if(nextFigure) {
+                fits["nextFigure"] = true;
+                setLayoutSpecsOfFigure(nextFigure, "inset");
+            }
+        }
+
         // execute instructions:
         if(fits["currentFigure"] && fits["nextFigure"]) {
-        
             addTemporaryMarginToFloatingFigure(nextFigure, contexts);
             addTemporaryMarginToFloatingFigure(currentFigure, contexts);
             renderNode.insertAdjacentElement("afterend", nextFigure);
@@ -1881,8 +2162,7 @@ function addTemporaryMarginToFloatingFigure(figure, contexts) {
         // parse offsetToMarginArea properties to int:
         let offsetToMarginArea;
         if(offsetToMarginAreaDeclared) {
-            // 1mm = 3.7795px
-            offsetToMarginArea = offsetToMarginAreaDeclared.slice(0, -2) * 3.78;
+            offsetToMarginArea = offsetToMarginAreaDeclared.slice(0, -2) * 3.78; // 1mm = 3.7795px
         } else offsetToMarginArea = 150; // default margin
         offsetToMarginArea = Math.abs(offsetToMarginArea); // turn negative value to positive
 
@@ -1895,8 +2175,7 @@ function addTemporaryMarginToFloatingFigure(figure, contexts) {
         let sideMargin = clientSizes["sideMargin"];
 
         // calculate width of floating text area:
-        let lineWidth; /* expected with of text area based on
-        figureWidth */
+        let lineWidth; /* expected with of text area based on figureWidth */
         if(figureWidth - sideMargin - offsetToMarginArea > 0) {
             lineWidth = figureWidth - offsetToMarginArea;
         } 
@@ -1934,6 +2213,7 @@ function addTemporaryMarginToFloatingFigure(figure, contexts) {
 function figuresFitInCurrentPageFrame(set, nodeParams) {
 
     let contexts = nodeParams["contexts"];
+    let remainingSpace = contexts["remainingSpace"];
     let currentFigure = nodeParams["currentFigure"];
     let nextFigure = nodeParams["nextFigure"];
     
@@ -1945,11 +2225,12 @@ function figuresFitInCurrentPageFrame(set, nodeParams) {
     let clientHeightNextFigure = clientSizeNextFigure["clientHeightCalculated"];
 
     // substract height of footnoteArea from pageContentHeight:
-    let remainingSpace = contexts["remainingSpace"] - contexts["footnoteAreaHeight"];
+    // let remainingSpace = contexts["remainingSpace"] - contexts["footnoteAreaHeight"];
     remainingSpace = remainingSpace * pageSpaceBuffer; // add a slight pageSpaceBuffer:
     
-    // set pageContentHeight if remainingSpace has negative value (= leads to pageBreak):
+    /* set pageContentHeight if remainingSpace has negative value (= leads to pageBreak):
     remainingSpace = (remainingSpace < 0) ? contexts["pageContentHeight"] : remainingSpace;
+    */
 
     // check settings of current and next figure together:
     let fitsCurrentFigure;
