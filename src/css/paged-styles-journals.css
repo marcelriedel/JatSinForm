@@ -10,12 +10,12 @@
     --long-text-font-family: "Noto Serif Light";
     --headline-text-font-family: "Noto Sans Light";
     --short-text-font-family: "Noto Sans Light";
-    --p-font-size: 10.3pt; /* default: 9.3pt */
-    --line-height-para: 1.5; /* default */
+    --p-font-size: 10pt; /* default: 9.3pt */
+    --line-height-para: 1.5; /* default 1.5 */
     --footnote-font-size: 7.3pt; 
     --caption-font-size: 7.3pt;
     --line-height-cap: 1.37; /* 10pt to 7.3pt */
-    --li-font-size: 9.3pt;
+    --li-font-size: 10pt; /* 9.3pt; */
     --imgMarginBottom: 2.5mm;
     --floatFigureMarginToText: 7.5mm;
     --floatFigureMarginBottom: 7.5mm;
@@ -50,7 +50,7 @@
         line-height: 1.5;
         padding-bottom: 30pt;
         align-items: end;
-        color: gray;
+        color: black;
     }
     @bottom-right-corner {
         content: counter(page);
@@ -73,7 +73,7 @@
         line-height: 1.5;
         padding-bottom: 30pt;
         align-items: end;
-        color: gray;
+        color: black;
     }
     @bottom-left-corner {
         content: counter(page);
@@ -98,9 +98,10 @@
     /* margin-top: 150%;   */
     margin-left: 30mm;
     margin-right: 30mm;
-    background: var(--background-url) var(--journal-color);
+    background: var(--journal-color);
     background-size:contain;
-    background-repeat: repeat;
+    background-repeat: no-repeat;
+    counter-increment: page 0;
 
     @bottom-right {
         content: "";
@@ -229,6 +230,14 @@ p.catalog-number {
 
 span.text-medium {
     font-weight: 500;
+}
+
+ul.list, ol.list {
+    margin: 0;
+}
+
+ul.list {
+    list-style-type: square;
 }
 
 li {
@@ -400,15 +409,14 @@ table td:first-child { border-left: none; }
 /* cover-Page:
  ----------------*/
 .cover-page {
+    position: absolute;
+    width: 100%;
+    padding: 10mm 10mm;
+    bottom: 10mm;
     font-family: var(--short-text-font-family);
     break-before: page;
     background:white;
     line-height: var(--line-height);  /* 14pt zu 9.3pt */
-    width: 100%;
-    padding: 10mm 10mm;
-    position: absolute;
-    bottom: 10mm;
-    left: -7.5mm;
 }
 
 .abstract-headline {
@@ -424,7 +432,7 @@ table td:first-child { border-left: none; }
     font-family: var(--headline-text-font-family);
     font-weight: 500; /* medium */
     color: var(--journal-color);
-    font-size: 10pt;
+    font-size: 11pt;
     margin: 0;
     text-align: left;
     hyphens: none;
@@ -432,7 +440,7 @@ table td:first-child { border-left: none; }
 
 .abstract-subtitle {
     color: var(--journal-color);
-    font-size: var(--p-font-size);
+    font-size: 10pt;
     font-weight: 300; /* light */
     margin: 0;
 }
@@ -551,14 +559,14 @@ span.footnote {
     padding-left: 26pt;
 }
 
-.pagedjs_footnote_area {
-    border-bottom: 1px solid #00000021;
-    margin-top: 2.5mm;
-}
-
 .pagedjs_footnote_content {
-    border-top: 1px solid #00000021;
+    border-top: 1px solid #b4afa7;
     padding: 2.5mm 0;
+} 
+
+.pagedjs_footnote_area {
+    border-bottom: 1px solid #b4afa7;
+    margin-top: 2.5mm;
 }
 
 [data-footnote-marker]::marker {
@@ -576,20 +584,19 @@ span.footnote {
     font-family: var(--long-text-font-family);
     font-weight: 300; /* light */
     color: var(--long-text-color);
-    background: #eeeeee;
+    background: #ffffff;
     font-size: var(--p-font-size);
-    padding: 2.5%;
-    margin: 3% 0;
-    border: 1px solid #ebe9e9;
+    padding: 5mm;
+    margin: 5mm 0;
+    margin-left: 2mm;
+    border: 1px solid var(--journal-color);
+    box-shadow: -8px 0px 0px 0px var(--journal-color);
     border-radius:10px;
     text-align: justify;
     page-break-inside: avoid;
     clear:both;
 }
 
-.boxed-text.first-element {
-    margin-top:0;
-}
 
 /* endnotes-section
 ---------------------*/
@@ -654,6 +661,7 @@ span.footnote {
 
 .ext-ref {
     color: var(--long-text-color);
+    text-decoration-thickness: 0.1pt;
 }
 
 .ext-ref[data-specific-use='zenon'] {
@@ -738,11 +746,12 @@ span.footnote {
 
 #qrcode {
     margin-bottom:5mm;
+    width: 80%;
 }
 
 .metadata-doi-link {
     font-family: var(--short-text-font-family);
-    font-size: 11pt;
+    font-size: 9.5pt;
     color: var(--journal-color);
 }
 
@@ -778,11 +787,12 @@ span.footnote {
     margin:0;
 }
 
-.publisher-loc > a {
+.publisher-loc > a.ext-ref {
     font-family: var(--short-text-font-family);
-    padding:0;
-    margin:0;
-}
+    font-size: var(--p-font-size);
+    font-weight: 300;
+    line-height: 1.5;
+};
 
 .contributors-imprint > div {
     font-family: var(--short-text-font-family);
@@ -795,6 +805,11 @@ span.footnote {
     font-style: italic;
     padding:0;
     margin-top: 2.5mm;
+}
+
+#journal-doi-link {
+    display: block;
+    color: var(--journal-color);
 }
 
 .self-reference {
@@ -855,6 +870,7 @@ figCaption {
     font-weight: 300; /* light */
     line-height: var(--line-height-cap);
     margin:0;
+    text-align: left;
 }
 
 .img-label {

@@ -42,7 +42,7 @@ body {
 #main-wrapper {
     height: 100vh;
     display:flex;
-    background: var(--background-url) #ffffff;
+    background: var(--background-url) #ffffff; 
     background-blend-mode: luminosity;
     background-size:65%;
 }
@@ -50,7 +50,7 @@ body {
 #text-content-wrapper {
     width: 60%;
     font-family: var(--primary-font-family);
-    background: linear-gradient(0.20turn, #f9f9f9ba, #ffffff, #ffffffc9, #ffffff66, #ffffff00);
+    background: linear-gradient(0.20turn, #f9f9f9ba, #ffffff, #ffffff, #ffffffb5, #ffffff00);
     overflow-y: scroll;
     height: 100vh;
 }
@@ -258,12 +258,14 @@ p.catalog-number {
 /* boxed-text: 
 --------------------*/
 .boxed-text {
-    background: #eeeeee;
+    background: #ffffff;
     font-size: 0.85rem;
     line-height: 1.6;
     padding: 2.5%;
-    border: 1px solid #ebe9e9;
-    margin: 3% 0;
+    padding-left:4%;
+    border: 1px solid var(--journal-color);
+    box-shadow: -6px 0px 0px 0px var(--journal-color);
+    margin: 3% 1%;
     text-align: justify;
     border-radius: 15px;
 }
@@ -318,6 +320,26 @@ a {
 a#doi-anchor {
     font-size: 1rem;
     color: var(--journal-color);
+}
+
+a#doi-anchor::before {
+    display: inline-block;
+    content: ' ';
+    background-image: url(assets/graphics/DOI_logo.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 1rem;
+    width: 1rem;
+    padding-left:1%;
+}
+
+a#journal-doi-link {
+    color:rgb(23 94 139);
+    text-decoration: underline;
+}
+
+a#journal-doi-link:visited {
+    color:rgb(23 94 139);
 }
 
 a.fn-ref {
@@ -475,7 +497,6 @@ td > p {
 .abstract-text {
     padding-bottom: 2%;
     font-size: 0.9rem !important;
-    font-style: italic;
 }
 
 
@@ -722,8 +743,31 @@ figcaption > p {
 figcaption > .attribution {
     color: var(--panel-text-color);
     margin: 0;
-    font-style: italic;
+    padding: 0.1rem;
     font-size: 0.9rem !important;
+}
+
+figcaption > .attribution::before {
+    content: "["
+}
+
+figcaption > .attribution::after {
+    content: "]"
+}
+
+figcaption > .license {
+    color: var(--panel-text-color);
+    margin: 0;
+    padding: 0.1rem;
+    font-size: 0.9rem !important;
+}
+
+figcaption > .license::before {
+    content: "["
+}
+
+figcaption > .license::after {
+    content: "]"
 }
 
 figure > a.internal-index-anchor {
@@ -757,45 +801,6 @@ img.inline-graphic {
     width: auto;
     max-width: 100%;
 }
-
-/* index-section 
-------------------------*/
-#index:target {
-    display:block;
-}
-
-#index {
-    font-family: var(--secondary-font-family);
-}
-
-#index > .panel-title {
-    margin-right: 1vw;
-    margin-left: 1vw;
-}
-
-#index-section > .table-title {
-    padding: 0 3%;
-    color: white;
-}
-
-.index-table {
-    padding: 1vw;
-    border:none;
-    display: grid;
-    font-size: 0.9rem;
-    line-height: 1.2;
-    margin: 2% 0;
-    justify-content:normal;
-}
-
-.index-table > tbody > tr {
-    border:none;
-}
-
-.index-table > tbody > tr > td {
-    border: none;
-}
-
 
 /* locations 
 ----------------*/
@@ -913,6 +918,87 @@ img.inline-graphic {
     font-size: 0.9rem;
     margin-right: 1%
 }
+
+/* meta-section 
+------------------------*/
+#metadata:target {
+    display:block;
+}
+
+#metadata {
+    font-family: var(--secondary-font-family);
+    margin-left: 2vw;
+    margin-right: 2vw;
+}
+
+#metadata > .panel-title {
+    margin-right: 1vw;
+    margin-left: 1vw;
+}
+
+#meta-section > .table-title {
+    padding: 0 3%;
+    color: white;
+}
+
+#metadata > p {
+    margin:0;
+}
+
+.publisher-name {
+    margin:0 !important;
+}
+
+.publisher-loc > p {
+    margin:0 !important;
+}
+
+#source-notice {
+    margin: 3% 0 2% 0;
+}
+
+#source-link-imprint > #doi-anchor {
+    color: rgb(23 94 139);
+    text-decoration: underline;
+    word-break: break-all;
+}
+
+.xml-front-preformatted {
+    padding-top: 0;
+}
+
+.metadata-summary {
+    padding-left:0;
+}
+
+.metadata-pre > pre {
+    white-space: pre-line;  
+}
+
+.metadata-pre > pre .hljs {
+    background: #918a82;
+    color: white;
+}
+
+.index-table {
+    padding: 0;
+    border:none;
+    display: grid;
+    font-size: 0.9rem;
+    line-height: 1.2;
+    margin: 2% 0;
+    justify-content:normal;
+}
+
+.index-table > tbody > tr {
+    border:none;
+}
+
+.index-table > tbody > tr > td {
+    border: none;
+    padding-left: 0;
+}
+
 
 /* application related properties 
 ----------------------------------*/
@@ -1100,7 +1186,7 @@ details[open] summary::before {
         padding: 1vh 2vw;
     }
 
-    #doi-link {
+    div#doi-link {
         font-size: 0.9rem;
     }
 
