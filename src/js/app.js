@@ -70,7 +70,8 @@ const navIcons = {
     "locations": "<span class='fa fa-map'></span>",
     "arachne": "<span class='fa fa-database'></span>",
     "field": "<span class='fa fa-database'></span>",
-    "index": "<span class='fa fa-info'></span>"
+    "metadata": "<span class='fa fa-info'></span>"
+
 }
 const progressBar = document.createElement("div");
 progressBar.id = "progressBar";
@@ -412,6 +413,11 @@ async function processXmlDocument(xmlDoc) {
     let htmlContentBody = convertXMLToHtmlBody(xmlDoc);
     document.body.innerHTML = htmlContentBody.outerHTML;
 
+    // add documentLang as lang:attribute:
+    if(localStorage.getItem("documentLang") !== null) {
+        document.documentElement.lang = localStorage.getItem("documentLang");
+    }
+
     // process image (files):
     updateStorageEventListener("Process image files...");
     processImageFiles(documentReloaded);
@@ -511,7 +517,10 @@ function convertXMLToHtmlBody(xmlDoc) {
     let xmlBody = xmlDoc.getElementsByTagName("body")[0];
     let xmlFront = xmlDoc.getElementsByTagName("front")[0];
     let xmlBack = xmlDoc.getElementsByTagName("back")[0];
-    
+
+    // add xml <front> as preformatted code to html-element:
+    addXMLFrontCodePreformattedToHTML(xmlFront);
+
     // append meta-content-elements:
     xmlBody.appendChild(xmlFront)
     xmlBody.appendChild(xmlBack);
@@ -544,7 +553,7 @@ function convertXMLToHtmlBody(xmlDoc) {
         }
     }
     let textContentElements = xmlBody.querySelectorAll("p,ul,ol,li,table,pre,code,.title");
-    generateGenericElementIdsIfMissing( textContentElements);
+    generateGenericElementIdsIfMissing(textContentElements);
     createHeadlinesBySectionHierarchy(xmlBody, ".title");
 
     // wrap xmlBody as htmlContentBody
@@ -553,6 +562,54 @@ function convertXMLToHtmlBody(xmlDoc) {
     htmlContentBody.innerHTML = xmlBody.innerHTML;
 
     return(htmlContentBody);
+}
+
+function addXMLFrontCodePreformattedToHTML(xmlFront) {
+
+    let journalMeta = xmlFront.querySelector("journal-meta");
+    let articleMeta = xmlFront.querySelector("article-meta");
+
+    // create display element for journal-meta:
+    if(journalMeta !== null) {
+        let details = document.createElement("details");
+        details.classList.add("xml-front-preformatted");
+        details.id = "journal-meta-preformatted";
+        let summary = document.createElement("summary");
+        summary.classList.add("metadata-summary");
+        summary.textContent = "Journal-Meta (xml)";
+        let pre = document.createElement("pre");
+        pre.classList.add("metadata-pre");
+
+        let code = document.createElement("code");
+        code.classList.add("language-xml");    
+        code.textContent = journalMeta.outerHTML;
+        pre.appendChild(code);
+        details.appendChild(summary);
+        details.appendChild(pre);
+
+        journalMeta.appendChild(details);
+    }
+    // create display element for article-meta:
+    if(articleMeta !== null) {
+        let details = document.createElement("details");
+        details.classList.add("xml-front-preformatted");
+        details.id = "article-meta-preformatted";
+        let summary = document.createElement("summary");
+        summary.classList.add("metadata-summary");
+        summary.textContent = "Article-Meta (xml)";
+        let pre = document.createElement("pre");
+        pre.classList.add("metadata-pre");
+
+        let code = document.createElement("code");
+        code.classList.add("language-xml");    
+        code.textContent = articleMeta.outerHTML;
+        pre.appendChild(code);
+        details.appendChild(summary);
+        details.appendChild(pre);
+
+        articleMeta.appendChild(details);
+    }
+
 }
 
 function transformSelfClosingTags(xml) {
@@ -921,10 +978,14 @@ function checkQualityOfUrls() {
  * @returns {!string}
  */
 function URLifyString(string){
-
     const urls = string.match(/((((ftp|https?):\/\/)|(w{3}\.))[\-\w@:%_\+.~#?,&\/\/=]+)/g);
     if (urls) {
+        let lastChar;
         urls.forEach(function (url) {
+            lastChar = url[url.length - 1];
+            if(lastChar == "." || lastChar == ";" || lastChar == ",") {
+                url = url.slice(0, -1); 
+            }
             string = string.replace(url, 
                 '<a class ="ext-ref" target="_blank" href="' + url + '">' + url + "</a>");
         });
@@ -1224,11 +1285,12 @@ function getComputedStylesOfTextElements() {
 }
 
 function getTextWidth(text, font) {
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-    ctx.font = font;
-    let measures = ctx.measureText(text);
-    return(measures.width);
+    let canvas = document.createElement("canvas");
+    let ctx = canvas.getContext("2d");
+    ctx.font = font; 
+    let metrics = ctx.measureText(text);
+    let textWidth =  metrics.actualBoundingBoxRight + metrics.actualBoundingBoxLeft;
+    return(textWidth);
 }
 
 /** Reload in place script: scroll to last window-position
