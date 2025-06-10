@@ -59,12 +59,12 @@
         },
         "list[list-type='ordered']": {
             "tagName": "ol",
-            "className": false,
+            "className": "list",
             "obligatory": false
         },
         "list[list-type='bullet']": {
             "tagName": "ul",
-            "className": false,
+            "className": "list",
             "obligatory": false
         },
         "list-item": {
@@ -404,7 +404,7 @@
             "obligatory": false
         },
         "license": {
-            "tagName": "div",
+            "tagName": "p",
             "className": "license",
             "setAttribute": "license-type",
             "obligatory": false
