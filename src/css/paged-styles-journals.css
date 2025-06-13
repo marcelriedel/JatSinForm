@@ -769,6 +769,14 @@ span.footnote {
     text-align: left;
 }
 
+.publisher {
+    margin-top: 5mm;
+}
+
+.publisher-name {
+    margin:0;
+}
+
 .publisher > p {
     font-family: var(--short-text-font-family);
     font-size: var(--p-font-size);
