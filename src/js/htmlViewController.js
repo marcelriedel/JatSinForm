@@ -13,11 +13,6 @@ const htmlViewScriptLibrary = {
         "src-remote": "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css",
         "src-local": "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css",
     },
-    "mediumZoom": {
-        "type": "text/javascript",
-        "src-remote": "https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js",
-        "src-local": "https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js"
-    },
     "leaflet": {
         "type": "text/javascript",
         "src-remote": "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js",
@@ -50,7 +45,7 @@ const htmlViewScriptLibrary = {
 
         // add third-party libraries and stylesheets:
         if(isSingleHTMLFile) {
-            addScriptToDocumentHead("highlightJs");
+            // addScriptToDocumentHead("highlightJs");
             addScriptToDocumentHead("highlightJsCss");
             addScriptToDocumentHead("leaflet");
             addScriptToDocumentHead("leafletCss");
