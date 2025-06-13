@@ -149,14 +149,14 @@ function createImprintSection(front) {
     if(front.querySelector(".journal-title") !== null) {
         journalTitle = front.querySelector(".journal-title");
         // add journal DOI:
+        let journalDOILink;
         if(front.querySelector(".journal-id[journal-id-type='doi']") !== null) {
             journalDOI = front.querySelector(".journal-id[journal-id-type='doi']");
-            let journalDOILink = document.createElement("a");
+            journalDOILink = document.createElement("a");
             journalDOILink.id = "journal-doi-link";
             journalDOILink.href = journalDOI.innerText;
             journalDOILink.textContent = journalTitle.textContent;
             journalTitle.innerHTML = journalDOILink.outerHTML;
-        
         } else {
             journalTitle.innerHTML = journalTitle.innerText;
         }
